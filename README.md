@@ -32,6 +32,17 @@ Il faudra garder en tête que celui-ci sera confronté à une parallélisation (
 
 ## Attribution des rôles
 
+- Patrick:
+    - Alimenter le serveur en terme de donnnées.
+- Penda:
+    - Transactions 
+    - Historique de celles-ci
+- Julien: 
+    - Definir les comportements des Client
+    - Cretion des crypto-monaies
+- Estelle:
+    - Implementation des comportements des Clients
+
 ## Régles (Harmonisation) du travail
 
 L'intégralité du code se veut en `C++`. Quelques exceptions peuvent être faites mais elles devront être duement justifiés. Ainsi le code suivra une architecture Orinté Objet, pour plus de modularité.
