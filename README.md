@@ -34,6 +34,8 @@ Il faudra garder en tête que celui-ci sera confronté à une parallélisation (
 
 - Patrick:
     - Alimenter le serveur en terme de donnnées.
+    - Faire le Cmake
+    - Structurer le code du projet
 - Penda:
     - Transactions 
     - Historique de celles-ci
