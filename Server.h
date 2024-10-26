@@ -12,6 +12,7 @@ private:
 public:
     Server(const std::string& ipAddress, int port, const std::string& configFile);
     void start();
+    void request();
 };
 
 #endif  // SERVER_H

@@ -9,7 +9,10 @@ private:
 public:
     Client(const std::string& address, int port);
     void sendRequest(const std::string& request);
-    std::string receiveResponse();  // Nouvelle méthode pour recevoir une réponse
+    std::string receiveResponse();  
+
+    void buy(const std::string& currency, double amount);
+    void sell(const std::string& currency, double amount);
 
     ~Client();  // Déclaration du destructeur
 };

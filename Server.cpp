@@ -4,12 +4,46 @@
 #include <arpa/inet.h>  // Pour inet_addr
 #include <unistd.h>     // Pour close()
 #include <cstring>      // Pour memset
+#include <sstream>
 
 Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
-    : ipAddress(ipAddress), port(port) {
+    : port(port), ipAddress(ipAddress) {
     std::cout << "Serveur initialisé à l'adresse " << ipAddress 
               << " sur le port " << port << " avec " << configFile << std::endl;
 }
+
+std::string handleMarket(const std::string& request) {
+    // Traitement du market
+    return "Accès Market réussi\n";
+}
+
+std::string handleBuy(const std::string& request) {
+    // Extraire la paire de crypto et le montant de la requête
+    std::istringstream iss(request);
+    std::string action, currency;
+    double amount;
+
+    if (!(iss >> action >> currency >> amount)) {
+        return "Erreur : Format de commande invalide\n";
+    }
+
+    // Traitement de l'achat
+    return "Achat de " + std::to_string(amount) + " " + currency + " réussi\n";
+}
+std::string handleSell(const std::string& request) {
+    // Extraire la paire de crypto et le montant de la requête
+    std::istringstream iss(request);
+    std::string action, currency;
+    double amount;
+
+    if (!(iss >> action >> currency >> amount)) {
+        return "Erreur : Format de commande invalide\n";
+    }
+
+    // Traitement de la vente ici 
+    return "Vente de " + std::to_string(amount) + " " + currency + " réussi\n";
+}
+
 
 void Server::start() {
     // Création du socket
@@ -38,22 +72,56 @@ void Server::start() {
         close(serverSocket);
         exit(1);
     }
-
-     while (true) {
-        // Accepter une nouvelle connexion
-        sockaddr_in clientAddress{};
-        socklen_t clientAddressLen = sizeof(clientAddress);
-        int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressLen);
-        if (clientSocket < 0) {
-            std::cerr << "Erreur : Échec de l'acceptation de la connexion.\n";
-            continue;  // Passer à la prochaine tentative d'acceptation
-        }
+    
+    // Accepter une nouvelle connexion
+    sockaddr_in clientAddress{};
+    socklen_t clientAddressLen = sizeof(clientAddress);
+    int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressLen);
+    if (clientSocket < 0) {
+        std::cerr << "Erreur : Échec de l'acceptation de la connexion.\n";
+    }
 
     std::cout << "Serveur démarré et à l'écoute des connexions sur " 
               << ipAddress << ":" << port << "...\n";
-    close(clientSocket);          
-}
 
- close(serverSocket);
+     while (true) {
+    
+        char buffer[1024] = {0}; // Tampon pour stocker la réponse
+        int bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+        if (bytesRead < 0) {
+            std::cerr << "Erreur de réception." << std::endl;
+            close(clientSocket);
+            continue;
+        }
+        
 
+        buffer[bytesRead] = '\0'; // Terminer la chaîne
+        std::string request(buffer); // Convertir le tampon en std::string
+        std::cout << "Requête reçue : " << request << std::endl; // Ajout de log
+
+
+        std::string response;
+        if (request.rfind("GET /market", 0) == 0) {
+            std::string response = handleMarket(request);
+            send(clientSocket, response.c_str(), response.size(), 0);
+        } else if (request.rfind("BUY", 0) == 0) {
+            std::cout << "Passage dans rfindBUY " << std::endl;
+            // Traiter la commande BUY
+            std::string response = handleBuy(request);
+            send(clientSocket, response.c_str(), response.size(), 0);
+        } else if (request.rfind("SELL", 0) == 0) {
+            std::cout << "Passage dans rfindSELL " << std::endl;
+            // Traiter la commande SELL
+            std::string response = handleSell(request);
+            send(clientSocket, response.c_str(), response.size(), 0);
+        } else {
+            response = "Commande inconnue\n";
+        }
+
+        send(clientSocket, response.c_str(), response.size(), 0);
+        }
+        
+    
+    close(clientSocket);      
+    close(serverSocket); 
 }

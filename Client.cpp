@@ -31,8 +31,11 @@ Client::Client(const std::string& address, int port) {
 }
 
 void Client::sendRequest(const std::string& request) {
+    int bytesSent = send(clientSocket, request.c_str(), request.size(), 0);
+    if (bytesSent < 0) {
+        std::cerr << "Erreur : Envoi échoué, code : " << errno << std::endl;
+    }
     std::cout << "Requête envoyée : " << request << std::endl;
-    send(clientSocket, request.c_str(), request.size(), 0);  // Envoi de la requête
 }
 
 std::string Client::receiveResponse() {
@@ -40,13 +43,40 @@ std::string Client::receiveResponse() {
     int bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
 
     if (bytesRead < 0) {
-        std::cerr << "Erreur : Réception échouée.\n";
+        std::cerr << "Erreur : Réception échouée, code : " << errno << std::endl;
+        return "";
+    } else if (bytesRead == 0) {
+        std::cerr << "Aucune donnée reçue, la connexion peut être fermée par le serveur.\n";
         return "";
     }
 
     std::string response(buffer, bytesRead);  // Conversion du buffer en string
     std::cout << "Réponse reçue : " << response << std::endl;
     return response;
+}
+
+void Client::buy(const std::string& currency, double amount) {
+    std::cout << "Passage dans Client::buy " << std::endl;
+    // Construire la requête d'achat
+    std::string request = "BUY " + currency + " " + std::to_string(amount);
+    
+    // Envoyer la requête d'achat au serveur
+    sendRequest(request);
+    
+    // Recevoir et afficher la réponse
+    std::string response = receiveResponse();
+}
+
+void Client::sell(const std::string& currency, double amount) {
+    std::cout << "Passage dans Client::sell " << std::endl;
+    // Construire la requête d'achat
+    std::string request = "SELL " + currency + " " + std::to_string(amount);
+    
+    // Envoyer la requête d'achat au serveur
+    sendRequest(request);
+    
+    // Recevoir et afficher la réponse
+    std::string response = receiveResponse();
 }
 
 Client::~Client() {
