@@ -17,6 +17,7 @@ std::string handleMarket(const std::string& request) {
     return "Accès Market réussi\n";
 }
 
+
 std::string handleBuy(const std::string& request) {
     // Extraire la paire de crypto et le montant de la requête
     std::istringstream iss(request);
@@ -72,28 +73,42 @@ void Server::start() {
         close(serverSocket);
         exit(1);
     }
-    
-    // Accepter une nouvelle connexion
-    sockaddr_in clientAddress{};
-    socklen_t clientAddressLen = sizeof(clientAddress);
-    int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressLen);
-    if (clientSocket < 0) {
-        std::cerr << "Erreur : Échec de l'acceptation de la connexion.\n";
-    }
 
     std::cout << "Serveur démarré et à l'écoute des connexions sur " 
               << ipAddress << ":" << port << "...\n";
 
+     while (true) {
+        // Accepter une nouvelle connexion
+        sockaddr_in clientAddress{};
+        socklen_t clientAddressLen = sizeof(clientAddress);
+        int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressLen);
+        if (clientSocket < 0) {
+            std::cerr << "Erreur : Échec de l'acceptation de la connexion.\n";
+            continue;  // Passer à la prochaine tentative d'acceptation
+        }
+
+    std::cout << "Client connecté.\n";
+    request(clientSocket); //Traitement des requetes du client
+    close(clientSocket);          
+}
+
+ close(serverSocket);
+
+}
+
+
+void Server::request(int clientSocket) {
      while (true) {
     
         char buffer[1024] = {0}; // Tampon pour stocker la réponse
         int bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
         if (bytesRead < 0) {
             std::cerr << "Erreur de réception." << std::endl;
-            close(clientSocket);
-            continue;
+            break;
+        } else if (bytesRead == 0) { //Client déconnecté, permet de revenir à l'état d'attente de nouvelles connexions(Server::Start)
+            std::cout << "Client déconnecté.\n"; //Affichage de la deconnexion du client sur le terminal Server
+            break;
         }
-        
 
         buffer[bytesRead] = '\0'; // Terminer la chaîne
         std::string request(buffer); // Convertir le tampon en std::string
@@ -119,9 +134,5 @@ void Server::start() {
         }
 
         send(clientSocket, response.c_str(), response.size(), 0);
-        }
-        
-    
-    close(clientSocket);      
-    close(serverSocket); 
+        }      
 }
