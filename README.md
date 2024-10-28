@@ -65,5 +65,4 @@ On pourrait recourir à l'utilisation d'un outil de formatage pour formaliser le
 
 ## To do list
 
-- Definir les rôles
-- Definir le(s) nom(s) des monnaie(s).
+##### -> Voir directement sur Bitrix24
