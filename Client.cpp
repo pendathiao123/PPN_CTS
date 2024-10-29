@@ -56,7 +56,6 @@ std::string Client::receiveResponse() {
 }
 
 void Client::buy(const std::string& currency, double amount) {
-    std::cout << "Passage dans Client::buy " << std::endl;
     // Construire la requête d'achat
     std::string request = "BUY " + currency + " " + std::to_string(amount);
     
@@ -68,7 +67,6 @@ void Client::buy(const std::string& currency, double amount) {
 }
 
 void Client::sell(const std::string& currency, double amount) {
-    std::cout << "Passage dans Client::sell " << std::endl;
     // Construire la requête d'achat
     std::string request = "SELL " + currency + " " + std::to_string(amount);
     
@@ -77,6 +75,13 @@ void Client::sell(const std::string& currency, double amount) {
     
     // Recevoir et afficher la réponse
     std::string response = receiveResponse();
+}
+
+// Méthode getBalance
+std::string Client::getBalance(const std::string& currency) {
+    std::string request = "BALANCE " + currency;
+    sendRequest(request);
+    return receiveResponse();
 }
 
 Client::~Client() {

@@ -1,10 +1,12 @@
 #include "Server.h"
+#include "Crypto.h"
 #include <iostream>
 #include <sys/socket.h>
 #include <arpa/inet.h>  // Pour inet_addr
 #include <unistd.h>     // Pour close()
 #include <cstring>      // Pour memset
 #include <sstream>
+#include <unordered_map> 
 
 Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
     : port(port), ipAddress(ipAddress) {
@@ -12,13 +14,29 @@ Server::Server(const std::string& ipAddress, int port, const std::string& config
               << " sur le port " << port << " avec " << configFile << std::endl;
 }
 
-std::string handleMarket(const std::string& request) {
+std::string Server::handleMarket(const std::string& request) {
     // Traitement du market
-    return "Accès Market réussi\n";
+    return "Valeur actuelle du SRD-BTC : " + std::to_string(cryptoInstance.getPrice("SRD-BTC")) + "\n";
+}
+std::string Server::handleBalance(const std::string& currency) {
+    // Utilisation de find pour chercher la clé
+    auto it = balances.find(currency); // Rechercher la monnaie dans balances
+    
+    // Vérification si la clé a été trouvée
+    if (it != balances.end()) {
+        if (currency == "DOLLARS") {
+            return "Solde de " + currency + ": " + std::to_string(it->second) + " USD\n";
+        } else {
+            double quantity = it->second;
+            double valueInUSD = quantity * cryptoInstance.getPrice(currency);
+            return "Quantité de " + currency + ": " + std::to_string(quantity) + " USD\n" + "Solde de " + currency + ": " + std::to_string(valueInUSD) + " USD\n";
+        }
+    }
+    return "Erreur : Monnaie inconnue\n";
 }
 
 
-std::string handleBuy(const std::string& request) {
+std::string Server::handleBuy(const std::string& request) {
     // Extraire la paire de crypto et le montant de la requête
     std::istringstream iss(request);
     std::string action, currency;
@@ -27,11 +45,20 @@ std::string handleBuy(const std::string& request) {
     if (!(iss >> action >> currency >> amount)) {
         return "Erreur : Format de commande invalide\n";
     }
-
-    // Traitement de l'achat
-    return "Achat de " + std::to_string(amount) + " " + currency + " réussi\n";
+    if (balances.find(currency) != balances.end()) {
+        if (balances.find("DOLLARS")->second >= amount * cryptoInstance.getPrice(currency)) {
+            balances[currency] += amount;
+            balances["DOLLARS"] -= amount * cryptoInstance.getPrice(currency);; 
+            //Traitement de l'achat
+            return "Achat de " + std::to_string(amount) + " " + currency + " réussi\n";
+        } else {
+            return "Erreur : Solde insuffisant pour acheter " + currency + "\n";
+        }  
+    } else {
+        return "Erreur : Monnaie inconnue\n";
+    }
 }
-std::string handleSell(const std::string& request) {
+std::string Server::handleSell(const std::string& request) {
     // Extraire la paire de crypto et le montant de la requête
     std::istringstream iss(request);
     std::string action, currency;
@@ -40,9 +67,18 @@ std::string handleSell(const std::string& request) {
     if (!(iss >> action >> currency >> amount)) {
         return "Erreur : Format de commande invalide\n";
     }
-
-    // Traitement de la vente ici 
-    return "Vente de " + std::to_string(amount) + " " + currency + " réussi\n";
+    if (balances.find(currency) != balances.end()) {
+        if (balances.find(currency)->second >= amount) { 
+            balances[currency] -= amount;
+            balances["DOLLARS"] += amount * cryptoInstance.getPrice(currency); 
+            //Traitement de la vente 
+            return "Vente de " + std::to_string(amount) + " " + currency + " réussi\n";
+        } else {
+            return "Erreur : Solde insuffisant pour vendre " + currency + "\n";
+        }
+    } else {
+        return "Erreur : Monnaie inconnue\n";
+    }
 }
 
 
@@ -120,15 +156,18 @@ void Server::request(int clientSocket) {
             std::string response = handleMarket(request);
             send(clientSocket, response.c_str(), response.size(), 0);
         } else if (request.rfind("BUY", 0) == 0) {
-            std::cout << "Passage dans rfindBUY " << std::endl;
             // Traiter la commande BUY
             std::string response = handleBuy(request);
             send(clientSocket, response.c_str(), response.size(), 0);
         } else if (request.rfind("SELL", 0) == 0) {
-            std::cout << "Passage dans rfindSELL " << std::endl;
             // Traiter la commande SELL
             std::string response = handleSell(request);
             send(clientSocket, response.c_str(), response.size(), 0);
+        } else if (request.rfind("BALANCE", 0) == 0) {
+            std::istringstream iss(request);
+            std::string action, currency;
+            iss >> action >> currency;
+            response = handleBalance(currency);
         } else {
             response = "Commande inconnue\n";
         }
