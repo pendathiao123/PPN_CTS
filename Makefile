@@ -1,23 +1,36 @@
 CC = g++
 CFLAGS = -Wall -g
 
-# Définition des fichiers objets
-OBJ = Client.o Server.o Crypto.o
+# Répertoires des fichiers source
+SRC_DIR = src/code
+INCLUDE_DIR = src/headers
 
-all: Main_Cli Main_Serv Main
+# Fichiers d'en-tête
+CPPFLAGS = -I$(INCLUDE_DIR)
 
-Main_Cli: Main_Cli.o $(OBJ)
-	$(CC) $(CFLAGS) -o Main_Cli Main_Cli.o $(OBJ)
+# Cibles et règles
+all: main_cli main_serv
 
-Main_Serv: Main_Serv.o $(OBJ)
-	$(CC) $(CFLAGS) -o Main_Serv Main_Serv.o $(OBJ)
+main_cli: $(SRC_DIR)/Main_Cli.o $(SRC_DIR)/Server.o $(SRC_DIR)/Crypto.o $(SRC_DIR)/Client.o
+	$(CC) -o main_cli $(SRC_DIR)/Main_Cli.o $(SRC_DIR)/Server.o $(SRC_DIR)/Crypto.o $(SRC_DIR)/Client.o
 
-Main: Main.o $(OBJ)
-	$(CC) $(CFLAGS) -o Main Main.o $(OBJ)
+main_serv: $(SRC_DIR)/Main_Serv.o $(SRC_DIR)/Server.o $(SRC_DIR)/Crypto.o
+	$(CC) -o main_serv $(SRC_DIR)/Main_Serv.o $(SRC_DIR)/Server.o $(SRC_DIR)/Crypto.o
 
-# Règle pour compiler les fichiers .cpp en fichiers .o
-%.o: %.cpp
-	$(CC) $(CFLAGS) -c $<
+$(SRC_DIR)/Main_Cli.o: $(SRC_DIR)/Main_Cli.cpp $(INCLUDE_DIR)/Server.h $(INCLUDE_DIR)/Crypto.h $(INCLUDE_DIR)/Client.h
+	$(CC) -c $(SRC_DIR)/Main_Cli.cpp $(CPPFLAGS) -o $(SRC_DIR)/Main_Cli.o
+
+$(SRC_DIR)/Main_Serv.o: $(SRC_DIR)/Main_Serv.cpp $(INCLUDE_DIR)/Server.h $(INCLUDE_DIR)/Crypto.h
+	$(CC) -c $(SRC_DIR)/Main_Serv.cpp $(CPPFLAGS) -o $(SRC_DIR)/Main_Serv.o
+
+$(SRC_DIR)/Server.o: $(SRC_DIR)/Server.cpp $(INCLUDE_DIR)/Server.h
+	$(CC) -c $(SRC_DIR)/Server.cpp $(CPPFLAGS) -o $(SRC_DIR)/Server.o
+
+$(SRC_DIR)/Crypto.o: $(SRC_DIR)/Crypto.cpp $(INCLUDE_DIR)/Crypto.h
+	$(CC) -c $(SRC_DIR)/Crypto.cpp $(CPPFLAGS) -o $(SRC_DIR)/Crypto.o
+
+$(SRC_DIR)/Client.o: $(SRC_DIR)/Client.cpp $(INCLUDE_DIR)/Client.h
+	$(CC) -c $(SRC_DIR)/Client.cpp $(CPPFLAGS) -o $(SRC_DIR)/Client.o
 
 clean:
-	rm -f *.o Main_Cli Main_Serv Main
+	rm -f $(SRC_DIR)/*.o main_cli main_serv
