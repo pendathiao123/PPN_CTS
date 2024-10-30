@@ -1,8 +1,8 @@
-#include "Transaction.h"
 #include <fstream>    // Pour std::ofstream
 #include <iomanip>    // Pour formatage des dates
 #include <sstream>    // Pour convertir le timestamp
 #include <iostream>   // Pour std::cerr
+#include "Transaction.h"
 
 // Fonction pour formater un timestamp
 std::string formatTimestamp(std::time_t timestamp) {
