@@ -11,6 +11,61 @@ Server::Server(const std::string& ipAddress, int port, const std::string& config
               << " sur le port " << port << " avec " << configFile << std::endl;
 }
 
+// Constructeur qui charge les cryptomonnaies à partir d'un fichier de configuration
+void Server::setCryptos(const std::string& configFile) {
+    std::ifstream file(configFile);
+    if (!file.is_open()) {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << configFile << std::endl;
+        return;
+    }
+
+    // Logique pour lire le fichier et initialiser le vecteur cryptos
+    // Exemple : lecture ligne par ligne et création d'objets Crypto
+    std::string name;
+    double price;
+    double changeRate;
+
+    while (file >> name >> price >> changeRate) {
+        cryptos.emplace_back(name, price, changeRate);  // Supposons que Crypto a un constructeur qui prend un nom et un prix,et un taux de variation
+    }
+}
+
+// Retourne le vecteur de cryptomonnaies
+const std::vector<Crypto>& Server::getCryptos() const {
+    return cryptos;
+}
+
+// Méthode pour enregistrer la transaction dans le fichier CSV (arguments à rajouter ?)
+static void Server::logTransactionToCSV(const std::string& filename) {
+    std::ofstream file(filename, std::ios::app);
+    if (file.is_open()) {
+        // Vérifie si le fichier est vide pour écrire l'en-tête
+        if (file.tellp() == 0) {
+            file << "ID,Type,CryptoName,Quantity,UnitPrice,TotalAmount,Timestamp\n";  // Écrire l'en-tête
+        }
+
+    
+        // Convertir le timestamp en date lisible
+        std::time_t timestame = transaction.getTimestamp();
+        std::tm *tm = std::localtime(&timestame);
+        char readableTimestamp[20];
+        std::strftime(readableTimestamp, sizeof(readableTimestamp), "%Y-%m-%d %H:%M:%S", tm); // Formatage
+
+        // Écrire les données de la transaction 
+        file << transaction.getId() << ","
+             << transaction.getType() << ","
+             << transaction.getCryptoName() << ","
+             << transaction.getQuantity() << ","
+             << transaction.getUnitPrice() << ","
+             << transaction.getTotalAmount() << ","
+             << readableTimestamp << "\n";
+        file.close();
+    } else {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << std::endl;
+    }
+}
+
+
 void Server::start() {
     // Création du socket
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
