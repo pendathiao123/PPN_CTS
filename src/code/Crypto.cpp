@@ -1,6 +1,7 @@
-#include "Crypto.h"
 #include <cstdlib>  // Pour rand() et srand()
 #include <ctime>    // Pour time()
+#include "Crypto.h"
+
 
 // Constructeur
 Crypto::Crypto(const std::string& name, double initialPrice, double changeRate)

@@ -2,13 +2,14 @@
 #define CLIENT_H
 
 #include <string>
+#include <map>
+
 
 class Client {
 private:
 
     int idC; //identifiant unique du Client
     static int idC_counter;  // Compteur statique pour générer des ID des clients
-
     int clientSocket;
     //adresse IP: ??
 

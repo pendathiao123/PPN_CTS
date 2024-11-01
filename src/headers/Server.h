@@ -2,7 +2,9 @@
 #define SERVER_H
 
 #include <string>
+#include <vector>
 #include "Crypto.h"
+
 
 class Server {
 private:
@@ -10,11 +12,8 @@ private:
     std::string ipAddress;  // Adresse IP du serveur
     std::vector<Crypto> cryptos;  // Vecteur contenant les objets Crypto
     std::string configFile; // chemin vers  fichier variation des cryptos
-    // ...
-    /*
-    std::string logPath; // chemin vers le dossier gerant les comptes des clients
-    */
-
+    const std::string LOGPATH = "/data/logs/"; // chemin vers le dossier gerant les comptes des clients
+    
 public:
     // Constructeur
     Server(const std::string& ipAddress, int port, const std::string& configFile);

@@ -1,9 +1,10 @@
-#include "Server.h"
 #include <iostream>
 #include <sys/socket.h>
 #include <arpa/inet.h>  // Pour inet_addr
 #include <unistd.h>     // Pour close()
 #include <cstring>      // Pour memset
+#include "Server.h"
+
 
 Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
     : ipAddress(ipAddress), port(port) {
@@ -94,7 +95,7 @@ void Server::start() {
         exit(1);
     }
 
-     while (true) {
+    while (true) {
         // Accepter une nouvelle connexion
         sockaddr_in clientAddress{};
         socklen_t clientAddressLen = sizeof(clientAddress);
@@ -104,11 +105,11 @@ void Server::start() {
             continue;  // Passer à la prochaine tentative d'acceptation
         }
 
-    std::cout << "Serveur démarré et à l'écoute des connexions sur " 
-              << ipAddress << ":" << port << "...\n";
-    close(clientSocket);          
-}
+        std::cout << "Serveur démarré et à l'écoute des connexions sur " 
+                << ipAddress << ":" << port << "...\n";
+        close(clientSocket);          
+    }
 
- close(serverSocket);
+    close(serverSocket);
 
 }
