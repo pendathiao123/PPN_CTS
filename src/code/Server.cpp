@@ -3,7 +3,8 @@
 #include <arpa/inet.h>  // Pour inet_addr
 #include <unistd.h>     // Pour close()
 #include <cstring>      // Pour memset
-#include "Server.h"
+#include <fstream>
+#include "../headers/Server.h"
 
 
 Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
@@ -37,7 +38,8 @@ const std::vector<Crypto>& Server::getCryptos() const {
 }
 
 // Méthode pour enregistrer la transaction dans le fichier CSV (arguments à rajouter ?)
-static void Server::logTransactionToCSV(const std::string& filename) {
+/*
+void Server::logTransactionToCSV(const std::string& filename) {
     std::ofstream file(filename, std::ios::app);
     if (file.is_open()) {
         // Vérifie si le fichier est vide pour écrire l'en-tête
@@ -47,8 +49,8 @@ static void Server::logTransactionToCSV(const std::string& filename) {
 
     
         // Convertir le timestamp en date lisible
-        std::time_t timestame = transaction.getTimestamp();
-        std::tm *tm = std::localtime(&timestame);
+        time_t timestame = transaction.getTimestamp();
+        tm *tm = std::localtime(&timestame);
         char readableTimestamp[20];
         std::strftime(readableTimestamp, sizeof(readableTimestamp), "%Y-%m-%d %H:%M:%S", tm); // Formatage
 
@@ -65,6 +67,7 @@ static void Server::logTransactionToCSV(const std::string& filename) {
         std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << std::endl;
     }
 }
+*/
 
 
 void Server::start() {

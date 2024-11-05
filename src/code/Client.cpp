@@ -3,7 +3,7 @@
 #include <arpa/inet.h>  // Pour inet_addr
 #include <unistd.h>     // Pour close()
 #include <cstring>      // Pour memset
-#include "Client.h"
+#include "../headers/Client.h"
 
 
 Client::Client(const std::string& address, int port) {
