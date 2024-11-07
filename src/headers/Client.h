@@ -11,6 +11,7 @@ public:
     void sendRequest(const std::string& request);
     std::string receiveResponse();  
     std::string getBalance(const std::string& currency);
+    std::string getMarket();
 
     void buy(const std::string& currency, double amount);
     void sell(const std::string& currency, double amount);

@@ -14,18 +14,11 @@ private:
     {"SRD-BTC", 100.0}, 
     {"DOLLARS", 90.0}
     };
-    Crypto cryptoInstance;
 
 public:
     Server(const std::string& ipAddress, int port, const std::string& configFile);
     
-    std::string handleMarket(const std::string& request);
-    std::string handleBuy(const std::string& request);
-    std::string handleSell(const std::string& request);
-    std::string handleBalance(const std::string& currency);
-    
     void start();
-    void request(int clientSocket);
 };
 
 #endif  // SERVER_H

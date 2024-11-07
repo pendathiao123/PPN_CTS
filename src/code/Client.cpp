@@ -55,6 +55,18 @@ std::string Client::receiveResponse() {
     return response;
 }
 
+
+std::string Client::getMarket() {
+    // Construire la requête
+    std::string request = "GET /market";
+
+    // Envoyer la requête au server
+    sendRequest(request);
+
+    // Recevoir et afficher la réponse
+    return receiveResponse();
+}
+
 void Client::buy(const std::string& currency, double amount) {
     // Construire la requête d'achat
     std::string request = "BUY " + currency + " " + std::to_string(amount);
