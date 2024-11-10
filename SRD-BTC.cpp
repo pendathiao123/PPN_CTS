@@ -5,6 +5,7 @@
 #include"SRD-BTC.hpp"
 
 
+
 float getRandomFloat(float a) 
 {
     std::srand(static_cast<unsigned int>(std::time(0)));
@@ -12,14 +13,14 @@ float getRandomFloat(float a)
     return randomFloat;
 }
 
-float get_daily_BTC_value(int)     //Cette fonction retourne la valeur du Bitcoin pour le jour d correspondant. Elle ira la chercher avec un pointeur.
-{
-
+float get_daily_BTC_value(int d)     //Cette fonction retourne la valeur du Bitcoin pour le jour d correspondant. Elle ira la chercher avec un pointeur.
+{ 
+    double BTC_value = BTC_daily_values[d];
     return BTC_value;
 }
 
 
-float Complete_BTC_value()              //Cette fonction simule les valeurs du BTC à chaque seconde  
+void Complete_BTC_value()              //Cette fonction simule les valeurs du BTC à chaque seconde  
 {
     for (int d=0; d<3927; ++d)          //Le nombre de jours totaux de la simulation complète
     {
@@ -33,15 +34,15 @@ float Complete_BTC_value()              //Cette fonction simule les valeurs du B
             {BTC_value = 0.95*BTC_value + ((getRandomFloat(0,86400-t))/13000)*BTC_value;}
             else
             {BTC_value = 0.9*BTC_value + (getRandomFloat(0,0.2))*BTC_value;}          //En milieu de journée, l'incertiude peut monter jusqu'à 10%
-            std::cout<<BTC_value<<"\n";
-            return BTC_value;
+            BTC_sec_values[{d,t}]=BTC_value;
         }
     }
 }
 
-float get_complete_BTC_value(int)       //Cette fonction retourne la valeur du Bitcoin pour la seconde s entrée en arg. Elle ira la chercher avec un pointeur.
+double get_complete_BTC_value(int d, int t)       //Cette fonction retourne la valeur du Bitcoin pour le jour d et la seconde s entrée en arg. Elle ira la chercher avec un pointeur.
 {
-    return BTC_value;
+    double BTC_sec_value = BTC_sec_values[{d,t}];
+    return BTC_sec_value;
 }
 
 
@@ -49,10 +50,15 @@ float get_complete_BTC_value(int)       //Cette fonction retourne la valeur du B
 void SRD_BTC()    //La fonction affiche la valeur du SRD-BTC en utilisant les fonctions précédentes.
 {
     float randomFloat = getRandomFloat(0.1022);
-    for (int i = 0; i < 339292800; ++i)
+    double BTC_value = 0;
+    double SRD_BTC_value = 0;
+    for (int d=0; d<3927; ++d)                      //Le nombre de jours totaux de la simulation complète
     {
-        float BTC_value = get_complete_BTC_value(i);
-        float SRD_BTC=(0.9489 + randomFloat*BTC_value);
-        std::cout<<SRD_BTC<<"\n";
+        int t=0;
+        for (t=0; t<86400; ++t)
+        {
+            SRD_BTC_value = (0.9489 + randomFloat)*BTC_sec_values[{d,t}];
+            std::cout<<SRD_BTC_value<<"\n";
+        }
     }
 }
