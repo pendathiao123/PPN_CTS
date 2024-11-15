@@ -7,7 +7,7 @@ project(CTS)
 set(CMAKE_CXX_STANDARD 17)
 
 # add the executable
-add_executable(Test.exe main_test.cpp Server.cpp Client.cpp Crypto.cpp)
+add_executable(Test.exe main_test.cpp Server.cpp Client.cpp Crypto.cpp Server_Transaction.cpp)
 
 # add test for the executable
 enable_testing()

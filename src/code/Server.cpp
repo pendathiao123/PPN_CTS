@@ -7,8 +7,8 @@
 #include "../headers/Server.h"
 
 
-Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
-    : ipAddress(ipAddress), port(port) {
+Server::Server(const std::string& ipAddress, int port, const std::string& configFile, Server_Transaction serv) 
+    : ipAddress(ipAddress), port(port), servTr(serv) {
     std::cout << "Serveur initialisé à l'adresse " << ipAddress 
               << " sur le port " << port << " avec " << configFile << std::endl;
 }
@@ -37,37 +37,6 @@ const std::vector<Crypto>& Server::getCryptos() const {
     return cryptos;
 }
 
-// Méthode pour enregistrer la transaction dans le fichier CSV (arguments à rajouter ?)
-/*
-void Server::logTransactionToCSV(const std::string& filename) {
-    std::ofstream file(filename, std::ios::app);
-    if (file.is_open()) {
-        // Vérifie si le fichier est vide pour écrire l'en-tête
-        if (file.tellp() == 0) {
-            file << "ID,Type,CryptoName,Quantity,UnitPrice,TotalAmount,Timestamp\n";  // Écrire l'en-tête
-        }
-
-    
-        // Convertir le timestamp en date lisible
-        time_t timestame = transaction.getTimestamp();
-        tm *tm = std::localtime(&timestame);
-        char readableTimestamp[20];
-        std::strftime(readableTimestamp, sizeof(readableTimestamp), "%Y-%m-%d %H:%M:%S", tm); // Formatage
-
-        // Écrire les données de la transaction 
-        file << transaction.getId() << ","
-             << transaction.getType() << ","
-             << transaction.getCryptoName() << ","
-             << transaction.getQuantity() << ","
-             << transaction.getUnitPrice() << ","
-             << transaction.getTotalAmount() << ","
-             << readableTimestamp << "\n";
-        file.close();
-    } else {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << std::endl;
-    }
-}
-*/
 
 
 void Server::start() {
