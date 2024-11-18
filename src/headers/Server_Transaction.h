@@ -15,12 +15,13 @@ private:
     const std::string filename; // fichier dans lequels on écrit les transactions
 
 public:
-    //Constructeur
-    Server_Transaction(/* args */);
+    //Constructeur: prend en argument le fichier où on écrit les transacations (initialise le timestamp)
+    Server_Transaction(std::string file);
     //Destructeur
     ~Server_Transaction();
 
     /* Guetteurs */
+    // donne le temps
     std::time_t getTimestamp() const;
 
     /* Méthodes */
@@ -35,4 +36,4 @@ public:
     void start();
 };
 
-#endif
+#endif // _SERVER_TRANSACTION_H_
