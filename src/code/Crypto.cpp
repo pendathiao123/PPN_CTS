@@ -12,8 +12,13 @@ std::string Crypto::getName() const {
 }
 
 // Retourne le prix actuel
-double Crypto::getPrice() const {
-    return price;
+double Crypto::getPrice(const std::string& currency) const {
+    if (currency == "SRD-BTC") {
+        double price = 45.00 + static_cast<double>(rand());
+        return price;
+    } else {
+        return false;
+    }
 }
 
 // Met à jour le prix selon le taux de variation

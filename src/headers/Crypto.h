@@ -12,13 +12,14 @@ private:
 
 public:
     // Constructeur
+    Crypto(){}
     Crypto(const std::string& name, double initialPrice, double changeRate);
 
     // Getter pour le nom de la crypto
     std::string getName() const;
 
     // Getter pour le prix actuel
-    double getPrice() const;
+    double getPrice(const std::string& currency) const;
 
     // Mise à jour du prix selon le taux de variation
     void updatePrice();
