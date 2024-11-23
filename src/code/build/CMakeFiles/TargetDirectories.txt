@@ -1,4 +1,0 @@
-/mnt/d/Patrick/Programs/PPN_CTS/src/code/build/CMakeFiles/Test.exe.dir
-/mnt/d/Patrick/Programs/PPN_CTS/src/code/build/CMakeFiles/test.dir
-/mnt/d/Patrick/Programs/PPN_CTS/src/code/build/CMakeFiles/edit_cache.dir
-/mnt/d/Patrick/Programs/PPN_CTS/src/code/build/CMakeFiles/rebuild_cache.dir

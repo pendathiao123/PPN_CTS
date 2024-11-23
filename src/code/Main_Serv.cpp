@@ -9,7 +9,7 @@ int main() {
     int serverPort = 8080;
 
     // Initialisation du serveur avec une adresse IP spécifique
-    Server server(serverIp, serverPort, "cryptos.json");
+    Server server(serverIp, serverPort, "crypto_config.txt");
     server.start();
     return 0;
 }

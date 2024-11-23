@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/Test.exe.dir/main_test.cpp.o CMakeFiles/Test.exe.dir/Server.cpp.o CMakeFiles/Test.exe.dir/Client.cpp.o CMakeFiles/Test.exe.dir/Crypto.cpp.o -o Test.exe 

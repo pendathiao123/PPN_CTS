@@ -4,39 +4,28 @@
 #include <string>
 #include <vector>
 #include "Crypto.h"
-#include "Server_Transaction.h"
-
+#include "Transaction.h"
 
 class Server {
 private:
+    /* Gestion des cryptomonnaies */
+    std::vector<Crypto> cryptos;  // Vecteur contenant les objets Crypto
 
-    /* Gestion des cryptomonaies */
-    std::string configFile; // chemin vers fichier variation des cryptos
-    std::vector<Crypto> all_cryptos;  // Vecteur contenant les objets Crypto
-
-    /* Pour la connexion avec sockets */
-    const int port; //port de connexion pour liason TCP
+    /* Configuration de la connexion avec les sockets */
+    const int port;               // Port pour la liaison TCP
     const std::string ipAddress;  // Adresse IP du serveur
 
-    /* Communication avec le Serveur qui s'occupe des transactions */
-    Server_Transaction servTr;
-    /*  Les clients communiquent seulement avec le serveur principal. Ce-dernier transert
-    les requetes au serveur qui s'occupe des transert, qui effectue des lectures écritures ... */
-
-    /* Gestion des comptes (avancé)*/
-    //const std::string LOGPATH = "/data/logs/"; // chemin vers le dossier gerant les comptes des clients
-    
 public:
     // Constructeur
-    Server(const std::string& ipAddress, int port, const std::string& configFile, Server_Transaction serv);
+    Server(const std::string& ipAddress, int port, const std::string& configFile);
 
-    // Fonction pour charger la valeur des cryptomonnaies chaque jour depuis un fichier
+    // Charge les cryptomonnaies à partir d'un fichier de configuration
     void setCryptos(const std::string& configFile);
 
-    // Getter pour obtenir le vecteur de cryptomonnaies
+    // Retourne le vecteur de cryptomonnaies
     const std::vector<Crypto>& getCryptos() const;
-    // ...
 
+    // Démarre le serveur
     void start();
 };
 
