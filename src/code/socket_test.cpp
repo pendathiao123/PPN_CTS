@@ -1,4 +1,3 @@
-// client.cpp
 #include <iostream>
 #include <cstring>
 #include <unistd.h>

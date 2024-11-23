@@ -1,9 +1,10 @@
-#include "Client.h"
 #include <iostream>
 #include <sys/socket.h>
 #include <arpa/inet.h>  // Pour inet_addr
 #include <unistd.h>     // Pour close()
 #include <cstring>      // Pour memset
+#include "../headers/Client.h"
+
 
 Client::Client(const std::string& address, int port) {
     std::cout << "Connexion au serveur à l'adresse " << address << " sur le port " << port << std::endl;

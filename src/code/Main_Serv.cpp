@@ -1,6 +1,8 @@
 #include <iostream>
-#include "Server.h"
-#include "Client.h"
+#include "../headers/Server.h"
+#include "../headers/Client.h"
+
+
 int main() {
     // Spécification de l'adresse IP et du port
     std::string serverIp = "127.0.0.1";

@@ -1,15 +1,43 @@
-#include "Server.h"
 #include <iostream>
 #include <sys/socket.h>
 #include <arpa/inet.h>  // Pour inet_addr
 #include <unistd.h>     // Pour close()
 #include <cstring>      // Pour memset
+#include <fstream>
+#include "../headers/Server.h"
 
-Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
-    : ipAddress(ipAddress), port(port) {
+
+Server::Server(const std::string& ipAddress, int port, const std::string& configFile, Server_Transaction serv) 
+    : ipAddress(ipAddress), port(port), servTr(serv) {
     std::cout << "Serveur initialisé à l'adresse " << ipAddress 
               << " sur le port " << port << " avec " << configFile << std::endl;
 }
+
+// Constructeur qui charge les cryptomonnaies à partir d'un fichier de configuration
+void Server::setCryptos(const std::string& configFile) {
+    std::ifstream file(configFile);
+    if (!file.is_open()) {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << configFile << std::endl;
+        return;
+    }
+
+    // Logique pour lire le fichier et initialiser le vecteur cryptos
+    // Exemple : lecture ligne par ligne et création d'objets Crypto
+    std::string name;
+    double price;
+    double changeRate;
+
+    while (file >> name >> price >> changeRate) {
+        cryptos.emplace_back(name, price, changeRate);  // Supposons que Crypto a un constructeur qui prend un nom et un prix,et un taux de variation
+    }
+}
+
+// Retourne le vecteur de cryptomonnaies
+const std::vector<Crypto>& Server::getCryptos() const {
+    return cryptos;
+}
+
+
 
 void Server::start() {
     // Création du socket
@@ -39,7 +67,7 @@ void Server::start() {
         exit(1);
     }
 
-     while (true) {
+    while (true) {
         // Accepter une nouvelle connexion
         sockaddr_in clientAddress{};
         socklen_t clientAddressLen = sizeof(clientAddress);
@@ -49,11 +77,11 @@ void Server::start() {
             continue;  // Passer à la prochaine tentative d'acceptation
         }
 
-    std::cout << "Serveur démarré et à l'écoute des connexions sur " 
-              << ipAddress << ":" << port << "...\n";
-    close(clientSocket);          
-}
+        std::cout << "Serveur démarré et à l'écoute des connexions sur " 
+                << ipAddress << ":" << port << "...\n";
+        close(clientSocket);          
+    }
 
- close(serverSocket);
+    close(serverSocket);
 
 }

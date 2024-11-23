@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 
+
 class Crypto {
 private:
     std::string name;     // Nom de la crypto
@@ -13,16 +14,12 @@ private:
 public:
     // Constructeur
     Crypto(const std::string& name, double initialPrice, double changeRate);
-
     // Getter pour le nom de la crypto
     std::string getName() const;
-
     // Getter pour le prix actuel
     double getPrice() const;
-
     // Mise à jour du prix selon le taux de variation
     void updatePrice();
-
     // Affichage des informations sur la crypto
     void displayInfo() const;
 };
