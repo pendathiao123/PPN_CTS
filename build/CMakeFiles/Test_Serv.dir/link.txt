@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o CMakeFiles/Test_Serv.dir/src/code/Main_Serv.cpp.o CMakeFiles/Test_Serv.dir/src/code/Crypto.cpp.o -o exec/Test_Serv 
