@@ -1,0 +1,6 @@
+Bitcoin 34000.50 1.5
+Ethereum 1800.25 0.8
+Ripple 0.75 2.1
+Litecoin 100.00 -0.5
+Cardano 1.20 1.2
+Polkadot 7.50 -0.3
