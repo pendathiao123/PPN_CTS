@@ -11,11 +11,17 @@ set(SERVER_SRC
     ${SRC_DIR}/Transaction.cpp
     ${SRC_DIR}/Main_Serv.cpp
     ${SRC_DIR}/Crypto.cpp
+    ${SRC_DIR}/SRD-BTC.cpp
+    ${SRC_DIR}/global.cpp
+    ${SRC_DIR}/bot.cpp
 )
 set(CLIENT_SRC 
     ${SRC_DIR}/Client.cpp
     ${SRC_DIR}/Transaction.cpp
     ${SRC_DIR}/Main_Cli.cpp
+    ${SRC_DIR}/global.cpp
+    ${SRC_DIR}/Crypto.cpp
+    ${SRC_DIR}/bot.cpp
 )
 
 # Créer un répertoire de sortie pour les exécutables

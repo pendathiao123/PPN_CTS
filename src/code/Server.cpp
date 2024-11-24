@@ -6,7 +6,11 @@
 #include <fstream>
 #include <thread>        // Pour gérer les connexions clients en threads
 #include "../headers/Server.h"
+#include "../headers/global.h"
+#include <thread>
+#include <atomic>
 
+void updateBitcoinPrices();
 // Constructeur
 Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
     : ipAddress(ipAddress), port(port) {
@@ -97,4 +101,10 @@ void Server::start() {
     }
 
     close(serverSocket);  // Fermer le socket du serveur
+
+    stopRequested = true;
+   // bitcoinPriceThread.join();
 }
+
+
+
