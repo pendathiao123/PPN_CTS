@@ -111,11 +111,56 @@ CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/penda/Documents/PPN/src/code/Main_Cli.cpp -o CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.s
 
+CMakeFiles/Test_Cli.dir/src/code/global.cpp.o: CMakeFiles/Test_Cli.dir/flags.make
+CMakeFiles/Test_Cli.dir/src/code/global.cpp.o: /home/penda/Documents/PPN/src/code/global.cpp
+CMakeFiles/Test_Cli.dir/src/code/global.cpp.o: CMakeFiles/Test_Cli.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Test_Cli.dir/src/code/global.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Cli.dir/src/code/global.cpp.o -MF CMakeFiles/Test_Cli.dir/src/code/global.cpp.o.d -o CMakeFiles/Test_Cli.dir/src/code/global.cpp.o -c /home/penda/Documents/PPN/src/code/global.cpp
+
+CMakeFiles/Test_Cli.dir/src/code/global.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Cli.dir/src/code/global.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/penda/Documents/PPN/src/code/global.cpp > CMakeFiles/Test_Cli.dir/src/code/global.cpp.i
+
+CMakeFiles/Test_Cli.dir/src/code/global.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Cli.dir/src/code/global.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/penda/Documents/PPN/src/code/global.cpp -o CMakeFiles/Test_Cli.dir/src/code/global.cpp.s
+
+CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o: CMakeFiles/Test_Cli.dir/flags.make
+CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o: /home/penda/Documents/PPN/src/code/Crypto.cpp
+CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o: CMakeFiles/Test_Cli.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o -MF CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o.d -o CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o -c /home/penda/Documents/PPN/src/code/Crypto.cpp
+
+CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/penda/Documents/PPN/src/code/Crypto.cpp > CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.i
+
+CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/penda/Documents/PPN/src/code/Crypto.cpp -o CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.s
+
+CMakeFiles/Test_Cli.dir/src/code/bot.cpp.o: CMakeFiles/Test_Cli.dir/flags.make
+CMakeFiles/Test_Cli.dir/src/code/bot.cpp.o: /home/penda/Documents/PPN/src/code/bot.cpp
+CMakeFiles/Test_Cli.dir/src/code/bot.cpp.o: CMakeFiles/Test_Cli.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Test_Cli.dir/src/code/bot.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Cli.dir/src/code/bot.cpp.o -MF CMakeFiles/Test_Cli.dir/src/code/bot.cpp.o.d -o CMakeFiles/Test_Cli.dir/src/code/bot.cpp.o -c /home/penda/Documents/PPN/src/code/bot.cpp
+
+CMakeFiles/Test_Cli.dir/src/code/bot.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Cli.dir/src/code/bot.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/penda/Documents/PPN/src/code/bot.cpp > CMakeFiles/Test_Cli.dir/src/code/bot.cpp.i
+
+CMakeFiles/Test_Cli.dir/src/code/bot.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Cli.dir/src/code/bot.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/penda/Documents/PPN/src/code/bot.cpp -o CMakeFiles/Test_Cli.dir/src/code/bot.cpp.s
+
 # Object files for target Test_Cli
 Test_Cli_OBJECTS = \
 "CMakeFiles/Test_Cli.dir/src/code/Client.cpp.o" \
 "CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o" \
-"CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o"
+"CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o" \
+"CMakeFiles/Test_Cli.dir/src/code/global.cpp.o" \
+"CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o" \
+"CMakeFiles/Test_Cli.dir/src/code/bot.cpp.o"
 
 # External object files for target Test_Cli
 Test_Cli_EXTERNAL_OBJECTS =
@@ -123,9 +168,12 @@ Test_Cli_EXTERNAL_OBJECTS =
 exec/Test_Cli: CMakeFiles/Test_Cli.dir/src/code/Client.cpp.o
 exec/Test_Cli: CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o
 exec/Test_Cli: CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o
+exec/Test_Cli: CMakeFiles/Test_Cli.dir/src/code/global.cpp.o
+exec/Test_Cli: CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o
+exec/Test_Cli: CMakeFiles/Test_Cli.dir/src/code/bot.cpp.o
 exec/Test_Cli: CMakeFiles/Test_Cli.dir/build.make
 exec/Test_Cli: CMakeFiles/Test_Cli.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable exec/Test_Cli"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable exec/Test_Cli"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Test_Cli.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

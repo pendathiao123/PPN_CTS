@@ -198,6 +198,7 @@ src/code/Crypto.o: src/code/Crypto.cpp.o
 # target to build an object file
 src/code/Crypto.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Crypto.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o
 .PHONY : src/code/Crypto.cpp.o
 
 src/code/Crypto.i: src/code/Crypto.cpp.i
@@ -206,6 +207,7 @@ src/code/Crypto.i: src/code/Crypto.cpp.i
 # target to preprocess a source file
 src/code/Crypto.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Crypto.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.i
 .PHONY : src/code/Crypto.cpp.i
 
 src/code/Crypto.s: src/code/Crypto.cpp.s
@@ -214,6 +216,7 @@ src/code/Crypto.s: src/code/Crypto.cpp.s
 # target to generate assembly for a file
 src/code/Crypto.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Crypto.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.s
 .PHONY : src/code/Crypto.cpp.s
 
 src/code/Main_Cli.o: src/code/Main_Cli.cpp.o
@@ -263,6 +266,30 @@ src/code/Main_Serv.s: src/code/Main_Serv.cpp.s
 src/code/Main_Serv.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Main_Serv.cpp.s
 .PHONY : src/code/Main_Serv.cpp.s
+
+src/code/SRD-BTC.o: src/code/SRD-BTC.cpp.o
+.PHONY : src/code/SRD-BTC.o
+
+# target to build an object file
+src/code/SRD-BTC.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.o
+.PHONY : src/code/SRD-BTC.cpp.o
+
+src/code/SRD-BTC.i: src/code/SRD-BTC.cpp.i
+.PHONY : src/code/SRD-BTC.i
+
+# target to preprocess a source file
+src/code/SRD-BTC.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.i
+.PHONY : src/code/SRD-BTC.cpp.i
+
+src/code/SRD-BTC.s: src/code/SRD-BTC.cpp.s
+.PHONY : src/code/SRD-BTC.s
+
+# target to generate assembly for a file
+src/code/SRD-BTC.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.s
+.PHONY : src/code/SRD-BTC.cpp.s
 
 src/code/Server.o: src/code/Server.cpp.o
 .PHONY : src/code/Server.o
@@ -315,6 +342,60 @@ src/code/Transaction.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.s
 .PHONY : src/code/Transaction.cpp.s
 
+src/code/bot.o: src/code/bot.cpp.o
+.PHONY : src/code/bot.o
+
+# target to build an object file
+src/code/bot.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/bot.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/bot.cpp.o
+.PHONY : src/code/bot.cpp.o
+
+src/code/bot.i: src/code/bot.cpp.i
+.PHONY : src/code/bot.i
+
+# target to preprocess a source file
+src/code/bot.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/bot.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/bot.cpp.i
+.PHONY : src/code/bot.cpp.i
+
+src/code/bot.s: src/code/bot.cpp.s
+.PHONY : src/code/bot.s
+
+# target to generate assembly for a file
+src/code/bot.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/bot.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/bot.cpp.s
+.PHONY : src/code/bot.cpp.s
+
+src/code/global.o: src/code/global.cpp.o
+.PHONY : src/code/global.o
+
+# target to build an object file
+src/code/global.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/global.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/global.cpp.o
+.PHONY : src/code/global.cpp.o
+
+src/code/global.i: src/code/global.cpp.i
+.PHONY : src/code/global.i
+
+# target to preprocess a source file
+src/code/global.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/global.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/global.cpp.i
+.PHONY : src/code/global.cpp.i
+
+src/code/global.s: src/code/global.cpp.s
+.PHONY : src/code/global.s
+
+# target to generate assembly for a file
+src/code/global.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/global.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/global.cpp.s
+.PHONY : src/code/global.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -339,12 +420,21 @@ help:
 	@echo "... src/code/Main_Serv.o"
 	@echo "... src/code/Main_Serv.i"
 	@echo "... src/code/Main_Serv.s"
+	@echo "... src/code/SRD-BTC.o"
+	@echo "... src/code/SRD-BTC.i"
+	@echo "... src/code/SRD-BTC.s"
 	@echo "... src/code/Server.o"
 	@echo "... src/code/Server.i"
 	@echo "... src/code/Server.s"
 	@echo "... src/code/Transaction.o"
 	@echo "... src/code/Transaction.i"
 	@echo "... src/code/Transaction.s"
+	@echo "... src/code/bot.o"
+	@echo "... src/code/bot.i"
+	@echo "... src/code/bot.s"
+	@echo "... src/code/global.o"
+	@echo "... src/code/global.i"
+	@echo "... src/code/global.s"
 .PHONY : help
 
 

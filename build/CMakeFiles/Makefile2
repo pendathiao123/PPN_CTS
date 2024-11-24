@@ -85,12 +85,12 @@ clean: CMakeFiles/Cli.dir/clean
 CMakeFiles/Test_Serv.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=5,6,7,8,9 "Built target Test_Serv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=8,9,10,11,12,13,14,15 "Built target Test_Serv"
 .PHONY : CMakeFiles/Test_Serv.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Test_Serv.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Test_Serv.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 0
 .PHONY : CMakeFiles/Test_Serv.dir/rule
@@ -111,12 +111,12 @@ CMakeFiles/Test_Serv.dir/clean:
 CMakeFiles/Test_Cli.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=1,2,3,4 "Built target Test_Cli"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target Test_Cli"
 .PHONY : CMakeFiles/Test_Cli.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Test_Cli.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Test_Cli.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 0
 .PHONY : CMakeFiles/Test_Cli.dir/rule
@@ -142,7 +142,7 @@ CMakeFiles/Serv.dir/all: CMakeFiles/Test_Serv.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Serv.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Serv.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 0
 .PHONY : CMakeFiles/Serv.dir/rule
@@ -168,7 +168,7 @@ CMakeFiles/Cli.dir/all: CMakeFiles/Test_Cli.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Cli.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Cli.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/penda/Documents/PPN/build/CMakeFiles 0
 .PHONY : CMakeFiles/Cli.dir/rule

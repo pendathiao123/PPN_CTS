@@ -125,12 +125,57 @@ CMakeFiles/Test_Serv.dir/src/code/Crypto.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/Crypto.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/penda/Documents/PPN/src/code/Crypto.cpp -o CMakeFiles/Test_Serv.dir/src/code/Crypto.cpp.s
 
+CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
+CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.o: /home/penda/Documents/PPN/src/code/SRD-BTC.cpp
+CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.o -c /home/penda/Documents/PPN/src/code/SRD-BTC.cpp
+
+CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/penda/Documents/PPN/src/code/SRD-BTC.cpp > CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.i
+
+CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/penda/Documents/PPN/src/code/SRD-BTC.cpp -o CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.s
+
+CMakeFiles/Test_Serv.dir/src/code/global.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
+CMakeFiles/Test_Serv.dir/src/code/global.cpp.o: /home/penda/Documents/PPN/src/code/global.cpp
+CMakeFiles/Test_Serv.dir/src/code/global.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/global.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/global.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/global.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/global.cpp.o -c /home/penda/Documents/PPN/src/code/global.cpp
+
+CMakeFiles/Test_Serv.dir/src/code/global.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Serv.dir/src/code/global.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/penda/Documents/PPN/src/code/global.cpp > CMakeFiles/Test_Serv.dir/src/code/global.cpp.i
+
+CMakeFiles/Test_Serv.dir/src/code/global.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/global.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/penda/Documents/PPN/src/code/global.cpp -o CMakeFiles/Test_Serv.dir/src/code/global.cpp.s
+
+CMakeFiles/Test_Serv.dir/src/code/bot.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
+CMakeFiles/Test_Serv.dir/src/code/bot.cpp.o: /home/penda/Documents/PPN/src/code/bot.cpp
+CMakeFiles/Test_Serv.dir/src/code/bot.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/bot.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/bot.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/bot.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/bot.cpp.o -c /home/penda/Documents/PPN/src/code/bot.cpp
+
+CMakeFiles/Test_Serv.dir/src/code/bot.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Serv.dir/src/code/bot.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/penda/Documents/PPN/src/code/bot.cpp > CMakeFiles/Test_Serv.dir/src/code/bot.cpp.i
+
+CMakeFiles/Test_Serv.dir/src/code/bot.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/bot.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/penda/Documents/PPN/src/code/bot.cpp -o CMakeFiles/Test_Serv.dir/src/code/bot.cpp.s
+
 # Object files for target Test_Serv
 Test_Serv_OBJECTS = \
 "CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/Main_Serv.cpp.o" \
-"CMakeFiles/Test_Serv.dir/src/code/Crypto.cpp.o"
+"CMakeFiles/Test_Serv.dir/src/code/Crypto.cpp.o" \
+"CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.o" \
+"CMakeFiles/Test_Serv.dir/src/code/global.cpp.o" \
+"CMakeFiles/Test_Serv.dir/src/code/bot.cpp.o"
 
 # External object files for target Test_Serv
 Test_Serv_EXTERNAL_OBJECTS =
@@ -139,9 +184,12 @@ exec/Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o
 exec/Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o
 exec/Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Main_Serv.cpp.o
 exec/Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Crypto.cpp.o
+exec/Test_Serv: CMakeFiles/Test_Serv.dir/src/code/SRD-BTC.cpp.o
+exec/Test_Serv: CMakeFiles/Test_Serv.dir/src/code/global.cpp.o
+exec/Test_Serv: CMakeFiles/Test_Serv.dir/src/code/bot.cpp.o
 exec/Test_Serv: CMakeFiles/Test_Serv.dir/build.make
 exec/Test_Serv: CMakeFiles/Test_Serv.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable exec/Test_Serv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/penda/Documents/PPN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable exec/Test_Serv"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Test_Serv.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
