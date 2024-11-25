@@ -11,15 +11,16 @@
 #include <atomic>
 
 void updateBitcoinPrices();
+
 // Constructeur
 Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
     : ipAddress(ipAddress), port(port) {
     std::cout << "Serveur initialisé à l'adresse " << ipAddress 
               << " sur le port " << port << " avec le fichier de configuration : " << configFile << std::endl;
-    setCryptos(configFile);  // Charger les cryptomonnaies à partir du fichier
+    //setCryptos(configFile);  // Charger les cryptomonnaies à partir du fichier
 }
 
-// Chargement des cryptomonnaies
+//Chargement des cryptomonnaies
 void Server::setCryptos(const std::string& configFile) {
     std::ifstream file(configFile);
     if (!file.is_open()) {
@@ -77,6 +78,8 @@ void Server::start() {
         exit(EXIT_FAILURE);
     }
 
+    std::thread bitcoinPriceThread(updateBitcoinPrices);
+
     std::cout << "Serveur démarré et en attente de connexions sur " 
               << ipAddress << ":" << port << "...\n";
 
@@ -100,11 +103,33 @@ void Server::start() {
         close(clientSocket);  // Fermer après traitement (ou après le thread)
     }
 
+    stopRequested = true;
+    bitcoinPriceThread.join();
     close(serverSocket);  // Fermer le socket du serveur
 
-    stopRequested = true;
-   // bitcoinPriceThread.join();
 }
 
 
 
+// Fonction pour mettre à jour les prix de Bitcoin en continu et les enregistrer dans un fichier
+void updateBitcoinPrices() {
+    std::string filename = "SRD-BTC.dat";
+    std::ofstream outFile(filename, std::ios::app);
+    if (!outFile) {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << ".\n";
+        return;
+    }
+    Crypto crypto;
+    int i = 0;
+    while (!stopRequested) {
+        double bitcoinPrice = crypto.getPrice("SRD-BTC");
+        std::time_t timestamp = std::time(nullptr);
+        outFile << timestamp << " " << bitcoinPrice << std::endl;
+
+        std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause d'une seconde
+        if (++i >= 10000) {  // Arrêter après 10000 itérations
+            stopRequested = true;
+            std::cout << "Fin de la mise à jour des prix de Bitcoin.\n";
+        }
+    }
+    }

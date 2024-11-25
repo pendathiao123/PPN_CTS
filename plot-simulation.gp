@@ -6,7 +6,7 @@ set xdata time
 set timefmt "%s"        # Interpréter l'axe X comme des timestamps UNIX
 set format x "%H:%M:%S" # Afficher les heures:minutes:secondes
 set term wxt persist    # Garder la fenêtre ouverte après exécution
-plot "SRD-BTC.dat" using 1:2 with lines title "SRD-BTC"
+plot "./build/SRD-BTC.dat" using 1:2 with lines title "SRD-BTC"
 
 while(1) {
     replot

@@ -79,26 +79,3 @@ void Crypto::buyCrypto(const std::string& crypto, double percentage) {
     std::cout << "Achat de " << percentage << "% de " << crypto << std::endl;
     // Ajouter la logique d'achat ici
 }
-
-// Fonction pour mettre à jour les prix de Bitcoin en continu et les enregistrer dans un fichier
-void updateBitcoinPrices() {
-    std::string filename = "SRD-BTC.dat";
-    std::ofstream outFile(filename, std::ios::app);
-    if (!outFile) {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << ".\n";
-        return;
-    }
-    Crypto crypto;
-    int i = 0;
-    while (!stopRequested) {
-        double bitcoinPrice = crypto.getPrice("SRD-BTC");
-        std::time_t timestamp = std::time(nullptr);
-        outFile << timestamp << " " << bitcoinPrice << std::endl;
-
-        std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause d'une seconde
-        if (++i >= 10000) {  // Arrêter après 10000 itérations
-            stopRequested = true;
-            std::cout << "Fin de la mise à jour des prix de Bitcoin.\n";
-        }
-    }
-    }
