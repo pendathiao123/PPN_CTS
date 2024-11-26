@@ -9,6 +9,7 @@ private:
     std::string name;     // Nom de la crypto
     double price;         // Prix actuel de la crypto
     double changeRate;    // Taux de variation du prix (en pourcentage)
+    std::unordered_map<std::string, double>& balances;    //Dictionnaire du portefolio
 
 public:
     // Constructeurs
@@ -29,9 +30,6 @@ public:
 
     // Méthode pour récupérer le dernier prix enregistré (pour le bot)
     static double get_prv_price(const std::string& currency);
-
-    // Méthode pour récupérer le solde actuel
-    static double getBalance(const std::string& currency);
 
     // Méthode pour vendre une crypto
     static void sellCrypto(const std::string& crypto, double percentage);
