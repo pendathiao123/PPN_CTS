@@ -2,6 +2,7 @@
 #include <ctime>    // Pour time()
 #include "../headers/Crypto.h"
 #include "../headers/global.h"
+#include "../headers/bot.h"
 #include <fstream>
 #include <atomic>
 #include <chrono>
@@ -60,22 +61,68 @@ double Crypto::get_prv_price(const std::string& currency) {
     return price;  // Retourner le dernier prix enregistré
 }
 
-// Méthode pour récupérer le solde actuel
-double Crypto::getBalance(const std::string& currency) {
-    if (currency == "DOLLARS") {
-        return 1000.0;  // Simuler un solde de dollars
-    }
-    return 0.0;
-}
-
 // Méthode pour vendre une crypto
+
+bot1{"SRD-BTC"};
+
 void Crypto::sellCrypto(const std::string& crypto, double percentage) {
     std::cout << "Vente de " << percentage << "% de " << crypto << std::endl;
     // Ajouter la logique de vente ici
+
+    double solde_crypto = bot1.getBalance("SRD-BTC");
+    double quantite = solde_crypto*percentage;
+    std::unordered_map<std::string, double> bot_balance = bot1.get_total_Balance();
+    
+    bot_balance["SRD-BTC"] = bot_balance["SRD-BTC"] - quantite;
+    
+    double val2 = quantite*getPrice("SRD-BTC");
+
+    bot_balance["DOLLARS"] = bot_balance["DOLLARS"] + val2;
+
+    bot1.updateBalance(bot_balance); 
 }
 
 // Méthode pour acheter une crypto
+
+bot bot1{"SRD-BTC"};
+
 void Crypto::buyCrypto(const std::string& crypto, double percentage) {
     std::cout << "Achat de " << percentage << "% de " << crypto << std::endl;
     // Ajouter la logique d'achat ici
+
+    double solde_dollars = bot1.getBalance("DOLLARS");
+    double val1 = solde_dollars*percentage;
+    std::unordered_map<std::string, double> bot_balance = bot1.get_total_Balance();
+    
+    bot_balance["DOLLARS"] = bot_balance["DOLLARS"] - val1;
+    
+    double val2 = getPrice("SRD-BTC");
+    double quantite = val1/val2;
+
+    bot_balance["SRD-BTC"] = bot_balance["SRD-BTC"] + quantite;
+
+    bot1.updateBalance(bot_balance);   
 }
+
+// Fonction pour mettre à jour les prix de Bitcoin en continu et les enregistrer dans un fichier
+void updateBitcoinPrices() {
+    std::string filename = "SRD-BTC.dat";
+    std::ofstream outFile(filename, std::ios::app);
+    if (!outFile) {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << ".\n";
+        return;
+    }
+    Crypto crypto;
+    int i = 0;
+    while (!stopRequested) {
+        double bitcoinPrice = crypto.getPrice("SRD-BTC");
+        std::time_t timestamp = std::time(nullptr);
+        outFile << timestamp << " " << bitcoinPrice << std::endl;
+
+        std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause d'une seconde
+        if (++i >= 10000) {  // Arrêter après 10000 itérations
+            stopRequested = true;
+            std::cout << "Fin de la mise à jour des prix de Bitcoin.\n";
+        }
+    }
+    }

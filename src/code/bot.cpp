@@ -1,16 +1,44 @@
-#include "../headers/bot.h"
 #include <iostream>
+#include "../headers/bot.h"
+#include "../headers/Crypto.h"
+
 
 // Constructeur de la classe bot
 bot::bot(const std::string& currency) {
-    solde_origin = 1000.0f;  // Solde initial par exemple
+    solde_origin = 1000.0f;  // Solde initial
     prv_price = 0.0f;        // Prix précédent initialisé à 0
+    balances = {
+    {"SRD-BTC", 0.0}, 
+    {"DOLLARS", 1000.0}
+    };
 }
 
 // Destructeur de la classe bot
 bot::~bot() {
     // Libération des ressources si nécessaire
 }
+
+std::unordered_map<std::string, double> bot::get_total_Balance(){
+        return balances;
+    }
+
+
+    // Méthode pour récupérer le solde actuel
+    double bot::getBalance(const std::string& currency) {
+        if (currency == "DOLLARS") {
+            return balances["DOLLARS"];  
+        }
+        else if (currency == "SRD-BTC"){
+            return balances["SRD-BTC"];     
+        }
+        else {return 0.0;}
+    }
+
+
+    void bot::updateBalance(std::unordered_map<std::string, double> bot_balance){
+        balances["DOLLARS"] = bot_balance["DOLLARS"];
+        balances["SRD-BTC"] = bot_balance["SRD-BTC"];
+    }
 
 // Méthode de trading
 void bot::trading() {
@@ -56,16 +84,4 @@ void bot::investing() {
             }
         }
     }
-}
-
-// Définition de la méthode sellCrypto
-void bot::sellCrypto(const std::string& crypto, double percentage) {
-    std::cout << "Vente de " << percentage << "% de " << crypto << std::endl;
-    //logique a faire
-}
-
-// Définition de la méthode buyCrypto
-void bot::buyCrypto(const std::string& crypto, double percentage) {
-    std::cout << "Achat de " << percentage << "% de " << crypto << std::endl;
-    //logique a faire
 }
