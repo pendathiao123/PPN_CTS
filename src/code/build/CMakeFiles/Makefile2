@@ -81,12 +81,12 @@ clean: CMakeFiles/Test.exe.dir/clean
 CMakeFiles/Test.exe.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test.exe.dir/build.make CMakeFiles/Test.exe.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test.exe.dir/build.make CMakeFiles/Test.exe.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/d/Patrick/Programs/PPN_CTS/src/code/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target Test.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/d/Patrick/Programs/PPN_CTS/src/code/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target Test.exe"
 .PHONY : CMakeFiles/Test.exe.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Test.exe.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/Patrick/Programs/PPN_CTS/src/code/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/Patrick/Programs/PPN_CTS/src/code/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Test.exe.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/Patrick/Programs/PPN_CTS/src/code/build/CMakeFiles 0
 .PHONY : CMakeFiles/Test.exe.dir/rule

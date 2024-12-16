@@ -13,6 +13,7 @@ Server::Server(const std::string& ipAddress, int port, const std::string& config
               << " sur le port " << port << " avec " << configFile << std::endl;
 }
 
+
 // Constructeur qui charge les cryptomonnaies à partir d'un fichier de configuration
 void Server::setCryptos(const std::string& configFile) {
     std::ifstream file(configFile);
@@ -28,13 +29,14 @@ void Server::setCryptos(const std::string& configFile) {
     double changeRate;
 
     while (file >> name >> price >> changeRate) {
-        cryptos.emplace_back(name, price, changeRate);  // Supposons que Crypto a un constructeur qui prend un nom et un prix,et un taux de variation
+        all_cryptos.emplace_back(name, price, changeRate);  // Supposons que Crypto a un constructeur qui prend un nom et un prix,et un taux de variation
     }
 }
 
+
 // Retourne le vecteur de cryptomonnaies
 const std::vector<Crypto>& Server::getCryptos() const {
-    return cryptos;
+    return all_cryptos;
 }
 
 

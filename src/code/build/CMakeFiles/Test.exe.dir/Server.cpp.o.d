@@ -181,4 +181,6 @@ CMakeFiles/Test.exe.dir/Server.cpp.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /mnt/d/Patrick/Programs/PPN_CTS/src/code/../headers/Crypto.h
+ /mnt/d/Patrick/Programs/PPN_CTS/src/code/../headers/Crypto.h \
+ /mnt/d/Patrick/Programs/PPN_CTS/src/code/../headers/Server_Transaction.h \
+ /usr/include/c++/11/ctime

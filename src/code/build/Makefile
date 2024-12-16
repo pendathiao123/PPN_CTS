@@ -211,6 +211,30 @@ Server.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test.exe.dir/build.make CMakeFiles/Test.exe.dir/Server.cpp.s
 .PHONY : Server.cpp.s
 
+Server_Transaction.o: Server_Transaction.cpp.o
+.PHONY : Server_Transaction.o
+
+# target to build an object file
+Server_Transaction.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test.exe.dir/build.make CMakeFiles/Test.exe.dir/Server_Transaction.cpp.o
+.PHONY : Server_Transaction.cpp.o
+
+Server_Transaction.i: Server_Transaction.cpp.i
+.PHONY : Server_Transaction.i
+
+# target to preprocess a source file
+Server_Transaction.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test.exe.dir/build.make CMakeFiles/Test.exe.dir/Server_Transaction.cpp.i
+.PHONY : Server_Transaction.cpp.i
+
+Server_Transaction.s: Server_Transaction.cpp.s
+.PHONY : Server_Transaction.s
+
+# target to generate assembly for a file
+Server_Transaction.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test.exe.dir/build.make CMakeFiles/Test.exe.dir/Server_Transaction.cpp.s
+.PHONY : Server_Transaction.cpp.s
+
 main_test.o: main_test.cpp.o
 .PHONY : main_test.o
 
@@ -254,6 +278,9 @@ help:
 	@echo "... Server.o"
 	@echo "... Server.i"
 	@echo "... Server.s"
+	@echo "... Server_Transaction.o"
+	@echo "... Server_Transaction.i"
+	@echo "... Server_Transaction.s"
 	@echo "... main_test.o"
 	@echo "... main_test.i"
 	@echo "... main_test.s"

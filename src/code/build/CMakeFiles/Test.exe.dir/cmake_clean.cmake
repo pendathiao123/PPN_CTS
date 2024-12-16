@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Test.exe.dir/Crypto.cpp.o.d"
   "CMakeFiles/Test.exe.dir/Server.cpp.o"
   "CMakeFiles/Test.exe.dir/Server.cpp.o.d"
+  "CMakeFiles/Test.exe.dir/Server_Transaction.cpp.o"
+  "CMakeFiles/Test.exe.dir/Server_Transaction.cpp.o.d"
   "CMakeFiles/Test.exe.dir/main_test.cpp.o"
   "CMakeFiles/Test.exe.dir/main_test.cpp.o.d"
   "Test.exe"

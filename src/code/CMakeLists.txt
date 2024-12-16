@@ -11,4 +11,4 @@ add_executable(Test.exe main_test.cpp Server.cpp Client.cpp Crypto.cpp Server_Tr
 
 # add test for the executable
 enable_testing()
-add_test(test1 Test.exe)
+add_test(test0 Test.exe)
