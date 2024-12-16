@@ -63,4 +63,11 @@ On pourrait recourir à l'utilisation d'un outil de formatage pour formaliser le
 
 ## To do list
 
-##### -> Voir directement sur Bitrix24
+- Inclure le rapport dans le projet
+- Mettre à jour le `README`:
+    - Expliquer comment compiler et executer le code
+    - Supprimer les trucs depassées
+    - Mettre en evidence les choix d'implementation qu'on a
+    - Définir ce qui reste à faire (avant le 20/12/2024)
+
+**Pour le reste voir directement sur Bitrix24**

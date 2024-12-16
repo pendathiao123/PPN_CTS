@@ -132,4 +132,4 @@ void updateBitcoinPrices() {
             std::cout << "Fin de la mise à jour des prix de Bitcoin.\n";
         }
     }
-    }
+}
