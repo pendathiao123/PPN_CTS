@@ -54,9 +54,9 @@ void bot::trading() {
                 buyCrypto("SRD-BTC", 5);     // Exemple d'achat
             }
         } else {
-            if (evolution >= 1.04) {
+            if (evolution >= 1.02) {
                 sellCrypto("SRD-BTC", 80);  // Exemple de vente
-            } else if (evolution <= 0.96) {
+            } else if (evolution <= 0.98) {
                 buyCrypto("SRD-BTC", 3);    // Exemple d'achat
             }
         }
@@ -71,9 +71,9 @@ void bot::investing() {
         auto evolution = 1 + ((price - prv_price) / price);
 
         if (solde > 0.5 * solde_origin) {
-            if (evolution >= 1.02) {
+            if (evolution >= 1.04) {
                 sellCrypto("SRD-BTC", 100);
-            } else if (evolution <= 0.98) {
+            } else if (evolution <= 0.96) {
                 buyCrypto("SRD-BTC", 5);
             }
         } else {
