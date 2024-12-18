@@ -9,8 +9,10 @@
 #include "../headers/global.h"
 #include <thread>
 #include <atomic>
+#include <sstream>
 
 void updateBitcoinPrices();
+Crypto crypto;
 
 // Constructeur
 Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
@@ -83,32 +85,88 @@ void Server::start() {
     std::cout << "Serveur démarré et en attente de connexions sur " 
               << ipAddress << ":" << port << "...\n";
 
+
     while (true) {
-        // Accepter une connexion client
-        sockaddr_in clientAddress{};
-        socklen_t clientAddressLen = sizeof(clientAddress);
-        int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressLen);
-        if (clientSocket < 0) {
-            std::cerr << "Erreur : Échec de l'acceptation d'une connexion.\n";
-            continue;  // Passer à la prochaine connexion
-        }
-
-        // Afficher l'adresse du client
-        char clientIP[INET_ADDRSTRLEN];
-        inet_ntop(AF_INET, &clientAddress.sin_addr, clientIP, sizeof(clientIP));
-        std::cout << "Nouvelle connexion acceptée de " << clientIP 
-                  << ":" << ntohs(clientAddress.sin_port) << "\n";
-
-
-        close(clientSocket);  // Fermer après traitement (ou après le thread)
+         // Accepter une connexion client
+    sockaddr_in clientAddress{};
+    socklen_t clientAddressLen = sizeof(clientAddress);
+    int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressLen);
+    if (clientSocket < 0) {
+        std::cerr << "Erreur : Échec de l'acceptation d'une connexion.\n";
+        continue;
     }
-
+     // Afficher l'adresse du client
+    char clientIP[INET_ADDRSTRLEN];
+    inet_ntop(AF_INET, &clientAddress.sin_addr, clientIP, sizeof(clientIP));
+    std::cout << "Nouvelle connexion acceptée de " << clientIP 
+            << ":" << ntohs(clientAddress.sin_port) << "\n";
+    std::cout << "Client connecté.\n";
+    
+    Request(clientSocket);
+    close(clientSocket);
+    }
     stopRequested = true;
     bitcoinPriceThread.join();
-    close(serverSocket);  // Fermer le socket du serveur
+    close(serverSocket);
+}
+Crypto crypto1;
 
+void Server::Request(int clientSocket) {
+    while(true){
+        char buffer[1024] = {0}; // Tampon pour stocker la réponse
+        int bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+        if (bytesRead < 0) {
+            std::cerr << "Erreur de réception." << std::endl;
+            break;
+        }
+        buffer[bytesRead] = '\0'; // Terminer la chaîne
+        std::string request(buffer); // Convertir le tampon en std::string
+        std::cout << "Requête reçue : " << request << std::endl;
+
+        std::string response;
+        if (request.rfind("BUY", 0) == 0) {
+            std::cout << "Passage dans rfindBUY " << std::endl;
+            // Traiter la commande BUY
+            std::string response = handleBuy(request);
+            send(clientSocket, response.c_str(), response.size(), 0);
+        } else if (request.rfind("SELL", 0) == 0) {
+            std::cout << "Passage dans rfindSELL " << std::endl;
+            // Traiter la commande SELL
+            std::string response = handleSell(request);
+            send(clientSocket, response.c_str(), response.size(), 0);
+        } else {
+            response = "Commande inconnue\n";
+        }
+        send(clientSocket, response.c_str(), response.size(), 0);
+    }
 }
 
+
+std::string Server::handleBuy(const std::string& request) {
+// Extraire la paire de crypto et le montant de la requête
+    std::istringstream iss(request);
+    std::string action, currency;
+    double percentage;
+    if (!(iss >> action >> currency >> percentage)) {
+        return "Erreur : Format de commande invalide\n";
+    }
+    if (percentage <=0 || percentage > 100) {
+        return "Erreur : Pourcentage invalide\n";
+    }
+    crypto.buyCrypto(currency, percentage);
+    return "Achat de " + std::to_string(percentage) + " " + currency + " réussi\n";
+    }
+std::string Server::handleSell(const std::string& request) {
+    // Extraire la paire de crypto et le montant de la requête
+    std::istringstream iss(request);
+    std::string action, currency;
+    double percentage;
+    if (!(iss >> action >> currency >> percentage)) {
+        return "Erreur : Format de commande invalide\n";
+    }
+    crypto.sellCrypto(currency, percentage);
+    return "Vente de " + std::to_string(percentage) + "% " + currency + " réussi\n";
+    }
 
 
 // Fonction pour mettre à jour les prix de Bitcoin en continu et les enregistrer dans un fichier

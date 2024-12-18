@@ -1,7 +1,10 @@
 #include <iostream>
 #include "../headers/bot.h"
 #include "../headers/Crypto.h"
+#include "../headers/Client.h"
 
+
+bot::bot(){}
 
 // Constructeur de la classe bot
 bot::bot(const std::string& currency) {
@@ -84,4 +87,27 @@ void bot::investing() {
             }
         }
     }
+}
+
+void bot::buyCrypto(const std::string& currency, double pourcentage) {
+    std::cout << "Passage dans Bot::buyCrypto " << std::endl;
+    // Construire la requête d'achat
+    std::string request = "BUY " + currency + " " + std::to_string(pourcentage);
+    
+    // Envoyer la requête d'achat au serveur
+    client.sendRequest(request);
+    
+    // Recevoir et afficher la réponse
+    std::string response = client.receiveResponse();
+}
+void bot::sellCrypto(const std::string& currency, double pourcentage) {
+    std::cout << "Passage dans Bot::sellCrypto " << std::endl;
+    // Construire la requête d'achat
+    std::string request = "SELL " + currency + " " + std::to_string(pourcentage);
+    
+    // Envoyer la requête d'achat au serveur
+    client.sendRequest(request);
+    
+    // Recevoir et afficher la réponse
+    std::string response = client.receiveResponse();
 }

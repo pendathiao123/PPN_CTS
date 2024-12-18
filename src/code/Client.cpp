@@ -6,6 +6,8 @@
 #include "../headers/Client.h"
 
 
+Client::Client() : clientSocket(){}
+
 Client::Client(const std::string& address, int port) {
     std::cout << "Connexion au serveur à l'adresse " << address << " sur le port " << port << std::endl;
     
@@ -31,9 +33,20 @@ Client::Client(const std::string& address, int port) {
     std::cout << "Connexion réussie au serveur.\n";
 }
 
+int Client::getsocket(){
+    return clientSocket;
+}
+
 void Client::sendRequest(const std::string& request) {
     std::cout << "Requête envoyée : " << request << std::endl;
-    send(clientSocket, request.c_str(), request.size(), 0);  // Envoi de la requête
+    int clientSocket = getsocket();
+    ssize_t bytesSent = send(clientSocket, request.c_str(), request.size(), 0);
+    if (bytesSent < 0) {
+        std::cerr << "Erreur lors de l'envoi de la requête. Code erreur : " << errno << std::endl;
+        perror("Détails de l'erreur");
+    } else {
+        std::cout << "Nombre d'octets envoyés : " << bytesSent << std::endl;
+    }
 }
 
 std::string Client::receiveResponse() {
@@ -48,6 +61,28 @@ std::string Client::receiveResponse() {
     std::string response(buffer, bytesRead);  // Conversion du buffer en string
     std::cout << "Réponse reçue : " << response << std::endl;
     return response;
+}
+
+void Client::buy(const std::string& currency, double amount) {
+    // Construire la requête d'achat
+    std::string request = "BUY " + currency + " " + std::to_string(amount);
+    
+    // Envoyer la requête d'achat au serveur
+    sendRequest(request);
+    
+    // Recevoir et afficher la réponse
+    std::string response = receiveResponse();
+}
+
+void Client::sell(const std::string& currency, double amount) {
+    // Construire la requête d'achat
+    std::string request = "SELL " + currency + " " + std::to_string(amount);
+    
+    // Envoyer la requête d'achat au serveur
+    sendRequest(request);
+    
+    // Recevoir et afficher la réponse
+    std::string response = receiveResponse();
 }
 
 Client::~Client() {

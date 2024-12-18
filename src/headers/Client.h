@@ -18,18 +18,22 @@ private:
         std::map<std::string, double> holdings;
 
         Portfolio(const std::string cryptos);//Constructeur du Portfolio
-        void buyCrypto(const std::string& name, double amount);
-        void sellCrypto(const std::string& name, double amount);
+        void buyCrypto(const std::string& currency, double pourcentage);
+        void sellCrypto(const std::string& currency, double pourcentage);
         //Retourne la quantité d'une cryptomonnaie détenue dans le portefeuille
         double getBalance(const std::string& name) const; 
     };
 
 public:
+    Client();
     Client(const std::string& address, int port);
     void sendRequest(const std::string& request);
+    int getsocket();
     std::string receiveResponse();  // Nouvelle méthode pour recevoir une réponse
-
+    void Request(int clientSocket);
     ~Client();  // Déclaration du destructeur
+    void buy(const std::string& currency, double percentage);
+    void sell(const std::string& currency, double percentage);
 };
 
 #endif  // CLIENT_H

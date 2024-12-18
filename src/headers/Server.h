@@ -27,6 +27,10 @@ public:
 
     // Démarre le serveur
     void start();
+    void Request(int clientSocket);
+
+    std::string handleBuy(const std::string& request);
+    std::string handleSell(const std::string& request);
 };
 
 #endif  // SERVER_H
