@@ -1,13 +1,11 @@
 #ifndef BOT_HPP
 #define BOT_HPP
-
 #include <iostream>
 #include <string>
 #include <unordered_map>
-#include "../headers/Crypto.h" 
+#include "Crypto.h"
 
-class bot : public Crypto
-{
+class bot : public Crypto{
 public:
     bot(const std::string& currency);  // Utilisation de std::string pour la crypto
     ~bot();

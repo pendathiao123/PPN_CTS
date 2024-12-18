@@ -9,10 +9,9 @@
 #include <thread>
 
 // Constructeurs
-Crypto::Crypto() : name(""), price(0.0), changeRate(0.0) {}
-
+Crypto::Crypto() : name(""), price(0.0), changeRate(0.0), balances(balances) {}
 Crypto::Crypto(const std::string& name, double initialPrice, double changeRate)
-    : name(name), price(initialPrice), changeRate(changeRate) {}
+    : name(name), price(initialPrice), changeRate(changeRate) , balances(balances) {}
 
 // Retourne le nom de la crypto
 std::string Crypto::getName() const {
@@ -60,13 +59,12 @@ double Crypto::get_prv_price(const std::string& currency) {
     }
     return price;  // Retourner le dernier prix enregistré
 }
+bot bot1{"SRD-BTC"};
 
 // Méthode pour vendre une crypto
 
-bot1{"SRD-BTC"};
-
 void Crypto::sellCrypto(const std::string& crypto, double percentage) {
-    std::cout << "Vente de " << percentage << "% de " << crypto << std::endl;
+    std::cout << "Vente de " << percentage << "pourcent de " << crypto << std::endl;
     // Ajouter la logique de vente ici
 
     double solde_crypto = bot1.getBalance("SRD-BTC");
@@ -74,8 +72,8 @@ void Crypto::sellCrypto(const std::string& crypto, double percentage) {
     std::unordered_map<std::string, double> bot_balance = bot1.get_total_Balance();
     
     bot_balance["SRD-BTC"] = bot_balance["SRD-BTC"] - quantite;
-    
-    double val2 = quantite*getPrice("SRD-BTC");
+    Crypto cryptosell;
+    double val2 = quantite*cryptosell.getPrice("SRD-BTC");
 
     bot_balance["DOLLARS"] = bot_balance["DOLLARS"] + val2;
 
@@ -84,10 +82,8 @@ void Crypto::sellCrypto(const std::string& crypto, double percentage) {
 
 // Méthode pour acheter une crypto
 
-bot bot1{"SRD-BTC"};
-
 void Crypto::buyCrypto(const std::string& crypto, double percentage) {
-    std::cout << "Achat de " << percentage << "% de " << crypto << std::endl;
+    std::cout << "Achat de " << percentage << "pourcent de " << crypto << std::endl;
     // Ajouter la logique d'achat ici
 
     double solde_dollars = bot1.getBalance("DOLLARS");
@@ -95,15 +91,15 @@ void Crypto::buyCrypto(const std::string& crypto, double percentage) {
     std::unordered_map<std::string, double> bot_balance = bot1.get_total_Balance();
     
     bot_balance["DOLLARS"] = bot_balance["DOLLARS"] - val1;
-    
-    double val2 = getPrice("SRD-BTC");
+    Crypto cryptobuy;
+    double val2 = cryptobuy.getPrice("SRD-BTC");
     double quantite = val1/val2;
 
     bot_balance["SRD-BTC"] = bot_balance["SRD-BTC"] + quantite;
 
     bot1.updateBalance(bot_balance);   
 }
-
+/*
 // Fonction pour mettre à jour les prix de Bitcoin en continu et les enregistrer dans un fichier
 void updateBitcoinPrices() {
     std::string filename = "SRD-BTC.dat";
@@ -112,9 +108,9 @@ void updateBitcoinPrices() {
         std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << ".\n";
         return;
     }
-    Crypto crypto;
     int i = 0;
     while (!stopRequested) {
+        Crypto crypto;
         double bitcoinPrice = crypto.getPrice("SRD-BTC");
         std::time_t timestamp = std::time(nullptr);
         outFile << timestamp << " " << bitcoinPrice << std::endl;
@@ -126,3 +122,4 @@ void updateBitcoinPrices() {
         }
     }
     }
+*/

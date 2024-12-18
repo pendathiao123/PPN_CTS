@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <unordered_map>
 
 class Crypto {
 private:

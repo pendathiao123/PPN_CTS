@@ -10,7 +10,7 @@
 #include <thread>
 #include <atomic>
 
-void updateBitcoinPrices();
+void updateBitcoinPrices(Crypto& crypto);
 
 // Constructeur
 Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
@@ -77,8 +77,10 @@ void Server::start() {
         close(serverSocket);
         exit(EXIT_FAILURE);
     }
-
-    std::thread bitcoinPriceThread(updateBitcoinPrices);
+    Crypto crypto;
+    std::thread bitcoinPriceThread([&crypto]() {
+        updateBitcoinPrices(crypto);
+    });
 
     std::cout << "Serveur démarré et en attente de connexions sur " 
               << ipAddress << ":" << port << "...\n";
@@ -112,14 +114,14 @@ void Server::start() {
 
 
 // Fonction pour mettre à jour les prix de Bitcoin en continu et les enregistrer dans un fichier
-void updateBitcoinPrices() {
+void updateBitcoinPrices(Crypto& crypto) {
     std::string filename = "SRD-BTC.dat";
     std::ofstream outFile(filename, std::ios::app);
     if (!outFile) {
         std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << ".\n";
         return;
     }
-    Crypto crypto;
+   
     int i = 0;
     while (!stopRequested) {
         double bitcoinPrice = crypto.getPrice("SRD-BTC");
