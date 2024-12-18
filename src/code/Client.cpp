@@ -50,22 +50,26 @@ void Client::sendRequest(const std::string& request) {
 }
 
 std::string Client::receiveResponse() {
-    char buffer[1024] = {0};  // Buffer pour stocker la réponse
+    char buffer[1024];  // Buffer pour stocker la réponse
     int bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
 
-    if (bytesRead < 0) {
+    if (bytesRead <= 0) {
         std::cerr << "Erreur : Réception échouée.\n";
         return "";
     }
-
-    std::string response(buffer, bytesRead);  // Conversion du buffer en string
-    std::cout << "Réponse reçue : " << response << std::endl;
-    return response;
+    if (bytesRead > 0) {
+        buffer[bytesRead] = '\0'; // Terminer la chaîne correctement
+        std::string response(buffer); // Convertir le tampon en string
+        std::cout << "Réponse reçue : [" << response << "]" << std::endl;
+        
+        // Retourner la réponse reçue
+        return response;
+    }
 }
 
-void Client::buy(const std::string& currency, double amount) {
+void Client::buy(const std::string& currency, double percentage) {
     // Construire la requête d'achat
-    std::string request = "BUY " + currency + " " + std::to_string(amount);
+    std::string request = "BUY " + currency + " " + std::to_string(percentage);
     
     // Envoyer la requête d'achat au serveur
     sendRequest(request);
@@ -74,9 +78,9 @@ void Client::buy(const std::string& currency, double amount) {
     std::string response = receiveResponse();
 }
 
-void Client::sell(const std::string& currency, double amount) {
+void Client::sell(const std::string& currency, double percentage) {
     // Construire la requête d'achat
-    std::string request = "SELL " + currency + " " + std::to_string(amount);
+    std::string request = "SELL " + currency + " " + std::to_string(percentage);
     
     // Envoyer la requête d'achat au serveur
     sendRequest(request);
@@ -87,6 +91,7 @@ void Client::sell(const std::string& currency, double amount) {
 
 Client::~Client() {
     close(clientSocket);  // Fermeture du socket
+    std::cout << "Client : Connexion fermée par le destructeur.\n";
 }
 
 

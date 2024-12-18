@@ -89,7 +89,7 @@ void bot::investing() {
     }
 }
 
-void bot::buyCrypto(const std::string& currency, double pourcentage) {
+/*void bot::buyCrypto(const std::string& currency, double pourcentage) {
     std::cout << "Passage dans Bot::buyCrypto " << std::endl;
     // Construire la requête d'achat
     std::string request = "BUY " + currency + " " + std::to_string(pourcentage);
@@ -110,4 +110,4 @@ void bot::sellCrypto(const std::string& currency, double pourcentage) {
     
     // Recevoir et afficher la réponse
     std::string response = client.receiveResponse();
-}
+}*/

@@ -99,10 +99,11 @@ void Server::start() {
     char clientIP[INET_ADDRSTRLEN];
     inet_ntop(AF_INET, &clientAddress.sin_addr, clientIP, sizeof(clientIP));
     std::cout << "Nouvelle connexion acceptée de " << clientIP 
-            << ":" << ntohs(clientAddress.sin_port) << "\n";
+           << ":" << ntohs(clientAddress.sin_port) << "\n";
     std::cout << "Client connecté.\n";
     
     Request(clientSocket);
+    shutdown(clientSocket, SHUT_RDWR);
     close(clientSocket);
     }
     stopRequested = true;
@@ -112,11 +113,15 @@ void Server::start() {
 Crypto crypto1;
 
 void Server::Request(int clientSocket) {
+    char buffer[1024] = {0}; // Tampon pour stocker la réponse
     while(true){
-        char buffer[1024] = {0}; // Tampon pour stocker la réponse
-        int bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+        int bytesRead = read(clientSocket, buffer, sizeof(buffer));
         if (bytesRead < 0) {
             std::cerr << "Erreur de réception." << std::endl;
+            break;
+        }
+        if (bytesRead == 0) {
+            std::cout << "Client disconnected" << std::endl;
             break;
         }
         buffer[bytesRead] = '\0'; // Terminer la chaîne
@@ -129,15 +134,18 @@ void Server::Request(int clientSocket) {
             // Traiter la commande BUY
             std::string response = handleBuy(request);
             send(clientSocket, response.c_str(), response.size(), 0);
-        } else if (request.rfind("SELL", 0) == 0) {
+        } 
+        else if (request.rfind("SELL", 0) == 0) {
             std::cout << "Passage dans rfindSELL " << std::endl;
             // Traiter la commande SELL
             std::string response = handleSell(request);
             send(clientSocket, response.c_str(), response.size(), 0);
-        } else {
+        } 
+        else {
             response = "Commande inconnue\n";
         }
         send(clientSocket, response.c_str(), response.size(), 0);
+        std::cout << "Réponse envoyée : " << response << std::endl; 
     }
 }
 
@@ -154,7 +162,7 @@ std::string Server::handleBuy(const std::string& request) {
         return "Erreur : Pourcentage invalide\n";
     }
     crypto.buyCrypto(currency, percentage);
-    return "Achat de " + std::to_string(percentage) + " " + currency + " réussi\n";
+    return "Achat de " + std::to_string(percentage) + "% " + currency + " réussi\n";
     }
 std::string Server::handleSell(const std::string& request) {
     // Extraire la paire de crypto et le montant de la requête
@@ -190,4 +198,4 @@ void updateBitcoinPrices() {
             std::cout << "Fin de la mise à jour des prix de Bitcoin.\n";
         }
     }
-    }
+}

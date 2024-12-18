@@ -1,4 +1,4 @@
-# Install script for directory: /home/penda/Documents/PPN
+# Install script for directory: /home/estelleoliveira/Projet Programmation/PPN/PPN/PPN_CTS
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/penda/Documents/PPN/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/estelleoliveira/Projet Programmation/PPN/PPN/PPN_CTS/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
