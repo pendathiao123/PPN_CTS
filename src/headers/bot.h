@@ -5,7 +5,6 @@
 #include <string>
 #include <unordered_map>
 #include "../headers/Crypto.h" 
-#include "../headers/Client.h"
 
 class bot : public Crypto
 {
@@ -13,7 +12,6 @@ public:
     bot();
     bot(const std::string& currency);  // Utilisation de std::string pour la crypto
     ~bot();
-    Client client{};
     
 
 

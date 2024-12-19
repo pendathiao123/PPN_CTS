@@ -1,7 +1,6 @@
 #include <iostream>
 #include "../headers/bot.h"
 #include "../headers/Crypto.h"
-#include "../headers/Client.h"
 
 
 bot::bot(){}
@@ -89,16 +88,16 @@ void bot::investing() {
     }
 }
 
-/*void bot::buyCrypto(const std::string& currency, double pourcentage) {
+void bot::buyCrypto(const std::string& currency, double pourcentage) {
     std::cout << "Passage dans Bot::buyCrypto " << std::endl;
     // Construire la requête d'achat
     std::string request = "BUY " + currency + " " + std::to_string(pourcentage);
     
     // Envoyer la requête d'achat au serveur
-    client.sendRequest(request);
+    //client.sendRequest(request);
     
     // Recevoir et afficher la réponse
-    std::string response = client.receiveResponse();
+    //std::string response = client.receiveResponse();
 }
 void bot::sellCrypto(const std::string& currency, double pourcentage) {
     std::cout << "Passage dans Bot::sellCrypto " << std::endl;
@@ -106,8 +105,8 @@ void bot::sellCrypto(const std::string& currency, double pourcentage) {
     std::string request = "SELL " + currency + " " + std::to_string(pourcentage);
     
     // Envoyer la requête d'achat au serveur
-    client.sendRequest(request);
+    //client.sendRequest(request);
     
     // Recevoir et afficher la réponse
-    std::string response = client.receiveResponse();
-}*/
+    //std::string response = client.receiveResponse();
+}
