@@ -14,6 +14,7 @@ private:
     /* Configuration de la connexion avec les sockets */
     const int port;               // Port pour la liaison TCP
     const std::string ipAddress;  // Adresse IP du serveur
+    int clientSocket;
 
 public:
     // Constructeur
@@ -27,6 +28,11 @@ public:
 
     // Démarre le serveur
     void start();
+    void Request(int clientSocket);
+    void sendResponse(const std::string& response);
+
+    std::string handleBuy(const std::string& request);
+    std::string handleSell(const std::string& request);
 };
 
 #endif  // SERVER_H

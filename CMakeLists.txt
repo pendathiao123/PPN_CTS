@@ -14,6 +14,7 @@ set(SERVER_SRC
     ${SRC_DIR}/SRD-BTC.cpp
     ${SRC_DIR}/global.cpp
     ${SRC_DIR}/bot.cpp
+    #${SRC_DIR}/Client.cpp
 )
 set(CLIENT_SRC 
     ${SRC_DIR}/Client.cpp

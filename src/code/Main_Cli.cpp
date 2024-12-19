@@ -1,11 +1,11 @@
 #include <iostream>
-#include "../headers/Server.h"
 #include "../headers/Client.h"
+#include "../headers/bot.h"
 
 
 int main() {
     Client client("127.0.0.1", 8080);
-    client.sendRequest("GET /market");
-    std::cout << "Réponse du serveur: " << client.receiveResponse() << std::endl;
+    client.buy("SRD-BTC", 10);
+    client.sell("SRD-BTC",20);
     return 0;
 }
