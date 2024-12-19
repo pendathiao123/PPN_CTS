@@ -69,5 +69,21 @@ On pourrait recourir à l'utilisation d'un outil de formatage pour formaliser le
     - Supprimer les trucs depassées
     - Mettre en evidence les choix d'implementation qu'on a
     - Définir ce qui reste à faire (avant le 20/12/2024)
+- reduire la taille du
 
 **Pour le reste voir directement sur Bitrix24**
+
+### Mise en place du projet:
+
+Le projet, actuellement, est seulement conçu pour tourner sous les distributions Linux (WSL est aussi supporté).
+
+Dispositions minimales pour faire tourner le projet sur votre machine:
+- Version minimale de CMake: 3.10
+- C++17 au minimum
+- ...
+
+Pour executer le projet:
+- telecharger le projet (...)
+- se placer dans le repertoire source du projet
+- executer le script `Install.sh` comme suit:
+``./Install.sh``    
