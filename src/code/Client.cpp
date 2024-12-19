@@ -1,57 +1,86 @@
-#include <iostream>
-#include <sys/socket.h>
-#include <arpa/inet.h>  // Pour inet_addr
-#include <unistd.h>     // Pour close()
-#include <cstring>      // Pour memset
 #include "../headers/Client.h"
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <iostream>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
 
+// Initialiser le contexte SSL pour le client
+SSL_CTX* InitClientCTX() {
+    SSL_CTX* ctx = SSL_CTX_new(TLS_client_method());
+    if (!ctx) {
+        ERR_print_errors_fp(stderr);
+        exit(EXIT_FAILURE);
+    }
+    return ctx;
+}
 
-Client::Client(const std::string& address, int port) {
-    std::cout << "Connexion au serveur à l'adresse " << address << " sur le port " << port << std::endl;
-    
-    // Création du socket
-    clientSocket = socket(AF_INET, SOCK_STREAM, 0);
-    if (clientSocket < 0) {
-        std::cerr << "Erreur : Impossible de créer le socket.\n";
-        exit(1);
+// Établir une connexion SSL
+SSL* ConnectSSL(SSL_CTX* ctx, int clientSocket) {
+    SSL* ssl = SSL_new(ctx);
+    SSL_set_fd(ssl, clientSocket);
+    if (SSL_connect(ssl) <= 0) {
+        ERR_print_errors_fp(stderr);
+        SSL_free(ssl);
+        return nullptr;
+    }
+    return ssl;
+}
+
+// Fonction principale pour démarrer le client
+void StartClient(const std::string& serverAddress, int port, const std::string& clientId, const std::string& clientToken) {
+    int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (clientSocket == -1) {
+        perror("Socket creation failed");
+        exit(EXIT_FAILURE);
     }
 
-    // Configuration de l'adresse du serveur
-    sockaddr_in serverAddress{};
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_port = htons(port);
-    serverAddress.sin_addr.s_addr = inet_addr(address.c_str());
-
-    // Connexion au serveur
-    if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
-        std::cerr << "Erreur : Connexion échouée.\n";
-        exit(1);
+    struct sockaddr_in serverAddr;
+    memset(&serverAddr, 0, sizeof(serverAddr));
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(port);
+    if (inet_pton(AF_INET, serverAddress.c_str(), &serverAddr.sin_addr) <= 0) {
+        perror("Invalid address");
+        close(clientSocket);
+        exit(EXIT_FAILURE);
     }
 
-    std::cout << "Connexion réussie au serveur.\n";
-}
-
-void Client::sendRequest(const std::string& request) {
-    std::cout << "Requête envoyée : " << request << std::endl;
-    send(clientSocket, request.c_str(), request.size(), 0);  // Envoi de la requête
-}
-
-std::string Client::receiveResponse() {
-    char buffer[1024] = {0};  // Buffer pour stocker la réponse
-    int bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
-
-    if (bytesRead < 0) {
-        std::cerr << "Erreur : Réception échouée.\n";
-        return "";
+    if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
+        perror("Connection failed");
+        close(clientSocket);
+        exit(EXIT_FAILURE);
     }
 
-    std::string response(buffer, bytesRead);  // Conversion du buffer en string
-    std::cout << "Réponse reçue : " << response << std::endl;
-    return response;
+    SSL_CTX* ctx = InitClientCTX();
+    SSL* ssl = ConnectSSL(ctx, clientSocket);
+    if (!ssl) {
+        close(clientSocket);
+        SSL_CTX_free(ctx);
+        exit(EXIT_FAILURE);
+    }
+
+    // Construire le message à envoyer
+    std::string message;
+    if (clientId.empty() || clientToken.empty()) {
+        message = "FIRST_CONNECTION";
+    } else {
+        message = "ID:" + clientId + ",TOKEN:" + clientToken;
+    }
+
+    // Envoyer le message au serveur
+    SSL_write(ssl, message.c_str(), message.size());
+
+    // Lire la réponse du serveur
+    char buffer[1024] = {0};
+    int bytes = SSL_read(ssl, buffer, sizeof(buffer) - 1);
+    if (bytes > 0) {
+        buffer[bytes] = '\0';
+        std::cout << "Server Response: " << buffer << std::endl;
+    }
+
+    SSL_free(ssl);
+    close(clientSocket);
+    SSL_CTX_free(ctx);
 }
-
-Client::~Client() {
-    close(clientSocket);  // Fermeture du socket
-}
-
-

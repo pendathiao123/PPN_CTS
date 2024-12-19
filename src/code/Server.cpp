@@ -1,137 +1,203 @@
-#include <iostream>
-#include <sys/socket.h>
-#include <arpa/inet.h>  // Pour inet_addr
-#include <unistd.h>     // Pour close()
-#include <cstring>      // Pour memset
-#include <fstream>
-#include <thread>        // Pour gérer les connexions clients en threads
 #include "../headers/Server.h"
-#include "../headers/global.h"
-#include <thread>
-#include <atomic>
+#include <openssl/hmac.h>
+#include <openssl/evp.h>
+#include <iomanip>
+#include <iostream>
+#include <random>
+#include <sstream>
+#include <openssl/rand.h>
+#include <cstring>
+#include <arpa/inet.h>
+#include <unistd.h>
 
-void updateBitcoinPrices(Crypto& crypto);
+// Fonction pour générer une chaîne aléatoire
+std::string GenerateRandomString(size_t length) {
+    static const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    std::string result;
+    unsigned char rand_bytes[length];
+    if (RAND_bytes(rand_bytes, length) != 1) {
+        std::cerr << "Erreur de génération aléatoire" << std::endl;
+        return "";
+    }
 
-// Constructeur
-Server::Server(const std::string& ipAddress, int port, const std::string& configFile) 
-    : ipAddress(ipAddress), port(port) {
-    std::cout << "Serveur initialisé à l'adresse " << ipAddress 
-              << " sur le port " << port << " avec le fichier de configuration : " << configFile << std::endl;
-    //setCryptos(configFile);  // Charger les cryptomonnaies à partir du fichier
+    for (size_t i = 0; i < length; ++i) {
+        result += charset[rand_bytes[i] % (sizeof(charset) - 1)];
+    }
+
+    return result;
 }
 
-//Chargement des cryptomonnaies
-void Server::setCryptos(const std::string& configFile) {
-    std::ifstream file(configFile);
-    if (!file.is_open()) {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << configFile << std::endl;
+// Fonction pour générer un ID à 4 chiffres aléatoires
+std::string GenerateRandomId() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(1000, 9999);
+
+    int id = dis(gen);
+    return std::to_string(id);
+}
+
+// Fonction pour générer un token avec HMAC
+std::string GenerateToken() {
+    std::string key = GenerateRandomString(32);
+    std::string message = GenerateRandomString(16);
+
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hash_len;
+
+    HMAC(EVP_sha256(), key.c_str(), key.size(),
+         reinterpret_cast<const unsigned char*>(message.c_str()), message.size(),
+         hash, &hash_len);
+
+    std::ostringstream oss;
+    for (unsigned int i = 0; i < hash_len; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+    }
+
+    return oss.str();
+}
+
+// Charger les utilisateurs depuis un fichier
+std::unordered_map<std::string, std::string> LoadUsers(const std::string& filename) {
+    std::unordered_map<std::string, std::string> users;
+    std::ifstream file(filename);
+    std::string id, token;
+    while (file >> id >> token) {
+        users[id] = token;
+    }
+    return users;
+}
+
+// Sauvegarder les utilisateurs dans un fichier
+void SaveUsers(const std::string& filename, const std::unordered_map<std::string, std::string>& users) {
+    std::ofstream file(filename, std::ios::trunc);
+    for (const auto& [id, token] : users) {
+        file << id << " " << token << "\n";
+    }
+}
+
+// Initialiser le contexte SSL pour le serveur
+SSL_CTX* InitServerCTX(const std::string& certFile, const std::string& keyFile) {
+    SSL_CTX* ctx = SSL_CTX_new(TLS_server_method());
+    if (!ctx) {
+        ERR_print_errors_fp(stderr);
+        exit(EXIT_FAILURE);
+    }
+
+    if (SSL_CTX_use_certificate_file(ctx, certFile.c_str(), SSL_FILETYPE_PEM) <= 0 ||
+        SSL_CTX_use_PrivateKey_file(ctx, keyFile.c_str(), SSL_FILETYPE_PEM) <= 0) {
+        ERR_print_errors_fp(stderr);
+        SSL_CTX_free(ctx);
+        exit(EXIT_FAILURE);
+    }
+
+    return ctx;
+}
+
+// Accepter une connexion SSL
+SSL* AcceptSSLConnection(SSL_CTX* ctx, int clientSocket) {
+    SSL* ssl = SSL_new(ctx);
+    SSL_set_fd(ssl, clientSocket);
+    if (SSL_accept(ssl) <= 0) {
+        ERR_print_errors_fp(stderr);
+        SSL_free(ssl);
+        return nullptr;
+    }
+    return ssl;
+}
+
+// Gérer une connexion client
+void HandleClient(SSL* ssl, std::unordered_map<std::string, std::string>& users, const std::string& usersFile) {
+    char buffer[1024] = {0};
+    int bytes = SSL_read(ssl, buffer, sizeof(buffer) - 1);
+    if (bytes <= 0) {
         return;
     }
 
-    std::string name;
-    double price, changeRate;
+    buffer[bytes] = '\0';
+    std::string receivedMessage(buffer);
+    std::cout << "Received: " << receivedMessage << std::endl;
 
-    // Lecture ligne par ligne
-    while (file >> name >> price >> changeRate) {
-        cryptos.emplace_back(name, price, changeRate);  
-        std::cout << "Crypto ajoutée : " << name << " | Prix : " << price 
-                  << " | Taux de variation : " << changeRate << std::endl;
-    }
-    file.close();
+    std::string response;
+    std::string id, token;
+    std::string prefix_id = "ID:";
+    std::string prefix_token = "TOKEN:";
 
-    if (cryptos.empty()) {
-        std::cerr << "Aucune cryptomonnaie chargée depuis le fichier de configuration.\n";
+    if (receivedMessage.find(prefix_id) != std::string::npos && receivedMessage.find(prefix_token) != std::string::npos) {
+        size_t id_start = receivedMessage.find(prefix_id) + prefix_id.length();
+        size_t id_end = receivedMessage.find(",", id_start);
+        id = receivedMessage.substr(id_start, id_end - id_start);
+
+        size_t token_start = receivedMessage.find(prefix_token) + prefix_token.length();
+        token = receivedMessage.substr(token_start);
+
+        std::cout << "Extracted ID: " << id << ", Token: " << token << std::endl;
+
+        auto it = users.find(id);
+        if (it != users.end() && it->second == token) {
+            response = "AUTH OK";
+        } else {
+            response = "AUTH FAIL";
+        }
+    } else {
+        id = GenerateRandomId();
+        token = GenerateToken();
+        users[id] = token;
+        SaveUsers(usersFile, users);
+
+        std::cout << "New ID: " << id << ", New Token: " << token << std::endl;
+        response = "Identifiants: " + id + " " + token;
     }
+
+    SSL_write(ssl, response.c_str(), response.size());
 }
 
-// Retourne les cryptomonnaies
-const std::vector<Crypto>& Server::getCryptos() const {
-    return cryptos;
-}
-
-// Méthode principale du serveur
-void Server::start() {
-    // Création du socket
+// Fonction principale pour démarrer le serveur
+void StartServer(int port, const std::string& certFile, const std::string& keyFile, const std::string& usersFile) {
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
-    if (serverSocket < 0) {
-        std::cerr << "Erreur : Impossible de créer le socket.\n";
+    if (serverSocket == -1) {
+        perror("Socket creation failed");
         exit(EXIT_FAILURE);
     }
 
-    // Configuration de l'adresse du serveur
-    sockaddr_in serverAddress{};
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_port = htons(port);
-    serverAddress.sin_addr.s_addr = inet_addr(ipAddress.c_str());
+    struct sockaddr_in serverAddr;
+    memset(&serverAddr, 0, sizeof(serverAddr));
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_port = htons(port);
 
-    // Liaison du socket
-    if (bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
-        std::cerr << "Erreur : Échec du bind sur " << ipAddress << ":" << port << "\n";
+    if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
+        perror("Bind failed");
         close(serverSocket);
         exit(EXIT_FAILURE);
     }
 
-    // Mise en écoute des connexions
     if (listen(serverSocket, 5) < 0) {
-        std::cerr << "Erreur : Échec de listen().\n";
+        perror("Listen failed");
         close(serverSocket);
         exit(EXIT_FAILURE);
     }
-    Crypto crypto;
-    std::thread bitcoinPriceThread([&crypto]() {
-        updateBitcoinPrices(crypto);
-    });
 
-    std::cout << "Serveur démarré et en attente de connexions sur " 
-              << ipAddress << ":" << port << "...\n";
+    SSL_CTX* ctx = InitServerCTX(certFile, keyFile);
+    std::cout << "Server listening on port " << port << std::endl;
+
+    auto users = LoadUsers(usersFile);
 
     while (true) {
-        // Accepter une connexion client
-        sockaddr_in clientAddress{};
-        socklen_t clientAddressLen = sizeof(clientAddress);
-        int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressLen);
+        int clientSocket = accept(serverSocket, nullptr, nullptr);
         if (clientSocket < 0) {
-            std::cerr << "Erreur : Échec de l'acceptation d'une connexion.\n";
-            continue;  // Passer à la prochaine connexion
+            perror("Accept failed");
+            continue;
         }
 
-        // Afficher l'adresse du client
-        char clientIP[INET_ADDRSTRLEN];
-        inet_ntop(AF_INET, &clientAddress.sin_addr, clientIP, sizeof(clientIP));
-        std::cout << "Nouvelle connexion acceptée de " << clientIP 
-                  << ":" << ntohs(clientAddress.sin_port) << "\n";
-
-
-        close(clientSocket);  // Fermer après traitement (ou après le thread)
-    }
-
-    stopRequested = true;
-    bitcoinPriceThread.join();
-    close(serverSocket);  // Fermer le socket du serveur
-
-}
-
-
-
-// Fonction pour mettre à jour les prix de Bitcoin en continu et les enregistrer dans un fichier
-void updateBitcoinPrices(Crypto& crypto) {
-    std::string filename = "SRD-BTC.dat";
-    std::ofstream outFile(filename, std::ios::app);
-    if (!outFile) {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << ".\n";
-        return;
-    }
-   
-    int i = 0;
-    while (!stopRequested) {
-        double bitcoinPrice = crypto.getPrice("SRD-BTC");
-        std::time_t timestamp = std::time(nullptr);
-        outFile << timestamp << " " << bitcoinPrice << std::endl;
-
-        std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause d'une seconde
-        if (++i >= 10000) {  // Arrêter après 10000 itérations
-            stopRequested = true;
-            std::cout << "Fin de la mise à jour des prix de Bitcoin.\n";
+        SSL* ssl = AcceptSSLConnection(ctx, clientSocket);
+        if (ssl) {
+            HandleClient(ssl, users, usersFile);
+            SSL_free(ssl);
         }
+        close(clientSocket);
     }
+
+    close(serverSocket);
+    SSL_CTX_free(ctx);
 }
