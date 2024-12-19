@@ -37,6 +37,9 @@ include_directories(${INC_DIR})
 # Options de compilation
 add_compile_options(-std=c++17 -Wall)
 
+# Lier les bibliothèques OpenSSL
+target_link_libraries(Test_Serv ssl crypto)
+target_link_libraries(Test_Cli ssl crypto)
 
 # Ajouter des règles pour exécuter les exécutables après leur construction
 add_custom_target(Serv
