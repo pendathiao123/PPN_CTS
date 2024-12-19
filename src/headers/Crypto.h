@@ -5,6 +5,7 @@
 #include <iostream>
 #include <unordered_map>
 
+
 class Crypto {
 private:
     std::string name;     // Nom de la crypto

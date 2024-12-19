@@ -1,18 +1,18 @@
 #include <cstdlib>  // Pour rand() et srand()
 #include <ctime>    // Pour time()
-#include "../headers/Crypto.h"
-#include "../headers/global.h"
-#include "../headers/bot.h"
 #include <fstream>
 #include <atomic>
 #include <chrono>
 #include <thread>
+#include "../headers/Crypto.h"
+#include "../headers/global.h"
+#include "../headers/bot.h"
+
 
 // Constructeurs
-Crypto::Crypto() : name(""), price(0.0), changeRate(0.0) {}
-
+Crypto::Crypto() : name(""), price(0.0), changeRate(0.0), balances(balances) {}
 Crypto::Crypto(const std::string& name, double initialPrice, double changeRate)
-    : name(name), price(initialPrice), changeRate(changeRate) {}
+: name(name), price(initialPrice), changeRate(changeRate) , balances(balances) {}
 
 // Retourne le nom de la crypto
 std::string Crypto::getName() const {
@@ -63,7 +63,7 @@ double Crypto::get_prv_price(const std::string& currency) {
 
 // Méthode pour vendre une crypto
 
-bot1{"SRD-BTC"};
+bot bot1{"SRD-BTC"};
 
 void Crypto::sellCrypto(const std::string& crypto, double percentage) {
     std::cout << "Vente de " << percentage << "% de " << crypto << std::endl;
@@ -74,8 +74,8 @@ void Crypto::sellCrypto(const std::string& crypto, double percentage) {
     std::unordered_map<std::string, double> bot_balance = bot1.get_total_Balance();
     
     bot_balance["SRD-BTC"] = bot_balance["SRD-BTC"] - quantite;
-    
-    double val2 = quantite*getPrice("SRD-BTC");
+    Crypto crytosell;
+    double val2 = quantite*crytosell.getPrice("SRD-BTC");
 
     bot_balance["DOLLARS"] = bot_balance["DOLLARS"] + val2;
 
@@ -83,9 +83,6 @@ void Crypto::sellCrypto(const std::string& crypto, double percentage) {
 }
 
 // Méthode pour acheter une crypto
-
-bot bot1{"SRD-BTC"};
-
 void Crypto::buyCrypto(const std::string& crypto, double percentage) {
     std::cout << "Achat de " << percentage << "% de " << crypto << std::endl;
     // Ajouter la logique d'achat ici
@@ -95,8 +92,8 @@ void Crypto::buyCrypto(const std::string& crypto, double percentage) {
     std::unordered_map<std::string, double> bot_balance = bot1.get_total_Balance();
     
     bot_balance["DOLLARS"] = bot_balance["DOLLARS"] - val1;
-    
-    double val2 = getPrice("SRD-BTC");
+    Crypto cryptobuy;
+    double val2 = cryptobuy.getPrice("SRD-BTC");
     double quantite = val1/val2;
 
     bot_balance["SRD-BTC"] = bot_balance["SRD-BTC"] + quantite;
@@ -125,4 +122,4 @@ void updateBitcoinPrices() {
             std::cout << "Fin de la mise à jour des prix de Bitcoin.\n";
         }
     }
-    }
+}
