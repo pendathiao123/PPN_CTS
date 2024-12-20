@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../headers/Server.h"
 #include "../headers/Client.h"
+#include "../headers/bot.h"
 
 
 int main() {

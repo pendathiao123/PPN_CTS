@@ -52,6 +52,15 @@ void StartClient(const std::string& serverAddress, int port, const std::string& 
         close(clientSocket);
         exit(EXIT_FAILURE);
     }
+    if (bytesRead > 0) {
+        buffer[bytesRead] = '\0'; // Terminer la chaîne correctement
+        std::string response(buffer); // Convertir le tampon en string
+        std::cout << "Réponse reçue : [" << response << "]" << std::endl;
+        
+        // Retourner la réponse reçue
+        return response;
+    }
+}
 
     SSL_CTX* ctx = InitClientCTX();
     SSL* ssl = ConnectSSL(ctx, clientSocket);

@@ -183,6 +183,7 @@ void StartServer(int port, const std::string& certFile, const std::string& keyFi
 
     auto users = LoadUsers(usersFile);
 
+
     while (true) {
         int clientSocket = accept(serverSocket, nullptr, nullptr);
         if (clientSocket < 0) {

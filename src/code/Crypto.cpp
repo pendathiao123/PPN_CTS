@@ -1,12 +1,13 @@
 #include <cstdlib>  // Pour rand() et srand()
 #include <ctime>    // Pour time()
-#include "../headers/Crypto.h"
-#include "../headers/global.h"
-#include "../headers/bot.h"
 #include <fstream>
 #include <atomic>
 #include <chrono>
 #include <thread>
+#include "../headers/Crypto.h"
+#include "../headers/global.h"
+#include "../headers/bot.h"
+
 
 // Constructeurs
 Crypto::Crypto() : name(""), price(0.0), changeRate(0.0), balances(balances) {}
@@ -81,7 +82,6 @@ void Crypto::sellCrypto(const std::string& crypto, double percentage) {
 }
 
 // Méthode pour acheter une crypto
-
 void Crypto::buyCrypto(const std::string& crypto, double percentage) {
     std::cout << "Achat de " << percentage << "pourcent de " << crypto << std::endl;
     // Ajouter la logique d'achat ici
