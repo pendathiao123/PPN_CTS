@@ -54,7 +54,7 @@ cmake .
 ```
 - Pour executer le Serveur puis le Client, faire comme suit:
 ```bash
-make Serv
+make Serv &
 make Cli
 ```
 
