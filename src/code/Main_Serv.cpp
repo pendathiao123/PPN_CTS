@@ -4,7 +4,8 @@
 
 
 int main() {
-    StartServer(4433, "server.crt", "server.key", "configFile.csv");
+    Server server;
+    server.StartServer(4433, "server.crt", "server.key", "configFile.csv");
     return 0;
 }
 
