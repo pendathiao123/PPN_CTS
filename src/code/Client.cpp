@@ -44,7 +44,7 @@ SSL* ConnectSSL(SSL_CTX* ctx, int clientSocket) {
 
 // Fonction principale pour démarrer le client
 void Client::StartClient(const std::string& serverAddress, int port, const std::string& clientId, const std::string& clientToken) {
-    int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    this->clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
         perror("Socket creation failed");
         exit(EXIT_FAILURE);
@@ -67,8 +67,8 @@ void Client::StartClient(const std::string& serverAddress, int port, const std::
         exit(EXIT_FAILURE);
     }
 
-    SSL_CTX* ctx = InitClientCTX();
-    SSL* ssl = ConnectSSL(ctx, clientSocket);
+    this->ctx = InitClientCTX();
+    this->ssl = ConnectSSL(ctx, this->clientSocket);
     if (!ssl) {
         close(clientSocket);
         SSL_CTX_free(ctx);

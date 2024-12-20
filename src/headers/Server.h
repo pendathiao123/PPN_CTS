@@ -37,7 +37,7 @@ public :
     // Fonction principale pour démarrer le serveur
     void StartServer(int port, const std::string& certFile, const std::string& keyFile, const std::string& usersFile);
 
-    void ProcessRequest(int clientSocket);
+    void ProcessRequest(SSL* ssl);
     std::string handleBuy(const std::string& request);
     std::string handleSell(const std::string& request);
 private : 

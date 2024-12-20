@@ -97,7 +97,7 @@ SSL_CTX* InitServerCTX(const std::string& certFile, const std::string& keyFile) 
 
 // Accepter une connexion SSL
 SSL* AcceptSSLConnection(SSL_CTX* ctx, int clientSocket) {
-    SSL* ssl = SSL_new(ctx);
+     SSL* ssl = SSL_new(ctx);
     SSL_set_fd(ssl, clientSocket);
     if (SSL_accept(ssl) <= 0) {
         ERR_print_errors_fp(stderr);
@@ -199,7 +199,7 @@ void Server::StartServer(int port, const std::string& certFile, const std::strin
             SSL_free(ssl);
         }
 
-        ProcessRequest(clientSocket);
+        ProcessRequest(ssl);
 
         close(clientSocket);
     }
@@ -208,7 +208,7 @@ void Server::StartServer(int port, const std::string& certFile, const std::strin
     SSL_CTX_free(ctx);
 }
 
-void Server::ProcessRequest(int clientSocket){
+void Server::ProcessRequest(SSL* ssl){
     char buffer[1024] = {0}; // Tampon pour stocker la réponse
 
     try {
