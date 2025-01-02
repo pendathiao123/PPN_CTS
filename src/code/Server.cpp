@@ -1,4 +1,5 @@
 #include "../headers/Server.h"
+#include "../headers/Client.h"
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
 #include <iomanip>
@@ -153,7 +154,7 @@ void HandleClient(SSL* ssl, std::unordered_map<std::string, std::string>& users,
 }
 
 // Fonction principale pour démarrer le serveur
-void StartServer(int port, const std::string& certFile, const std::string& keyFile, const std::string& usersFile) {
+void Server::StartServer(int port, const std::string& certFile, const std::string& keyFile, const std::string& usersFile) {
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
         perror("Socket creation failed");
@@ -185,7 +186,9 @@ void StartServer(int port, const std::string& certFile, const std::string& keyFi
 
 
     while (true) {
-        int clientSocket = accept(serverSocket, nullptr, nullptr);
+        socklen_t addrLen = sizeof(serverAddr);
+        int clientSocket = accept(serverSocket, (struct sockaddr*)&serverAddr, &addrLen);
+
         if (clientSocket < 0) {
             perror("Accept failed");
             continue;
@@ -196,9 +199,77 @@ void StartServer(int port, const std::string& certFile, const std::string& keyFi
             HandleClient(ssl, users, usersFile);
             SSL_free(ssl);
         }
+
         close(clientSocket);
     }
 
     close(serverSocket);
     SSL_CTX_free(ctx);
+}
+
+void Server::ProcessRequest(SSL* ssl){
+    char buffer[1024] = {0}; // Tampon pour stocker la réponse
+
+    try {
+        int bytesRead = SSL_read(ssl, buffer, sizeof(buffer) - 1);
+        if (bytesRead <= 0) {
+            return;
+        }
+
+        buffer[bytesRead] = '\0'; // Terminer la chaîne
+        std::string request(buffer); // Convertir le tampon en std::string
+        std::cout << "Requête reçue : " << request << std::endl;
+
+        std::string response;
+        if (request.rfind("BUY", 0) == 0) {
+            std::cout << "Passage dans rfindBUY " << std::endl;
+            // Traiter la commande BUY
+            response = handleBuy(request);
+        } 
+        else if (request.rfind("SELL", 0) == 0) {
+            std::cout << "Passage dans rfindSELL " << std::endl;
+            // Traiter la commande SELL
+            response = handleSell(request);
+        } 
+        else {
+            response = "Commande inconnue\n";
+        }
+
+        if (!response.empty()) {
+            SSL_write(ssl, response.c_str(), response.length());
+        }
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Erreur dans ProcessRequest : " << e.what() << std::endl;
+    }
+}
+
+std::string Server::handleBuy(const std::string& request){
+    // Extraire la paire de crypto et le montant de la requête
+    std::istringstream iss(request);
+    std::string action, currency;
+    double percentage;
+    if (!(iss >> action >> currency >> percentage)) {
+        return "Erreur : Format de commande invalide\n";
+    }
+    if (percentage <= 0 || percentage > 100) {
+        return "Erreur : Pourcentage invalide\n";
+    }
+    std::cout << "Achat de " << percentage << "% de " << currency << " réussi\n";
+    return "Achat de " + std::to_string(percentage) + "% " + currency + " réussi\n";
+}
+
+std::string Server::handleSell(const std::string& request){
+    // Extraire la paire de crypto et le montant de la requête
+    std::istringstream iss(request);
+    std::string action, currency;
+    double percentage;
+    if (!(iss >> action >> currency >> percentage)) {
+        return "Erreur : Format de commande invalide\n";
+    }
+    if (percentage <= 0 || percentage > 100) {
+        return "Erreur : Pourcentage invalide\n";
+    }
+    std::cout << "Vente de " << percentage << "% de " << currency << " réussie\n";
+    return "Vente de " + std::to_string(percentage) + "% " + currency + " réussie\n";
 }
