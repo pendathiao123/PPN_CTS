@@ -20,13 +20,12 @@ SSL_CTX* InitClientCTX() {
     SSL_CTX* ctx = SSL_CTX_new(TLS_client_method());
 
     // Charger le certificat public et la clé privée du client
-    SSL_CTX_use_certificate_file(ctx, "../server.crt", SSL_FILETYPE_PEM);
-    SSL_CTX_use_PrivateKey_file(ctx, "../server.key", SSL_FILETYPE_PEM);
-
-    if (!ctx) {
+    if (!SSL_CTX_use_certificate_file(ctx, "../server.crt", SSL_FILETYPE_PEM) ||
+        !SSL_CTX_use_PrivateKey_file(ctx, "../server.key", SSL_FILETYPE_PEM)) {
         ERR_print_errors_fp(stderr);
         exit(EXIT_FAILURE);
     }
+
     return ctx;
 }
 
@@ -54,7 +53,6 @@ void Client::StartClient(const std::string& serverAddress, int port, const std::
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1"); 
     if (inet_pton(AF_INET, serverAddress.c_str(), &serverAddr.sin_addr) <= 0) {
         perror("Invalid address");
         close(clientSocket);
@@ -93,10 +91,6 @@ void Client::StartClient(const std::string& serverAddress, int port, const std::
         buffer[bytes] = '\0';
         std::cout << "Server Response: " << buffer << std::endl;
     }
-
-    SSL_free(ssl);
-    close(clientSocket);
-    SSL_CTX_free(ctx);
 }
 
 void Client::sendRequest(const std::string& request) {
@@ -131,24 +125,14 @@ std::string Client::receiveResponse() {
 }
 
 void Client::buy(const std::string& currency, double percentage) {
-    // Construire la requête d'achat
     std::string request = "BUY " + currency + " " + std::to_string(percentage);
-    
-    // Envoyer la requête d'achat au serveur
     sendRequest(request);
-    
-    // Recevoir et afficher la réponse
     std::string response = receiveResponse();
 }
 
 void Client::sell(const std::string& currency, double percentage) {
-    // Construire la requête d'achat
     std::string request = "SELL " + currency + " " + std::to_string(percentage);
-    
-    // Envoyer la requête d'achat au serveur
     sendRequest(request);
-    
-    // Recevoir et afficher la réponse
     std::string response = receiveResponse();
 }
 

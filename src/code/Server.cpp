@@ -1,5 +1,5 @@
 #include "../headers/Server.h"
-#include "../headers/Crypto.h"
+#include "../headers/Client.h"
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
 #include <iomanip>
@@ -97,7 +97,7 @@ SSL_CTX* InitServerCTX(const std::string& certFile, const std::string& keyFile) 
 
 // Accepter une connexion SSL
 SSL* AcceptSSLConnection(SSL_CTX* ctx, int clientSocket) {
-     SSL* ssl = SSL_new(ctx);
+    SSL* ssl = SSL_new(ctx);
     SSL_set_fd(ssl, clientSocket);
     if (SSL_accept(ssl) <= 0) {
         ERR_print_errors_fp(stderr);
@@ -199,8 +199,6 @@ void Server::StartServer(int port, const std::string& certFile, const std::strin
             SSL_free(ssl);
         }
 
-        ProcessRequest(ssl);
-
         close(clientSocket);
     }
 
@@ -225,20 +223,17 @@ void Server::ProcessRequest(SSL* ssl){
         if (request.rfind("BUY", 0) == 0) {
             std::cout << "Passage dans rfindBUY " << std::endl;
             // Traiter la commande BUY
-            std::string response = handleBuy(request);
-            //send(clientSocket, response.c_str(), response.size(), 0);
+            response = handleBuy(request);
         } 
         else if (request.rfind("SELL", 0) == 0) {
             std::cout << "Passage dans rfindSELL " << std::endl;
             // Traiter la commande SELL
-            std::string response = handleSell(request);
-            //send(clientSocket, response.c_str(), response.size(), 0);
+            response = handleSell(request);
         } 
         else {
             response = "Commande inconnue\n";
         }
-        //send(clientSocket, response.c_str(), response.size(), 0);
-        //std::cout << "Réponse envoyée : " << response << std::endl; 
+
         if (!response.empty()) {
             SSL_write(ssl, response.c_str(), response.length());
         }
@@ -248,7 +243,6 @@ void Server::ProcessRequest(SSL* ssl){
     }
 }
 
-Crypto crypto;
 std::string Server::handleBuy(const std::string& request){
     // Extraire la paire de crypto et le montant de la requête
     std::istringstream iss(request);
@@ -257,12 +251,13 @@ std::string Server::handleBuy(const std::string& request){
     if (!(iss >> action >> currency >> percentage)) {
         return "Erreur : Format de commande invalide\n";
     }
-    if (percentage <=0 || percentage > 100) {
+    if (percentage <= 0 || percentage > 100) {
         return "Erreur : Pourcentage invalide\n";
     }
-    crypto.buyCrypto(currency, percentage);
+    std::cout << "Achat de " << percentage << "% de " << currency << " réussi\n";
     return "Achat de " + std::to_string(percentage) + "% " + currency + " réussi\n";
 }
+
 std::string Server::handleSell(const std::string& request){
     // Extraire la paire de crypto et le montant de la requête
     std::istringstream iss(request);
@@ -271,9 +266,9 @@ std::string Server::handleSell(const std::string& request){
     if (!(iss >> action >> currency >> percentage)) {
         return "Erreur : Format de commande invalide\n";
     }
-    if (percentage <=0 || percentage > 100) {
+    if (percentage <= 0 || percentage > 100) {
         return "Erreur : Pourcentage invalide\n";
     }
-    crypto.sellCrypto(currency, percentage);
-    return "Achat de " + std::to_string(percentage) + "% " + currency + " réussi\n";
+    std::cout << "Vente de " << percentage << "% de " << currency << " réussie\n";
+    return "Vente de " + std::to_string(percentage) + "% " + currency + " réussie\n";
 }
