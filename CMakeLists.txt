@@ -16,6 +16,7 @@ set(SERVER_SRC
     ${SRC_DIR}/bot.cpp
     #${SRC_DIR}/Client.cpp
 )
+
 set(CLIENT_SRC 
     ${SRC_DIR}/Client.cpp
     ${SRC_DIR}/Transaction.cpp
@@ -25,18 +26,18 @@ set(CLIENT_SRC
     ${SRC_DIR}/bot.cpp
 )
 
-# Créer un répertoire de sortie pour les exécutables
+# Créer un répertoire de sortie pour les exécutables dans le répertoire build
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/exec)
+
+# Inclure les répertoires des headers
+include_directories(${INC_DIR})
 
 # Création des exécutables
 add_executable(Test_Serv ${SERVER_SRC})
 add_executable(Test_Cli ${CLIENT_SRC})
 
-# Inclure les répertoires des headers
-include_directories(${INC_DIR})
-
 # Options de compilation
-add_compile_options(-std=c++17 -Wall)
+add_compile_options(-std=c++17 -Wall -g)
 
 # Lier les bibliothèques OpenSSL
 target_link_libraries(Test_Serv ssl crypto)
@@ -46,10 +47,23 @@ target_link_libraries(Test_Cli ssl crypto)
 add_custom_target(Serv
     COMMAND ${CMAKE_BINARY_DIR}/exec/Test_Serv
     DEPENDS Test_Serv 
-) 
+    COMMENT "Running Server executable"
+)
 
 add_custom_target(Cli
-COMMAND ${CMAKE_BINARY_DIR}/exec/Test_Cli
-DEPENDS Test_Cli
-) 
+    COMMAND ${CMAKE_BINARY_DIR}/exec/Test_Cli
+    DEPENDS Test_Cli
+    COMMENT "Running Client executable"
+)
+
+# Rendre les exécutables accessibles dans les commandes make
+add_dependencies(Serv Test_Serv)
+add_dependencies(Cli Test_Cli)
+
+# Ajouter une cible de nettoyage pour tout supprimer dans le répertoire build
+add_custom_target(my_clean
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}
+    COMMENT "Cleaning all contents in the build directory"
+)
+
 
