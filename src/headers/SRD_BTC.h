@@ -1,6 +1,5 @@
-#ifndef GLOBAL_H
-#define GLOBAL_H
-
+#ifndef SRD_BTC_H
+#define SRD_BTC_H
 #include <map>
 
 

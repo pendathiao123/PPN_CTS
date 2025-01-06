@@ -1,65 +1,131 @@
-#include<iostream>
-#include<random>
+#include <iostream>
+#include <random>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <sstream>
+#include "../headers/Global.h" // Inclusion du fichier d'en-tête
 #include "../headers/SRD_BTC.h"
-#include "../headers/global.h"
 
-
-float getRandomFloat(float a) 
+// Fonction pour obtenir la valeur complète du BTC pour une seconde donnée le jour 0 à partir d'un fichier CSV
+double get_complete_BTC_value(int d, int t)
 {
-    std::srand(static_cast<unsigned int>(std::time(0)));
-    float randomFloat = static_cast<float>(std::rand()) / RAND_MAX * a;
-    return randomFloat;
-}
-
-float get_daily_BTC_value(int d)     //Cette fonction retourne la valeur du Bitcoin pour le jour d correspondant. Elle ira la chercher avec un pointeur.
-{ 
-    double BTC_value = BTC_daily_values[d];
-    return BTC_value;
-}
-
-
-
-void Complete_BTC_value()              //Cette fonction simule les valeurs du BTC à chaque seconde  
-{
-    for (int d=0; d<3927; ++d)          //Le nombre de jours totaux de la simulation complète
+    const std::string filePath = "../src/data/btc_sec_values.csv";
+    std::ifstream file(filePath);
+    if (!file.is_open())
     {
-        int t=0;
-        float BTC_value = get_daily_BTC_value(d);
-        for (t=0; t<86400; ++t)
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filePath << "\n";
+        return 0.0;
+    }
+
+    std::string line;
+    int day, second;
+    double value;
+
+    // Ignorer la ligne d'en-tête
+    std::getline(file, line);
+
+    while (std::getline(file, line))
+    {
+        std::istringstream lineStream(line);
+        std::string cell;
+        int cellIndex = 0;
+
+        while (std::getline(lineStream, cell, ','))
         {
-            if (t<14400)
-            {BTC_value = BTC_value + ((getRandomFloat(t))/13000)*BTC_value;}        //La valeur 13000 est arbitraire, elle sert à atteindre les 5% de variation maximale sur cette periode précise de la journée
-            else if (t>72000)
-            {BTC_value = 0.95*BTC_value + ((getRandomFloat(86400-t))/13000)*BTC_value;}
-            else
-            {BTC_value = 0.9*BTC_value + (getRandomFloat(0.2))*BTC_value;}          //En milieu de journée, l'incertiude peut monter jusqu'à 10%
-            BTC_sec_values[{d,t}]=BTC_value;
+            switch (cellIndex)
+            {
+            case 0:
+                day = std::stoi(cell);
+                break;
+            case 1:
+                second = std::stoi(cell);
+                break;
+            case 2:
+                try
+                {
+                    value = std::stod(cell);
+                    // Vérification de la validité de la valeur
+                    if (std::isinf(value) || std::isnan(value) || value < 1e-10)
+                    {
+                        std::cerr << "Valeur invalide (inf, nan, ou trop petite) dans la cellule : " << cell << std::endl;
+                        value = 0.0; // Valeur par défaut en cas d'erreur
+                    }
+                }
+                catch (const std::invalid_argument &e)
+                {
+                    std::cerr << "Format de nombre invalide dans la cellule : " << cell << std::endl;
+                    value = 0.0; // Valeur par défaut en cas d'erreur
+                }
+                catch (const std::out_of_range &e)
+                {
+                    std::cerr << "Nombre hors de portée dans la cellule : " << cell << std::endl;
+                    value = 0.0; // Valeur par défaut en cas d'erreur
+                }
+                break;
+            }
+            ++cellIndex;
+        }
+
+        // Rechercher uniquement pour le jour 0
+        if (day == 0 && second == t)
+        {
+            file.close();
+            return value;
         }
     }
+
+    std::cerr << "Erreur : Clé {0, " << t << "} non trouvée dans " << filePath << ".\n";
+    file.close();
+    return 0.0;
 }
 
-double get_complete_BTC_value(int d, int t)       //Cette fonction retourne la valeur du Bitcoin pour le jour d et la seconde s entrée en arg. Elle ira la chercher avec un pointeur.
+// Fonction pour afficher la valeur du SRD-BTC
+void SRD_BTC()
 {
-    double BTC_sec_value = BTC_sec_values[{d,t}];
-    return BTC_sec_value;
-}
+    double randomFloat = Global::getRandomDouble(0.1022);
+    std::ifstream file("../src/data/btc_sec_values.csv");
+    if (!file.is_open())
+    {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier btc_sec_values.csv\n";
+        return;
+    }
 
-
-
-void SRD_BTC()    //La fonction affiche la valeur du SRD-BTC en utilisant les fonctions précédentes.
-{
-    float randomFloat = getRandomFloat(0.1022);
-    double BTC_value = 0;
+    std::string line;
+    int day, second;
+    double value;
     double SRD_BTC_value = 0;
-    for (int d=0; d<3927; ++d)                      //Le nombre de jours totaux de la simulation complète
+
+    // Ignorer la ligne d'en-tête
+    std::getline(file, line);
+
+    while (std::getline(file, line))
     {
-        int t=0;
-        for (t=0; t<86400; ++t)
+        std::istringstream lineStream(line);
+        std::string cell;
+        int cellIndex = 0;
+
+        while (std::getline(lineStream, cell, ','))
         {
-            SRD_BTC_value = (0.9489 + randomFloat)*BTC_sec_values[{d,t}];
-            std::cout<<SRD_BTC_value<<"\n";
+            switch (cellIndex)
+            {
+            case 0:
+                day = std::stoi(cell);
+                break;
+            case 1:
+                second = std::stoi(cell);
+                break;
+            case 2:
+                value = std::stod(cell);
+                break;
+            }
+            ++cellIndex;
         }
+
+        // Calculer la valeur du SRD-BTC
+        SRD_BTC_value = (0.9489 + randomFloat) * value;
+        std::cout << SRD_BTC_value << "\n";
     }
+
+    file.close();
 }

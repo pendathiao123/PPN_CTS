@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../headers/Client.h"
-#include "../headers/bot.h"
+#include "../headers/Bot.h"
 
 
 int main() {

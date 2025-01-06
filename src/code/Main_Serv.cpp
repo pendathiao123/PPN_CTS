@@ -5,7 +5,7 @@
 
 int main() {
     Server server;
-    server.StartServer(4433, "../server.crt", "../server.key", "../configFile.csv");
+    server.StartServer(4433, "../server.crt", "../server.key", "../configFile.csv","../log.csv");
     return 0;
 }
 

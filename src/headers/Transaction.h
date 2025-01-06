@@ -4,37 +4,24 @@
 #include <string>
 #include <ctime>
 
-class Transaction {
-private:
-    std::string id;           // Identifiant unique de la transaction
-    std::string type;         // Type de transaction ("buy" ou "sell")
-    std::string cryptoName;   // Nom de la crypto-monnaie
-    double quantity;          // Quantité de crypto-monnaie achetée/vendue
-    double unitPrice;         // Prix unitaire lors de la transaction
-    double totalAmount;       // Montant total de la transaction (quantity * unitPrice)
-    std::time_t timestamp;    // Timestamp de la transaction
-
-    static int counter;       // Compteur statique pour générer des IDs uniques
-
+class Transaction
+{
 public:
-    // Constructeur
-    Transaction(const std::string& type, const std::string& cryptoName,
-                double quantity, double unitPrice);
+    Transaction(const std::string &clientId, const std::string &type, const std::string &cryptoName, double quantity, double unitPrice);
+    void logTransactionToCSV(const std::string &filename) const;
+    std::string getId() const;
+    static std::string readTransaction(int i, const std::string &filename);
 
-    // Getters
-    std::string getId() const { return id; }
-    std::string getType() const { return type; }
-    std::string getCryptoName() const { return cryptoName; }
-    double getQuantity() const { return quantity; }
-    double getUnitPrice() const { return unitPrice; }
-    double getTotalAmount() const { return totalAmount; }
-    std::time_t getTimestamp() const { return timestamp; }
-
-    // Méthode pour enregistrer la transaction dans le fichier CSV
-    void logTransactionToCSV(const std::string& filename) const;
-
-    // Méthode pour lire une ou plusieurs transactions depuis un fichier
-    static std::string readTransaction(int i, const std::string& filename);
+private:
+    std::string id;
+    std::string clientId;
+    std::string type;
+    std::string cryptoName;
+    double quantity;
+    double unitPrice;
+    double totalAmount;
+    std::time_t timestamp;
+    static int counter;
 };
 
-#endif  // TRANSACTION_H
+#endif // TRANSACTION_H
