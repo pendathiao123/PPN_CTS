@@ -48,14 +48,23 @@ Dispositions minimales pour faire tourner le projet sur votre machine:
 Pour lancer le programme en local:
 - telecharger le projet (...)
 - se placer dans le repertoire source du projet
-- Tapper la commande suivante:
+- Créer un répertoire build pour les executables et se déplacer dedans:
 ```bash
-cmake .
+mkdir build
+cd build
+```
+- Tapper la commande suivante pour compiler le programme:
+```bash
+cmake ..
 ```
 - Pour executer le Serveur puis le Client, faire comme suit:
 ```bash
 make Serv &
 make Cli
+```
+- Effacer le répertoire si nécessaire avec:
+```bash
+make  my_clean
 ```
 
 
