@@ -18,7 +18,8 @@ namespace Global
     void printBTCValuesForDay(int day, int start_second, int end_second);
 
     void Complete_BTC_value();
-    double getRandomDouble(double range);
+    //double getRandomDouble(double range);
+    double getRandomDouble();
     float get_daily_BTC_value(int d);
 }
 

@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <limits>
 #include <random>
+#include <iostream>
+#include <cmath>
+#include <random>
 #include "../headers/Global.h"
 
 std::atomic<bool> Global::stopRequested = false;
@@ -233,19 +236,25 @@ void Global::printBTCValuesForDay(int day, int start_second, int end_second)
     file.close();
 }
 
-// Génère un nombre aléatoire dans une plage donnée
-double Global::getRandomDouble(double range)
-{
-    static std::default_random_engine generator;
-    std::uniform_real_distribution<double> distribution(0.0, range);
-    double value = distribution(generator);
-    // Vérifiez que la valeur générée n'est pas trop petite
-    if (value < 1e-10)
-    {
-        value = 1e-10;
-    }
-    return value;
+
+double Global::getRandomDouble() {
+    // Utiliser un générateur de nombres aléatoires
+    std::random_device rd;
+    std::mt19937 gen(rd());  // Mersenne Twister pour une meilleure qualité d'aléatoire
+
+    // Distribution normale centrée en 0.02 et écart-type petit pour contenir les résultats dans [0, 0.004]
+    std::normal_distribution<> dis(0.02, 0.004);  // Moyenne = 0.02, écart-type = 0.004
+
+    // Générer un nombre normal dans la plage [0, 0.1]
+    double result = dis(gen);
+
+    // Si le résultat dépasse 0.04 ou est inférieur à 0, on le recale pour qu'il reste dans la plage souhaitée
+    if (result > 0.04) result = 0.04;
+    if (result < 0.0) result = 0.0;
+
+    return result;
 }
+
 
 // Retourne la valeur quotidienne du BTC pour un jour donné
 float Global::get_daily_BTC_value(int d)
@@ -278,32 +287,11 @@ void Global::Complete_BTC_value()
         double BTC_value = get_daily_BTC_value(d);
         for (int t = 0; t < 86400; ++t)
         {
-            double randomValue = getRandomDouble(0.01); // Générer une valeur aléatoire
+            double randomValue = getRandomDouble(); // Générer une valeur aléatoire
 
-            if (t < 14400)
-            {
-                BTC_value += (randomValue / 13000) * BTC_value; // Ajuster les multiplicateurs
-            }
-            else if (t > 72000)
-            {
-                BTC_value = 0.95 * BTC_value + (randomValue / 13000) * BTC_value; // Ajuster les multiplicateurs
-            }
-            else
-            {
-                BTC_value = 0.9 * BTC_value + randomValue * BTC_value; // Ajuster les multiplicateurs
-            }
+            BTC_value = (0.98 +randomValue)  * BTC_value;
 
-            // Assurer que BTC_value ne devient pas infinie, trop petite ou négative
-            if (std::isinf(BTC_value) || std::isnan(BTC_value) || BTC_value < 1e-10)
-            {
-                std::cerr << "Valeur BTC invalide détectée : " << BTC_value << std::endl;
-                BTC_value = 1e-10;
-            }
-            else if (BTC_value > std::numeric_limits<double>::max() / 10)
-            { // Utilisez une limite raisonnable
-                BTC_value = std::numeric_limits<double>::max() / 10;
-            }
-
+       
             file << d << "," << t << "," << BTC_value << "\n";
 
             // Message de débogage pour vérifier les valeurs de BTC_value

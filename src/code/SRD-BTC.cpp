@@ -83,7 +83,7 @@ double get_complete_BTC_value(int d, int t)
 // Fonction pour afficher la valeur du SRD-BTC
 void SRD_BTC()
 {
-    double randomFloat = Global::getRandomDouble(0.1022);
+    double randomFloat = Global::getRandomDouble();
     std::ifstream file("../src/data/btc_sec_values.csv");
     if (!file.is_open())
     {

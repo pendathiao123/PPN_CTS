@@ -12,22 +12,22 @@ const std::string Bot::BTC_VALUES_FILE = "../src/data/btc_data.csv";
 // Constructeur par défaut
 Bot::Bot() : client(std::make_shared<Client>())
 {
-    solde_origin = 1000.0f;
+    solde_origin = 10000.0f;
     prv_price = 0.0f;
     balances = {
         {"SRD-BTC", 0.0},
-        {"DOLLARS", 1000.0}};
+        {"DOLLARS", 10000.0}};
     Global::populateBTCValuesFromCSV("../src/data/btc_data.csv");
 }
 
 // Constructeur avec un argument
 Bot::Bot(const std::string &currency) : client(std::make_shared<Client>())
 {
-    solde_origin = 1000.0f;
+    solde_origin = 10000.0f;
     prv_price = 0.0f;
     balances = {
         {currency, 0.0},
-        {"DOLLARS", 1000.0}};
+        {"DOLLARS", 10000.0}};
     Global::populateBTCValuesFromCSV("../src/data/btc_data.csv");
 }
 
@@ -107,14 +107,14 @@ void Bot::investing()
     if (solde > 0.5 * solde_origin)
     {
         std::cout << "Solde > 0.5 * solde_origin" << std::endl;
-        if (evolution >= 1.02)
+        if (evolution >= 1.005)
         {
-            std::cout << "Evolution >= 1.02, Selling 100%" << std::endl;
+            std::cout << "Evolution >= 1.005, Selling 100%" << std::endl;
             sellCrypto("SRD-BTC", 100);
         }
-        else if (evolution <= 0.98)
+        else if (evolution <= 0.995)
         {
-            std::cout << "Evolution <= 0.98, Buying 5%" << std::endl;
+            std::cout << "Evolution <= 0.995, Buying 5%" << std::endl;
             buyCrypto("SRD-BTC", 5);
         }
         else
