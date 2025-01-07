@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/Test_Cli.dir/src/code/Client.cpp.o CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o CMakeFiles/Test_Cli.dir/src/code/Global.cpp.o CMakeFiles/Test_Cli.dir/src/code/Crypto.cpp.o CMakeFiles/Test_Cli.dir/src/code/Bot.cpp.o "CMakeFiles/Test_Cli.dir/src/code/SRD-BTC.cpp.o" -o Test_Cli  -lssl -lcrypto 
