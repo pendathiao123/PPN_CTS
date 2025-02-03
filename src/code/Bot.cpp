@@ -9,7 +9,7 @@
 // Initialisation des constantes
 const std::string Bot::BTC_VALUES_FILE = "../src/data/btc_data.csv";
 
-// Constructeur par défaut
+
 Bot::Bot() : client(std::make_shared<Client>())
 {
     solde_origin = 10000.0f;
@@ -20,7 +20,7 @@ Bot::Bot() : client(std::make_shared<Client>())
     Global::populateBTCValuesFromCSV("../src/data/btc_data.csv");
 }
 
-// Constructeur avec un argument
+
 Bot::Bot(const std::string &currency) : client(std::make_shared<Client>())
 {
     solde_origin = 10000.0f;
@@ -36,13 +36,13 @@ Bot::~Bot()
 {
 }
 
-// Retourne le solde total du bot
+
 std::unordered_map<std::string, double> Bot::get_total_Balance()
 {
     return balances;
 }
 
-// Retourne le solde pour une devise spécifique
+
 double Bot::getBalance(const std::string &currency)
 {
     if (balances.find(currency) != balances.end())
@@ -52,13 +52,13 @@ double Bot::getBalance(const std::string &currency)
     return 0.0;
 }
 
-// Met à jour le solde du bot
+
 void Bot::updateBalance(std::unordered_map<std::string, double> bot_balance)
 {
     balances = bot_balance;
 }
 
-// Fonction de trading du bot
+
 void Bot::trading()
 {
     for (int t = 300; t < 339292800; t += 300)
@@ -93,7 +93,7 @@ void Bot::trading()
     }
 }
 
-// Fonction d'investissement du bot
+
 void Bot::investing()
 {
     std::cout << "Passage dans Bot::investing " << std::endl;
@@ -144,7 +144,7 @@ void Bot::investing()
     std::cout << "Fin de l'itération de Bot::investing " << std::endl;
 }
 
-// Retourne le prix de la devise spécifiée
+
 double Bot::getPrice(const std::string &currency)
 {
     std::time_t currentTime = std::time(0);
@@ -163,7 +163,7 @@ double Bot::getPrice(const std::string &currency)
     }
 }
 
-// Achète de la crypto-monnaie
+
 void Bot::buyCrypto(const std::string &currency, double pourcentage)
 {
     std::cout << "Passage dans Bot::buyCrypto " << std::endl;
@@ -174,7 +174,7 @@ void Bot::buyCrypto(const std::string &currency, double pourcentage)
     client->buy(currency, pourcentage);
 }
 
-// Vend de la crypto-monnaie
+
 void Bot::sellCrypto(const std::string &currency, double pourcentage)
 {
     std::cout << "Passage dans Bot::sellCrypto " << std::endl;

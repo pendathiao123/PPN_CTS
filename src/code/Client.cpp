@@ -19,7 +19,7 @@ Client::~Client()
     closeConnection();
 }
 
-// Initialiser le contexte SSL pour le client
+
 SSL_CTX *Client::InitClientCTX()
 {
     SSL_CTX *ctx = SSL_CTX_new(TLS_client_method());
@@ -35,7 +35,7 @@ SSL_CTX *Client::InitClientCTX()
     return ctx;
 }
 
-// Établir une connexion SSL
+
 SSL *Client::ConnectSSL(SSL_CTX *ctx, int clientSocket)
 {
     SSL *ssl = SSL_new(ctx);
@@ -49,7 +49,7 @@ SSL *Client::ConnectSSL(SSL_CTX *ctx, int clientSocket)
     return ssl;
 }
 
-// Fonction principale pour démarrer le client
+
 void Client::StartClient(const std::string &serverAddress, int port, const std::string &clientId, const std::string &clientToken)
 {
     this->clientSocket = socket(AF_INET, SOCK_STREAM, 0);
