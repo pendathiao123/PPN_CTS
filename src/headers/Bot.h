@@ -10,6 +10,7 @@ class Client;
 class Bot
 {
 public:
+    // nom du fichier contenant valeurs (passées) de la cryptomonaie
     static const std::string BTC_VALUES_FILE;
 
     Bot();
