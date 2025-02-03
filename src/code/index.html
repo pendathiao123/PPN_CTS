@@ -2,14 +2,15 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>CryptoTracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoCurrency Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             background-color: #121212;
             color: white;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            min-height: 100vh;
         }
 
         header {
@@ -22,25 +23,43 @@
             margin: 0;
         }
 
+        /*Ici j'ai fais un design composé d'un container (composé de deux cartes), puis une case transactions 
+        tout en bas qui prend la longueur complete de la page*/
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 200px;
+            max-width: 1000px;
+            padding: 20px;
             display: flex;
+            width: 80%;
             justify-content: space-between;
+            flex-grow: 1;
         }
 
         .crypto-card {
             background-color: #1e1e1e;
             border: 1px solid #333;
             border-radius: 5px;
-            padding: 20px;
-            width: 45%;
-            margin-right: 20px;
+            padding: 15px;
+            position: absolute;
+            min-width: 600px;
+            min-height: 600px;
+            flex-grow: 1;   /*Permet de s'adapter à la place restante sur la page, 
+            mais je n'arrive pas a comprendre le fonctionnement*/
+        }
+
+        .crypto-card:first-child {
+            top : 10%;
+            width: 55%;
+            left: 32%; /* La première carte commence à 25% de l'écran */
+            transform: translateX(-50%); /* Centrer sur 25% */
+            flex-grow: 1;
         }
 
         .crypto-card:last-child {
-            margin-right: 0;
+            top : 10%;
+            width: 25%;
+            left: 78%; /* La première carte commence à 75% de l'écran */
+            transform: translateX(-50%); /* Centrer sur 75% */
+            flex-grow: 1;
         }
 
         .crypto-card .header {
@@ -50,6 +69,8 @@
 
         .crypto-card .body {
             padding-top: 10px;
+            position: relative;
+            display: flex;
         }
 
         .transactions {
@@ -57,8 +78,11 @@
             border: 1px solid #333;
             border-radius: 5px;
             padding: 50px;
-            width: 100%;
-            margin-top: 20px;
+            width: 88%;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translate(-50%, 0);
         }
 
         .transactions .header {
@@ -68,31 +92,6 @@
 
         .transactions .body {
             padding-top: 10px;
-        }
-
-        /* Style pour la table */
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .table th, .table td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #333;
-        }
-
-        .table th {
-            background-color: #444;
-        }
-
-        .table tr:nth-child(even) {
-            background-color: #2c2c2c;
-        }
-
-        .table tr:hover {
-            background-color: #333;
         }
     </style>
 </head>
@@ -104,7 +103,50 @@
         <div class="crypto-card">
             <div class="header">Semi-Random Bitcoin (SRD-BTC)</div>
             <div class="body">
-                {{ data|safe }}
+                <!-- Élément canvas pour afficher le graphique -->
+                <canvas id="myChart" width="2800" height="1600"></canvas>
+                <script>
+                    //on va convertir les datas au bon format pour les exploiter dans notre graphique
+                    const labels = {{ dates | tojson }};    //l'IDE affiche une erreur, mais cela compile quand meme 
+                    const dataValues = {{ values | tojson }};
+
+                    // Données d'affichage pour le graph
+                    const data = {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Prix SRD-BTC',
+                            data: dataValues,
+                            borderColor: 'rgb(75, 192, 192)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            tension: 0.1
+                        }]
+                    };
+
+                    // Config du graph
+                    const config = {
+                        type: 'line',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'top' },
+                                /*Ceci permet d'afficher les valeurs des différents points 
+                                sur le graphique en survolant la courbe, comme ca on peut connaitre 
+                                la valeur a chaque seconde*/
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(tooltipItem) {
+                                            return tooltipItem.raw + ' $';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    // Création et affichage du graph
+                    const myChart = new Chart(document.getElementById('myChart'), config);
+                </script>
             </div>
         </div>
         <div class="crypto-card">
