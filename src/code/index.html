@@ -69,6 +69,31 @@
         .transactions .body {
             padding-top: 10px;
         }
+
+        /* Style pour la table */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #333;
+        }
+
+        .table th {
+            background-color: #444;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #2c2c2c;
+        }
+
+        .table tr:hover {
+            background-color: #333;
+        }
     </style>
 </head>
 <body>
@@ -79,6 +104,7 @@
         <div class="crypto-card">
             <div class="header">Semi-Random Bitcoin (SRD-BTC)</div>
             <div class="body">
+                {{ data|safe }}
             </div>
         </div>
         <div class="crypto-card">
