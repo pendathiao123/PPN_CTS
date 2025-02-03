@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CryptoTracker</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 200px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .crypto-card {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 20px;
+            width: 45%;
+            margin-right: 20px;
+        }
+
+        .crypto-card:last-child {
+            margin-right: 0;
+        }
+
+        .crypto-card .header {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .crypto-card .body {
+            padding-top: 10px;
+        }
+
+        .transactions {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 50px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .transactions .header {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .transactions .body {
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CryptoCurrency Dashboard</h1>
+    </header>
+    <div class="container">
+        <div class="crypto-card">
+            <div class="header">Semi-Random Bitcoin (SRD-BTC)</div>
+            <div class="body">
+            </div>
+        </div>
+        <div class="crypto-card">
+            <div class="header">Portefeuille</div>
+            <div class="body">
+            </div>
+        </div>
+    </div>
+    <div class="transactions">
+        <div class="header">Transactions</div>
+        <div class="body">
+        </div>
+    </div>
+</body>
+</html>
