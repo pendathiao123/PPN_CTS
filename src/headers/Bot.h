@@ -13,9 +13,9 @@ private:
 
     // montant du solde original
     double solde_origin;
-    // ?
+    // prix antérieur
     double prv_price;
-    // solde actuel
+    // solde actuel du Bot
     std::unordered_map<std::string, double> balances;
     // reference vers le Client qui détient le Bot
     std::shared_ptr<Client> client;
