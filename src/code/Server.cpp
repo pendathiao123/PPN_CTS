@@ -180,9 +180,11 @@ void Server::HandleClient(SSL *ssl, std::unordered_map<std::string, std::string>
         id = GenerateRandomId();
         token = GenerateToken();
         users[id] = token;
+        // Enregistrement du client dans la base des données
         SaveUsers(usersFile, users);
-
+        
         std::cout << "Nouvel ID: " << id << ", Nouveau Token: " << token << std::endl;
+        // On retourne l'information au client sur son nouvel identifiant
         response = "Identifiants: " + id + " " + token;
     }
 
@@ -230,7 +232,7 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
     std::filesystem::path file_path = std::filesystem::absolute(filename);
     std::cout << "Vérification du chemin absolu du fichier: " << file_path << "\n";
 
-    if (!std::filesystem::exists(file_path))
+    if (!std::filesystem::exists(file_path)) // erreur de lecture du fichier
     {
         std::cerr << "Erreur: Le fichier " << file_path << " n'existe pas.\n";
         return;
@@ -252,12 +254,14 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
         exit(EXIT_FAILURE);
     }
 
+    // Initialisation du socket du Serveur
     struct sockaddr_in serverAddr;
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
     serverAddr.sin_port = htons(port);
 
+    // Bind du Serveur
     if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0)
     {
         perror("Échec du bind");
@@ -265,6 +269,7 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
         exit(EXIT_FAILURE);
     }
 
+    // Mise en écoute du Serveur
     if (listen(serverSocket, 5) < 0)
     {
         perror("Échec de l'écoute");
@@ -272,9 +277,11 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
         exit(EXIT_FAILURE);
     }
 
+    // Certificat pour la connexion SSL/TLS ave OpenSSL
     SSL_CTX *ctx = InitServerCTX(certFile, keyFile);
     std::cout << "Serveur en écoute sur le port " << port << std::endl;
 
+    // chargement des utilisateurs
     auto users = LoadUsers(usersFile);
 
     while (true)
@@ -291,6 +298,7 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
         SSL *ssl = AcceptSSLConnection(ctx, clientSocket);
         if (ssl)
         {
+            // Traitement de la requête du client
             HandleClient(ssl, users, usersFile, logFile);
             SSL_free(ssl);
         }

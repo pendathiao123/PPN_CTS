@@ -52,6 +52,7 @@ SSL *Client::ConnectSSL(SSL_CTX *ctx, int clientSocket)
 
 void Client::StartClient(const std::string &serverAddress, int port, const std::string &clientId, const std::string &clientToken)
 {
+    // création du socket pour le client
     this->clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1)
     {
@@ -76,6 +77,7 @@ void Client::StartClient(const std::string &serverAddress, int port, const std::
         exit(EXIT_FAILURE);
     }
 
+    // initialisation du certificat pour la connexion SSL/TLS
     this->ctx = InitClientCTX();
     this->ssl = ConnectSSL(ctx, this->clientSocket);
     if (!ssl)

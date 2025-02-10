@@ -12,14 +12,14 @@
 #include "../headers/Global.h"
 
 std::atomic<bool> Global::stopRequested = false;
-std::array<double, 1> Global::BTC_daily_values = {};
+std::array<double, 10> Global::BTC_daily_values = {};
 
 std::atomic<bool> &Global::getStopRequested()
 {
     return stopRequested;
 }
 
-std::array<double, 1> &Global::getBTCDailyValues()
+std::array<double, 10> &Global::getBTCDailyValues()
 {
     return BTC_daily_values;
 }

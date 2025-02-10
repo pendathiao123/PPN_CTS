@@ -10,12 +10,12 @@ namespace Global
     // ?
     extern std::atomic<bool> stopRequested;
     // contient les valeurs du BTC de toute une journée (24h)
-    extern std::array<double, 1> BTC_daily_values;
+    extern std::array<double, 10> BTC_daily_values;
 
     // retourne la valeur de stopRequested
     std::atomic<bool> &getStopRequested();
     // retourne la valeur de BTC_daily_values
-    std::array<double, 1> &getBTCDailyValues();
+    std::array<double, 10> &getBTCDailyValues();
     // Remplit BTC_daily_values à partir d'un fichier CSV
     void populateBTCValuesFromCSV(const std::string &filename);
     // Écrit les valeurs BTC dans un fichier CSV
