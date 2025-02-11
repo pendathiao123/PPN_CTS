@@ -14,7 +14,7 @@ app.config['ASSETS_ROOT'] = '/static'
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    table = pand.read_csv('../data/btc_sec_values.csv', encoding= 'unicode_escape')
+    table = pand.read_csv('../src/data/btc_sec_values.csv', encoding= 'unicode_escape')
     #transactions = pand.read_csv('../../log.csv', encoding= 'unicode_escape') ne marche pas encore, on doit extraire chaque type de données indépendemment
 
     # Combiner 'Day' et 'Second' pour créer la colonne 'Date' ainsi on aura 0 1 pour la seconde 1 a date du jour 0. 

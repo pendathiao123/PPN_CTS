@@ -22,6 +22,8 @@
 #include <thread>
 #include <filesystem>
 
+#include <sys/wait.h> //pour le wait de flask
+
 // Fonction pour générer une chaîne de caractères aléatoire
 std::string GenerateRandomString(size_t length)
 {
@@ -236,6 +238,29 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
         return;
     }
 
+    //Le but est de démarrer Flask dans un autre processus
+    pid_t python_pid = fork();  //faire un fork permet une independance
+    
+    if (python_pid == -1) {
+        std::cerr << "Erreur lors du fork pour le serveur Flask" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    
+    if (python_pid == 0) {
+        // Process enfant Serveur Flask
+        std::cout << "Démarrage du serveur Flask..." << std::endl;
+        /*execl va nous permettre de lancer l'execution du programme python, on lui donne le path de python 
+        puis l'arg et enfin l'emplacment du fichier a executer*/
+        execl("/usr/bin/python3", "python3", "../src/code/app.py", NULL);
+
+
+        std::cerr << "Erreur lors du démarrage du serveur Flask" << std::endl;  //NE s'execute QUE quand execl echoue car le processus reste a exec la ligne précedente 
+        exit(EXIT_FAILURE);
+    }
+    std::cout << "Serveur Flask démarré avec PID: " << python_pid << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(10));  
+    //assez de temps pour cliquer sur le lien; (j'ai placé l'execution du script python avant la lecture des données pour voir la modification des données sur l'interface)
+
     // Remplir les valeurs quotidiennes du BTC
     Global::populateBTCValuesFromCSV(file_path.string());
 
@@ -249,6 +274,7 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
     if (serverSocket == -1)
     {
         perror("Échec de la création de la socket");
+        kill(python_pid, SIGTERM); //kill du process pour chaque erreur
         exit(EXIT_FAILURE);
     }
 
@@ -262,6 +288,7 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
     {
         perror("Échec du bind");
         close(serverSocket);
+        kill(python_pid, SIGTERM);
         exit(EXIT_FAILURE);
     }
 
@@ -269,6 +296,7 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
     {
         perror("Échec de l'écoute");
         close(serverSocket);
+        kill(python_pid, SIGTERM);
         exit(EXIT_FAILURE);
     }
 
@@ -276,6 +304,12 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
     std::cout << "Serveur en écoute sur le port " << port << std::endl;
 
     auto users = LoadUsers(usersFile);
+
+    //permet un arret propre de Flask
+    signal(SIGINT, [](int sig) {
+        std::cout << "\nArrêt des serveurs..." << std::endl;
+        exit(0);
+    });
 
     while (true)
     {
@@ -302,6 +336,8 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
 
     close(serverSocket);
     SSL_CTX_free(ctx);
+    kill(python_pid, SIGTERM);
+    waitpid(python_pid, NULL, 0);    //wait que le process flask se termine
 }
 
 // Traiter la requête client
