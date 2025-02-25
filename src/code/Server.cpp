@@ -22,6 +22,10 @@
 #include <thread>
 #include <filesystem>
 
+
+Server::Server(int prt, const std::string &uFile, const std::string &lFile) : 
+    PORT(prt), usersFile(uFile), logFile(lFile) {}
+
 // Fonction pour générer une chaîne de caractères aléatoire
 std::string GenerateRandomString(size_t length)
 {
@@ -134,67 +138,150 @@ SSL *AcceptSSLConnection(SSL_CTX *ctx, int clientSocket)
     return ssl;
 }
 
-// Gérer une connexion client
-void Server::HandleClient(SSL *ssl, std::unordered_map<std::string, std::string> &users, const std::string &usersFile, const std::string &logFile)
-{
+// Fonction pour gérer la reception de requêtes
+std::string Server::receiveRequest(SSL *ssl){
     char buffer[1024] = {0};
     int bytes = SSL_read(ssl, buffer, sizeof(buffer) - 1);
-    if (bytes <= 0)
-    {
+    if (bytes <= 0){ // en cas d'erreur
         ERR_print_errors_fp(stderr);
-        return;
+        return ""; // on retourne une chaîne vide
     }
+    buffer[bytes] = '\0'; // on rajoute le symbole de fin de chaîne
+    std::string request(buffer); // on passe d'un tableau de char à un std::string   
+    return request;
+}
 
-    buffer[bytes] = '\0';
-    std::string receivedMessage(buffer);
-    std::cout << "Reçu: " << receivedMessage << std::endl;
+// Fonction pour gérer l'envoie de reponses
+int Server::sendResponse(SSL *ssl, const std::string &response){
+    int bytesSent = SSL_write(ssl, response.c_str(), response.length());
+    if (bytesSent <= 0){ // en cas d'erreur
+        std::cerr << "Erreur lors de l'envoi de la réponse" << std::endl;
+        ERR_print_errors_fp(stderr);
+        return 1;
+    }
+    return 0;
+}
 
-    std::string response;
-    std::string id, token;
-    std::string prefix_id = "ID:";
-    std::string prefix_token = "TOKEN:";
+// Créer un nouveau compte client:
+std::string Server::newConnection(const std::string idClient){
+    /** Il s'agit d'une nouvelle connexion
+     * On va alors generer un token asocié à l'id que nous a envoyé le client */
+    
+    //id = GenerateRandomId(); // pas besoin !
+    std::cout << "Demande de creation de compte pour l'ID: " << idClient << std::endl;
+    std::string new_accnt = "NEW_ACCOUNT:";
 
-    if (receivedMessage.find(prefix_id) != std::string::npos && receivedMessage.find(prefix_token) != std::string::npos)
+    // On vérifie que l'id ne se trouve pas déjà dans la base des données !
+    if(users.find(idClient) == users.end()){
+        // generation d'un token
+        std::string token = GenerateToken();
+        std::cout << "Token generé: " << token << std::endl;
+
+        // asociation de l'identifiant du client au token generé
+        users[idClient] = token;
+        // Enregistrement du nouveau compte client dans la base des données
+        SaveUsers(usersFile, users);
+        std::cout << "Nouvel ID: " << idClient << ", Nouveau Token: " << token << std::endl;
+
+        // On retourne l'information au client sur son nouvel identifiant
+        return new_accnt + idClient + "," + token;
+    }else{
+        // On va refuser cette demande de creatin de compte, car on est sur un cas d'usurpation de compte
+        return new_accnt + "DENIED";
+    }
+}
+
+// Gérer les connexions des clients
+std::string Server::Connection(const std::string idClient, const std::string token){
+    // verification des données envoyés par rapport à la base des données
+    auto it = users.find(idClient);
+    if (it != users.end() && it->second == token)
     {
-        size_t id_start = receivedMessage.find(prefix_id) + prefix_id.length();
-        size_t id_end = receivedMessage.find(",", id_start);
-        id = receivedMessage.substr(id_start, id_end - id_start);
-
-        size_t token_start = receivedMessage.find(prefix_token) + prefix_token.length();
-        token = receivedMessage.substr(token_start);
-
-        std::cout << "ID extrait: " << id << ", Token: " << token << std::endl;
-
-        auto it = users.find(id);
-        if (it != users.end() && it->second == token)
-        {
-            response = "AUTH OK";
-        }
-        else
-        {
-            response = "AUTH FAIL";
-        }
+        // les information concordent
+        return "CONNECTED";
     }
     else
     {
-        id = GenerateRandomId();
-        token = GenerateToken();
-        users[id] = token;
-        // Enregistrement du client dans la base des données
-        SaveUsers(usersFile, users);
+        // mauvais token ou identifiant
+        return "CONNECTION_DENIED";
+    }
+}
+
+// Gérer les deconnxions des clients
+std::string Server::DeConnection(const std::string idClient){
+    /** Pour l'instant toute demande de deconnexion est accepté sans aucune vérification.
+     * Si on a le temps on pourra faire qqch.
+     * Mais ceci a bcp plus de sens dans un systéme avec plusieurs clients ... !
+     */
+    return "DISCONNECTED";
+}
+
+void Server::HandleClient(SSL *ssl){
+
+    // Lecture de la requête envoyé par un Client    
+    std::string receivedMessage = receiveRequest(ssl);
+    if(receivedMessage.empty()){ // ici il y a eu une erreur au niveau de la lecture du msg
+        std::cerr << "Erreur lors de la reception du message (vide)." << std::endl;
+        return;
+    }
+    std::cout << "Reçu: " << receivedMessage << std::endl;
+
+    // Extraction de l'ID du Client:
+    std::string prefix_id = "ID:";
+    if(receivedMessage.find(prefix_id) != std::string::npos){
+        /* On regarde ici si le message contient "ID:", mais il faudrait aussi vérifier qu'il est au début du message */
+        size_t id_start = receivedMessage.find(prefix_id) + prefix_id.length();
+        size_t id_end = receivedMessage.find(",", id_start);
+        std::string id = receivedMessage.substr(id_start, id_end - id_start);
+        /* Ici on devrait normalement vérifier que id est un nombre (entier) !
+        */
         
-        std::cout << "Nouvel ID: " << id << ", Nouveau Token: " << token << std::endl;
-        // On retourne l'information au client sur son nouvel identifiant
-        response = "Identifiants: " + id + " " + token;
-    }
+        // Déclaration des varaibles:
+        std::string response, token;
+        std::string prefix_token = "TOKEN:";
+        std::string frst = ",FIRST_CONNECTION";
+        std::string deco = ",DISCONNECT";
+        std::string achat = ",BUY";
+        std::string vente = ",SELL";
 
-    int bytesSent = SSL_write(ssl, response.c_str(), response.size());
-    if (bytesSent <= 0)
-    {
-        std::cerr << "Erreur lors de l'envoi de la réponse au client" << std::endl;
-        ERR_print_errors_fp(stderr);
-    }
+        // Gestion des différents cas
+        if(receivedMessage.find(frst) != std::string::npos){ // Demande de creation de compte
+            response = newConnection(id);
+        }else if(receivedMessage.find(prefix_token) != std::string::npos){ // Demande de connexion
+            // extraction du token envoyé par le client
+            size_t token_start = receivedMessage.find(prefix_token) + prefix_token.length();
+            token = receivedMessage.substr(token_start);
+            std::cout << "ID: " << id << " a envoyé comme Token: " << token << std::endl;
 
+            response = Connection(id,token);
+        }else if(receivedMessage.find(deco) != std::string::npos){ // Demande de deconnexion
+            response = DeConnection(id);
+        }else if(receivedMessage.find(achat) != std::string::npos){ // Requête d'achat
+            // ...
+        }else if(receivedMessage.find(vente) != std::string::npos){ // Requête de vente
+            // ...
+        }else{ // Le Client n'a pas formulé un demande explicite
+            return;
+        }
+
+        // Envoi de la reponse au client
+        if(sendResponse(ssl,response) != 0){
+            // Erreur au niveau de l'envoie de la reponse
+            std::cerr << "Erreur lors de l'envoi de la reponse au Client" << std::endl;
+            ERR_print_errors_fp(stderr);
+            exit(EXIT_FAILURE);    
+        }
+    }
+    /**
+     * Si le message reçu par le serveur ne correspond a aucun des formats décrits prècedement,
+     * alors le message n'est pas traité, soit aucune réponse n'est envoyé.
+     * En effet, on suppose ici que les clients respectent l'API. Ainsi tout messsage non
+     * conforme est ignoré.
+     * 
+     * Ce comportement pourrait être modifié pour diverses raisons ...
+    */
+      
+    /*
     // Initialiser le bot pour ce client
     Bot tradingBot("SRD-BTC");
 
@@ -220,10 +307,12 @@ void Server::HandleClient(SSL *ssl, std::unordered_map<std::string, std::string>
         tradingBot.investing();
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
+    */
 }
 
+
 // Fonction principale pour démarrer le serveur
-void Server::StartServer(int port, const std::string &certFile, const std::string &keyFile, const std::string &usersFile, const std::string &logFile)
+void Server::StartServer(const std::string &certFile, const std::string &keyFile)
 {
     // Charger les valeurs quotidiennes du BTC
     const std::string filename = "../src/data/btc_data.csv";
@@ -259,7 +348,7 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
-    serverAddr.sin_port = htons(port);
+    serverAddr.sin_port = htons(PORT);
 
     // Bind du Serveur
     if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0)
@@ -279,10 +368,10 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
 
     // Certificat pour la connexion SSL/TLS ave OpenSSL
     SSL_CTX *ctx = InitServerCTX(certFile, keyFile);
-    std::cout << "Serveur en écoute sur le port " << port << std::endl;
+    std::cout << "Serveur en écoute sur le port " << PORT << std::endl;
 
     // chargement des utilisateurs
-    auto users = LoadUsers(usersFile);
+    users = LoadUsers(usersFile);
 
     while (true)
     {
@@ -299,7 +388,7 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
         if (ssl)
         {
             // Traitement de la requête du client
-            HandleClient(ssl, users, usersFile, logFile);
+            HandleClient(ssl);
             SSL_free(ssl);
         }
         else
@@ -324,13 +413,13 @@ void Server::ProcessRequest(SSL *ssl, const std::string &logFile, const std::str
         {
             std::cout << "Entrée dans rfindBUY" << std::endl;
             // Gérer la commande d'achat
-            response = handleBuy(request, logFile, clientId);
+            response = handleBuy(request, clientId);
         }
         else if (request.rfind("SELL", 0) == 0)
         {
             std::cout << "Entrée dans rfindSELL" << std::endl;
             // Gérer la commande de vente
-            response = handleSell(request, logFile, clientId);
+            response = handleSell(request, clientId);
         }
         else
         {
@@ -354,7 +443,7 @@ void Server::ProcessRequest(SSL *ssl, const std::string &logFile, const std::str
 }
 
 // Gérer la commande d'achat
-std::string Server::handleBuy(const std::string &request, const std::string &logFile, const std::string &clientId)
+std::string Server::handleBuy(const std::string &request, const std::string &clientId)
 {
     // Extraire la paire de crypto et le pourcentage de la requête
     std::istringstream iss(request);
@@ -381,7 +470,7 @@ std::string Server::handleBuy(const std::string &request, const std::string &log
 }
 
 // Gérer la commande de vente
-std::string Server::handleSell(const std::string &request, const std::string &logFile, const std::string &clientId)
+std::string Server::handleSell(const std::string &request, const std::string &clientId)
 {
     // Extraire la paire de crypto et le pourcentage de la requête
     std::istringstream iss(request);

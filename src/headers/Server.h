@@ -30,21 +30,53 @@ SSL *AcceptSSLConnection(SSL_CTX *ctx, int clientSocket);
 
 class Server
 {
+private:
+    /* Variables du serveur */
+    // port atribué au serveur
+    const int PORT;
+    // unordered map des comptes clients
+    std::unordered_map<std::string, std::string> users;
+    // chemin vers fichier contenant les comptes utilisateurs
+    const std::string usersFile;
+    // chemin vers fichier des logs (transactions de $)
+    const std::string logFile;
+
 public:
-    // Fonction principale pour démarrer le serveur
-    void StartServer(int port, const std::string &certFile, const std::string &keyFile, const std::string &usersFile, const std::string &logFile);
+    // Constructeur
+    Server(int prt, const std::string &uFile, const std::string &lFile);
+
+    // Destructeur (comportement normal)
+    ~Server()=default;
+
+    // Fonction pour gérer la reception de requêtes
+    std::string receiveRequest(SSL *ssl);
+
+    // Fonction pour gérer l'envoie de reponses
+    int sendResponse(SSL *ssl, const std::string &response);
+
+    // Créer un nouveau compte client:
+    std::string newConnection(const std::string idClient);
+
+    // Gérer les connexions des clients
+    std::string Connection(const std::string idClient, const std::string token);
+
+    // Gérer les deconnxions des clients
+    std::string DeConnection(const std::string idClient);
 
     // Gérer une connexion client
-    void HandleClient(SSL *ssl, std::unordered_map<std::string, std::string> &users, const std::string &usersFile, const std::string &logFile);
+    void HandleClient(SSL *ssl);
 
+    // Fonction principale pour démarrer le serveur
+    void StartServer(const std::string &certFile, const std::string &keyFile);
+    
     // Traiter une requête
     void ProcessRequest(SSL *ssl, const std::string &logFile, const std::string &request, const std::string &clientId);
 
     // Gérer une requête d'achat
-    std::string handleBuy(const std::string &request, const std::string &logFile, const std::string &clientId);
+    std::string handleBuy(const std::string &request, const std::string &clientId);
 
     // Gérer une requête de vente
-    std::string handleSell(const std::string &request, const std::string &logFile, const std::string &clientId);
+    std::string handleSell(const std::string &request, const std::string &clientId);
 };
 
 #endif // SERVER_H

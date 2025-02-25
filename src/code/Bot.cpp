@@ -10,7 +10,7 @@
 const std::string Bot::BTC_VALUES_FILE = "../src/data/btc_data.csv";
 
 
-Bot::Bot() : client(std::make_shared<Client>())
+Bot::Bot() : client(std::make_shared<Client>(7474))
 {
     solde_origin = 10000.0f;
     prv_price = 0.0f;
@@ -21,7 +21,7 @@ Bot::Bot() : client(std::make_shared<Client>())
 }
 
 
-Bot::Bot(const std::string &currency) : client(std::make_shared<Client>())
+Bot::Bot(const std::string &currency) : client(std::make_shared<Client>(7474))
 {
     solde_origin = 10000.0f;
     prv_price = 0.0f;
@@ -169,7 +169,7 @@ void Bot::buyCrypto(const std::string &currency, double pourcentage)
     std::cout << "Passage dans Bot::buyCrypto " << std::endl;
     if (!client->isConnected())
     {
-        client->StartClient("127.0.0.1", 4433, "7474", "77d7728205464e7791c58e510d613566874342c26413f970c45d7e2bc6dd9836");
+        client->StartClient("127.0.0.1", 4433);
     }
     client->buy(currency, pourcentage);
 }
@@ -180,7 +180,7 @@ void Bot::sellCrypto(const std::string &currency, double pourcentage)
     std::cout << "Passage dans Bot::sellCrypto " << std::endl;
     if (!client->isConnected())
     {
-        client->StartClient("127.0.0.1", 4433, "7474", "77d7728205464e7791c58e510d613566874342c26413f970c45d7e2bc6dd9836");
+        client->StartClient("127.0.0.1", 4433);
     }
     client->sell(currency, pourcentage);
 }
