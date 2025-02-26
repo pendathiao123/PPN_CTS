@@ -224,7 +224,7 @@ void Server::HandleClient(SSL *ssl){
         std::cerr << "Erreur lors de la reception du message (vide)." << std::endl;
         return;
     }
-    std::cout << "Reçu: " << receivedMessage << std::endl;
+    std::cout << "Le Serveur à Reçu: " << receivedMessage << std::endl;
 
     // Extraction de l'ID du Client:
     std::string prefix_id = "ID:";
@@ -374,7 +374,8 @@ void Server::StartServer(const std::string &certFile, const std::string &keyFile
     users = LoadUsers(usersFile);
 
     while (true)
-    {
+    {   
+        // Accepter une connection du client
         socklen_t addrLen = sizeof(serverAddr);
         int clientSocket = accept(serverSocket, (struct sockaddr *)&serverAddr, &addrLen);
 
@@ -384,6 +385,7 @@ void Server::StartServer(const std::string &certFile, const std::string &keyFile
             continue;
         }
 
+        // Acepter la connexion SSL
         SSL *ssl = AcceptSSLConnection(ctx, clientSocket);
         if (ssl)
         {
@@ -396,7 +398,6 @@ void Server::StartServer(const std::string &certFile, const std::string &keyFile
             close(clientSocket);
         }
     }
-
     close(serverSocket);
     SSL_CTX_free(ctx);
 }

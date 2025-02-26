@@ -56,7 +56,7 @@ SSL *Client::ConnectSSL(SSL_CTX *ctx, int clientSocket)
 int Client::sendRequest(const std::string &request)
 {
     // si le client n'est pas connecté
-    if (isConnected())
+    if (!isConnected())
     {
         std::cerr << "Erreur : SSL non initialisé" << std::endl;
         return 1; // permier cas d'erreur
@@ -79,8 +79,9 @@ int Client::sendRequest(const std::string &request)
 
 std::string Client::receiveResponse()
 {
-    if (isConnected())
+    if (!isConnected())
     {
+        // Le SSl du client n'a pas été initialisé
         std::cerr << "Erreur : SSL non initialisé" << std::endl;
         return "";
     }
@@ -97,7 +98,7 @@ std::string Client::receiveResponse()
 
     buffer[bytesRead] = '\0'; // on ajoute le caractère de fin de chaîne
     std::string response(buffer); // on passe d'un tableau de char à un std::string
-    std::cout << "Réponse reçue : [" << response << "]" << std::endl;
+    std::cout << "Réponse reçue : " << response << std::endl;
     return response;
 }
 
@@ -143,11 +144,12 @@ void Client::StartClient(const std::string &serverAddress, int port)
     std::string new_acc = "NEW_ACCOUNT:";
     std::string dend = "DENIED";
     std::string conn = "CONNECTED";
+    std::string id = std::__cxx11::to_string(ID); // jsp pq mais sinon ça marche pas
 
     // Nouvelle connexion:
     if (TOKEN.empty()){ // Ici on demande alors une nouvelle connexion
-        message = "ID:" + ID;
-        message += ",FIRST_CONNECTION";
+        message = "ID:" + id + ",FIRST_CONNECTION";
+        //message.append(",FIRST_CONNECTION");
         // Envoyer le message au serveur
         if(sendRequest(message) != 0){
             // Erreur au niveau de l'envoie
@@ -184,8 +186,7 @@ void Client::StartClient(const std::string &serverAddress, int port)
     }
 
     // Connexion normale:
-    message = "ID:" + ID;
-    message += ",TOKEN:" + TOKEN;
+    message = "ID:" + id + ",TOKEN:" + TOKEN;
     // Envoyer le message au serveur
     if(sendRequest(message) != 0){
         // Erreur au niveau de l'envoie
