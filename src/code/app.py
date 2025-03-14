@@ -23,8 +23,18 @@ def index():
     dates = table['Date'].tolist()
     values = table['Value'].tolist()
 
+
+    transactions = pand.read_csv('../src/code/log.csv', encoding= 'unicode_escape')
+    transactions = transactions.to_dict(orient='records')[:3]
+
+    #ID = transactions['ID'].tolist()
+    #Type = transactions['Type'].tolist()
+    #Crypto = transactions['CryptoName'].tolist()
+    #Quantity = transactions['Quantity'].tolist()
+    #TimeStamp = transactions['Timestamp'].tolist()
+
     #on retourne le fichier html mais aussi les dates et valeurs pour plot le graph
-    return render_template('index.html', dates=dates, values=values)
+    return render_template('index.html', dates=dates, values=values, transactions=transactions)
 
 if __name__ == '__main__':
     app.run(debug=True)

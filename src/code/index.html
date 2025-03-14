@@ -90,8 +90,35 @@
             font-weight: bold;
         }
 
+        .transactions-table {
+            width: 100%;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .transactions-table th,
+        .transactions-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        .transactions-table th {
+            background-color: #272727;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .transactions-table tr:hover {
+            background-color: #333;
+        }
+
+        .transactions-table td {
+            color: #ccc;
+        }
         .transactions .body {
-            padding-top: 10px;
+            overflow-x: auto;
+            max-height: 300px;
         }
     </style>
 </head>
@@ -158,6 +185,28 @@
     <div class="transactions">
         <div class="header">Transactions</div>
         <div class="body">
+            <table class="transactions-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Crypto</th>
+                        <th>Quantité</th>
+                        <th>TimeStamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tx in transactions %}
+                    <tr>
+                        <td>{{ tx.ID }}</td>
+                        <td>{{ tx.Type }}</td>
+                        <td>{{ tx.CryptoName }}</td>
+                        <td>{{ tx.Quantity }}</td>
+                        <td>{{ tx.Timestamp }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
