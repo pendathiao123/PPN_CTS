@@ -21,6 +21,10 @@
 #include <chrono>
 #include <thread>
 #include <filesystem>
+#include <mutex>
+
+std::mutex MarketMutex; // Pour protéger l'accès aux ressources partagées lors de l'achat et de la vente
+std::mutex UsersMutex;  // Pour protéger l'accès au map des utilisateurs
 
 // Fonction pour générer une chaîne de caractères aléatoire
 std::string GenerateRandomString(size_t length)
@@ -154,6 +158,8 @@ void Server::HandleClient(SSL *ssl, std::unordered_map<std::string, std::string>
     std::string prefix_id = "ID:";
     std::string prefix_token = "TOKEN:";
 
+    std::unique_lock<std::mutex> lock(UsersMutex); // Verrouiller l'accès aux utilisateurs
+
     if (receivedMessage.find(prefix_id) != std::string::npos && receivedMessage.find(prefix_token) != std::string::npos)
     {
         size_t id_start = receivedMessage.find(prefix_id) + prefix_id.length();
@@ -186,6 +192,8 @@ void Server::HandleClient(SSL *ssl, std::unordered_map<std::string, std::string>
         response = "Identifiants: " + id + " " + token;
     }
 
+    lock.unlock(); // Déverrouiller l'accès aux utilisateurs avant d'envoyer la réponse
+
     int bytesSent = SSL_write(ssl, response.c_str(), response.size());
     if (bytesSent <= 0)
     {
@@ -193,30 +201,33 @@ void Server::HandleClient(SSL *ssl, std::unordered_map<std::string, std::string>
         ERR_print_errors_fp(stderr);
     }
 
-    // Initialiser le bot pour ce client
-    Bot tradingBot("SRD-BTC");
-
-    // Ajouter pour vérifier les requêtes suivantes
-    char buffer2[1024] = {0};
-    int bytes2 = SSL_read(ssl, buffer2, sizeof(buffer2) - 1);
-    if (bytes2 <= 0)
+    if (response == "AUTH OK")
     {
-        ERR_print_errors_fp(stderr);
-        return;
-    }
+        // Initialiser le bot pour ce client
+        Bot tradingBot("SRD-BTC");
 
-    buffer2[bytes2] = '\0';
-    std::string nextRequest(buffer2);
-    std::cout << "Requête suivante reçue: " << nextRequest << std::endl;
+        // Ajouter pour vérifier les requêtes suivantes
+        while (true)
+        {
+            char buffer2[1024] = {0};
+            int bytes2 = SSL_read(ssl, buffer2, sizeof(buffer2) - 1);
+            if (bytes2 <= 0)
+            {
+                ERR_print_errors_fp(stderr);
+                return;
+            }
 
-    ProcessRequest(ssl, logFile, nextRequest, id);
+            buffer2[bytes2] = '\0';
+            std::string nextRequest(buffer2);
+            std::cout << "Requête suivante reçue: " << nextRequest << std::endl;
 
-    // Boucle pour appeler les méthodes d'investissement chaque seconde
-    while (true)
-    {
-        std::cout << "Appel de la méthode d'investissement..." << std::endl;
-        tradingBot.investing();
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+            ProcessRequest(ssl, logFile, nextRequest, id);
+
+            // Appel de la méthode d'investissement du bot
+            std::cout << "Appel de la méthode d'investissement..." << std::this_thread::get_id() << std::endl;
+            tradingBot.investing();
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
     }
 }
 
@@ -236,14 +247,14 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
         return;
     }
 
-    // Remplir les valeurs quotidiennes du BTC
-    Global::populateBTCValuesFromCSV(file_path.string());
+    // Remplir les valeurs quotidiennes du BTC (commenté car géré par un autre processus)
+    // Global::populateBTCValuesFromCSV(file_path.string());
 
-    // Compléter les valeurs du BTC à chaque seconde
-    Global::Complete_BTC_value();
+    // Compléter les valeurs du BTC à chaque seconde (commenté car géré par un autre processus)
+    // Global::Complete_BTC_value();
 
-    // Lire les valeurs de BTC_sec_values à partir du fichier CSV
-    Global::readBTCValuesFromCSV(btcSecFilename);
+    // Lire les valeurs de BTC_sec_values à partir du fichier CSV (commenté car géré par un autre processus)
+    // Global::readBTCValuesFromCSV(btcSecFilename);
 
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1)
@@ -276,6 +287,7 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
     std::cout << "Serveur en écoute sur le port " << port << std::endl;
 
     auto users = LoadUsers(usersFile);
+    std::vector<std::thread> clientThreads; // Liste des threads clients
 
     while (true)
     {
@@ -291,13 +303,28 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
         SSL *ssl = AcceptSSLConnection(ctx, clientSocket);
         if (ssl)
         {
-            HandleClient(ssl, users, usersFile, logFile);
-            SSL_free(ssl);
+            // Partie Séquentielle
+            // HandleClient(ssl, users, usersFile, logFile);
+            // SSL_free(ssl);
+
+            // Partie Parallèle
+            // Créer un thread pour gérer le client
+            clientThreads.emplace_back([this, ssl, &users, usersFile, logFile]()
+                                       {
+                HandleClient(ssl, users, usersFile, logFile);
+                SSL_free(ssl); });
         }
         else
         {
             close(clientSocket);
         }
+    }
+
+    // Attendre la fin de tous les threads avant de fermer le serveur
+    for (auto &thread : clientThreads)
+    {
+        if (thread.joinable())
+            thread.join();
     }
 
     close(serverSocket);
@@ -348,6 +375,7 @@ void Server::ProcessRequest(SSL *ssl, const std::string &logFile, const std::str
 // Gérer la commande d'achat
 std::string Server::handleBuy(const std::string &request, const std::string &logFile, const std::string &clientId)
 {
+    std::lock_guard<std::mutex> lock(MarketMutex); // Mutex partagé pour protéger l'état critique
     // Extraire la paire de crypto et le pourcentage de la requête
     std::istringstream iss(request);
     std::string action, currency;
@@ -375,6 +403,7 @@ std::string Server::handleBuy(const std::string &request, const std::string &log
 // Gérer la commande de vente
 std::string Server::handleSell(const std::string &request, const std::string &logFile, const std::string &clientId)
 {
+    std::lock_guard<std::mutex> lock(MarketMutex); // Mutex partagé pour protéger l'état critique
     // Extraire la paire de crypto et le pourcentage de la requête
     std::istringstream iss(request);
     std::string action, currency;

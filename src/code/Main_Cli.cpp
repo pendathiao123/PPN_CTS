@@ -2,10 +2,9 @@
 #include "../headers/Client.h"
 #include "../headers/Bot.h"
 
-
-int main() {
+int main()
+{
     Client client;
-    client.StartClient("127.0.0.1", 4433, "7474", "77d7728205464e7791c58e510d613566874342c26413f970c45d7e2bc6dd9836");
-    client.buy("SRD-BTC", 50);
+    client.StartClient("127.0.0.1", 4433, "1206", "4aeeb5ffc3be24aae06916942890aad97b6bb81572cdc05ee1a3462186675057");
     return 0;
 }

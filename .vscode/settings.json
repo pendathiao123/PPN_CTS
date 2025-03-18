@@ -63,6 +63,8 @@
         "cinttypes": "cpp",
         "variant": "cpp",
         "ranges": "cpp",
-        "codecvt": "cpp"
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp"
     }
 }

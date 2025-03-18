@@ -6,19 +6,26 @@
 #include <algorithm>
 #include <limits>
 #include <random>
-#include <iostream>
 #include <cmath>
-#include <random>
+#include <unistd.h>
+#include <mutex>
 #include "../headers/Global.h"
 
+// Déclaration des variables globales et des mutex pour protéger les ressources partagées
 std::atomic<bool> Global::stopRequested = false;
 std::array<double, 1> Global::BTC_daily_values = {};
+double Global::globalDailyBTCPurchased = 0.0;
+std::unordered_map<std::string, double> Global::clientDailyBTCPurchased = {};
+std::mutex btcValuesMutex;        // Mutex pour protéger l'accès aux valeurs BTC
+std::mutex Global::purchaseMutex; // Mutex pour protéger l'accès aux achats de BTC
 
+// Retourne une référence à la variable stopRequested
 std::atomic<bool> &Global::getStopRequested()
 {
     return stopRequested;
 }
 
+// Retourne une référence au tableau BTC_daily_values
 std::array<double, 1> &Global::getBTCDailyValues()
 {
     return BTC_daily_values;
@@ -55,6 +62,7 @@ void Global::populateBTCValuesFromCSV(const std::string &filename)
             { // La valeur "Dernier" est dans la deuxième cellule (index 1)
                 try
                 {
+                    std::lock_guard<std::mutex> lock(btcValuesMutex); // Verrouiller l'accès à BTC_daily_values
                     BTC_daily_values[dayIndex] = std::stod(cell);
                     std::cout << "BTC_daily_value[" << dayIndex << "] = " << BTC_daily_values[dayIndex] << std::endl; // Message de débogage
                 }
@@ -236,25 +244,27 @@ void Global::printBTCValuesForDay(int day, int start_second, int end_second)
     file.close();
 }
 
-
-double Global::getRandomDouble() {
+// Génère un nombre aléatoire dans une plage spécifiée
+double Global::getRandomDouble()
+{
     // Utiliser un générateur de nombres aléatoires
     std::random_device rd;
-    std::mt19937 gen(rd());  // Mersenne Twister pour une meilleure qualité d'aléatoire
+    std::mt19937 gen(rd()); // Mersenne Twister pour une meilleure qualité d'aléatoire
 
     // Distribution normale centrée en 0.02 et écart-type petit pour contenir les résultats dans [0, 0.004]
-    std::normal_distribution<> dis(0.02, 0.004);  // Moyenne = 0.02, écart-type = 0.004
+    std::normal_distribution<> dis(0.02, 0.004); // Moyenne = 0.02, écart-type = 0.004
 
     // Générer un nombre normal dans la plage [0, 0.1]
     double result = dis(gen);
 
     // Si le résultat dépasse 0.04 ou est inférieur à 0, on le recale pour qu'il reste dans la plage souhaitée
-    if (result > 0.04) result = 0.04;
-    if (result < 0.0) result = 0.0;
+    if (result > 0.04)
+        result = 0.04;
+    if (result < 0.0)
+        result = 0.0;
 
     return result;
 }
-
 
 // Retourne la valeur quotidienne du BTC pour un jour donné
 float Global::get_daily_BTC_value(int d)
@@ -289,9 +299,8 @@ void Global::Complete_BTC_value()
         {
             double randomValue = getRandomDouble(); // Générer une valeur aléatoire
 
-            BTC_value = (0.98 +randomValue)  * BTC_value;
+            BTC_value = (0.98 + randomValue) * BTC_value;
 
-       
             file << d << "," << t << "," << BTC_value << "\n";
 
             // Message de débogage pour vérifier les valeurs de BTC_value

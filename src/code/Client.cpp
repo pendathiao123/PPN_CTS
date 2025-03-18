@@ -9,33 +9,34 @@
 #include <arpa/inet.h>
 #include <string.h>
 
+// Constructeur par défaut de la classe Client
 Client::Client() : clientSocket(-1), ctx(nullptr), ssl(nullptr), tradingBot(nullptr)
 {
-    memset(&serverAddr, 0, sizeof(serverAddr));
+    memset(&serverAddr, 0, sizeof(serverAddr)); // Initialisation de la structure serverAddr
 }
 
+// Destructeur de la classe Client
 Client::~Client()
 {
-    closeConnection();
+    closeConnection(); // Fermer la connexion SSL et libérer les ressources
 }
 
-
+// Initialiser le contexte SSL pour le client
 SSL_CTX *Client::InitClientCTX()
 {
     SSL_CTX *ctx = SSL_CTX_new(TLS_client_method());
 
-    // Charger le certificat public et la clé privée du client
     if (!SSL_CTX_use_certificate_file(ctx, "../server.crt", SSL_FILETYPE_PEM) ||
         !SSL_CTX_use_PrivateKey_file(ctx, "../server.key", SSL_FILETYPE_PEM))
     {
         ERR_print_errors_fp(stderr);
-        exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE); // Quitter si les fichiers de certificat ou de clé privée ne peuvent pas être utilisés
     }
 
     return ctx;
 }
 
-
+// Connecter le client SSL
 SSL *Client::ConnectSSL(SSL_CTX *ctx, int clientSocket)
 {
     SSL *ssl = SSL_new(ctx);
@@ -49,9 +50,11 @@ SSL *Client::ConnectSSL(SSL_CTX *ctx, int clientSocket)
     return ssl;
 }
 
-
+// Démarrer le client et se connecter au serveur
 void Client::StartClient(const std::string &serverAddress, int port, const std::string &clientId, const std::string &clientToken)
 {
+    this->serverAddress = serverAddress;
+    this->serverPort = port;
     this->clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1)
     {
@@ -86,7 +89,6 @@ void Client::StartClient(const std::string &serverAddress, int port, const std::
         exit(EXIT_FAILURE);
     }
 
-    // Construire le message à envoyer
     std::string message;
     if (clientId.empty() || clientToken.empty())
     {
@@ -97,7 +99,6 @@ void Client::StartClient(const std::string &serverAddress, int port, const std::
         message = "ID:" + clientId + ",TOKEN:" + clientToken;
     }
 
-    // Envoyer le message au serveur
     int bytesSent = SSL_write(ssl, message.c_str(), message.size());
     if (bytesSent <= 0)
     {
@@ -107,13 +108,16 @@ void Client::StartClient(const std::string &serverAddress, int port, const std::
         exit(EXIT_FAILURE);
     }
 
-    // Lire la réponse du serveur
     char buffer[1024] = {0};
     int bytes = SSL_read(ssl, buffer, sizeof(buffer) - 1);
     if (bytes > 0)
     {
         buffer[bytes] = '\0';
         std::cout << "Réponse du serveur : " << buffer << std::endl;
+
+        // Initialiser le bot et le laisser gérer les transactions
+        tradingBot = std::make_shared<Bot>(this);
+        tradingBot->investingLoop();
     }
     else
     {
@@ -124,6 +128,7 @@ void Client::StartClient(const std::string &serverAddress, int port, const std::
     }
 }
 
+// Envoyer une requête au serveur
 void Client::sendRequest(const std::string &request)
 {
     if (!ssl)
@@ -145,6 +150,7 @@ void Client::sendRequest(const std::string &request)
     }
 }
 
+// Recevoir une réponse du serveur
 std::string Client::receiveResponse()
 {
     if (!ssl)
@@ -169,67 +175,49 @@ std::string Client::receiveResponse()
     return response;
 }
 
+// Envoyer une requête d'achat au serveur
 void Client::buy(const std::string &currency, double percentage)
 {
-    if (!tradingBot)
-    {
-        tradingBot = std::make_shared<Bot>(currency);
-    }
-
-    double solde_dollars = tradingBot->getBalance("DOLLARS");
-    double val1 = solde_dollars * (percentage / 100.0);
-    std::unordered_map<std::string, double> bot_balance = tradingBot->get_total_Balance();
-
-    if (bot_balance["DOLLARS"] < val1)
-    {
-        std::cerr << "Erreur : Solde en dollars insuffisant pour acheter " << percentage << "% de " << currency << std::endl;
-        return;
-    }
-
-    bot_balance["DOLLARS"] -= val1;
-    Crypto crypto;
-    double val2 = crypto.getPrice(currency);
-    double quantite = val1 / val2;
-
-    bot_balance[currency] += quantite;
-    tradingBot->updateBalance(bot_balance);
-
     std::string request = "BUY " + currency + " " + std::to_string(percentage);
     sendRequest(request);
     std::string response = receiveResponse();
     std::cout << "Réponse à l'achat : " << response << std::endl;
 }
 
+// Envoyer une requête de vente au serveur
 void Client::sell(const std::string &currency, double percentage)
 {
-    if (!tradingBot)
-    {
-        tradingBot = std::make_shared<Bot>(currency);
-    }
-
-    double solde_crypto = tradingBot->getBalance(currency);
-    double quantite = solde_crypto * (percentage / 100.0);
-    std::unordered_map<std::string, double> bot_balance = tradingBot->get_total_Balance();
-
-    if (bot_balance[currency] < quantite)
-    {
-        std::cerr << "Erreur : Solde insuffisant pour vendre " << quantite << " de " << currency << std::endl;
-        return;
-    }
-
-    bot_balance[currency] -= quantite;
-    Crypto crypto;
-    double val2 = quantite * crypto.getPrice(currency);
-
-    bot_balance["DOLLARS"] += val2;
-    tradingBot->updateBalance(bot_balance);
-
     std::string request = "SELL " + currency + " " + std::to_string(percentage);
     sendRequest(request);
     std::string response = receiveResponse();
     std::cout << "Réponse à la vente : " << response << std::endl;
 }
 
+// Obtenir l'ID du client
+std::string Client::getId() const
+{
+    return id;
+}
+
+// Obtenir le jeton du client
+std::string Client::getToken() const
+{
+    return token;
+}
+
+// Obtenir l'adresse du serveur
+std::string Client::getServerAdress() const
+{
+    return serverAddress;
+}
+
+// Obtenir le port du serveur
+int Client::getServerPort() const
+{
+    return serverPort;
+}
+
+// Fermer la connexion SSL et libérer les ressources
 void Client::closeConnection()
 {
     if (ssl)
@@ -250,6 +238,7 @@ void Client::closeConnection()
     }
 }
 
+// Vérifier si le client est connecté
 bool Client::isConnected() const
 {
     return ssl != nullptr;

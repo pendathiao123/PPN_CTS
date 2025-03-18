@@ -4,13 +4,13 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
+#include <mutex>
 
 class Client;
 
 class Bot
 {
 private:
-
     // montant du solde original
     double solde_origin;
     // prix antérieur
@@ -19,6 +19,7 @@ private:
     std::unordered_map<std::string, double> balances;
     // reference vers le Client qui détient le Bot
     std::shared_ptr<Client> client;
+    std::mutex balanceMutex;
 
 public:
     // nom du fichier contenant valeurs (passées) de la cryptomonaie
@@ -28,6 +29,8 @@ public:
     Bot();
     // Constructeur avec un argument
     Bot(const std::string &currency);
+    // Constructeur avec un pointeur vers Client
+    Bot(Client* client);
 
     // Destructeur
     ~Bot();
@@ -42,13 +45,13 @@ public:
     void trading();
     // Fonction d'investissement du bot
     void investing();
+    void investingLoop();
     // Retourne le prix de la devise spécifiée
     double getPrice(const std::string &currency);
     // Achète de la crypto-monnaie
     void buyCrypto(const std::string &currency, double pourcentage);
     // Vend de la crypto-monnaie
     void sellCrypto(const std::string &currency, double pourcentage);
-
 };
 
 #endif // BOT_H

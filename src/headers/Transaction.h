@@ -35,7 +35,6 @@ public:
     std::string getId() const;
     // Méthode pour lire une transaction spécifique ou toutes les transactions
     static std::string readTransaction(int i, const std::string &filename);
-
 };
 
 #endif // TRANSACTION_H

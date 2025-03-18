@@ -29,6 +29,12 @@ private:
     void sendRequest(const std::string &request);
     // reception des reponses du serveur
     std::string receiveResponse();
+    std::string id;
+    std::string token;
+    //Port sur lequel est connecté le client
+    int serverPort;
+    // Adresse du serveur sous forme de chaîne
+    std::string serverAddress; // Adresse du serveur
 
 public:
     // Constructeur de classe
@@ -45,6 +51,10 @@ public:
     void closeConnection();
     // Renvoie si le Client est connecté ou pas
     bool isConnected() const;
+    std::string getId() const;
+    std::string getToken() const;
+    std::string getServerAdress() const;
+    int getServerPort() const;
 
 };
 
