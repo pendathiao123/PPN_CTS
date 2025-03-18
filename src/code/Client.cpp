@@ -296,9 +296,10 @@ void Client::EndClient(){
     
     std::string message, reponse;
     std::string discon = "DISCONNECTED";
+    std::string id = std::__cxx11::to_string(ID); // jsp pq mais sinon ça marche pas
 
-    message = "ID:" + ID;
-    message += ",DISCONNECT";
+    message = "ID:" + id + ",DISCONNECT";
+    //message = message + ;
     // Envoyer le message au serveur
     if(sendRequest(message) != 0){
         // Erreur au niveau de l'envoie
@@ -316,7 +317,7 @@ void Client::EndClient(){
     }
     // Si le message contient DISCONNECTED c'est bon
     if(reponse.find(discon) != std::string::npos){
-        std::cout << "Client " << ID << "deconecté." << std::endl;
+        std::cout << "Client " << ID << " deconecté." << std::endl;
     }else{
         std::cout << "Demande de deconnexion refusé pour le client " << ID << ".\n";
         std::cout << "Possibles erreurs à la prochaîne réconnexion" << std::endl;

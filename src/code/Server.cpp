@@ -291,8 +291,8 @@ void Server::HandleClient(SSL *ssl){
         // Déclaration des varaibles:
         std::string response;
         std::string deco = ",DISCONNECT";
-        std::string achat = ",BUY";
-        std::string vente = ",SELL";
+        std::string achat = "BUY";
+        std::string vente = "SELL";
 
         // Si le Client arrive à se connecter
         if(Connection(ssl,id,receivedMessage)){ // Authentification du Client
@@ -307,12 +307,23 @@ void Server::HandleClient(SSL *ssl){
             // Tant que on ne reçoit pas de demande de deconnexion
             while(receivedMessage.find(deco) == std::string::npos){
                 if(receivedMessage.find(achat) != std::string::npos){ // Requête d'achat
-                    // ...
+                    // Gérer la commande d'achat
+                    response = handleBuy(receivedMessage, id);
                 }else if(receivedMessage.find(vente) != std::string::npos){ // Requête de vente
-                    // ...
+                    // Gérer la commande de vente
+                    response = handleSell(receivedMessage, id);
                 }else{ // Le Client n'a pas formulé un demande explicite
                     /* Si on veut faire adopter au Serveur un comportement restrictif,
                     ici on peut faire qqch */
+                    response = "Commande inconnue\n";
+                }
+
+                // envoie de la reponse au Client
+                if(sendResponse(ssl,response) != 0){
+                    // Erreur au niveau de l'envoie de la reponse
+                    std::cerr << "Erreur lors de l'envoi de la reponse au Client" << std::endl;
+                    ERR_print_errors_fp(stderr);
+                    return;
                 }
 
                 // lecture prochaine requête du Client
