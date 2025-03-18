@@ -143,6 +143,7 @@ std::string Server::receiveRequest(SSL *ssl){
     char buffer[1024] = {0};
     int bytes = SSL_read(ssl, buffer, sizeof(buffer) - 1);
     if (bytes <= 0){ // en cas d'erreur
+        std::cerr << "Erreur lors de la reception de la requête" << std::endl;
         ERR_print_errors_fp(stderr);
         return ""; // on retourne une chaîne vide
     }
@@ -192,19 +193,65 @@ std::string Server::newConnection(const std::string idClient){
 }
 
 // Gérer les connexions des clients
-std::string Server::Connection(const std::string idClient, const std::string token){
-    // verification des données envoyés par rapport à la base des données
-    auto it = users.find(idClient);
-    if (it != users.end() && it->second == token)
-    {
-        // les information concordent
-        return "CONNECTED";
+int Server::Connection(SSL *ssl, const std::string idClient, std::string msgClient){
+
+    std::string response, token;
+    std::string frst = ",FIRST_CONNECTION";
+    std::string prefix_token = "TOKEN:";
+    int ex;
+
+    // Demande de creation de compte
+    if(msgClient.find(frst) != std::string::npos){
+
+        response = newConnection(idClient);
+        // envoie reponse au Client
+        if(sendResponse(ssl,response) != 0){
+            // Erreur au niveau de l'envoie de la reponse
+            std::cerr << "Erreur lors de l'envoi de la reponse au Client" << std::endl;
+            ERR_print_errors_fp(stderr);
+            return 0; //exit(EXIT_FAILURE);
+        }
+
+        // reception reponse du Client
+        msgClient = receiveRequest(ssl);
+        if(msgClient.empty()){ // ici il y a eu une erreur au niveau de la lecture du msg
+            std::cerr << "Erreur lors de la reception du message (vide)." << std::endl;
+            return 0;
+        }
     }
-    else
-    {
-        // mauvais token ou identifiant
-        return "CONNECTION_DENIED";
+
+    // Demande de connexion
+    if(msgClient.find(prefix_token) != std::string::npos){
+
+        // extraction du token envoyé par le client
+        size_t token_start = msgClient.find(prefix_token) + prefix_token.length();
+        token = msgClient.substr(token_start);
+        std::cout << "ID: " << idClient << " a envoyé comme Token: " << token << std::endl;
+
+        // verification des données envoyés par rapport à la base des données
+        auto it = users.find(idClient);
+        if (it != users.end() && it->second == token)
+        {
+            // les information concordent
+            response = "CONNECTED";
+            ex = 1;
+        }
+        else
+        {
+            // mauvais token ou identifiant
+            response = "CONNECTION_DENIED";
+            ex = 0;
+        }
+
+        // envoie reponse au Client
+        if(sendResponse(ssl,response) != 0){
+            // Erreur au niveau de l'envoie de la reponse
+            std::cerr << "Erreur lors de l'envoi de la reponse au Client" << std::endl;
+            ERR_print_errors_fp(stderr);
+            return 0; //exit(EXIT_FAILURE);
+        }
     }
+    return ex;
 }
 
 // Gérer les deconnxions des clients
@@ -216,9 +263,14 @@ std::string Server::DeConnection(const std::string idClient){
     return "DISCONNECTED";
 }
 
+
+// Gérer une connexion client
 void Server::HandleClient(SSL *ssl){
 
-    // Lecture de la requête envoyé par un Client    
+    /* Dans cette fonction toute erreur d'envoi ou de reception de message entraine une sortie precipité de la fonction. 
+    (Autre option: avant de se sortir de la fonction, envoyer un msg d'erreur au client, pour qu'il ne reste pas bloqué) */
+
+    // Lecture de la requête envoyé par un Client
     std::string receivedMessage = receiveRequest(ssl);
     if(receivedMessage.empty()){ // ici il y a eu une erreur au niveau de la lecture du msg
         std::cerr << "Erreur lors de la reception du message (vide)." << std::endl;
@@ -237,51 +289,69 @@ void Server::HandleClient(SSL *ssl){
         */
         
         // Déclaration des varaibles:
-        std::string response, token;
-        std::string prefix_token = "TOKEN:";
-        std::string frst = ",FIRST_CONNECTION";
+        std::string response;
         std::string deco = ",DISCONNECT";
         std::string achat = ",BUY";
         std::string vente = ",SELL";
 
-        // Gestion des différents cas
-        if(receivedMessage.find(frst) != std::string::npos){ // Demande de creation de compte
-            response = newConnection(id);
-        }else if(receivedMessage.find(prefix_token) != std::string::npos){ // Demande de connexion
-            // extraction du token envoyé par le client
-            size_t token_start = receivedMessage.find(prefix_token) + prefix_token.length();
-            token = receivedMessage.substr(token_start);
-            std::cout << "ID: " << id << " a envoyé comme Token: " << token << std::endl;
+        // Si le Client arrive à se connecter
+        if(Connection(ssl,id,receivedMessage)){ // Authentification du Client
 
-            response = Connection(id,token);
-        }else if(receivedMessage.find(deco) != std::string::npos){ // Demande de deconnexion
+            // lecture prochaine requête du Client
+            receivedMessage = receiveRequest(ssl);
+            if(receivedMessage.empty()){ // erreur lecture msg
+                std::cerr << "Erreur lors de la reception du message (vide)." << std::endl;
+                return;
+            }
+
+            // Tant que on ne reçoit pas de demande de deconnexion
+            while(receivedMessage.find(deco) == std::string::npos){
+                if(receivedMessage.find(achat) != std::string::npos){ // Requête d'achat
+                    // ...
+                }else if(receivedMessage.find(vente) != std::string::npos){ // Requête de vente
+                    // ...
+                }else{ // Le Client n'a pas formulé un demande explicite
+                    /* Si on veut faire adopter au Serveur un comportement restrictif,
+                    ici on peut faire qqch */
+                }
+
+                // lecture prochaine requête du Client
+                receivedMessage = receiveRequest(ssl);
+                if(receivedMessage.empty()){ // erreur lecture msg
+                    std::cerr << "Erreur lors de la reception du message (vide)." << std::endl;
+                    return;
+                }
+            }
+
             response = DeConnection(id);
-        }else if(receivedMessage.find(achat) != std::string::npos){ // Requête d'achat
-            // ...
-        }else if(receivedMessage.find(vente) != std::string::npos){ // Requête de vente
-            // ...
-        }else{ // Le Client n'a pas formulé un demande explicite
-            return;
-        }
+            // Envoi de la reponse au client
+            if(sendResponse(ssl,response) != 0){
+                // Erreur au niveau de l'envoie de la reponse
+                std::cerr << "Erreur lors de l'envoi de la reponse au Client" << std::endl;
+                ERR_print_errors_fp(stderr);
+                return; //exit(EXIT_FAILURE);
+            }
+        }else{
+            // Erreur d'authentification
+            // On envoie msg au Client
+            /* Par mesure de securité on sort de la fonction
+            Ce qui entraine la fermeture de la connexion socket */
 
-        // Envoi de la reponse au client
-        if(sendResponse(ssl,response) != 0){
-            // Erreur au niveau de l'envoie de la reponse
-            std::cerr << "Erreur lors de l'envoi de la reponse au Client" << std::endl;
-            ERR_print_errors_fp(stderr);
-            exit(EXIT_FAILURE);    
+            // ...
         }
     }
     /**
-     * Si le message reçu par le serveur ne correspond a aucun des formats décrits prècedement,
+     * Si le message reçu par le serveur ne contient pas d'identifiant (de qui envie le message),
      * alors le message n'est pas traité, soit aucune réponse n'est envoyé.
-     * En effet, on suppose ici que les clients respectent l'API. Ainsi tout messsage non
-     * conforme est ignoré.
+     * En effet, on suppose ici que les clients respectent l'API. Ainsi tout messsage non conforme est ignoré.
      * 
      * Ce comportement pourrait être modifié pour diverses raisons ...
     */
-      
-    /*
+    
+
+    
+    /*Suite poour operation financières !
+
     // Initialiser le bot pour ce client
     Bot tradingBot("SRD-BTC");
 
@@ -373,11 +443,15 @@ void Server::StartServer(const std::string &certFile, const std::string &keyFile
     // chargement des utilisateurs
     users = LoadUsers(usersFile);
 
+    socklen_t addrLen;
+    int clientSocket;
+    SSL *ssl;
+
     while (true)
     {   
         // Accepter une connection du client
-        socklen_t addrLen = sizeof(serverAddr);
-        int clientSocket = accept(serverSocket, (struct sockaddr *)&serverAddr, &addrLen);
+        addrLen = sizeof(serverAddr);
+        clientSocket = accept(serverSocket, (struct sockaddr *)&serverAddr, &addrLen);
 
         if (clientSocket < 0)
         {
@@ -386,7 +460,7 @@ void Server::StartServer(const std::string &certFile, const std::string &keyFile
         }
 
         // Acepter la connexion SSL
-        SSL *ssl = AcceptSSLConnection(ctx, clientSocket);
+        ssl = AcceptSSLConnection(ctx, clientSocket);
         if (ssl)
         {
             // Traitement de la requête du client
@@ -395,6 +469,7 @@ void Server::StartServer(const std::string &certFile, const std::string &keyFile
         }
         else
         {
+            // si le client ne s'est pas connecté avec SSL (?)
             close(clientSocket);
         }
     }

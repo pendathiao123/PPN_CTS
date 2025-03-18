@@ -58,7 +58,7 @@ public:
     std::string newConnection(const std::string idClient);
 
     // Gérer les connexions des clients
-    std::string Connection(const std::string idClient, const std::string token);
+    int Connection(SSL *ssl, const std::string idClient, std::string msgClient);
 
     // Gérer les deconnxions des clients
     std::string DeConnection(const std::string idClient);
