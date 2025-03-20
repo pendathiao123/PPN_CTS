@@ -41,13 +41,12 @@ private:
     // chemin vers fichier des logs (transactions de $)
     const std::string logFile;
 
-public:
-    // Constructeur
-    Server(int prt, const std::string &uFile, const std::string &lFile);
 
-    // Destructeur (comportement normal)
-    ~Server()=default;
-
+    /* Méthodes privés du serveur */
+    // Gestion des affichages dans le terminal
+    void affiche(std::string msg);
+    // Gestion des affichage d'erreurs dans le terminal
+    void afficheErr(std::string err);
     // Fonction pour gérer la reception de requêtes
     std::string receiveRequest(SSL *ssl);
 
@@ -65,18 +64,24 @@ public:
 
     // Gérer une connexion client
     void HandleClient(SSL *ssl);
-
-    // Fonction principale pour démarrer le serveur
-    void StartServer(const std::string &certFile, const std::string &keyFile);
     
-    // Traiter une requête
-    void ProcessRequest(SSL *ssl, const std::string &logFile, const std::string &request, const std::string &clientId);
-
     // Gérer une requête d'achat
     std::string handleBuy(const std::string &request, const std::string &clientId);
 
     // Gérer une requête de vente
     std::string handleSell(const std::string &request, const std::string &clientId);
+
+
+public:
+    // Constructeur
+    Server(int prt, const std::string &uFile, const std::string &lFile);
+
+    // Destructeur (comportement normal)
+    ~Server()=default;
+
+    // Fonction principale pour démarrer le serveur
+    void StartServer(const std::string &certFile, const std::string &keyFile);
+
 };
 
 #endif // SERVER_H

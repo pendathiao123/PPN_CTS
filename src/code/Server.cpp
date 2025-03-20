@@ -138,12 +138,22 @@ SSL *AcceptSSLConnection(SSL_CTX *ctx, int clientSocket)
     return ssl;
 }
 
+// Gestion des affichages dans le terminal
+void Server::affiche(std::string msg){
+    std::cout << "Serveur: " << msg << std::endl;
+}
+
+// Gestion des affichage d'erreurs dans le terminal
+void Server::afficheErr(std::string err){
+    std::cerr << "! Serveur: " << err << std::endl;
+}
+
 // Fonction pour gérer la reception de requêtes
 std::string Server::receiveRequest(SSL *ssl){
     char buffer[1024] = {0};
     int bytes = SSL_read(ssl, buffer, sizeof(buffer) - 1);
     if (bytes <= 0){ // en cas d'erreur
-        std::cerr << "Erreur lors de la reception de la requête" << std::endl;
+        afficheErr("Erreur lors de la reception de la requête");
         ERR_print_errors_fp(stderr);
         return ""; // on retourne une chaîne vide
     }
@@ -156,7 +166,7 @@ std::string Server::receiveRequest(SSL *ssl){
 int Server::sendResponse(SSL *ssl, const std::string &response){
     int bytesSent = SSL_write(ssl, response.c_str(), response.length());
     if (bytesSent <= 0){ // en cas d'erreur
-        std::cerr << "Erreur lors de l'envoi de la réponse" << std::endl;
+        afficheErr("Erreur lors de l'envoi de la réponse");
         ERR_print_errors_fp(stderr);
         return 1;
     }
@@ -169,20 +179,20 @@ std::string Server::newConnection(const std::string idClient){
      * On va alors generer un token asocié à l'id que nous a envoyé le client */
     
     //id = GenerateRandomId(); // pas besoin !
-    std::cout << "Demande de creation de compte pour l'ID: " << idClient << std::endl;
+    affiche("Demande de creation de compte pour l'ID: " + idClient);
     std::string new_accnt = "NEW_ACCOUNT:";
 
     // On vérifie que l'id ne se trouve pas déjà dans la base des données !
     if(users.find(idClient) == users.end()){
         // generation d'un token
         std::string token = GenerateToken();
-        std::cout << "Token generé: " << token << std::endl;
+        affiche("Token generé: " + token);
 
         // asociation de l'identifiant du client au token generé
         users[idClient] = token;
         // Enregistrement du nouveau compte client dans la base des données
         SaveUsers(usersFile, users);
-        std::cout << "Nouvel ID: " << idClient << ", Nouveau Token: " << token << std::endl;
+        affiche("Nouvel ID: " + idClient + ", Nouveau Token: " + token);
 
         // On retourne l'information au client sur son nouvel identifiant
         return new_accnt + idClient + "," + token;
@@ -207,7 +217,7 @@ int Server::Connection(SSL *ssl, const std::string idClient, std::string msgClie
         // envoie reponse au Client
         if(sendResponse(ssl,response) != 0){
             // Erreur au niveau de l'envoie de la reponse
-            std::cerr << "Erreur lors de l'envoi de la reponse au Client" << std::endl;
+            afficheErr("Erreur lors de l'envoi de la reponse au Client");
             ERR_print_errors_fp(stderr);
             return 0; //exit(EXIT_FAILURE);
         }
@@ -215,7 +225,7 @@ int Server::Connection(SSL *ssl, const std::string idClient, std::string msgClie
         // reception reponse du Client
         msgClient = receiveRequest(ssl);
         if(msgClient.empty()){ // ici il y a eu une erreur au niveau de la lecture du msg
-            std::cerr << "Erreur lors de la reception du message (vide)." << std::endl;
+            afficheErr("Erreur lors de la reception du message (vide).");
             return 0;
         }
     }
@@ -226,7 +236,7 @@ int Server::Connection(SSL *ssl, const std::string idClient, std::string msgClie
         // extraction du token envoyé par le client
         size_t token_start = msgClient.find(prefix_token) + prefix_token.length();
         token = msgClient.substr(token_start);
-        std::cout << "ID: " << idClient << " a envoyé comme Token: " << token << std::endl;
+        affiche("ID: " + idClient + " a envoyé comme Token: " + token);
 
         // verification des données envoyés par rapport à la base des données
         auto it = users.find(idClient);
@@ -246,7 +256,7 @@ int Server::Connection(SSL *ssl, const std::string idClient, std::string msgClie
         // envoie reponse au Client
         if(sendResponse(ssl,response) != 0){
             // Erreur au niveau de l'envoie de la reponse
-            std::cerr << "Erreur lors de l'envoi de la reponse au Client" << std::endl;
+            afficheErr("Erreur lors de l'envoi de la reponse au Client");
             ERR_print_errors_fp(stderr);
             return 0; //exit(EXIT_FAILURE);
         }
@@ -263,6 +273,59 @@ std::string Server::DeConnection(const std::string idClient){
     return "DISCONNECTED";
 }
 
+// Gérer la commande d'achat
+std::string Server::handleBuy(const std::string &request, const std::string &clientId)
+{
+    // Extraire la paire de crypto et le pourcentage de la requête
+    std::istringstream iss(request);
+    std::string action, currency;
+    double percentage;
+    if (!(iss >> action >> currency >> percentage))
+    {
+        afficheErr("Erreur: Format de commande invalide");
+        return "Erreur: Format de commande invalide\n";
+    }
+    if (percentage <= 0 || percentage > 100)
+    {
+        afficheErr("Erreur: Pourcentage invalide");
+        return "Erreur: Pourcentage invalide\n";
+    }
+    affiche("Achat de " + std::to_string(percentage) + "% de " + currency + " réussi");
+
+    // Créer une transaction et l'enregistrer dans le fichier
+    Transaction transaction(clientId, "buy", currency, percentage, 30000); // Exemple de prix unitaire, à modifier si nécessaire
+    affiche("Création de la transaction: " + transaction.getId());
+    transaction.logTransactionToCSV(logFile);
+
+    return "Achat de " + std::to_string(percentage) + "% de " + currency + " réussi\n";
+}
+
+// Gérer la commande de vente
+std::string Server::handleSell(const std::string &request, const std::string &clientId)
+{
+    // Extraire la paire de crypto et le pourcentage de la requête
+    std::istringstream iss(request);
+    std::string action, currency;
+    double percentage;
+    if (!(iss >> action >> currency >> percentage))
+    {
+        afficheErr("Erreur: Format de commande invalide");
+        return "Erreur: Format de commande invalide\n";
+    }
+    if (percentage <= 0 || percentage > 100)
+    {
+        afficheErr("Erreur: Pourcentage invalide");
+        return "Erreur: Pourcentage invalide\n";
+    }
+    affiche("Vente de " + std::to_string(percentage) + "% de " + currency + " réussie");
+
+    // Créer une transaction et l'enregistrer dans le fichier
+    Transaction transaction(clientId, "sell", currency, percentage, 30000); // Exemple de prix unitaire, à modifier si nécessaire
+    affiche("Création de la transaction: " + transaction.getId());
+    transaction.logTransactionToCSV(logFile);
+
+    return "Vente de " + std::to_string(percentage) + "% de " + currency + " réussie\n";
+}
 
 // Gérer une connexion client
 void Server::HandleClient(SSL *ssl){
@@ -273,10 +336,10 @@ void Server::HandleClient(SSL *ssl){
     // Lecture de la requête envoyé par un Client
     std::string receivedMessage = receiveRequest(ssl);
     if(receivedMessage.empty()){ // ici il y a eu une erreur au niveau de la lecture du msg
-        std::cerr << "Erreur lors de la reception du message (vide)." << std::endl;
+        afficheErr("Erreur lors de la reception du message (vide).");
         return;
     }
-    std::cout << "Le Serveur à Reçu: " << receivedMessage << std::endl;
+    affiche("Le Serveur à Reçu: " + receivedMessage);
 
     // Extraction de l'ID du Client:
     std::string prefix_id = "ID:";
@@ -294,13 +357,13 @@ void Server::HandleClient(SSL *ssl){
         std::string achat = "BUY";
         std::string vente = "SELL";
 
-        // Si le Client arrive à se connecter
-        if(Connection(ssl,id,receivedMessage)){ // Authentification du Client
+        // Authentification du Client
+        if(Connection(ssl,id,receivedMessage)){ // Si le Client arrive à se connecter
 
             // lecture prochaine requête du Client
             receivedMessage = receiveRequest(ssl);
             if(receivedMessage.empty()){ // erreur lecture msg
-                std::cerr << "Erreur lors de la reception du message (vide)." << std::endl;
+                afficheErr("Erreur lors de la reception du message (vide).");
                 return;
             }
 
@@ -321,7 +384,7 @@ void Server::HandleClient(SSL *ssl){
                 // envoie de la reponse au Client
                 if(sendResponse(ssl,response) != 0){
                     // Erreur au niveau de l'envoie de la reponse
-                    std::cerr << "Erreur lors de l'envoi de la reponse au Client" << std::endl;
+                    afficheErr("Erreur lors de l'envoi de la reponse au Client");
                     ERR_print_errors_fp(stderr);
                     return;
                 }
@@ -329,7 +392,7 @@ void Server::HandleClient(SSL *ssl){
                 // lecture prochaine requête du Client
                 receivedMessage = receiveRequest(ssl);
                 if(receivedMessage.empty()){ // erreur lecture msg
-                    std::cerr << "Erreur lors de la reception du message (vide)." << std::endl;
+                    afficheErr("Erreur lors de la reception du message (vide).");
                     return;
                 }
             }
@@ -338,18 +401,12 @@ void Server::HandleClient(SSL *ssl){
             // Envoi de la reponse au client
             if(sendResponse(ssl,response) != 0){
                 // Erreur au niveau de l'envoie de la reponse
-                std::cerr << "Erreur lors de l'envoi de la reponse au Client" << std::endl;
+                afficheErr("Erreur lors de l'envoi de la reponse au Client");
                 ERR_print_errors_fp(stderr);
                 return; //exit(EXIT_FAILURE);
             }
-        }else{
-            // Erreur d'authentification
-            // On envoie msg au Client
-            /* Par mesure de securité on sort de la fonction
-            Ce qui entraine la fermeture de la connexion socket */
-
-            // ...
-        }
+        }/* En cas d'erreur d'authentification, par mesure de securité on sort de la fonction,
+         ce qui entraine la fermeture de la connexion socket */
     }
     /**
      * Si le message reçu par le serveur ne contient pas d'identifiant (de qui envie le message),
@@ -361,26 +418,10 @@ void Server::HandleClient(SSL *ssl){
     
 
     
-    /*Suite poour operation financières !
+    /* Intégration des Bots dans le Client ...
 
     // Initialiser le bot pour ce client
     Bot tradingBot("SRD-BTC");
-
-    // Ajouter pour vérifier les requêtes suivantes
-    char buffer2[1024] = {0};
-    int bytes2 = SSL_read(ssl, buffer2, sizeof(buffer2) - 1);
-    if (bytes2 <= 0)
-    {
-        ERR_print_errors_fp(stderr);
-        return;
-    }
-
-    buffer2[bytes2] = '\0';
-    std::string nextRequest(buffer2);
-    std::cout << "Requête suivante reçue: " << nextRequest << std::endl;
-
-    ProcessRequest(ssl, logFile, nextRequest, id);
-
     // Boucle pour appeler les méthodes d'investissement chaque seconde
     while (true)
     {
@@ -391,7 +432,6 @@ void Server::HandleClient(SSL *ssl){
     */
 }
 
-
 // Fonction principale pour démarrer le serveur
 void Server::StartServer(const std::string &certFile, const std::string &keyFile)
 {
@@ -400,11 +440,11 @@ void Server::StartServer(const std::string &certFile, const std::string &keyFile
     const std::string btcSecFilename = "../src/data/btc_sec_values.csv";
 
     std::filesystem::path file_path = std::filesystem::absolute(filename);
-    std::cout << "Vérification du chemin absolu du fichier: " << file_path << "\n";
+    affiche("Vérification du chemin absolu du fichier: " + file_path.string());
 
     if (!std::filesystem::exists(file_path)) // erreur de lecture du fichier
     {
-        std::cerr << "Erreur: Le fichier " << file_path << " n'existe pas.\n";
+        afficheErr("Erreur: Le fichier " + file_path.string() + " n'existe pas.");
         return;
     }
 
@@ -449,7 +489,7 @@ void Server::StartServer(const std::string &certFile, const std::string &keyFile
 
     // Certificat pour la connexion SSL/TLS ave OpenSSL
     SSL_CTX *ctx = InitServerCTX(certFile, keyFile);
-    std::cout << "Serveur en écoute sur le port " << PORT << std::endl;
+    affiche("en écoute sur le port " + std::to_string(PORT));
 
     // chargement des utilisateurs
     users = LoadUsers(usersFile);
@@ -486,99 +526,4 @@ void Server::StartServer(const std::string &certFile, const std::string &keyFile
     }
     close(serverSocket);
     SSL_CTX_free(ctx);
-}
-
-// Traiter la requête client
-void Server::ProcessRequest(SSL *ssl, const std::string &logFile, const std::string &request, const std::string &clientId)
-{
-    try
-    {
-        std::cout << "Traitement de la requête: " << request << std::endl;
-
-        std::string response;
-        if (request.rfind("BUY", 0) == 0)
-        {
-            std::cout << "Entrée dans rfindBUY" << std::endl;
-            // Gérer la commande d'achat
-            response = handleBuy(request, clientId);
-        }
-        else if (request.rfind("SELL", 0) == 0)
-        {
-            std::cout << "Entrée dans rfindSELL" << std::endl;
-            // Gérer la commande de vente
-            response = handleSell(request, clientId);
-        }
-        else
-        {
-            response = "Commande inconnue\n";
-        }
-
-        if (!response.empty())
-        {
-            int bytesSent = SSL_write(ssl, response.c_str(), response.length());
-            if (bytesSent <= 0)
-            {
-                std::cerr << "Erreur lors de l'envoi de la réponse au client" << std::endl;
-                ERR_print_errors_fp(stderr);
-            }
-        }
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Erreur dans ProcessRequest: " << e.what() << std::endl;
-    }
-}
-
-// Gérer la commande d'achat
-std::string Server::handleBuy(const std::string &request, const std::string &clientId)
-{
-    // Extraire la paire de crypto et le pourcentage de la requête
-    std::istringstream iss(request);
-    std::string action, currency;
-    double percentage;
-    if (!(iss >> action >> currency >> percentage))
-    {
-        std::cerr << "Erreur: Format de commande invalide\n";
-        return "Erreur: Format de commande invalide\n";
-    }
-    if (percentage <= 0 || percentage > 100)
-    {
-        std::cerr << "Erreur: Pourcentage invalide\n";
-        return "Erreur: Pourcentage invalide\n";
-    }
-    std::cout << "Achat de " << percentage << "% de " << currency << " réussi\n";
-
-    // Créer une transaction et l'enregistrer dans le fichier
-    Transaction transaction(clientId, "buy", currency, percentage, 30000); // Exemple de prix unitaire, à modifier si nécessaire
-    std::cout << "Création de la transaction: " << transaction.getId() << "\n";
-    transaction.logTransactionToCSV(logFile);
-
-    return "Achat de " + std::to_string(percentage) + "% de " + currency + " réussi\n";
-}
-
-// Gérer la commande de vente
-std::string Server::handleSell(const std::string &request, const std::string &clientId)
-{
-    // Extraire la paire de crypto et le pourcentage de la requête
-    std::istringstream iss(request);
-    std::string action, currency;
-    double percentage;
-    if (!(iss >> action >> currency >> percentage))
-    {
-        std::cerr << "Erreur: Format de commande invalide\n";
-        return "Erreur: Format de commande invalide\n";
-    }
-    if (percentage <= 0 || percentage > 100)
-    {
-        std::cerr << "Erreur: Pourcentage invalide\n";
-        return "Erreur: Pourcentage invalide\n";
-    }
-    std::cout << "Vente de " << percentage << "% de " << currency << " réussie\n";
-
-    // Créer une transaction et l'enregistrer dans le fichier
-    Transaction transaction(clientId, "sell", currency, percentage, 30000); // Exemple de prix unitaire, à modifier si nécessaire
-    std::cout << "Création de la transaction: " << transaction.getId() << "\n";
-    transaction.logTransactionToCSV(logFile);
-
-    return "Vente de " + std::to_string(percentage) + "% de " + currency + " réussie\n";
 }

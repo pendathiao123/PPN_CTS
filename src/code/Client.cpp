@@ -53,26 +53,36 @@ SSL *Client::ConnectSSL(SSL_CTX *ctx, int clientSocket)
     return ssl;
 }
 
+// affichages dans le terminal
+void Client::affiche(std::string msg){
+    std::cout << "Client " << ID << ": " << msg << std::endl;
+}
+
+// affichage des erreurs dans le terminal
+void Client::afficheErr(std::string err){
+    std::cerr << "! Client " << ID << ": " << err << std::endl;
+}
+
 int Client::sendRequest(const std::string &request)
 {
     // si le client n'est pas connecté
     if (!isConnected())
     {
-        std::cerr << "Erreur : SSL non initialisé" << std::endl;
+        afficheErr("Erreur : SSL non initialisé");
         return 1; // permier cas d'erreur
     }
 
-    std::cout << "Requête envoyée : " << request << std::endl;
+    affiche("Requête envoyée : " + request);
     int bytesSent = SSL_write(ssl, request.c_str(), request.length());
     if (bytesSent <= 0)
     {
-        std::cerr << "Erreur lors de l'envoi de la requête SSL" << std::endl;
+        afficheErr("Erreur lors de l'envoi de la requête SSL");
         ERR_print_errors_fp(stderr);
         return 2; // deuxième cas d'erreur
     }
     else
     {
-        std::cout << "Nombre d'octets envoyés : " << bytesSent << std::endl;
+        affiche("Nombre d'octets envoyés : " + std::to_string(bytesSent));
     }
     return 0;
 }
@@ -82,7 +92,7 @@ std::string Client::receiveResponse()
     if (!isConnected())
     {
         // Le SSl du client n'a pas été initialisé
-        std::cerr << "Erreur : SSL non initialisé" << std::endl;
+        afficheErr("Erreur : SSL non initialisé");
         return "";
     }
 
@@ -91,14 +101,14 @@ std::string Client::receiveResponse()
 
     if (bytesRead <= 0)
     {
-        std::cerr << "Erreur : Réception SSL échouée" << std::endl;
+        afficheErr("Erreur : Réception SSL échouée");
         ERR_print_errors_fp(stderr);
         return "";
     }
 
     buffer[bytesRead] = '\0'; // on ajoute le caractère de fin de chaîne
     std::string response(buffer); // on passe d'un tableau de char à un std::string
-    std::cout << "Réponse reçue : " << response << std::endl;
+    affiche("Réponse reçue : " + response);
     return response;
 }
 
@@ -136,7 +146,7 @@ void Client::StartClient(const std::string &serverAddress, int port)
     {
         close(clientSocket);
         SSL_CTX_free(ctx);
-        std::cerr << "Échec de la connexion SSL" << std::endl;
+        afficheErr("Échec de la connexion SSL");
         exit(EXIT_FAILURE);
     }
 
@@ -144,7 +154,7 @@ void Client::StartClient(const std::string &serverAddress, int port)
     std::string new_acc = "NEW_ACCOUNT:";
     std::string dend = "DENIED";
     std::string conn = "CONNECTED";
-    std::string id = std::__cxx11::to_string(ID); // jsp pq mais sinon ça marche pas
+    std::string id = std::to_string(ID);
 
     // Nouvelle connexion:
     if (TOKEN.empty()){ // Ici on demande alors une nouvelle connexion
@@ -153,7 +163,7 @@ void Client::StartClient(const std::string &serverAddress, int port)
         // Envoyer le message au serveur
         if(sendRequest(message) != 0){
             // Erreur au niveau de l'envoie
-            std::cerr << "Erreur lors de l'envoi du message de création de compte" << std::endl;
+            afficheErr("Erreur lors de l'envoi du message de création de compte");
             ERR_print_errors_fp(stderr);
             closeConnection();
             exit(EXIT_FAILURE);
@@ -162,7 +172,7 @@ void Client::StartClient(const std::string &serverAddress, int port)
         reponse = receiveResponse();
         // si la reponse est vide, il y a eu une erreur dans la reception
         if(reponse == ""){
-            std::cerr << "Erreur lors de la réception de la réponse du serveur" << std::endl;
+            afficheErr("Erreur lors de la réception de la réponse du serveur");
             closeConnection();
             exit(EXIT_FAILURE); // ---------------------------------------------> Changer prototype de StartClient()
         }
@@ -174,12 +184,12 @@ void Client::StartClient(const std::string &serverAddress, int port)
             // on vérifie que l'ID est bien le nôtre:
             if(stoi(reponse.substr(id_start,token_start - id_start)) != ID){
                 // ATTENTION
-                std::cout << "L'identifiant en reponse ne correspond pas au mien !\n";
+                affiche("L'identifiant en reponse ne correspond pas au mien !");
             }
             token_start++;
             TOKEN = reponse.substr(token_start); // TOKEN extrait
         }else{ // La reponse ne correspond pas à l'acceptation de creation d'un nouveau compte
-            std::cout << "Refus de création d'un nouveau compte\n" << std::endl;
+            affiche("Refus de création d'un nouveau compte");
             closeConnection();
             return;
         }
@@ -190,7 +200,7 @@ void Client::StartClient(const std::string &serverAddress, int port)
     // Envoyer le message au serveur
     if(sendRequest(message) != 0){
         // Erreur au niveau de l'envoie
-        std::cerr << "Erreur lors de l'envoi du message d'authentification" << std::endl;
+        afficheErr("Erreur lors de l'envoi du message d'authentification");
         ERR_print_errors_fp(stderr);
         closeConnection();
         exit(EXIT_FAILURE);
@@ -198,13 +208,13 @@ void Client::StartClient(const std::string &serverAddress, int port)
     reponse = receiveResponse();
     // si la reponse est vide, il y a eu une erreur dans la reception
     if(reponse == ""){
-        std::cerr << "Erreur lors de la réception de la réponse du serveur" << std::endl;
+        afficheErr("Erreur lors de la réception de la réponse du serveur");
         closeConnection();
         exit(EXIT_FAILURE);
     }
     // Si le message contient pas CONNECTED alors 
     if(reponse.find(conn) == std::string::npos){
-        std::cout << "Demande d'authentification refusé" << std::endl;
+        affiche("Demande d'authentification refusé");
         closeConnection();
         return;
     }
@@ -224,7 +234,7 @@ void Client::buy(const std::string &currency, double percentage)
 
     if (bot_balance["DOLLARS"] < val1)
     {
-        std::cerr << "Erreur : Solde en dollars insuffisant pour acheter " << percentage << "% de " << currency << std::endl;
+        afficheErr("Erreur : Solde en dollars insuffisant pour acheter " + std::to_string(percentage) + "% de " + currency);
         return;
     }
 
@@ -239,7 +249,7 @@ void Client::buy(const std::string &currency, double percentage)
     std::string request = "BUY " + currency + " " + std::to_string(percentage);
     sendRequest(request);
     std::string response = receiveResponse();
-    std::cout << "Réponse à l'achat : " << response << std::endl;
+    affiche("Réponse à l'achat : " + response);
 }
 
 void Client::sell(const std::string &currency, double percentage)
@@ -255,7 +265,7 @@ void Client::sell(const std::string &currency, double percentage)
 
     if (bot_balance[currency] < quantite)
     {
-        std::cerr << "Erreur : Solde insuffisant pour vendre " << quantite << " de " << currency << std::endl;
+        afficheErr("Erreur : Solde insuffisant pour vendre " + std::to_string(quantite) + " de " + currency);
         return;
     }
 
@@ -269,7 +279,7 @@ void Client::sell(const std::string &currency, double percentage)
     std::string request = "SELL " + currency + " " + std::to_string(percentage);
     sendRequest(request);
     std::string response = receiveResponse();
-    std::cout << "Réponse à la vente : " << response << std::endl;
+    affiche("Réponse à la vente : " + response);
 }
 
 void Client::closeConnection()
@@ -296,14 +306,14 @@ void Client::EndClient(){
     
     std::string message, reponse;
     std::string discon = "DISCONNECTED";
-    std::string id = std::__cxx11::to_string(ID); // jsp pq mais sinon ça marche pas
+    std::string id = std::to_string(ID);
 
     message = "ID:" + id + ",DISCONNECT";
     //message = message + ;
     // Envoyer le message au serveur
     if(sendRequest(message) != 0){
         // Erreur au niveau de l'envoie
-        std::cerr << "Erreur lors de l'envoi du message de deconnexion" << std::endl;
+        afficheErr("Erreur lors de l'envoi du message de deconnexion");
         ERR_print_errors_fp(stderr);
         closeConnection();
         exit(EXIT_FAILURE);
@@ -311,16 +321,15 @@ void Client::EndClient(){
     reponse = receiveResponse();
     // si la reponse est vide, il y a eu une erreur dans la reception
     if(reponse == ""){
-        std::cerr << "Erreur lors de la réception de la réponse du serveur" << std::endl;
+        afficheErr("Erreur lors de la réception de la réponse du serveur");
         closeConnection();
         exit(EXIT_FAILURE);
     }
     // Si le message contient DISCONNECTED c'est bon
     if(reponse.find(discon) != std::string::npos){
-        std::cout << "Client " << ID << " deconecté." << std::endl;
+        affiche("Deconecté");
     }else{
-        std::cout << "Demande de deconnexion refusé pour le client " << ID << ".\n";
-        std::cout << "Possibles erreurs à la prochaîne réconnexion" << std::endl;
+        affiche("Demande de deconnexion refusé. Possibles erreurs à la prochaîne réconnexion");
     }
     // Pour l'instant quoi qu'il arrive on sort de la fonction.
 }

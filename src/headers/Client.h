@@ -33,6 +33,10 @@ private:
     SSL_CTX *InitClientCTX();
     // Établir une connexion SSL
     SSL *ConnectSSL(SSL_CTX *ctx, int clientSocket);
+    // affichages dans le terminal
+    void affiche(std::string msg);
+    // affichage des erreurs dans le terminal
+    void afficheErr(std::string err);
     // envoie d'une requête
     int sendRequest(const std::string &request);
     // reception des reponses du serveur
