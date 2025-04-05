@@ -5,6 +5,7 @@
 #include "../headers/Global.h"
 #include "../headers/SRD_BTC.h"
 #include "../headers/Crypto.h"
+#include "../headers/Monitoring.h"
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
 #include <iomanip>
@@ -245,6 +246,8 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
     // Lire les valeurs de BTC_sec_values à partir du fichier CSV
     Global::readBTCValuesFromCSV(btcSecFilename);
 
+    std::thread prometheus_thread(PrometheusServer);
+
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1)
     {
@@ -300,6 +303,7 @@ void Server::StartServer(int port, const std::string &certFile, const std::strin
         }
     }
 
+    prometheus_thread.join();
     close(serverSocket);
     SSL_CTX_free(ctx);
 }

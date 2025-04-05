@@ -15,6 +15,7 @@ set(SERVER_SRC
     ${SRC_DIR}/SRD-BTC.cpp
     ${SRC_DIR}/Global.cpp
     ${SRC_DIR}/Bot.cpp
+    ${SRC_DIR}/Monitoring.cpp
     
 )
 
@@ -34,6 +35,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 # Inclure les répertoires des headers
 include_directories(${INC_DIR})
 
+# Trouver Prometheus paquet C++
+find_package(prometheus-cpp CONFIG REQUIRED)
+
+
 # Création des exécutables
 add_executable(Test_Serv ${SERVER_SRC})
 add_executable(Test_Cli ${CLIENT_SRC})
@@ -42,7 +47,7 @@ add_executable(Test_Cli ${CLIENT_SRC})
 add_compile_options(-std=c++17 -Wall -g)
 
 # Lier les bibliothèques OpenSSL
-target_link_libraries(Test_Serv ssl crypto)
+target_link_libraries(Test_Serv prometheus-cpp::core prometheus-cpp::pull ssl crypto)
 target_link_libraries(Test_Cli ssl crypto)
 
 
