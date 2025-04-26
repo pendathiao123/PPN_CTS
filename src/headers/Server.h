@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <string>
 #include <fstream>
+#include <memory>
+#include "Bot.h"
 
 // Fonction pour générer une chaîne de caractères aléatoire
 std::string GenerateRandomString(size_t length);
@@ -40,6 +42,8 @@ private:
     const std::string usersFile;
     // chemin vers fichier des logs (transactions de $)
     const std::string logFile;
+    // pointeur intelligent vers le Bot fourni par le serveur
+    std::shared_ptr<Bot> serverBot;
 
 
     /* Méthodes privés du serveur */
@@ -47,6 +51,7 @@ private:
     void affiche(std::string msg);
     // Gestion des affichage d'erreurs dans le terminal
     void afficheErr(std::string err);
+
     // Fonction pour gérer la reception de requêtes
     std::string receiveRequest(SSL *ssl);
 
@@ -71,8 +76,12 @@ private:
     // Gérer une requête de vente
     std::string handleSell(const std::string &request, const std::string &clientId);
 
+    // Fonction qui gere les Bots dans le serveur
+    std::string serverUseBot(int a);
 
 public:
+
+    /* Méthodes publiques du serveur */
     // Constructeur
     Server(int prt, const std::string &uFile, const std::string &lFile);
 
@@ -81,7 +90,6 @@ public:
 
     // Fonction principale pour démarrer le serveur
     void StartServer(const std::string &certFile, const std::string &keyFile);
-
 };
 
 #endif // SERVER_H

@@ -53,6 +53,10 @@ public:
     void buy(const std::string &currency, double percentage);
     // Méthode de vente de cryptomonaie
     void sell(const std::string &currency, double percentage);
+    // Méthode qui fait appel à la technique d'investissement du serveur, fait par les Bots
+    void invest();
+    // Méthode qui fait appel à la technique de trading du serveur, fait par les Bots
+    void trade();
     // Fermeture de la connexion SSL
     void closeConnection();
     // Renvoie si le Client est connecté ou pas

@@ -9,20 +9,7 @@
 // Initialisation des constantes
 const std::string Bot::BTC_VALUES_FILE = "../src/data/btc_data.csv";
 
-
-Bot::Bot() : client(std::make_shared<Client>(7474))
-{
-    solde_origin = 10000.0f;
-    prv_price = 0.0f;
-    balances = {
-        {"SRD-BTC", 0.0},
-        {"DOLLARS", 10000.0}};
-    Global::populateBTCValuesFromCSV("../src/data/btc_data.csv");
-}
-
-
-Bot::Bot(const std::string &currency) : client(std::make_shared<Client>(7474))
-{
+Bot::Bot(const std::string &currency){
     solde_origin = 10000.0f;
     prv_price = 0.0f;
     balances = {
@@ -31,10 +18,21 @@ Bot::Bot(const std::string &currency) : client(std::make_shared<Client>(7474))
     Global::populateBTCValuesFromCSV("../src/data/btc_data.csv");
 }
 
+Bot::Bot(){
+    // quand on demarre un Bot, toutes ses valeurs sont à zéro.
+    solde_origin = 0.0f;
+    prv_price = 0.0f;
+    balances = {
+        {"SRD-BTC", 0.0},
+        {"DOLLARS", 0.0}};
+    Global::populateBTCValuesFromCSV(BTC_VALUES_FILE);
+}
+
 // Destructeur
 Bot::~Bot()
 {
 }
+
 
 
 std::unordered_map<std::string, double> Bot::get_total_Balance()
@@ -59,9 +57,10 @@ void Bot::updateBalance(std::unordered_map<std::string, double> bot_balance)
 }
 
 
-void Bot::trading()
+void Bot::trading(int *res)
 {
-    for (int t = 300; t < 339292800; t += 300)
+    //for (int t = 300; t < 339292800; t += 300) // very long ~ 1 million
+    for (int t = 300; t < 33929; t += 300)
     {
         double solde = getBalance("DOLLARS");
         double price = getPrice("SRD-BTC");
@@ -71,22 +70,30 @@ void Bot::trading()
         {
             if (evolution >= 1.02)
             {
-                sellCrypto("SRD-BTC", 100);
+                // Vente de "SRD-BTC"
+                res[0] = 2; // code de vente
+                res[1] = 100; // quantité vendue
             }
             else if (evolution <= 0.98)
             {
-                buyCrypto("SRD-BTC", 5);
+                // Achat de "SRD-BTC"
+                res[0] = 1; // code d'achat
+                res[1] = 5; // quantité acheté
             }
         }
         else
         {
             if (evolution >= 1.04)
             {
-                sellCrypto("SRD-BTC", 80);
+                // Vente de "SRD-BTC"
+                res[0] = 2; // code de vente
+                res[1] = 100; // quantité vendue
             }
             else if (evolution <= 0.96)
             {
-                buyCrypto("SRD-BTC", 3);
+                // Achat de "SRD-BTC"
+                res[0] = 1; // code d'achat
+                res[1] = 5; // quantité acheté
             }
         }
         prv_price = price;
@@ -94,7 +101,7 @@ void Bot::trading()
 }
 
 
-void Bot::investing()
+void Bot::investing(int *res)
 {
     std::cout << "Passage dans Bot::investing " << std::endl;
 
@@ -110,12 +117,16 @@ void Bot::investing()
         if (evolution >= 1.005)
         {
             std::cout << "Evolution >= 1.005, Selling 100%" << std::endl;
-            sellCrypto("SRD-BTC", 100);
+            // Vente de "SRD-BTC"
+            res[0] = 2; // code de vente
+            res[1] = 100; // quantité vendue
         }
         else if (evolution <= 0.995)
         {
             std::cout << "Evolution <= 0.995, Buying 5%" << std::endl;
-            buyCrypto("SRD-BTC", 5);
+            // Achat de "SRD-BTC"
+            res[0] = 1; // code d'achat
+            res[1] = 5; // quantité acheté
         }
         else
         {
@@ -128,12 +139,16 @@ void Bot::investing()
         if (evolution >= 1.04)
         {
             std::cout << "Evolution >= 1.04, Selling 80%" << std::endl;
-            sellCrypto("SRD-BTC", 80);
+            // Vente de "SRD-BTC"
+            res[0] = 2; // code de vente
+            res[1] = 100; // quantité vendue
         }
         else if (evolution <= 0.96)
         {
             std::cout << "Evolution <= 0.96, Buying 3%" << std::endl;
-            buyCrypto("SRD-BTC", 3);
+            // Achat de "SRD-BTC"
+            res[0] = 1; // code d'achat
+            res[1] = 5; // quantité acheté
         }
         else
         {
@@ -161,26 +176,4 @@ double Bot::getPrice(const std::string &currency)
     {
         return 0.0;
     }
-}
-
-
-void Bot::buyCrypto(const std::string &currency, double pourcentage)
-{
-    std::cout << "Passage dans Bot::buyCrypto " << std::endl;
-    if (!client->isConnected())
-    {
-        client->StartClient("127.0.0.1", 4433);
-    }
-    client->buy(currency, pourcentage);
-}
-
-
-void Bot::sellCrypto(const std::string &currency, double pourcentage)
-{
-    std::cout << "Passage dans Bot::sellCrypto " << std::endl;
-    if (!client->isConnected())
-    {
-        client->StartClient("127.0.0.1", 4433);
-    }
-    client->sell(currency, pourcentage);
 }

@@ -5,20 +5,27 @@
 #include <string>
 #include <memory>
 
-class Client;
+class Server; // ligne nécessaire pour referencer le Serveur !
 
 class Bot
 {
 private:
 
+    // reference du client pour qui le Bot fait les transactions
+    //int client_Id;
+
     // montant du solde original
     double solde_origin;
+
     // prix antérieur
     double prv_price;
+
     // solde actuel du Bot
     std::unordered_map<std::string, double> balances;
-    // reference vers le Client qui détient le Bot
-    std::shared_ptr<Client> client;
+    
+    // reference (smart pointer) vers le Serveur qui détient le Bot (à priori ne change pas)
+    //const std::shared_ptr<Server> SERV;
+
 
 public:
     // nom du fichier contenant valeurs (passées) de la cryptomonaie
@@ -38,17 +45,15 @@ public:
     double getBalance(const std::string &currency);
     // Met à jour le solde du bot
     void updateBalance(std::unordered_map<std::string, double> bot_balance);
+
     // Fonction de trading du bot
-    void trading();
+    void trading(int *res);
+    
     // Fonction d'investissement du bot
-    void investing();
+    void investing(int *res);
+
     // Retourne le prix de la devise spécifiée
     double getPrice(const std::string &currency);
-    // Achète de la crypto-monnaie
-    void buyCrypto(const std::string &currency, double pourcentage);
-    // Vend de la crypto-monnaie
-    void sellCrypto(const std::string &currency, double pourcentage);
-
 };
 
 #endif // BOT_H

@@ -282,6 +282,22 @@ void Client::sell(const std::string &currency, double percentage)
     affiche("Réponse à la vente : " + response);
 }
 
+void Client::invest(){
+    std::string requete = "ID:" + std::to_string(ID) + ", INVEST";
+    sendRequest(requete);
+    //sleep(1); // can be pertinent
+    std::string reponse = receiveResponse();
+    affiche("Résultat d'investissement: " + reponse);
+}
+
+void Client::trade(){
+    std::string requete = "ID:" + std::to_string(ID) + ", TRADE";
+    sendRequest(requete);
+    //sleep(1); // can be pertinent
+    std::string reponse = receiveResponse();
+    affiche("Résultat du trading: " + reponse);
+}
+
 void Client::closeConnection()
 {
     if (ssl)

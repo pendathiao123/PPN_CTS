@@ -327,6 +327,53 @@ std::string Server::handleSell(const std::string &request, const std::string &cl
     return "Vente de " + std::to_string(percentage) + "% de " + currency + " réussie\n";
 }
 
+// Fonction qui gere les Bots dans le serveur
+std::string Server::serverUseBot(int a){
+    // variables
+    /* Remarque: ici on a pris un tableau de taille fixe (2), mais si on veut rendre le code
+    plus souple on devrait prendre une autre structure de donné plus elaboré. Ici on a
+    seulement fait le choix de la simplicité */
+    int action[2];
+    action[0] = -1; // valeur par défaut
+    std::string res = "";
+    //std::cout << "switch 1\n"; // debug line
+    // determination de l'action à effectuer
+    switch (a)
+    {
+    case 1:
+        serverBot.get()->investing(action);
+        break;
+
+    case 2:
+        serverBot.get()->trading(action);
+        break;
+    // on peut ajouter autant de cas que le Bot peut faire des choses ...
+
+    default:
+        break;
+    }
+    //std::cout << "switch 2\n"; // debug line
+
+    // execution de l'achat ou de la vente
+    switch (action[0])
+    {
+    case 1: // achat
+        res = "Achat de x crypoto";
+        break;
+
+    case 2: // vente
+        res = "Vente de x crypto";
+        break;
+
+    default: // pour le cas -1
+        res = "Error";
+        break;
+    }
+    //std::cout << "switch 1\n"; // debug line
+
+    return res;
+}
+
 // Gérer une connexion client
 void Server::HandleClient(SSL *ssl){
 
@@ -356,6 +403,8 @@ void Server::HandleClient(SSL *ssl){
         std::string deco = ",DISCONNECT";
         std::string achat = "BUY";
         std::string vente = "SELL";
+        std::string invest = "INVEST";
+        std::string trade = "TRADE";
 
         // Authentification du Client
         if(Connection(ssl,id,receivedMessage)){ // Si le Client arrive à se connecter
@@ -375,7 +424,14 @@ void Server::HandleClient(SSL *ssl){
                 }else if(receivedMessage.find(vente) != std::string::npos){ // Requête de vente
                     // Gérer la commande de vente
                     response = handleSell(receivedMessage, id);
-                }else{ // Le Client n'a pas formulé un demande explicite
+                }else if(receivedMessage.find(invest) != std::string::npos){ // Requête d'investissement
+                    // Appel à la fonction de gestion des Bots, pour une demande d'investissement
+                    response = serverUseBot(1);
+                }else if(receivedMessage.find(trade) != std::string::npos){ // Requête de trading
+                    // Appel à la fonction de gestion des Bots, pour une demande de trade
+                    response = serverUseBot(2);
+                }else{
+                    // Le Client n'a pas formulé un demande explicite
                     /* Si on veut faire adopter au Serveur un comportement restrictif,
                     ici on peut faire qqch */
                     response = "Commande inconnue\n";
@@ -405,6 +461,8 @@ void Server::HandleClient(SSL *ssl){
                 ERR_print_errors_fp(stderr);
                 return; //exit(EXIT_FAILURE);
             }
+
+
         }/* En cas d'erreur d'authentification, par mesure de securité on sort de la fonction,
          ce qui entraine la fermeture de la connexion socket */
     }
@@ -414,21 +472,6 @@ void Server::HandleClient(SSL *ssl){
      * En effet, on suppose ici que les clients respectent l'API. Ainsi tout messsage non conforme est ignoré.
      * 
      * Ce comportement pourrait être modifié pour diverses raisons ...
-    */
-    
-
-    
-    /* Intégration des Bots dans le Client ...
-
-    // Initialiser le bot pour ce client
-    Bot tradingBot("SRD-BTC");
-    // Boucle pour appeler les méthodes d'investissement chaque seconde
-    while (true)
-    {
-        std::cout << "Appel de la méthode d'investissement..." << std::endl;
-        tradingBot.investing();
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
     */
 }
 
@@ -497,6 +540,9 @@ void Server::StartServer(const std::string &certFile, const std::string &keyFile
     socklen_t addrLen;
     int clientSocket;
     SSL *ssl;
+
+    // Initialisation du Bot (on sait qu'on va en utiliser qu'un seul)
+    serverBot = std::make_shared<Bot>();
 
     while (true)
     {   
