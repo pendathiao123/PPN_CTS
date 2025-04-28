@@ -116,8 +116,8 @@ void Client::StartClient(const std::string &serverAddress, int port, const std::
         std::cout << "Réponse du serveur : " << buffer << std::endl;
 
         // Initialiser le bot et le laisser gérer les transactions
-        tradingBot = std::make_shared<Bot>(this);
-        tradingBot->investingLoop();
+        //tradingBot = std::make_shared<Bot>(this);
+        //tradingBot->investingLoop();
     }
     else
     {

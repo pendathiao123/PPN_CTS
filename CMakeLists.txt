@@ -15,7 +15,6 @@ set(SERVER_SRC
     ${SRC_DIR}/SRD-BTC.cpp
     ${SRC_DIR}/Global.cpp
     ${SRC_DIR}/Bot.cpp
-    
 )
 
 set(CLIENT_SRC 
@@ -25,6 +24,15 @@ set(CLIENT_SRC
     ${SRC_DIR}/Global.cpp
     ${SRC_DIR}/Crypto.cpp
     ${SRC_DIR}/Bot.cpp
+    ${SRC_DIR}/SRD-BTC.cpp
+)
+
+# Ajouter Client.cpp aux sources du benchmark
+set(BENCHMARK_SRC
+    ${SRC_DIR}/Benchmark.cpp
+    ${SRC_DIR}/Client.cpp
+    ${SRC_DIR}/Bot.cpp
+    ${SRC_DIR}/Global.cpp
     ${SRC_DIR}/SRD-BTC.cpp
 )
 
@@ -38,12 +46,16 @@ include_directories(${INC_DIR})
 add_executable(Test_Serv ${SERVER_SRC})
 add_executable(Test_Cli ${CLIENT_SRC})
 
+# Création de l'exécutable pour le benchmark
+add_executable(Benchmark ${BENCHMARK_SRC})
+
 # Options de compilation
 add_compile_options(-std=c++17 -Wall -g)
 
 # Lier les bibliothèques OpenSSL
 target_link_libraries(Test_Serv ssl crypto)
 target_link_libraries(Test_Cli ssl crypto)
+target_link_libraries(Benchmark ssl crypto)
 
 
 # Ajouter des règles pour exécuter les exécutables après leur construction
