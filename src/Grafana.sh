@@ -8,6 +8,11 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+# Charger les variables depuis le fichier .env
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
+
 # Paramètres de l'installation existante + token api pour récupérer le dashboard existant
 GRAFANA_URL="http://localhost:3000"
 GRAFANA_API_TOKEN="$GRAFANA_TOKEN"
