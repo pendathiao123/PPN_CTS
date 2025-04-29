@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o.d"
   "CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o"
   "CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o.d"
+  "CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o"
+  "CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o.d"
   "Test_Serv"
   "Test_Serv.pdb"
 )

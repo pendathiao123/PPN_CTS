@@ -2479,3 +2479,145 @@ WALLET INFO:SRD=10000.000000, BTC=0.000000
 [2025-04-29 09:03:40][INFO] Bot mon_client_id_unique a soumis une requête d'ACHAT pour 10.000000% de capital en SRD-BTC.
 [2025-04-29 09:03:41][INFO] Bot mon_client_id_unique a soumis une requête d'ACHAT pour 10.000000% de capital en SRD-BTC.
 [2025-04-29 09:03:42][INFO] Bot mon_client_id_unique a soumis une requête d'ACHAT pour 10.000000% de capital en SRD-BTC.
+--- Début du log : 1745958763 ---
+[2025-04-29 22:32:43][DEBUG] TransactionQueue créée.
+[2025-04-29 22:32:43][INFO] Gestionnaires de signaux enregistrés.
+[2025-04-29 22:32:43][INFO] Bibliothèques OpenSSL initialisées.
+[2025-04-29 22:32:43][INFO] Bibliothèque libcurl initialisée globalement.
+[2025-04-29 22:32:43][INFO] Répertoire des portefeuilles trouvé : ../src/data/wallets
+[2025-04-29 22:32:43][INFO] Compteur de transactions chargé depuis ../src/data/transaction_counter.txt. Valeur: 0
+[2025-04-29 22:32:43][DEBUG] Constructeur Server appelé. Chemins des fichiers stockés.
+[2025-04-29 22:32:43][INFO] Utilisateurs chargés depuis ../src/data/users.txt (1 entrées).
+[2025-04-29 22:32:43][INFO] Démarrage du serveur...
+[2025-04-29 22:32:43][INFO] Contexte SSL serveur initialisé avec succès.
+[2025-04-29 22:32:43][INFO] Utilisateurs chargés depuis ../src/data/users.txt (1 entrées).
+[2025-04-29 22:32:43][INFO] [Global] Demande de démarrage du thread de génération de prix.
+[2025-04-29 22:32:43][INFO] [Global] Thread de génération de prix initié.
+[2025-04-29 22:32:43][INFO] Serveur démarré et en écoute sur le port 4433
+[2025-04-29 22:32:43][INFO] [Global] Thread de génération de prix démarré.
+[2025-04-29 22:32:43][INFO] [Global] Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-04-29 22:32:44][DEBUG] [Global] Prix BTC/USD récupéré via API : 95044.000000
+[2025-04-29 22:32:44][INFO] [Global] Nouvelle valeur SRD-BTC : 96320.369088 USD à 2025-04-29 22:32:44
+[2025-04-29 22:32:59][DEBUG] [Global] Prix BTC/USD récupéré via API : 95044.000000
+[2025-04-29 22:32:59][INFO] [Global] Nouvelle valeur SRD-BTC : 95643.924641 USD à 2025-04-29 22:32:59
+[2025-04-29 22:33:14][DEBUG] [Global] Prix BTC/USD récupéré via API : 95044.000000
+[2025-04-29 22:33:14][INFO] [Global] Nouvelle valeur SRD-BTC : 95439.340974 USD à 2025-04-29 22:33:14
+--- Début du log : 1745958803 ---
+[2025-04-29 22:33:23][INFO] Client programme démarré.
+[2025-04-29 22:33:23][DEBUG] Socket client créé. FD: 4
+[2025-04-29 22:33:23][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-04-29 22:33:23][INFO] Nouvelle connexion acceptée. Socket FD: 5, IP: 10.188.240.101
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [OTHER] before SSL initialization
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] before SSL initialization
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] before SSL initialization
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS read client hello
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write server hello
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write change cipher spec
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] TLSv1.3 write encrypted extensions
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write certificate
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] TLSv1.3 write server certificate verify
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write finished
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] TLSv1.3 early data
+[2025-04-29 22:33:23][INFO] Handshake SSL réussi.
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] TLSv1.3 early data
+[2025-04-29 22:33:23][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-04-29 22:33:23][INFO] Envoi du message d'authentification : 'ID:mon_client_id_unique,TOKEN:mon_token_secret'
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS read finished
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [OTHER] SSLv3/TLS write session ticket
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write session ticket
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write session ticket
+[2025-04-29 22:33:23][DEBUG] [OpenSSL DEBUG] [EXIT] SSL negotiation finished successfully
+[2025-04-29 22:33:23][INFO] [SSL] SSL_accept réussi. Client connecté SSL.
+[2025-04-29 22:33:23][INFO] Handshake SSL réussi pour le socket FD: 5
+[2025-04-29 22:33:23][INFO] Thread de gestion client détaché pour socket FD: 5
+[2025-04-29 22:33:23][DEBUG] Thread HandleClient démarré pour socket FD: 5
+[2025-04-29 22:33:23][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 5
+[2025-04-29 22:33:23][DEBUG] Authentification - Reçu de socket FD 5 : 'ID:mon_client_id_unique,TOKEN:mon_token_secret'
+[2025-04-29 22:33:23][DEBUG] Authentification - ID extrait: 'mon_client_id_unique', Token extrait: 'mon_token_secret'. Socket FD: 5
+[2025-04-29 22:33:23][INFO] Authentification - Succès pour ID existant : 'mon_client_id_unique'. Socket FD: 5
+[2025-04-29 22:33:23][INFO] Client ID: mon_client_id_unique authentification réussie (SUCCESS). Socket FD: 5
+[2025-04-29 22:33:23][INFO] BotSession créée pour client ID: mon_client_id_unique
+[2025-04-29 22:33:23][INFO] Fichier portefeuille non trouvé ou impossible à ouvrir pour lecture : ../data/wallets/mon_client_id_unique.wallet
+[2025-04-29 22:33:23][WARNING] Impossible de charger le portefeuille pour client ID: mon_client_id_unique. Un nouveau portefeuille vierge sera utilisé. Chemin cherché : ../data/wallets/mon_client_id_unique.wallet
+[2025-04-29 22:33:23][DEBUG] Objet Wallet créé pour client ID: mon_client_id_unique. Chemin du fichier: ../data/wallets/mon_client_id_unique.wallet
+[2025-04-29 22:33:23][INFO] Portefeuille associé créé/chargé pour client ID: mon_client_id_unique
+[2025-04-29 22:33:23][INFO] Bot créé pour client ID: mon_client_id_unique avec Bollinger (20, 2).
+[2025-04-29 22:33:23][INFO] Bot associé créé pour client ID: mon_client_id_unique
+[2025-04-29 22:33:23][INFO] BotSession pour client ID: mon_client_id_unique initialisée avec succès.
+[2025-04-29 22:33:23][DEBUG] Session ajoutée à activeSessions pour client ID: mon_client_id_unique. Socket FD: 5
+[2025-04-29 22:33:23][INFO] [TransactionQueue::registerSession] Session enregistrée pour client ID: mon_client_id_unique
+[2025-04-29 22:33:23][DEBUG] Session enregistrée auprès de la TransactionQueue pour client ID: mon_client_id_unique. Socket FD: 5
+[2025-04-29 22:33:23][INFO] Thread BotSession démarré pour client ID: mon_client_id_unique
+[2025-04-29 22:33:23][DEBUG] BotSession thread démarré pour client ID: mon_client_id_unique. Socket FD: 5
+[2025-04-29 22:33:23][DEBUG] Thread HandleAuthenticatedClient démarré pour client ID: mon_client_id_unique. Socket FD: 5
+[2025-04-29 22:33:23][INFO] Envoi de la réponse 'AUTH SUCCESS' au client ID: mon_client_id_unique. Socket FD: 5
+[2025-04-29 22:33:23][INFO] Thread BotSession (run) démarré pour client ID: mon_client_id_unique
+[2025-04-29 22:33:23][DEBUG] BotSession (mon_client_id_unique) : Nouveau prix détecté : 95439.3409743743
+[2025-04-29 22:33:23][DEBUG] Bot (mon_client_id_unique) : Nouveau prix ajouté à l'historique : 95439.3409743743. Taille historique : 1
+[2025-04-29 22:33:23][DEBUG] Bot (mon_client_id_unique) : Pas assez de données pour calculer les Bandes de Bollinger. HOLD.
+[2025-04-29 22:33:23][INFO] Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-04-29 22:33:23][INFO] Authentification réussie ! Client prêt pour les commandes applicatives.
+[2025-04-29 22:33:29][DEBUG] [Global] Prix BTC/USD récupéré via API : 95044.000000
+[2025-04-29 22:33:29][INFO] [Global] Nouvelle valeur SRD-BTC : 95701.725191 USD à 2025-04-29 22:33:29
+[2025-04-29 22:33:29][DEBUG] BotSession (mon_client_id_unique) : Nouveau prix détecté : 95701.7251912523
+[2025-04-29 22:33:29][DEBUG] Bot (mon_client_id_unique) : Nouveau prix ajouté à l'historique : 95701.7251912523. Taille historique : 2
+[2025-04-29 22:33:29][DEBUG] Bot (mon_client_id_unique) : Pas assez de données pour calculer les Bandes de Bollinger. HOLD.
+[2025-04-29 22:33:31][INFO] Envoi de la requête: 'SHOW WALLET'
+[2025-04-29 22:33:31][INFO] Client ID: mon_client_id_unique, Socket FD: 5, Requête reçue: 'SHOW WALLET'
+[2025-04-29 22:33:31][DEBUG] Client ID: mon_client_id_unique - Traitement de la requête : 'SHOW WALLET'
+[2025-04-29 22:33:31][INFO] Client ID: mon_client_id_unique - Commande SHOW WALLET reçue.
+[2025-04-29 22:33:31][INFO] Client ID: mon_client_id_unique - Envoi historique des transactions.
+[2025-04-29 22:33:31][INFO] Réponse du serveur :
+TRANSACTION HISTORY:
+  No transactions yet.
+
+[2025-04-29 22:33:44][DEBUG] [Global] Prix BTC/USD récupéré via API : 95042.000000
+[2025-04-29 22:33:44][INFO] [Global] Nouvelle valeur SRD-BTC : 95499.516207 USD à 2025-04-29 22:33:44
+[2025-04-29 22:33:44][DEBUG] BotSession (mon_client_id_unique) : Nouveau prix détecté : 95499.5162071118
+[2025-04-29 22:33:44][DEBUG] Bot (mon_client_id_unique) : Nouveau prix ajouté à l'historique : 95499.5162071118. Taille historique : 3
+[2025-04-29 22:33:44][DEBUG] Bot (mon_client_id_unique) : Pas assez de données pour calculer les Bandes de Bollinger. HOLD.
+[2025-04-29 22:33:59][DEBUG] [Global] Prix BTC/USD récupéré via API : 95042.000000
+[2025-04-29 22:33:59][INFO] [Global] Nouvelle valeur SRD-BTC : 95279.768923 USD à 2025-04-29 22:33:59
+[2025-04-29 22:33:59][DEBUG] BotSession (mon_client_id_unique) : Nouveau prix détecté : 95279.7689233948
+[2025-04-29 22:33:59][DEBUG] Bot (mon_client_id_unique) : Nouveau prix ajouté à l'historique : 95279.7689233948. Taille historique : 4
+[2025-04-29 22:33:59][DEBUG] Bot (mon_client_id_unique) : Pas assez de données pour calculer les Bandes de Bollinger. HOLD.
+[2025-04-29 22:34:06][INFO] Envoi de la requête: 'SHOW HISTORIC	'
+[2025-04-29 22:34:06][INFO] Client ID: mon_client_id_unique, Socket FD: 5, Requête reçue: 'SHOW HISTORIC	'
+[2025-04-29 22:34:06][DEBUG] Client ID: mon_client_id_unique - Traitement de la requête : 'SHOW HISTORIC	'
+[2025-04-29 22:34:06][WARNING] Client ID: mon_client_id_unique - Commande inconnue reçue : 'SHOW HISTORIC	'
+[2025-04-29 22:34:06][INFO] Réponse du serveur :
+ERROR: Unknown command.
+[2025-04-29 22:34:14][DEBUG] [Global] Prix BTC/USD récupéré via API : 95042.000000
+[2025-04-29 22:34:14][INFO] [Global] Nouvelle valeur SRD-BTC : 96551.365925 USD à 2025-04-29 22:34:14
+[2025-04-29 22:34:15][DEBUG] BotSession (mon_client_id_unique) : Nouveau prix détecté : 96551.3659251178
+[2025-04-29 22:34:15][DEBUG] Bot (mon_client_id_unique) : Nouveau prix ajouté à l'historique : 96551.3659251178. Taille historique : 5
+[2025-04-29 22:34:15][DEBUG] Bot (mon_client_id_unique) : Pas assez de données pour calculer les Bandes de Bollinger. HOLD.
+[2025-04-29 22:34:16][DEBUG] [OpenSSL DEBUG] [WRITE] error
+[2025-04-29 22:34:16][WARNING]   >> Alert (write): fatal - decode error
+[2025-04-29 22:34:16][ERROR] [Client::receive] Erreur lors de la réception SSL non gérée. Code: 1
+[2025-04-29 22:34:16][DEBUG] [Client] Objet SSL libéré.
+[2025-04-29 22:34:16][INFO] [Client] Socket FD: 5 fermé.
+[2025-04-29 22:34:16][INFO] Client ID: mon_client_id_unique déconnecté proprement. Socket FD: -1
+[2025-04-29 22:34:16][INFO] Signal d'arrêt envoyé à BotSession pour client ID: mon_client_id_unique
+[2025-04-29 22:34:17][INFO] Thread BotSession (run) terminé pour client ID: mon_client_id_unique
+[2025-04-29 22:34:17][INFO] Thread BotSession arrêté pour client ID: mon_client_id_unique
+[2025-04-29 22:34:17][INFO] Thread HandleAuthenticatedClient termine pour client ID: mon_client_id_unique. Socket FD: -1. La session est arrêtée.
+[2025-04-29 22:34:17][INFO] Thread HandleClient pour client ID: mon_client_id_unique termine après que HandleAuthenticatedClient est retourné. Socket FD: -1
+[2025-04-29 22:34:17][DEBUG] Session pour client ID: mon_client_id_unique retirée de activeSessions.
+[2025-04-29 22:34:17][DEBUG] Session retirée de activeSessions pour client ID: mon_client_id_unique. Socket FD: -1
+[2025-04-29 22:34:17][INFO] Destructeur BotSession appelé pour client ID: mon_client_id_unique
+[2025-04-29 22:34:17][DEBUG] Stop appelé sur BotSession pour client ID: mon_client_id_unique mais session déjà marquée non running.
+[2025-04-29 22:34:17][ERROR] Erreur: Impossible de créer le répertoire des portefeuilles: ../data/wallets. Erreur: Success
+[2025-04-29 22:34:17][ERROR] Échec de la vérification/création du répertoire wallets pour la sauvegarde. Sauvegarde impossible.
+[2025-04-29 22:34:17][ERROR] Échec de la sauvegarde du portefeuille pour client ID: mon_client_id_unique dans le destructeur BotSession.
+[2025-04-29 22:34:17][INFO] Destructeur BotSession terminé pour client ID: mon_client_id_unique
+[2025-04-29 22:34:17][INFO] Destructeur Bot appelé pour client ID: mon_client_id_unique.
+[2025-04-29 22:34:17][DEBUG] Objet Wallet détruit pour client ID: mon_client_id_unique. Sauvegarde finale en cours...
+[2025-04-29 22:34:17][ERROR] Erreur: Impossible de créer le répertoire des portefeuilles: ../data/wallets. Erreur: Success
+[2025-04-29 22:34:17][ERROR] Échec de la vérification/création du répertoire wallets pour la sauvegarde. Sauvegarde impossible.
+[2025-04-29 22:34:17][ERROR] Échec de la sauvegarde finale du portefeuille pour client ID: mon_client_id_unique vers ../data/wallets/mon_client_id_unique.wallet.
+[2025-04-29 22:34:17][DEBUG] Objet Wallet détruit pour client ID: mon_client_id_unique. Sauvegarde finale terminée.
+[2025-04-29 22:34:17][DEBUG] [Client] Destructeur Client appelé. Socket FD final: -1
+[2025-04-29 22:34:29][DEBUG] [Global] Prix BTC/USD récupéré via API : 95042.000000
+[2025-04-29 22:34:29][INFO] [Global] Nouvelle valeur SRD-BTC : 93295.058311 USD à 2025-04-29 22:34:29
+[2025-04-29 22:34:40][INFO] Signal d'arrêt reçu (15). Demande d'arrêt du serveur.

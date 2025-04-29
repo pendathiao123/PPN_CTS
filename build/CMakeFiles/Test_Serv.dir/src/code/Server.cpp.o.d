@@ -276,26 +276,15 @@ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o: \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/BotSession.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Client.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Bot.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/../headers/TransactionQueue.h \
- /usr/include/c++/11/queue /usr/include/c++/11/deque \
- /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
- /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h \
- /usr/include/c++/11/condition_variable \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/TransactionQueue.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/TransactionQueue.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Global.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Bot.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Client.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/TransactionQueue.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/OpenSSLDeleters.h \
- /usr/include/openssl/rand.h /usr/include/openssl/randerr.h \
- /usr/include/c++/11/random /usr/include/c++/11/cmath /usr/include/math.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Wallet.h \
+ /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
+ /usr/include/c++/11/bits/stl_map.h \
+ /usr/include/c++/11/bits/stl_multimap.h /usr/include/c++/11/filesystem \
+ /usr/include/c++/11/bits/fs_fwd.h /usr/include/c++/11/bits/fs_path.h \
+ /usr/include/c++/11/codecvt /usr/include/c++/11/bits/fs_dir.h \
+ /usr/include/c++/11/bits/fs_ops.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Transaction.h \
+ /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
@@ -317,15 +306,31 @@ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o: \
  /usr/include/c++/11/tr1/poly_hermite.tcc \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
  /usr/include/c++/11/tr1/riemann_zeta.tcc \
- /usr/include/c++/11/bits/random.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/TransactionQueue.h \
+ /usr/include/c++/11/queue /usr/include/c++/11/deque \
+ /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
+ /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h \
+ /usr/include/c++/11/condition_variable \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Wallet.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/TransactionQueue.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Global.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Bot.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Client.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/TransactionQueue.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/OpenSSLDeleters.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Wallet.h \
+ /usr/include/openssl/rand.h /usr/include/openssl/randerr.h \
+ /usr/include/c++/11/random /usr/include/c++/11/bits/random.h \
  /usr/include/c++/11/bits/uniform_int_dist.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/opt_random.h \
  /usr/include/c++/11/bits/random.tcc /usr/include/c++/11/numeric \
  /usr/include/c++/11/bits/stl_numeric.h \
  /usr/include/c++/11/pstl/glue_numeric_defs.h /usr/include/c++/11/cstring \
- /usr/include/c++/11/filesystem /usr/include/c++/11/bits/fs_fwd.h \
- /usr/include/c++/11/bits/fs_path.h /usr/include/c++/11/codecvt \
- /usr/include/c++/11/bits/fs_dir.h /usr/include/c++/11/bits/fs_ops.h \
  /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
  /usr/include/c++/11/bits/stl_algo.h \
  /usr/include/c++/11/bits/algorithmfwd.h

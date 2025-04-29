@@ -456,6 +456,30 @@ src/code/TransactionQueue.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.s
 .PHONY : src/code/TransactionQueue.cpp.s
 
+src/code/Wallet.o: src/code/Wallet.cpp.o
+.PHONY : src/code/Wallet.o
+
+# target to build an object file
+src/code/Wallet.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o
+.PHONY : src/code/Wallet.cpp.o
+
+src/code/Wallet.i: src/code/Wallet.cpp.i
+.PHONY : src/code/Wallet.i
+
+# target to preprocess a source file
+src/code/Wallet.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.i
+.PHONY : src/code/Wallet.cpp.i
+
+src/code/Wallet.s: src/code/Wallet.cpp.s
+.PHONY : src/code/Wallet.s
+
+# target to generate assembly for a file
+src/code/Wallet.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.s
+.PHONY : src/code/Wallet.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -501,6 +525,9 @@ help:
 	@echo "... src/code/TransactionQueue.o"
 	@echo "... src/code/TransactionQueue.i"
 	@echo "... src/code/TransactionQueue.s"
+	@echo "... src/code/Wallet.o"
+	@echo "... src/code/Wallet.i"
+	@echo "... src/code/Wallet.s"
 .PHONY : help
 
 
