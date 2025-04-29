@@ -2,50 +2,58 @@
 #define CLIENT_H
 
 #include <string>
-#include <memory>
-#include <openssl/ssl.h>
-#include <unordered_map>
-#include <netinet/in.h>
+#include <stdexcept>
+#include <sys/socket.h> 
+#include <netinet/in.h> 
+#include <arpa/inet.h>  
+#include <unistd.h>     
+#include <openssl/ssl.h> 
+#include <openssl/err.h> 
+#include <memory>       
+#include <mutex>     
 
-class Bot;
+#include "../headers/OpenSSLDeleters.h" 
+#include "../headers/Logger.h"          
 
-class Client
-{
+class Client {
 private:
-    // Socket utilisé par le client
-    int clientSocket;
-    // objet permettant d'établir des connexions TLS/SSL
-    SSL_CTX *ctx;
-    // structure de données permettant une communication SSL (Secure Sockets Layer)
-    SSL *ssl;
-    // structure spécifiant l'adresse du serveur
-    struct sockaddr_in serverAddr;
-    std::shared_ptr<Bot> tradingBot;
-    // Initialiser le contexte SSL pour le client
-    SSL_CTX *InitClientCTX();
-    // Établir une connexion SSL
-    SSL *ConnectSSL(SSL_CTX *ctx, int clientSocket);
-    // envoie d'une requête
-    void sendRequest(const std::string &request);
-    // reception des reponses du serveur
-    std::string receiveResponse();
+    int clientSocket = -1;
+    UniqueSSLCTX ctx = nullptr; // Utilisé si ce Client *initie* la connexion
+    UniqueSSL ssl = nullptr;   // L'objet SSL pour la connexion
+    sockaddr_in serverAddr{}; // Utilisé si ce Client *initie* la connexion
+
+    // Méthodes d'initialisation internes (si ce Client initie la connexion)
+    UniqueSSLCTX InitClientCTX();
+    UniqueSSL ConnectSSL(SSL_CTX* ctx_raw, int clientSocket_fd);
 
 public:
-    // Constructeur de classe
-    Client();
-    // Destructeur
+
+    /*Constructeur utilisé par le Serveur : Initialise avec un socket et SSL déjà établis.
+    Le Serveur crée le socket et l'objet SSL via accept() et AcceptSSLConnection(), 
+    puis passe les pointeurs bruts au Client qui en prend possession via unique_ptr.*/
+    Client(int socket_fd, SSL* ssl_ptr);
+
+    // Destructeur : Assure la libération des ressources
     ~Client();
-    // Fonction principale pour démarrer le client
-    void StartClient(const std::string &serverAddress, int port, const std::string &clientId, const std::string &clientToken);
-    // Méthode d'achat de cryptomonaie
-    void buy(const std::string &currency, double percentage);
-    // Méthode de vente de cryptomonaie
-    void sell(const std::string &currency, double percentage);
-    // Fermeture de la connexion
+
+    // Méthodes pour envoyer et recevoir des données sur la connexion SSL
+    // Retourne le nombre d'octets envoyés/reçus, 0 pour déconnexion propre, < 0 pour erreur.
+    int send(const char* data, int size);
+    int receive(char* buffer, int size);
+
+     // Méthode utilitaire pour envoyer une string
+     int send(const std::string& data);
+     // Méthode utilitaire pour recevoir dans une string (attention à la taille max)
+     // std::string receive(int max_size = 1023); // Peut-être complexe à gérer (blocage, fin de message)
+
+    // Ferme la connexion et libère les ressources associées
     void closeConnection();
-    // Renvoie si le Client est connecté ou pas
+
+    // Vérifie si la connexion est toujours active
     bool isConnected() const;
 
+    /// Méthode pour obtenir le descripteur de fichier socket (utile pour le logging/debug)
+    int getSocketFD() const;
 };
 
-#endif // CLIENT_H
+#endif

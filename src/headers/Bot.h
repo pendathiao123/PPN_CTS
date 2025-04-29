@@ -1,54 +1,60 @@
 #ifndef BOT_H
 #define BOT_H
 
+#include <iostream>
 #include <unordered_map>
 #include <string>
-#include <memory>
+#include <memory>       
+#include <fstream>      
+#include <mutex>      
 
-class Client;
+// Déclaration anticipée pour TransactionQueue
+class TransactionQueue;
 
-class Bot
-{
+// Inclure TransactionQueue.h pour la structure TransactionRequest et l'enum RequestType
+#include "../headers/TransactionQueue.h"
+#include "../headers/Logger.h"
+
+
+class Bot {
 private:
+    std::string id; // ID unique du bot (correspond à l'ID client)
+    std::unordered_map<std::string, double> balance; // Le portefeuille en mémoire
+    mutable std::mutex balanceMutex; // Mutex pour protéger la map 'balance'
 
-    // montant du solde original
-    double solde_origin;
-    // prix antérieur
-    double prv_price;
-    // solde actuel du Bot
-    std::unordered_map<std::string, double> balances;
-    // reference vers le Client qui détient le Bot
-    std::shared_ptr<Client> client;
+    // Pointeur vers la TransactionQueue (pas possédé par le bot)
+    TransactionQueue* transactionQueue = nullptr;
+
+    // Méthodes pour charger/sauvegarder le portefeuille depuis/vers un fichier
+    void loadWallet();
+    void saveBalance();
 
 public:
-    // nom du fichier contenant valeurs (passées) de la cryptomonaie
-    static const std::string BTC_VALUES_FILE;
-
-    // Constructeur par défaut
-    Bot();
-    // Constructeur avec un argument
-    Bot(const std::string &currency);
+    // Constructeur
+    Bot(const std::string& clientId);
 
     // Destructeur
     ~Bot();
 
-    // Retourne le solde total du bot
-    std::unordered_map<std::string, double> get_total_Balance();
-    // Retourne le solde pour une devise spécifique
-    double getBalance(const std::string &currency);
-    // Met à jour le solde du bot
-    void updateBalance(std::unordered_map<std::string, double> bot_balance);
-    // Fonction de trading du bot
-    void trading();
-    // Fonction d'investissement du bot
-    void investing();
-    // Retourne le prix de la devise spécifiée
-    double getPrice(const std::string &currency);
-    // Achète de la crypto-monnaie
-    void buyCrypto(const std::string &currency, double pourcentage);
-    // Vend de la crypto-monnaie
-    void sellCrypto(const std::string &currency, double pourcentage);
+    // Retourne l'ID du bot
+    std::string getId() const;
 
+    // Méthode appelée par BotSession pour fournir l'accès à la TransactionQueue
+    void setTransactionQueue(TransactionQueue* queue);
+
+    // Méthodes pour soumettre des requêtes d'achat/vente
+    void submitBuyRequest(const std::string& currency, double pourcentage);
+    void submitSellRequest(const std::string& currency, double pourcentage);
+
+    // Méthode de trading
+    void trading(const std::string& currency);
+
+    // Méthodes d'accès au solde (utilisent balanceMutex dans l'implémentation)
+    double getBalance(const std::string& currency) const;
+    void setBalance(const std::string& currency, double value);
+
+    // Déclenche la sauvegarde
+    void updateBalance();
 };
 
-#endif // BOT_H
+#endif

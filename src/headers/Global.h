@@ -1,38 +1,60 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#include <atomic>
-#include <array>
 #include <string>
+#include <vector>
+#include <atomic>
+#include <mutex> 
+#include <thread> 
+#include <memory> 
 
-namespace Global
-{   
-    // ?
-    extern std::atomic<bool> stopRequested;
-    // contient les valeurs du BTC de toute une journée (24h)
-    extern std::array<double, 1> BTC_daily_values;
+#include "../headers/Logger.h" 
 
-    // retourne la valeur de stopRequested
-    std::atomic<bool> &getStopRequested();
-    // retourne la valeur de BTC_daily_values
-    std::array<double, 1> &getBTCDailyValues();
-    // Remplit BTC_daily_values à partir d'un fichier CSV
-    void populateBTCValuesFromCSV(const std::string &filename);
-    // Écrit les valeurs BTC dans un fichier CSV
-    void writeBTCValuesToCSV(const std::string &filename);
-    // Lit les valeurs BTC à partir d'un fichier CSV
-    void readBTCValuesFromCSV(const std::string &filename);
-    // Affiche les valeurs BTC pour un jour donné, entre deux secondes spécifiques
-    void printBTCValuesForDay(int day, int start_second, int end_second);
-    // Complète les valeurs BTC pour chaque seconde de la journée et les écrit dans un fichier CSV
-    void Complete_BTC_value();
 
-    //double getRandomDouble(double range);
+class Global {
+private:
+    // Membres statiques pour les données partagées
+    static std::mutex srdMutex;
+    static double lastSRDBTCValue;
 
-    // genère un double aléatoire respectant certaines contraintes
-    double getRandomDouble();
-    // Retourne la valeur quotidienne du BTC pour un jour donné
-    float get_daily_BTC_value(int d);
-}
+    static const int MAX_VALUES_PER_DAY = 5760; 
+    static std::vector<double> ActiveSRDBTC; // Buffer circulaire
+    static std::atomic<int> activeIndex;   // Index dans le buffer
 
-#endif // GLOBAL_H
+    // Flag atomique pour signaler l'arrêt du thread de génération de prix
+    static std::atomic<bool> stopRequested;
+
+    // Membre statique pour le thread géré par Global elle-même
+    static std::thread priceGenerationWorker;
+
+
+    // Callback pour libcurl (déclaration)
+    // Note : L'implémentation de cette fonction sera dans Global.cpp
+    static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
+
+    // Fonction pour générer et mettre à jour le prix SRD-BTC (exécutée dans le thread interne)
+    // Reste privée car elle est lancée par le thread interne de Global.
+    static void generate_SRD_BTC_loop_impl();
+
+
+public:
+    // Méthodes statiques pour démarrer/arrêter le thread interne de Global
+    // Appelées par le serveur au démarrage et à l'arrêt.
+    static void startPriceGenerationThread();
+    static void stopPriceGenerationThread();
+
+    // Méthodes statiques pour accéder aux prix (utilisées par les Bots, etc.)
+    // Elles sont thread-safe grâce au mutex et aux atomics.
+    static double getPrice(const std::string& currency);
+    static double getPreviousPrice(const std::string& currency, int secondsBack);
+
+    // Méthode statique pour accéder au flag d'arrêt (principalement utilisée en interne par generate_SRD_BTC_loop_impl)
+    static std::atomic<bool>& getStopRequested();
+
+    // Désactiver le constructeur et le destructeur si Global est une classe utilitaire statique pure
+    // Cela empêche la création d'instances de Global.
+    Global() = delete;
+    ~Global() = delete;
+};
+
+#endif
