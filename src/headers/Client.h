@@ -25,8 +25,6 @@ private:
     SSL *ssl;
     // structure spécifiant l'adresse du serveur
     struct sockaddr_in serverAddr;
-    // pointeur intelligent vers son/ses Bots
-    std::shared_ptr<Bot> tradingBot;
 
     /* Méthodes */
     // Initialiser le contexte SSL pour le client
@@ -49,10 +47,13 @@ public:
     ~Client();
     // Fonction principale pour démarrer le client (connecter le client au Serveur)
     void StartClient(const std::string &serverAddress, int port);
+
+    // Méthode pour mettre de l'argent dans son solde
+    void inject(const double money);
     // Méthode d'achat de cryptomonaie
-    void buy(const std::string &currency, double percentage);
+    void buy(const std::string &currency, double amount);
     // Méthode de vente de cryptomonaie
-    void sell(const std::string &currency, double percentage);
+    void sell(const std::string &currency, double amount);
     // Méthode qui fait appel à la technique d'investissement du serveur, fait par les Bots
     void invest();
     // Méthode qui fait appel à la technique de trading du serveur, fait par les Bots

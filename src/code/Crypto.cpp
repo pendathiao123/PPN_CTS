@@ -5,7 +5,6 @@
 #include <chrono>
 #include <thread>
 #include "../headers/Crypto.h"
-#include "../headers/Bot.h"
 
 // Constructeurs
 Crypto::Crypto() : name(""), price(0.0), changeRate(0.0), balances(balances) {}
@@ -67,45 +66,4 @@ double Crypto::get_prv_price(const std::string &currency)
         }
     }
     return price; // Retourner le dernier prix enregistré
-}
-
-Bot bot1{"SRD-BTC"};
-
-// Méthode pour vendre une crypto
-void Crypto::sellCrypto(const std::string &crypto, double percentage)
-{
-    std::cout << "Vente de " << percentage << " pourcent de " << crypto << std::endl;
-    // Ajouter la logique de vente ici
-
-    double solde_crypto = bot1.getBalance("SRD-BTC");
-    double quantite = solde_crypto * percentage;
-    std::unordered_map<std::string, double> bot_balance = bot1.get_total_Balance();
-
-    bot_balance["SRD-BTC"] = bot_balance["SRD-BTC"] - quantite;
-    Crypto cryptosell;
-    double val2 = quantite * cryptosell.getPrice("SRD-BTC");
-
-    bot_balance["DOLLARS"] = bot_balance["DOLLARS"] + val2;
-
-    bot1.updateBalance(bot_balance);
-}
-
-// Méthode pour acheter une crypto
-void Crypto::buyCrypto(const std::string &crypto, double percentage)
-{
-    std::cout << "Achat de " << percentage << " pourcent de " << crypto << std::endl;
-    // Ajouter la logique d'achat ici
-
-    double solde_dollars = bot1.getBalance("DOLLARS");
-    double val1 = solde_dollars * percentage;
-    std::unordered_map<std::string, double> bot_balance = bot1.get_total_Balance();
-
-    bot_balance["DOLLARS"] = bot_balance["DOLLARS"] - val1;
-    Crypto cryptobuy;
-    double val2 = cryptobuy.getPrice("SRD-BTC");
-    double quantite = val1 / val2;
-
-    bot_balance["SRD-BTC"] = bot_balance["SRD-BTC"] + quantite;
-
-    bot1.updateBalance(bot_balance);
 }

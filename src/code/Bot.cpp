@@ -9,15 +9,6 @@
 // Initialisation des constantes
 const std::string Bot::BTC_VALUES_FILE = "../src/data/btc_data.csv";
 
-Bot::Bot(const std::string &currency){
-    solde_origin = 10000.0f;
-    prv_price = 0.0f;
-    balances = {
-        {currency, 0.0},
-        {"DOLLARS", 10000.0}};
-    Global::populateBTCValuesFromCSV("../src/data/btc_data.csv");
-}
-
 Bot::Bot(){
     // quand on demarre un Bot, toutes ses valeurs sont à zéro.
     solde_origin = 0.0f;
@@ -57,28 +48,29 @@ void Bot::updateBalance(std::unordered_map<std::string, double> bot_balance)
 }
 
 
-void Bot::trading(int *res)
+void Bot::trading(int &action, double &q, const double dollars, const double srd_btc)
 {
+    double price = getPrice("SRD-BTC");
+    double evolution = 1 + ((price - prv_price) / price);
     //for (int t = 300; t < 339292800; t += 300) // very long ~ 1 million
     for (int t = 300; t < 33929; t += 300)
     {
-        double solde = getBalance("DOLLARS");
-        double price = getPrice("SRD-BTC");
-        double evolution = 1 + ((price - prv_price) / price);
+        price = getPrice("SRD-BTC");
+        evolution = 1 + ((price - prv_price) / price);
 
-        if (solde > 0.5 * solde_origin)
+        if (dollars > 0.5 * 100.0) // ceci devra être retravaillé
         {
             if (evolution >= 1.02)
             {
                 // Vente de "SRD-BTC"
-                res[0] = 2; // code de vente
-                res[1] = 100; // quantité vendue
+                action = 2; // code de vente
+                q = 100; // quantité vendue
             }
             else if (evolution <= 0.98)
             {
                 // Achat de "SRD-BTC"
-                res[0] = 1; // code d'achat
-                res[1] = 5; // quantité acheté
+                action = 1; // code d'achat
+                q = 5; // quantité acheté
             }
         }
         else
@@ -86,14 +78,14 @@ void Bot::trading(int *res)
             if (evolution >= 1.04)
             {
                 // Vente de "SRD-BTC"
-                res[0] = 2; // code de vente
-                res[1] = 100; // quantité vendue
+                action = 2; // code de vente
+                q = 100; // quantité vendue
             }
             else if (evolution <= 0.96)
             {
                 // Achat de "SRD-BTC"
-                res[0] = 1; // code d'achat
-                res[1] = 5; // quantité acheté
+                action = 1; // code d'achat
+                q = 5; // quantité acheté
             }
         }
         prv_price = price;
@@ -101,32 +93,31 @@ void Bot::trading(int *res)
 }
 
 
-void Bot::investing(int *res)
+void Bot::investing(int &action, double &q, const double dollars, const double srd_btc)
 {
     std::cout << "Passage dans Bot::investing " << std::endl;
 
-    double solde = getBalance("DOLLARS");
     double price = getPrice("SRD-BTC");
     double evolution = 1 + ((price - prv_price) / price);
 
-    std::cout << "Solde: " << solde << ", Price: " << price << ", Evolution: " << evolution << std::endl;
+    std::cout << "Solde: " << dollars << ", Price: " << price << ", Evolution: " << evolution << std::endl;
 
-    if (solde > 0.5 * solde_origin)
+    if (dollars > 0.5 * 100) // à retravailler
     {
         std::cout << "Solde > 0.5 * solde_origin" << std::endl;
         if (evolution >= 1.005)
         {
             std::cout << "Evolution >= 1.005, Selling 100%" << std::endl;
             // Vente de "SRD-BTC"
-            res[0] = 2; // code de vente
-            res[1] = 100; // quantité vendue
+            action = 2; // code de vente
+            q = 100; // quantité vendue
         }
         else if (evolution <= 0.995)
         {
             std::cout << "Evolution <= 0.995, Buying 5%" << std::endl;
             // Achat de "SRD-BTC"
-            res[0] = 1; // code d'achat
-            res[1] = 5; // quantité acheté
+            action = 1; // code d'achat
+            q = 5; // quantité acheté
         }
         else
         {
@@ -140,15 +131,15 @@ void Bot::investing(int *res)
         {
             std::cout << "Evolution >= 1.04, Selling 80%" << std::endl;
             // Vente de "SRD-BTC"
-            res[0] = 2; // code de vente
-            res[1] = 100; // quantité vendue
+            action = 2; // code de vente
+            q = 100; // quantité vendue
         }
         else if (evolution <= 0.96)
         {
             std::cout << "Evolution <= 0.96, Buying 3%" << std::endl;
             // Achat de "SRD-BTC"
-            res[0] = 1; // code d'achat
-            res[1] = 5; // quantité acheté
+            action = 1; // code d'achat
+            q = 5; // quantité acheté
         }
         else
         {

@@ -194,6 +194,10 @@ std::string Server::newConnection(const std::string idClient){
         SaveUsers(usersFile, users);
         affiche("Nouvel ID: " + idClient + ", Nouveau Token: " + token);
 
+        // Avant de sortir de la fonction on initialise le solde du nouveau client
+        std::array<double,2> vide = {0.0,0.0}; // 0 $ et 0 SRD-BTC
+        soldes.insert({idClient,vide});
+
         // On retourne l'information au client sur son nouvel identifiant
         return new_accnt + idClient + "," + token;
     }else{
@@ -273,31 +277,97 @@ std::string Server::DeConnection(const std::string idClient){
     return "DISCONNECTED";
 }
 
+// Méthode pour mettre l'argent des clients dans leur solde
+std::string Server::putMoney(std::string idClient, std::string order){
+    // extraction données requete
+    std::istringstream iss(order);
+    std::string action;
+    double money;
+    if (!(iss >> action >> money))
+    {
+        afficheErr("Erreur: Format de commande invalide");
+        return "Erreur: Format de commande invalide\n";
+    }
+
+    // on suppose que money n'est pas négatif
+    soldes[idClient].at(0) = money; // mis à jour du solde du client
+
+    return "Montant inseré dans le compte";
+}
+
+// Méthode pour acheter des Cryptos
+int Server::buyCrypto(const std::string& id, const std::string& crypto, double q){
+    // On vérifie le prix de la crypto-monaie en question
+    double prix = crypto_monaie.getPrice(crypto);
+    affiche(std::to_string(prix)); // debug line
+    if(prix =! false){
+        // On verifie alors que le Client a assez pour en acheter
+        double achat = prix * q;
+        if(soldes[id].at(0) >= achat){
+            // Toutes les verifications sont faites, on passe à l'achat
+            soldes[id].at(0) -= achat;
+            soldes[id].at(1) += q;
+
+            // Créer une transaction et l'enregistrer dans le fichier
+            Transaction transaction(id, "buy", crypto, q, prix);
+            affiche("Création de la transaction: " + transaction.getId());
+            transaction.logTransactionToCSV(logFile);
+
+            return 1; // tout est ok
+        }
+        return -1; // erreur
+    }
+    return -1; // erreur
+}
+
+// Méthode pour vendre des Cryptos
+int Server::sellCrypto(const std::string& id, const std::string& crypto, double q){
+    // On vérifie le prix de la crypto-monaie en question
+    double prix = crypto_monaie.getPrice(crypto);
+    if(prix =! false){
+        // On vérifie que le Client a assez de cryptos pour en vendre une quantité q
+        if(soldes[id].at(1) >= q){
+            // On passe à la vente
+            double vente = prix * q;
+            soldes[id].at(0) += vente;
+            soldes[id].at(1) -= q;
+
+            // Créer une transaction et l'enregistrer dans le fichier
+            Transaction transaction(id, "sell", crypto, q, prix);
+            affiche("Création de la transaction: " + transaction.getId());
+            transaction.logTransactionToCSV(logFile);
+            return 1; // tout est ok
+        }
+        return -1; // erreur
+    }
+    return -1; // erreur
+}
+
+
 // Gérer la commande d'achat
 std::string Server::handleBuy(const std::string &request, const std::string &clientId)
 {
     // Extraire la paire de crypto et le pourcentage de la requête
     std::istringstream iss(request);
     std::string action, currency;
-    double percentage;
-    if (!(iss >> action >> currency >> percentage))
+    double quantity;
+    if (!(iss >> action >> currency >> quantity)) // extraction données requete
     {
         afficheErr("Erreur: Format de commande invalide");
         return "Erreur: Format de commande invalide\n";
     }
-    if (percentage <= 0 || percentage > 100)
-    {
-        afficheErr("Erreur: Pourcentage invalide");
-        return "Erreur: Pourcentage invalide\n";
+    // on verifie que la quantite qu'on veut acheter n'est pas nulle
+    if(quantity <= 0){
+        afficheErr("Erreur: quantité nulle ou négative non admise");
+        return "Erreur: quantité nulle ou négative non admise";
     }
-    affiche("Achat de " + std::to_string(percentage) + "% de " + currency + " réussi");
+    if(buyCrypto(clientId,currency,quantity) == -1){ // achat de crypto
+        afficheErr("Erreur au niveau de l'achat");
+        return "Erreur au niveau de l'achat";
+    }
+    affiche("Achat de " + std::to_string(quantity) + " de " + currency + " réussi");
 
-    // Créer une transaction et l'enregistrer dans le fichier
-    Transaction transaction(clientId, "buy", currency, percentage, 30000); // Exemple de prix unitaire, à modifier si nécessaire
-    affiche("Création de la transaction: " + transaction.getId());
-    transaction.logTransactionToCSV(logFile);
-
-    return "Achat de " + std::to_string(percentage) + "% de " + currency + " réussi\n";
+    return "Achat de " + std::to_string(quantity) + " de" + currency + " réussi\n";
 }
 
 // Gérer la commande de vente
@@ -306,46 +376,45 @@ std::string Server::handleSell(const std::string &request, const std::string &cl
     // Extraire la paire de crypto et le pourcentage de la requête
     std::istringstream iss(request);
     std::string action, currency;
-    double percentage;
-    if (!(iss >> action >> currency >> percentage))
+    double quantity;
+    if (!(iss >> action >> currency >> quantity)) // extraction données requete
     {
         afficheErr("Erreur: Format de commande invalide");
         return "Erreur: Format de commande invalide\n";
     }
-    if (percentage <= 0 || percentage > 100)
-    {
-        afficheErr("Erreur: Pourcentage invalide");
-        return "Erreur: Pourcentage invalide\n";
+    // on verifie que la quantite qu'on veut vendre n'est pas nulle
+    if(quantity <= 0){
+        afficheErr("Erreur: quantité nulle ou négative non admise");
+        return "Erreur: quantité nulle ou négative non admise";
     }
-    affiche("Vente de " + std::to_string(percentage) + "% de " + currency + " réussie");
+    if(sellCrypto(clientId,currency,quantity) == -1){ // vente de crypto
+        afficheErr("Erreur au niveau de la vente");
+        return "Erreur au niveau de la vente";
+    }
+    affiche("Vente de " + std::to_string(quantity) + " de " + currency + " réussie");
 
-    // Créer une transaction et l'enregistrer dans le fichier
-    Transaction transaction(clientId, "sell", currency, percentage, 30000); // Exemple de prix unitaire, à modifier si nécessaire
-    affiche("Création de la transaction: " + transaction.getId());
-    transaction.logTransactionToCSV(logFile);
-
-    return "Vente de " + std::to_string(percentage) + "% de " + currency + " réussie\n";
+    return "Vente de " + std::to_string(quantity) + " de " + currency + " réussie\n";
 }
 
 // Fonction qui gere les Bots dans le serveur
-std::string Server::serverUseBot(int a){
+std::string Server::serverUseBot(const std::string id, const int a){
     // variables
-    /* Remarque: ici on a pris un tableau de taille fixe (2), mais si on veut rendre le code
-    plus souple on devrait prendre une autre structure de donné plus elaboré. Ici on a
-    seulement fait le choix de la simplicité */
-    int action[2];
-    action[0] = -1; // valeur par défaut
+    int action = -1; // valeur par défaut qui désigne un erreur
+    double qex = 0.0; // quantité à échanger
     std::string res = "";
     //std::cout << "switch 1\n"; // debug line
+
     // determination de l'action à effectuer
     switch (a)
     {
     case 1:
-        serverBot.get()->investing(action);
+        // execution algo complexe
+        serverBot.get()->investing(action, qex, soldes[id].at(0), soldes[id].at(1));
         break;
 
     case 2:
-        serverBot.get()->trading(action);
+        // execution algo complexe
+        serverBot.get()->trading(action, qex, soldes[id].at(0), soldes[id].at(1));
         break;
     // on peut ajouter autant de cas que le Bot peut faire des choses ...
 
@@ -355,14 +424,22 @@ std::string Server::serverUseBot(int a){
     //std::cout << "switch 2\n"; // debug line
 
     // execution de l'achat ou de la vente
-    switch (action[0])
+    switch (action)
     {
     case 1: // achat
-        res = "Achat de x crypoto";
+        if(buyCrypto(id,"SRD-BTC",qex) == -1){
+            res = "Erreur au niveau de l'achat";
+        }else{
+            res = "Achat de " + std::to_string(qex) + " SRD-BTC\n";
+        }
         break;
 
     case 2: // vente
-        res = "Vente de x crypto";
+        if(sellCrypto(id,"SRD-BTC",qex) == -1){
+            res = "Erreur au niveau de la vente";
+        }else{
+            res = "Vente de " + std::to_string(qex) + " SRD-BTC\n";
+        }
         break;
 
     default: // pour le cas -1
@@ -405,6 +482,7 @@ void Server::HandleClient(SSL *ssl){
         std::string vente = "SELL";
         std::string invest = "INVEST";
         std::string trade = "TRADE";
+        std::string inject = "INJECT";
 
         // Authentification du Client
         if(Connection(ssl,id,receivedMessage)){ // Si le Client arrive à se connecter
@@ -418,7 +496,10 @@ void Server::HandleClient(SSL *ssl){
 
             // Tant que on ne reçoit pas de demande de deconnexion
             while(receivedMessage.find(deco) == std::string::npos){
-                if(receivedMessage.find(achat) != std::string::npos){ // Requête d'achat
+                if(receivedMessage.find(inject) != std::string::npos){ // Requête pour remplir le compte
+                    // Gérer l'actualisation du solde du client
+                    response = putMoney(id, receivedMessage);
+                }else if(receivedMessage.find(achat) != std::string::npos){ // Requête d'achat
                     // Gérer la commande d'achat
                     response = handleBuy(receivedMessage, id);
                 }else if(receivedMessage.find(vente) != std::string::npos){ // Requête de vente
@@ -426,10 +507,10 @@ void Server::HandleClient(SSL *ssl){
                     response = handleSell(receivedMessage, id);
                 }else if(receivedMessage.find(invest) != std::string::npos){ // Requête d'investissement
                     // Appel à la fonction de gestion des Bots, pour une demande d'investissement
-                    response = serverUseBot(1);
+                    response = serverUseBot(id, 1);
                 }else if(receivedMessage.find(trade) != std::string::npos){ // Requête de trading
                     // Appel à la fonction de gestion des Bots, pour une demande de trade
-                    response = serverUseBot(2);
+                    response = serverUseBot(id, 2);
                 }else{
                     // Le Client n'a pas formulé un demande explicite
                     /* Si on veut faire adopter au Serveur un comportement restrictif,

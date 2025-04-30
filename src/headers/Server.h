@@ -7,7 +7,10 @@
 #include <string>
 #include <fstream>
 #include <memory>
+#include <vector>
+#include <array>
 #include "Bot.h"
+#include "Crypto.h"
 
 // Fonction pour générer une chaîne de caractères aléatoire
 std::string GenerateRandomString(size_t length);
@@ -36,15 +39,33 @@ private:
     /* Variables du serveur */
     // port atribué au serveur
     const int PORT;
+
     // unordered map des comptes clients
     std::unordered_map<std::string, std::string> users;
     // chemin vers fichier contenant les comptes utilisateurs
     const std::string usersFile;
+
     // chemin vers fichier des logs (transactions de $)
     const std::string logFile;
+
     // pointeur intelligent vers le Bot fourni par le serveur
     std::shared_ptr<Bot> serverBot;
 
+    // lien vers la classe qui gère les cryptos
+    Crypto crypto_monaie;
+    // structure pour gerer les soldes des tous les clients
+    std::unordered_map<std::string,std::array<double,2>> soldes;
+
+    /*
+    // structure de données pour le compte d'un client    
+    struct portfolio{
+        std::string id_Client;
+        double currency[2]: // pour l'instant on se limite à 2: [$,SRD-BTC]
+    };
+    // structure pour gerer les soldes des tous les clients:
+    std::vector soldes<portfolio>;
+    */
+    
 
     /* Méthodes privés du serveur */
     // Gestion des affichages dans le terminal
@@ -54,22 +75,25 @@ private:
 
     // Fonction pour gérer la reception de requêtes
     std::string receiveRequest(SSL *ssl);
-
     // Fonction pour gérer l'envoie de reponses
     int sendResponse(SSL *ssl, const std::string &response);
 
     // Créer un nouveau compte client:
     std::string newConnection(const std::string idClient);
-
     // Gérer les connexions des clients
     int Connection(SSL *ssl, const std::string idClient, std::string msgClient);
-
     // Gérer les deconnxions des clients
     std::string DeConnection(const std::string idClient);
 
-    // Gérer une connexion client
-    void HandleClient(SSL *ssl);
-    
+    //==================Méthodes critiques !!==================
+    // Méthode pour mettre l'argent des clients dans leur solde
+    std::string putMoney(std::string idClient, std::string order);
+    // Méthode pour acheter des Cryptos
+    int buyCrypto(const std::string& id, const std::string& crypto, double q);
+    // Méthode pour vendre des Cryptos
+    int sellCrypto(const std::string& id, const std::string& crypto, double q);
+    //=========================================================
+
     // Gérer une requête d'achat
     std::string handleBuy(const std::string &request, const std::string &clientId);
 
@@ -77,7 +101,10 @@ private:
     std::string handleSell(const std::string &request, const std::string &clientId);
 
     // Fonction qui gere les Bots dans le serveur
-    std::string serverUseBot(int a);
+    std::string serverUseBot(const std::string id, const int a);
+
+    // Gérer une connexion client
+    void HandleClient(SSL *ssl);    
 
 public:
 

@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 #include <string.h>
 
-Client::Client(int id) : clientSocket(-1), ctx(nullptr), ssl(nullptr), tradingBot(nullptr), ID(id)
+Client::Client(int id) : clientSocket(-1), ctx(nullptr), ssl(nullptr), ID(id)
 {
     memset(&serverAddr, 0, sizeof(serverAddr));
 }
@@ -221,65 +221,29 @@ void Client::StartClient(const std::string &serverAddress, int port)
     // Si aucun cas d'erreur est detecté on sort de la fonction et le client est connecté
 }
 
-void Client::buy(const std::string &currency, double percentage)
-{
-    if (!tradingBot)
-    {
-        tradingBot = std::make_shared<Bot>(currency);
-    }
-
-    double solde_dollars = tradingBot->getBalance("DOLLARS");
-    double val1 = solde_dollars * (percentage / 100.0);
-    std::unordered_map<std::string, double> bot_balance = tradingBot->get_total_Balance();
-
-    if (bot_balance["DOLLARS"] < val1)
-    {
-        afficheErr("Erreur : Solde en dollars insuffisant pour acheter " + std::to_string(percentage) + "% de " + currency);
-        return;
-    }
-
-    bot_balance["DOLLARS"] -= val1;
-    Crypto crypto;
-    double val2 = crypto.getPrice(currency);
-    double quantite = val1 / val2;
-
-    bot_balance[currency] += quantite;
-    tradingBot->updateBalance(bot_balance);
-
-    std::string request = "BUY " + currency + " " + std::to_string(percentage);
-    sendRequest(request);
-    std::string response = receiveResponse();
-    affiche("Réponse à l'achat : " + response);
+// Méthode pour mettre de l'argent dans son solde
+void Client::inject(const double money){
+    // constitution de la chîne de caractéres à envoyer
+    std::string order = "INJECT " + std::to_string(money);
+    sendRequest(order); // on envoie la "demande"
+    std::string response = receiveResponse(); // on attand la reponse du Serveur
+    //affiche("Reponse à l'injection d'argent: " + response);
 }
 
-void Client::sell(const std::string &currency, double percentage)
+void Client::buy(const std::string &currency, double amount)
 {
-    if (!tradingBot)
-    {
-        tradingBot = std::make_shared<Bot>(currency);
-    }
-
-    double solde_crypto = tradingBot->getBalance(currency);
-    double quantite = solde_crypto * (percentage / 100.0);
-    std::unordered_map<std::string, double> bot_balance = tradingBot->get_total_Balance();
-
-    if (bot_balance[currency] < quantite)
-    {
-        afficheErr("Erreur : Solde insuffisant pour vendre " + std::to_string(quantite) + " de " + currency);
-        return;
-    }
-
-    bot_balance[currency] -= quantite;
-    Crypto crypto;
-    double val2 = quantite * crypto.getPrice(currency);
-
-    bot_balance["DOLLARS"] += val2;
-    tradingBot->updateBalance(bot_balance);
-
-    std::string request = "SELL " + currency + " " + std::to_string(percentage);
+    std::string request = "BUY " + currency + " " + std::to_string(amount);
     sendRequest(request);
     std::string response = receiveResponse();
-    affiche("Réponse à la vente : " + response);
+    //affiche("Réponse à l'achat : " + response);
+}
+
+void Client::sell(const std::string &currency, double amount)
+{
+    std::string request = "SELL " + currency + " " + std::to_string(amount);
+    sendRequest(request);
+    std::string response = receiveResponse();
+    //affiche("Réponse à la vente : " + response);
 }
 
 void Client::invest(){

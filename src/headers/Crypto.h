@@ -31,12 +31,6 @@ public:
 
     // Méthode pour récupérer le dernier prix enregistré (pour le bot)
     static double get_prv_price(const std::string& currency);
-
-    // Méthode pour vendre une crypto
-    static void sellCrypto(const std::string& crypto, double percentage);
-
-    // Méthode pour acheter une crypto
-    static void buyCrypto(const std::string& crypto, double percentage);
 };
 
 #endif  // CRYPTO_H

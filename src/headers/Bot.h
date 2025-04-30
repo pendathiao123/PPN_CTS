@@ -22,10 +22,6 @@ private:
 
     // solde actuel du Bot
     std::unordered_map<std::string, double> balances;
-    
-    // reference (smart pointer) vers le Serveur qui détient le Bot (à priori ne change pas)
-    //const std::shared_ptr<Server> SERV;
-
 
 public:
     // nom du fichier contenant valeurs (passées) de la cryptomonaie
@@ -33,8 +29,6 @@ public:
 
     // Constructeur par défaut
     Bot();
-    // Constructeur avec un argument
-    Bot(const std::string &currency);
 
     // Destructeur
     ~Bot();
@@ -47,10 +41,10 @@ public:
     void updateBalance(std::unordered_map<std::string, double> bot_balance);
 
     // Fonction de trading du bot
-    void trading(int *res);
+    void trading(int &action, double &q, const double dollars, const double srd_btc);
     
     // Fonction d'investissement du bot
-    void investing(int *res);
+    void investing(int &action, double &q, const double dollars, const double srd_btc);
 
     // Retourne le prix de la devise spécifiée
     double getPrice(const std::string &currency);
