@@ -231,33 +231,6 @@ src/code/Bot.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.s
 .PHONY : src/code/Bot.cpp.s
 
-src/code/Client.o: src/code/Client.cpp.o
-.PHONY : src/code/Client.o
-
-# target to build an object file
-src/code/Client.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Client.cpp.o
-.PHONY : src/code/Client.cpp.o
-
-src/code/Client.i: src/code/Client.cpp.i
-.PHONY : src/code/Client.i
-
-# target to preprocess a source file
-src/code/Client.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Client.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Client.cpp.i
-.PHONY : src/code/Client.cpp.i
-
-src/code/Client.s: src/code/Client.cpp.s
-.PHONY : src/code/Client.s
-
-# target to generate assembly for a file
-src/code/Client.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Client.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Client.cpp.s
-.PHONY : src/code/Client.cpp.s
-
 src/code/ClientAuthenticator.o: src/code/ClientAuthenticator.cpp.o
 .PHONY : src/code/ClientAuthenticator.o
 
@@ -281,6 +254,30 @@ src/code/ClientAuthenticator.s: src/code/ClientAuthenticator.cpp.s
 src/code/ClientAuthenticator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.s
 .PHONY : src/code/ClientAuthenticator.cpp.s
+
+src/code/ClientInitiator.o: src/code/ClientInitiator.cpp.o
+.PHONY : src/code/ClientInitiator.o
+
+# target to build an object file
+src/code/ClientInitiator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/ClientInitiator.cpp.o
+.PHONY : src/code/ClientInitiator.cpp.o
+
+src/code/ClientInitiator.i: src/code/ClientInitiator.cpp.i
+.PHONY : src/code/ClientInitiator.i
+
+# target to preprocess a source file
+src/code/ClientInitiator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/ClientInitiator.cpp.i
+.PHONY : src/code/ClientInitiator.cpp.i
+
+src/code/ClientInitiator.s: src/code/ClientInitiator.cpp.s
+.PHONY : src/code/ClientInitiator.s
+
+# target to generate assembly for a file
+src/code/ClientInitiator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/ClientInitiator.cpp.s
+.PHONY : src/code/ClientInitiator.cpp.s
 
 src/code/ClientSession.o: src/code/ClientSession.cpp.o
 .PHONY : src/code/ClientSession.o
@@ -429,6 +426,33 @@ src/code/Server.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Server.cpp.s
 .PHONY : src/code/Server.cpp.s
 
+src/code/ServerConnection.o: src/code/ServerConnection.cpp.o
+.PHONY : src/code/ServerConnection.o
+
+# target to build an object file
+src/code/ServerConnection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.o
+.PHONY : src/code/ServerConnection.cpp.o
+
+src/code/ServerConnection.i: src/code/ServerConnection.cpp.i
+.PHONY : src/code/ServerConnection.i
+
+# target to preprocess a source file
+src/code/ServerConnection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.i
+.PHONY : src/code/ServerConnection.cpp.i
+
+src/code/ServerConnection.s: src/code/ServerConnection.cpp.s
+.PHONY : src/code/ServerConnection.s
+
+# target to generate assembly for a file
+src/code/ServerConnection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.s
+.PHONY : src/code/ServerConnection.cpp.s
+
 src/code/Transaction.o: src/code/Transaction.cpp.o
 .PHONY : src/code/Transaction.o
 
@@ -477,6 +501,30 @@ src/code/TransactionQueue.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.s
 .PHONY : src/code/TransactionQueue.cpp.s
 
+src/code/Utils.o: src/code/Utils.cpp.o
+.PHONY : src/code/Utils.o
+
+# target to build an object file
+src/code/Utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.o
+.PHONY : src/code/Utils.cpp.o
+
+src/code/Utils.i: src/code/Utils.cpp.i
+.PHONY : src/code/Utils.i
+
+# target to preprocess a source file
+src/code/Utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.i
+.PHONY : src/code/Utils.cpp.i
+
+src/code/Utils.s: src/code/Utils.cpp.s
+.PHONY : src/code/Utils.s
+
+# target to generate assembly for a file
+src/code/Utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.s
+.PHONY : src/code/Utils.cpp.s
+
 src/code/Wallet.o: src/code/Wallet.cpp.o
 .PHONY : src/code/Wallet.o
 
@@ -519,12 +567,12 @@ help:
 	@echo "... src/code/Bot.o"
 	@echo "... src/code/Bot.i"
 	@echo "... src/code/Bot.s"
-	@echo "... src/code/Client.o"
-	@echo "... src/code/Client.i"
-	@echo "... src/code/Client.s"
 	@echo "... src/code/ClientAuthenticator.o"
 	@echo "... src/code/ClientAuthenticator.i"
 	@echo "... src/code/ClientAuthenticator.s"
+	@echo "... src/code/ClientInitiator.o"
+	@echo "... src/code/ClientInitiator.i"
+	@echo "... src/code/ClientInitiator.s"
 	@echo "... src/code/ClientSession.o"
 	@echo "... src/code/ClientSession.i"
 	@echo "... src/code/ClientSession.s"
@@ -543,12 +591,18 @@ help:
 	@echo "... src/code/Server.o"
 	@echo "... src/code/Server.i"
 	@echo "... src/code/Server.s"
+	@echo "... src/code/ServerConnection.o"
+	@echo "... src/code/ServerConnection.i"
+	@echo "... src/code/ServerConnection.s"
 	@echo "... src/code/Transaction.o"
 	@echo "... src/code/Transaction.i"
 	@echo "... src/code/Transaction.s"
 	@echo "... src/code/TransactionQueue.o"
 	@echo "... src/code/TransactionQueue.i"
 	@echo "... src/code/TransactionQueue.s"
+	@echo "... src/code/Utils.o"
+	@echo "... src/code/Utils.i"
+	@echo "... src/code/Utils.s"
 	@echo "... src/code/Wallet.o"
 	@echo "... src/code/Wallet.i"
 	@echo "... src/code/Wallet.s"

@@ -161,7 +161,7 @@ CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o: \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Client.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/ServerConnection.h \
  /usr/include/c++/11/stdexcept /usr/include/x86_64-linux-gnu/sys/socket.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/include/x86_64-linux-gnu/bits/socket.h \
@@ -269,6 +269,7 @@ CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o: \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Bot.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Global.h \
  /usr/include/c++/11/cstddef \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Transaction.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Wallet.h \
  /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
  /usr/include/c++/11/bits/node_handle.h \
@@ -278,7 +279,29 @@ CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o: \
  /usr/include/c++/11/bits/fs_fwd.h /usr/include/c++/11/bits/fs_path.h \
  /usr/include/c++/11/codecvt /usr/include/c++/11/bits/fs_dir.h \
  /usr/include/c++/11/bits/fs_ops.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Transaction.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/TransactionQueue.h \
+ /usr/include/c++/11/queue /usr/include/c++/11/deque \
+ /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
+ /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h \
+ /usr/include/c++/11/condition_variable /usr/include/c++/11/unordered_map \
+ /usr/include/c++/11/bits/hashtable.h \
+ /usr/include/c++/11/bits/hashtable_policy.h \
+ /usr/include/c++/11/bits/enable_special_members.h \
+ /usr/include/c++/11/bits/unordered_map.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Wallet.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/ServerConnection.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Bot.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Wallet.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/TransactionQueue.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
+ /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
+ /usr/include/c++/11/bits/algorithmfwd.h \
+ /usr/include/c++/11/bits/uniform_int_dist.h \
+ /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
  /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
@@ -300,27 +323,4 @@ CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o: \
  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
  /usr/include/c++/11/tr1/poly_hermite.tcc \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
- /usr/include/c++/11/tr1/riemann_zeta.tcc \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/TransactionQueue.h \
- /usr/include/c++/11/queue /usr/include/c++/11/deque \
- /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
- /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h \
- /usr/include/c++/11/condition_variable /usr/include/c++/11/unordered_map \
- /usr/include/c++/11/bits/hashtable.h \
- /usr/include/c++/11/bits/hashtable_policy.h \
- /usr/include/c++/11/bits/enable_special_members.h \
- /usr/include/c++/11/bits/unordered_map.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Wallet.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Wallet.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/TransactionQueue.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Bot.h \
- /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
- /usr/include/c++/11/bits/algorithmfwd.h \
- /usr/include/c++/11/bits/uniform_int_dist.h \
- /usr/include/c++/11/pstl/glue_algorithm_defs.h \
- /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h
+ /usr/include/c++/11/tr1/riemann_zeta.tcc

@@ -1,0 +1,1 @@
+mon_client_id_depuis_script mon_token_depuis_script_hashed_INSECURE
