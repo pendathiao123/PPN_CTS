@@ -108,6 +108,13 @@ set(CLIENT_ALL_SRC
     # Corrigeons main_Cli.cpp pour qu'il n'inclue que ce dont il a besoin.
 )
 
+set(BENCHMARK_SRC
+    ${CODE_DIR}/Benchmark.cpp
+    ${CODE_DIR}/Client.cpp
+    ${CODE_DIR}/Logger.cpp
+    ${CODE_DIR}/Transaction.cpp
+)
+
 
 # --- Configuration de compilation ---
 
@@ -144,6 +151,8 @@ add_executable(Test_Serv ${SERVER_ALL_SRC})
 # Création de l'exécutable client (sources corrigées)
 add_executable(Test_Cli ${CLIENT_ALL_SRC})
 
+# Création de l'exécutable benchmark
+add_executable(Test_Benchmark ${BENCHMARK_SRC})
 
 # --- Lier les bibliothèques aux exécutables ---
 
@@ -164,6 +173,14 @@ target_link_libraries(Test_Cli
     ${CMAKE_THREAD_LIBS_INIT} # Si ton client utilise des threads
 )
 
+# Lier les bibliothèques nécessaires au benchmark
+target_link_libraries(Test_Benchmark
+    OpenSSL::SSL
+    OpenSSL::Crypto
+    ${CURL_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+)
+
 # --- Cibles personnalisées pour exécuter ---
 
 # Cible pour exécuter le serveur après la construction
@@ -180,6 +197,13 @@ add_custom_target(Cli
     DEPENDS Test_Cli
     COMMENT "Running Client executable"
     # WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+# --- Cible pour exécuter benchmark ---
+add_custom_target(Benchmark
+    COMMAND $<TARGET_FILE:Test_Benchmark>
+    DEPENDS Test_Benchmark
+    COMMENT "Running Benchmark executable"
 )
 
 # --- Cible de nettoyage ---
