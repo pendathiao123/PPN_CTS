@@ -100,19 +100,19 @@ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/Server.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/Server.cpp -o CMakeFiles/Test_Serv.dir/src/code/Server.cpp.s
 
-CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
-CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/Client.cpp
-CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/Client.cpp
+CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
+CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/ServerConnection.cpp
+CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/ServerConnection.cpp
 
-CMakeFiles/Test_Serv.dir/src/code/Client.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Serv.dir/src/code/Client.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ark30/Files/PPN/PPN_CTS/src/code/Client.cpp > CMakeFiles/Test_Serv.dir/src/code/Client.cpp.i
+CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ark30/Files/PPN/PPN_CTS/src/code/ServerConnection.cpp > CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.i
 
-CMakeFiles/Test_Serv.dir/src/code/Client.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/Client.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/Client.cpp -o CMakeFiles/Test_Serv.dir/src/code/Client.cpp.s
+CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/ServerConnection.cpp -o CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.s
 
 CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
 CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/ClientAuthenticator.cpp
@@ -226,11 +226,25 @@ CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/Wallet.cpp -o CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.s
 
+CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
+CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/Utils.cpp
+CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/Utils.cpp
+
+CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ark30/Files/PPN/PPN_CTS/src/code/Utils.cpp > CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.i
+
+CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/Utils.cpp -o CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.s
+
 # Object files for target Test_Serv
 Test_Serv_OBJECTS = \
 "CMakeFiles/Test_Serv.dir/src/code/Main_Serv.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o" \
-"CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o" \
+"CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o" \
@@ -238,14 +252,15 @@ Test_Serv_OBJECTS = \
 "CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.o" \
-"CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o"
+"CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o" \
+"CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.o"
 
 # External object files for target Test_Serv
 Test_Serv_EXTERNAL_OBJECTS =
 
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Main_Serv.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o
-Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o
+Test_Serv: CMakeFiles/Test_Serv.dir/src/code/ServerConnection.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o
@@ -254,12 +269,13 @@ Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o
+Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Utils.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/build.make
 Test_Serv: /usr/lib/x86_64-linux-gnu/libssl.so
 Test_Serv: /usr/lib/x86_64-linux-gnu/libcrypto.so
 Test_Serv: /usr/lib/x86_64-linux-gnu/libcurl.so
 Test_Serv: CMakeFiles/Test_Serv.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable Test_Serv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable Test_Serv"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Test_Serv.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

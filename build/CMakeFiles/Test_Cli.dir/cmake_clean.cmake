@@ -1,10 +1,12 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Test_Cli.dir/src/code/Client.cpp.o"
-  "CMakeFiles/Test_Cli.dir/src/code/Client.cpp.o.d"
+  "CMakeFiles/Test_Cli.dir/src/code/ClientInitiator.cpp.o"
+  "CMakeFiles/Test_Cli.dir/src/code/ClientInitiator.cpp.o.d"
   "CMakeFiles/Test_Cli.dir/src/code/Logger.cpp.o"
   "CMakeFiles/Test_Cli.dir/src/code/Logger.cpp.o.d"
   "CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o"
   "CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o.d"
+  "CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.o"
+  "CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.o.d"
   "Test_Cli"
   "Test_Cli.pdb"
 )

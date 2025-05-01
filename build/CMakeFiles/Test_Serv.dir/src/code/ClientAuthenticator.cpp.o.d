@@ -1,8 +1,7 @@
 CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: \
  /home/ark30/Files/PPN/PPN_CTS/src/code/ClientAuthenticator.cpp \
  /usr/include/stdc-predef.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/ClientAuthenticator.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Client.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/ClientAuthenticator.h \
  /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -130,10 +129,47 @@ CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/11/bits/charconv.h \
- /usr/include/c++/11/bits/basic_string.tcc /usr/include/c++/11/stdexcept \
- /usr/include/c++/11/exception /usr/include/c++/11/bits/exception_ptr.h \
+ /usr/include/c++/11/bits/basic_string.tcc \
+ /usr/include/c++/11/unordered_map \
+ /usr/include/c++/11/ext/aligned_buffer.h \
+ /usr/include/c++/11/bits/hashtable.h \
+ /usr/include/c++/11/bits/hashtable_policy.h /usr/include/c++/11/tuple \
+ /usr/include/c++/11/utility /usr/include/c++/11/bits/stl_relops.h \
+ /usr/include/c++/11/array /usr/include/c++/11/bits/uses_allocator.h \
+ /usr/include/c++/11/bits/invoke.h \
+ /usr/include/c++/11/bits/enable_special_members.h \
+ /usr/include/c++/11/bits/node_handle.h \
+ /usr/include/c++/11/bits/unordered_map.h \
+ /usr/include/c++/11/bits/erase_if.h /usr/include/c++/11/mutex \
+ /usr/include/c++/11/chrono /usr/include/c++/11/ratio \
+ /usr/include/c++/11/limits /usr/include/c++/11/ctime \
+ /usr/include/c++/11/bits/parse_numbers.h /usr/include/c++/11/exception \
+ /usr/include/c++/11/bits/exception_ptr.h \
  /usr/include/c++/11/bits/cxxabi_init_exception.h \
  /usr/include/c++/11/typeinfo /usr/include/c++/11/bits/nested_exception.h \
+ /usr/include/c++/11/system_error \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
+ /usr/include/c++/11/stdexcept /usr/include/c++/11/bits/std_mutex.h \
+ /usr/include/c++/11/bits/unique_lock.h /usr/include/c++/11/memory \
+ /usr/include/c++/11/bits/stl_uninitialized.h \
+ /usr/include/c++/11/bits/stl_tempbuf.h \
+ /usr/include/c++/11/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/11/bits/align.h /usr/include/c++/11/bit \
+ /usr/include/c++/11/bits/unique_ptr.h \
+ /usr/include/c++/11/bits/shared_ptr.h \
+ /usr/include/c++/11/bits/shared_ptr_base.h \
+ /usr/include/c++/11/bits/allocated_ptr.h \
+ /usr/include/c++/11/bits/refwrap.h /usr/include/c++/11/ext/concurrence.h \
+ /usr/include/c++/11/bits/shared_ptr_atomic.h \
+ /usr/include/c++/11/bits/atomic_base.h \
+ /usr/include/c++/11/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/11/backward/auto_ptr.h \
+ /usr/include/c++/11/pstl/glue_memory_defs.h \
+ /usr/include/c++/11/pstl/execution_defs.h /usr/include/c++/11/vector \
+ /usr/include/c++/11/bits/stl_vector.h \
+ /usr/include/c++/11/bits/stl_bvector.h \
+ /usr/include/c++/11/bits/vector.tcc \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/ServerConnection.h \
  /usr/include/x86_64-linux-gnu/sys/socket.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/include/x86_64-linux-gnu/bits/socket.h \
@@ -204,35 +240,8 @@ CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: \
  /usr/include/openssl/prov_ssl.h /usr/include/openssl/ssl2.h \
  /usr/include/openssl/ssl3.h /usr/include/openssl/tls1.h \
  /usr/include/openssl/dtls1.h /usr/include/openssl/srtp.h \
- /usr/include/openssl/err.h /usr/include/c++/11/memory \
- /usr/include/c++/11/bits/stl_uninitialized.h \
- /usr/include/c++/11/bits/stl_tempbuf.h \
- /usr/include/c++/11/bits/stl_raw_storage_iter.h \
- /usr/include/c++/11/bits/align.h /usr/include/c++/11/bit \
- /usr/include/c++/11/bits/uses_allocator.h \
- /usr/include/c++/11/bits/unique_ptr.h /usr/include/c++/11/utility \
- /usr/include/c++/11/bits/stl_relops.h /usr/include/c++/11/tuple \
- /usr/include/c++/11/array /usr/include/c++/11/bits/invoke.h \
- /usr/include/c++/11/bits/shared_ptr.h \
- /usr/include/c++/11/bits/shared_ptr_base.h \
- /usr/include/c++/11/bits/allocated_ptr.h \
- /usr/include/c++/11/bits/refwrap.h \
- /usr/include/c++/11/ext/aligned_buffer.h \
- /usr/include/c++/11/ext/concurrence.h \
- /usr/include/c++/11/bits/shared_ptr_atomic.h \
- /usr/include/c++/11/bits/atomic_base.h \
- /usr/include/c++/11/bits/atomic_lockfree_defines.h \
- /usr/include/c++/11/backward/auto_ptr.h \
- /usr/include/c++/11/pstl/glue_memory_defs.h \
- /usr/include/c++/11/pstl/execution_defs.h /usr/include/c++/11/mutex \
- /usr/include/c++/11/chrono /usr/include/c++/11/ratio \
- /usr/include/c++/11/limits /usr/include/c++/11/ctime \
- /usr/include/c++/11/bits/parse_numbers.h \
- /usr/include/c++/11/system_error \
- /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
- /usr/include/c++/11/bits/std_mutex.h \
- /usr/include/c++/11/bits/unique_lock.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/OpenSSLDeleters.h \
+ /usr/include/openssl/err.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/../headers/OpenSSLDeleters.h \
  /usr/include/c++/11/iostream /usr/include/c++/11/ostream \
  /usr/include/c++/11/ios /usr/include/c++/11/bits/ios_base.h \
  /usr/include/c++/11/bits/locale_classes.h \
@@ -248,7 +257,7 @@ CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/../headers/Logger.h \
  /usr/include/c++/11/fstream /usr/include/c++/11/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
@@ -261,70 +270,42 @@ CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: \
  /usr/include/c++/11/bits/locale_conv.h \
  /usr/include/c++/11/bits/quoted_string.h /usr/include/c++/11/sstream \
  /usr/include/c++/11/bits/sstream.tcc \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Logger.h \
- /usr/include/c++/11/unordered_map /usr/include/c++/11/bits/hashtable.h \
- /usr/include/c++/11/bits/hashtable_policy.h \
- /usr/include/c++/11/bits/enable_special_members.h \
- /usr/include/c++/11/bits/node_handle.h \
- /usr/include/c++/11/bits/unordered_map.h \
- /usr/include/c++/11/bits/erase_if.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Client.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Server.h \
- /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_vector.h \
- /usr/include/c++/11/bits/stl_bvector.h \
- /usr/include/c++/11/bits/vector.tcc /usr/include/c++/11/thread \
- /usr/include/c++/11/bits/std_thread.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/ServerConnection.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Server.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/ClientAuthenticator.h \
+ /usr/include/c++/11/thread /usr/include/c++/11/bits/std_thread.h \
  /usr/include/c++/11/bits/this_thread_sleep.h /usr/include/c++/11/atomic \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/OpenSSLDeleters.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/ClientSession.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Client.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Bot.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Global.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/OpenSSLDeleters.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/ServerConnection.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/ClientSession.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Bot.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Global.h \
  /usr/include/c++/11/cstddef \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Wallet.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Transaction.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Wallet.h \
  /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
  /usr/include/c++/11/bits/stl_map.h \
  /usr/include/c++/11/bits/stl_multimap.h /usr/include/c++/11/filesystem \
  /usr/include/c++/11/bits/fs_fwd.h /usr/include/c++/11/bits/fs_path.h \
  /usr/include/c++/11/codecvt /usr/include/c++/11/bits/fs_dir.h \
  /usr/include/c++/11/bits/fs_ops.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Transaction.h \
- /usr/include/c++/11/cmath /usr/include/math.h \
- /usr/include/x86_64-linux-gnu/bits/math-vector.h \
- /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
- /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
- /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
- /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
- /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
- /usr/include/c++/11/bits/specfun.h /usr/include/c++/11/tr1/gamma.tcc \
- /usr/include/c++/11/tr1/special_function_util.h \
- /usr/include/c++/11/tr1/bessel_function.tcc \
- /usr/include/c++/11/tr1/beta_function.tcc \
- /usr/include/c++/11/tr1/ell_integral.tcc \
- /usr/include/c++/11/tr1/exp_integral.tcc \
- /usr/include/c++/11/tr1/hypergeometric.tcc \
- /usr/include/c++/11/tr1/legendre_function.tcc \
- /usr/include/c++/11/tr1/modified_bessel_func.tcc \
- /usr/include/c++/11/tr1/poly_hermite.tcc \
- /usr/include/c++/11/tr1/poly_laguerre.tcc \
- /usr/include/c++/11/tr1/riemann_zeta.tcc \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/TransactionQueue.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/TransactionQueue.h \
  /usr/include/c++/11/queue /usr/include/c++/11/deque \
  /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
  /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h \
  /usr/include/c++/11/condition_variable \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Wallet.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/TransactionQueue.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Global.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/ClientAuthenticator.h \
- /usr/include/c++/11/random /usr/include/c++/11/bits/random.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Wallet.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/TransactionQueue.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Global.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Utils.h \
+ /usr/include/openssl/rand.h /usr/include/openssl/randerr.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Utils.h \
+ /usr/include/c++/11/cstring /usr/include/c++/11/algorithm \
+ /usr/include/c++/11/bits/stl_algo.h \
+ /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/bits/uniform_int_dist.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/opt_random.h \
- /usr/include/c++/11/bits/random.tcc /usr/include/c++/11/numeric \
- /usr/include/c++/11/bits/stl_numeric.h \
- /usr/include/c++/11/pstl/glue_numeric_defs.h /usr/include/c++/11/cstring
+ /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h
