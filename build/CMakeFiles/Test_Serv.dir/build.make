@@ -100,24 +100,10 @@ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/Server.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/Server.cpp -o CMakeFiles/Test_Serv.dir/src/code/Server.cpp.s
 
-CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
-CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/BotSession.cpp
-CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/BotSession.cpp
-
-CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ark30/Files/PPN/PPN_CTS/src/code/BotSession.cpp > CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.i
-
-CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/BotSession.cpp -o CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.s
-
 CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
 CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/Client.cpp
 CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/Client.cpp
 
 CMakeFiles/Test_Serv.dir/src/code/Client.cpp.i: cmake_force
@@ -128,10 +114,38 @@ CMakeFiles/Test_Serv.dir/src/code/Client.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/Client.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/Client.cpp -o CMakeFiles/Test_Serv.dir/src/code/Client.cpp.s
 
+CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
+CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/ClientAuthenticator.cpp
+CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/ClientAuthenticator.cpp
+
+CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ark30/Files/PPN/PPN_CTS/src/code/ClientAuthenticator.cpp > CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.i
+
+CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/ClientAuthenticator.cpp -o CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.s
+
+CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
+CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/ClientSession.cpp
+CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/ClientSession.cpp
+
+CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ark30/Files/PPN/PPN_CTS/src/code/ClientSession.cpp > CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.i
+
+CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/ClientSession.cpp -o CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.s
+
 CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
 CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/Transaction.cpp
 CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/Transaction.cpp
 
 CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.i: cmake_force
@@ -145,7 +159,7 @@ CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.s: cmake_force
 CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
 CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/TransactionQueue.cpp
 CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/TransactionQueue.cpp
 
 CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.i: cmake_force
@@ -159,7 +173,7 @@ CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.s: cmake_force
 CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
 CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/Global.cpp
 CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/Global.cpp
 
 CMakeFiles/Test_Serv.dir/src/code/Global.cpp.i: cmake_force
@@ -173,7 +187,7 @@ CMakeFiles/Test_Serv.dir/src/code/Global.cpp.s: cmake_force
 CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
 CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/Bot.cpp
 CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/Bot.cpp
 
 CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.i: cmake_force
@@ -187,7 +201,7 @@ CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.s: cmake_force
 CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
 CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/Logger.cpp
 CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/Logger.cpp
 
 CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.i: cmake_force
@@ -201,7 +215,7 @@ CMakeFiles/Test_Serv.dir/src/code/Logger.cpp.s: cmake_force
 CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o: CMakeFiles/Test_Serv.dir/flags.make
 CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/Wallet.cpp
 CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o: CMakeFiles/Test_Serv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o -MF CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o.d -o CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/Wallet.cpp
 
 CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.i: cmake_force
@@ -216,8 +230,9 @@ CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.s: cmake_force
 Test_Serv_OBJECTS = \
 "CMakeFiles/Test_Serv.dir/src/code/Main_Serv.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o" \
-"CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o" \
+"CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o" \
+"CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o" \
 "CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o" \
@@ -230,8 +245,9 @@ Test_Serv_EXTERNAL_OBJECTS =
 
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Main_Serv.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o
-Test_Serv: CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Client.cpp.o
+Test_Serv: CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o
+Test_Serv: CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/TransactionQueue.cpp.o
 Test_Serv: CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o
@@ -243,7 +259,7 @@ Test_Serv: /usr/lib/x86_64-linux-gnu/libssl.so
 Test_Serv: /usr/lib/x86_64-linux-gnu/libcrypto.so
 Test_Serv: /usr/lib/x86_64-linux-gnu/libcurl.so
 Test_Serv: CMakeFiles/Test_Serv.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable Test_Serv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable Test_Serv"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Test_Serv.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

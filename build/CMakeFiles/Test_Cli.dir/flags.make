@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/ark30/Files/PPN/PPN_CTS/src/headers
 
-CXX_FLAGS = -g -std=c++17 -Wall -Wextra -pedantic -g -ggdb
+CXX_FLAGS = -g -std=c++17 -Wall -Wextra -pedantic -g -ggdb -Wno-deprecated-declarations
 

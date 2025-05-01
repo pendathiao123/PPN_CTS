@@ -231,30 +231,6 @@ src/code/Bot.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.s
 .PHONY : src/code/Bot.cpp.s
 
-src/code/BotSession.o: src/code/BotSession.cpp.o
-.PHONY : src/code/BotSession.o
-
-# target to build an object file
-src/code/BotSession.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.o
-.PHONY : src/code/BotSession.cpp.o
-
-src/code/BotSession.i: src/code/BotSession.cpp.i
-.PHONY : src/code/BotSession.i
-
-# target to preprocess a source file
-src/code/BotSession.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.i
-.PHONY : src/code/BotSession.cpp.i
-
-src/code/BotSession.s: src/code/BotSession.cpp.s
-.PHONY : src/code/BotSession.s
-
-# target to generate assembly for a file
-src/code/BotSession.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/BotSession.cpp.s
-.PHONY : src/code/BotSession.cpp.s
-
 src/code/Client.o: src/code/Client.cpp.o
 .PHONY : src/code/Client.o
 
@@ -281,6 +257,54 @@ src/code/Client.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Client.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Client.cpp.s
 .PHONY : src/code/Client.cpp.s
+
+src/code/ClientAuthenticator.o: src/code/ClientAuthenticator.cpp.o
+.PHONY : src/code/ClientAuthenticator.o
+
+# target to build an object file
+src/code/ClientAuthenticator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o
+.PHONY : src/code/ClientAuthenticator.cpp.o
+
+src/code/ClientAuthenticator.i: src/code/ClientAuthenticator.cpp.i
+.PHONY : src/code/ClientAuthenticator.i
+
+# target to preprocess a source file
+src/code/ClientAuthenticator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.i
+.PHONY : src/code/ClientAuthenticator.cpp.i
+
+src/code/ClientAuthenticator.s: src/code/ClientAuthenticator.cpp.s
+.PHONY : src/code/ClientAuthenticator.s
+
+# target to generate assembly for a file
+src/code/ClientAuthenticator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.s
+.PHONY : src/code/ClientAuthenticator.cpp.s
+
+src/code/ClientSession.o: src/code/ClientSession.cpp.o
+.PHONY : src/code/ClientSession.o
+
+# target to build an object file
+src/code/ClientSession.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.o
+.PHONY : src/code/ClientSession.cpp.o
+
+src/code/ClientSession.i: src/code/ClientSession.cpp.i
+.PHONY : src/code/ClientSession.i
+
+# target to preprocess a source file
+src/code/ClientSession.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.i
+.PHONY : src/code/ClientSession.cpp.i
+
+src/code/ClientSession.s: src/code/ClientSession.cpp.s
+.PHONY : src/code/ClientSession.s
+
+# target to generate assembly for a file
+src/code/ClientSession.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/ClientSession.cpp.s
+.PHONY : src/code/ClientSession.cpp.s
 
 src/code/Global.o: src/code/Global.cpp.o
 .PHONY : src/code/Global.o
@@ -411,7 +435,6 @@ src/code/Transaction.o: src/code/Transaction.cpp.o
 # target to build an object file
 src/code/Transaction.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o
 .PHONY : src/code/Transaction.cpp.o
 
 src/code/Transaction.i: src/code/Transaction.cpp.i
@@ -420,7 +443,6 @@ src/code/Transaction.i: src/code/Transaction.cpp.i
 # target to preprocess a source file
 src/code/Transaction.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.i
 .PHONY : src/code/Transaction.cpp.i
 
 src/code/Transaction.s: src/code/Transaction.cpp.s
@@ -429,7 +451,6 @@ src/code/Transaction.s: src/code/Transaction.cpp.s
 # target to generate assembly for a file
 src/code/Transaction.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.s
 .PHONY : src/code/Transaction.cpp.s
 
 src/code/TransactionQueue.o: src/code/TransactionQueue.cpp.o
@@ -498,12 +519,15 @@ help:
 	@echo "... src/code/Bot.o"
 	@echo "... src/code/Bot.i"
 	@echo "... src/code/Bot.s"
-	@echo "... src/code/BotSession.o"
-	@echo "... src/code/BotSession.i"
-	@echo "... src/code/BotSession.s"
 	@echo "... src/code/Client.o"
 	@echo "... src/code/Client.i"
 	@echo "... src/code/Client.s"
+	@echo "... src/code/ClientAuthenticator.o"
+	@echo "... src/code/ClientAuthenticator.i"
+	@echo "... src/code/ClientAuthenticator.s"
+	@echo "... src/code/ClientSession.o"
+	@echo "... src/code/ClientSession.i"
+	@echo "... src/code/ClientSession.s"
 	@echo "... src/code/Global.o"
 	@echo "... src/code/Global.i"
 	@echo "... src/code/Global.s"

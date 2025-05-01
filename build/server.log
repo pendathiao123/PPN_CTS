@@ -2621,3 +2621,389 @@ ERROR: Unknown command.
 [2025-04-29 22:34:29][DEBUG] [Global] Prix BTC/USD récupéré via API : 95042.000000
 [2025-04-29 22:34:29][INFO] [Global] Nouvelle valeur SRD-BTC : 93295.058311 USD à 2025-04-29 22:34:29
 [2025-04-29 22:34:40][INFO] Signal d'arrêt reçu (15). Demande d'arrêt du serveur.
+--- Début du log : 1746003473 ---
+[2025-04-30 10:57:53][DEBUG] TransactionQueue créée.
+[2025-04-30 10:57:53][INFO] Gestionnaires de signaux enregistrés.
+[2025-04-30 10:57:53][INFO] Bibliothèques OpenSSL initialisées.
+[2025-04-30 10:57:53][INFO] Bibliothèque libcurl initialisée globalement.
+[2025-04-30 10:57:53][INFO] Répertoire des portefeuilles trouvé : ../src/data/wallets
+[2025-04-30 10:57:53][INFO] Compteur de transactions chargé depuis ../src/data/transaction_counter.txt. Valeur: 0
+[2025-04-30 10:57:53][DEBUG] Constructeur Server appelé. Chemins des fichiers stockés.
+[2025-04-30 10:57:53][INFO] Utilisateurs chargés depuis ../src/data/users.txt (1 entrées).
+[2025-04-30 10:57:53][INFO] Démarrage du serveur...
+[2025-04-30 10:57:53][INFO] Contexte SSL serveur initialisé avec succès.
+[2025-04-30 10:57:53][INFO] Utilisateurs chargés depuis ../src/data/users.txt (1 entrées).
+[2025-04-30 10:57:53][INFO] [Global] Demande de démarrage du thread de génération de prix.
+[2025-04-30 10:57:53][INFO] [Global] Thread de génération de prix initié.
+[2025-04-30 10:57:53][INFO] Serveur démarré et en écoute sur le port 4433
+[2025-04-30 10:57:53][INFO] [Global] Thread de génération de prix démarré.
+[2025-04-30 10:57:53][INFO] [Global] Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-04-30 10:57:54][DEBUG] [Global] Prix BTC/USD récupéré via API : 94691.000000
+[2025-04-30 10:57:54][INFO] [Global] Nouvelle valeur SRD-BTC : 96459.309511 USD à 2025-04-30 10:57:54
+[2025-04-30 10:58:09][DEBUG] [Global] Prix BTC/USD récupéré via API : 94691.000000
+[2025-04-30 10:58:09][INFO] [Global] Nouvelle valeur SRD-BTC : 97602.799260 USD à 2025-04-30 10:58:09
+--- Début du log : 1746003490 ---
+[2025-04-30 10:58:10][INFO] Client programme démarré.
+[2025-04-30 10:58:10][DEBUG] Socket client créé. FD: 4
+[2025-04-30 10:58:10][INFO] Connexion au serveur 192.168.0.123:4433 établie (socket FD: 4).
+[2025-04-30 10:58:10][INFO] Nouvelle connexion acceptée. Socket FD: 5, IP: 192.168.0.123
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [OTHER] before SSL initialization
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] before SSL initialization
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] before SSL initialization
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS read client hello
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write server hello
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write change cipher spec
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] TLSv1.3 write encrypted extensions
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write certificate
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] TLSv1.3 write server certificate verify
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write finished
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] TLSv1.3 early data
+[2025-04-30 10:58:10][INFO] Handshake SSL réussi.
+[2025-04-30 10:58:10][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-04-30 10:58:10][INFO] Envoi du message d'authentification : 'ID:mon_client_id_unique,TOKEN:mon_token_secret'
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] TLSv1.3 early data
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS read finished
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [OTHER] SSLv3/TLS write session ticket
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write session ticket
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [LOOP] SSLv3/TLS write session ticket
+[2025-04-30 10:58:10][DEBUG] [OpenSSL DEBUG] [EXIT] SSL negotiation finished successfully
+[2025-04-30 10:58:10][INFO] [SSL] SSL_accept réussi. Client connecté SSL.
+[2025-04-30 10:58:10][INFO] Handshake SSL réussi pour le socket FD: 5
+[2025-04-30 10:58:10][INFO] Thread de gestion client détaché pour socket FD: 5
+[2025-04-30 10:58:10][DEBUG] Thread HandleClient démarré pour socket FD: 5
+[2025-04-30 10:58:10][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 5
+[2025-04-30 10:58:10][DEBUG] Authentification - Reçu de socket FD 5 : 'ID:mon_client_id_unique,TOKEN:mon_token_secret'
+[2025-04-30 10:58:10][DEBUG] Authentification - ID extrait: 'mon_client_id_unique', Token extrait: 'mon_token_secret'. Socket FD: 5
+[2025-04-30 10:58:10][INFO] Authentification - Succès pour ID existant : 'mon_client_id_unique'. Socket FD: 5
+[2025-04-30 10:58:10][INFO] Client ID: mon_client_id_unique authentification réussie (SUCCESS). Socket FD: 5
+[2025-04-30 10:58:10][INFO] BotSession créée pour client ID: mon_client_id_unique
+[2025-04-30 10:58:10][ERROR] Erreur: Impossible de créer le répertoire des portefeuilles: ../data/wallets. Erreur: Success
+[2025-04-30 10:58:10][WARNING] Impossible de charger le portefeuille pour client ID: mon_client_id_unique. Un nouveau portefeuille vierge sera utilisé. Chemin cherché : ../data/wallets/mon_client_id_unique.wallet
+[2025-04-30 10:58:10][DEBUG] Objet Wallet créé pour client ID: mon_client_id_unique. Chemin du fichier: ../data/wallets/mon_client_id_unique.wallet
+[2025-04-30 10:58:10][INFO] Portefeuille associé créé/chargé pour client ID: mon_client_id_unique
+[2025-04-30 10:58:10][INFO] Bot créé pour client ID: mon_client_id_unique avec Bollinger (20, 2).
+[2025-04-30 10:58:10][INFO] Bot associé créé pour client ID: mon_client_id_unique
+[2025-04-30 10:58:10][INFO] BotSession pour client ID: mon_client_id_unique initialisée avec succès.
+[2025-04-30 10:58:10][DEBUG] Session ajoutée à activeSessions pour client ID: mon_client_id_unique. Socket FD: 5
+[2025-04-30 10:58:10][INFO] [TransactionQueue::registerSession] Session enregistrée pour client ID: mon_client_id_unique
+[2025-04-30 10:58:10][DEBUG] Session enregistrée auprès de la TransactionQueue pour client ID: mon_client_id_unique. Socket FD: 5
+[2025-04-30 10:58:10][INFO] Thread BotSession démarré pour client ID: mon_client_id_unique
+[2025-04-30 10:58:10][DEBUG] BotSession thread démarré pour client ID: mon_client_id_unique. Socket FD: 5
+[2025-04-30 10:58:10][DEBUG] Thread HandleAuthenticatedClient démarré pour client ID: mon_client_id_unique. Socket FD: 5
+[2025-04-30 10:58:10][INFO] Envoi de la réponse 'AUTH SUCCESS' au client ID: mon_client_id_unique. Socket FD: 5
+[2025-04-30 10:58:10][INFO] Thread BotSession (run) démarré pour client ID: mon_client_id_unique
+[2025-04-30 10:58:10][DEBUG] BotSession (mon_client_id_unique) : Nouveau prix détecté : 97602.7992599384
+[2025-04-30 10:58:10][DEBUG] Bot (mon_client_id_unique) : Nouveau prix ajouté à l'historique : 97602.7992599384. Taille historique : 1
+[2025-04-30 10:58:10][DEBUG] Bot (mon_client_id_unique) : Pas assez de données pour calculer les Bandes de Bollinger. HOLD.
+[2025-04-30 10:58:10][INFO] Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-04-30 10:58:10][INFO] Authentification réussie ! Client prêt pour les commandes applicatives.
+[2025-04-30 10:58:24][DEBUG] [Global] Prix BTC/USD récupéré via API : 94691.000000
+[2025-04-30 10:58:24][INFO] [Global] Nouvelle valeur SRD-BTC : 97798.663975 USD à 2025-04-30 10:58:24
+[2025-04-30 10:58:24][DEBUG] BotSession (mon_client_id_unique) : Nouveau prix détecté : 97798.6639748444
+[2025-04-30 10:58:24][DEBUG] Bot (mon_client_id_unique) : Nouveau prix ajouté à l'historique : 97798.6639748444. Taille historique : 2
+[2025-04-30 10:58:24][DEBUG] Bot (mon_client_id_unique) : Pas assez de données pour calculer les Bandes de Bollinger. HOLD.
+[2025-04-30 10:58:39][DEBUG] [Global] Prix BTC/USD récupéré via API : 94696.000000
+[2025-04-30 10:58:39][INFO] [Global] Nouvelle valeur SRD-BTC : 92677.332419 USD à 2025-04-30 10:58:39
+[2025-04-30 10:58:39][DEBUG] BotSession (mon_client_id_unique) : Nouveau prix détecté : 92677.3324193065
+[2025-04-30 10:58:39][DEBUG] Bot (mon_client_id_unique) : Nouveau prix ajouté à l'historique : 92677.3324193065. Taille historique : 3
+[2025-04-30 10:58:39][DEBUG] Bot (mon_client_id_unique) : Pas assez de données pour calculer les Bandes de Bollinger. HOLD.
+[2025-04-30 10:58:44][INFO] Envoi de la requête: 'SHOW WALLET'
+[2025-04-30 10:58:44][INFO] Client ID: mon_client_id_unique, Socket FD: 5, Requête reçue: 'SHOW WALLET'
+[2025-04-30 10:58:44][DEBUG] Client ID: mon_client_id_unique - Traitement de la requête : 'SHOW WALLET'
+[2025-04-30 10:58:44][INFO] Client ID: mon_client_id_unique - Commande SHOW WALLET reçue.
+[2025-04-30 10:58:44][INFO] Client ID: mon_client_id_unique - Envoi historique des transactions.
+[2025-04-30 10:58:44][INFO] Réponse du serveur :
+TRANSACTION HISTORY:
+  No transactions yet.
+
+[2025-04-30 10:58:54][DEBUG] [Global] Prix BTC/USD récupéré via API : 94696.000000
+[2025-04-30 10:58:54][INFO] [Global] Nouvelle valeur SRD-BTC : 94904.180190 USD à 2025-04-30 10:58:54
+[2025-04-30 10:58:54][DEBUG] BotSession (mon_client_id_unique) : Nouveau prix détecté : 94904.1801900391
+[2025-04-30 10:58:54][DEBUG] Bot (mon_client_id_unique) : Nouveau prix ajouté à l'historique : 94904.1801900391. Taille historique : 4
+[2025-04-30 10:58:54][DEBUG] Bot (mon_client_id_unique) : Pas assez de données pour calculer les Bandes de Bollinger. HOLD.
+[2025-04-30 10:58:56][DEBUG] [OpenSSL DEBUG] [WRITE] error
+[2025-04-30 10:58:56][WARNING]   >> Alert (write): fatal - decode error
+[2025-04-30 10:58:56][ERROR] [Client::receive] Erreur lors de la réception SSL non gérée. Code: 1
+[2025-04-30 10:58:56][DEBUG] [Client] Objet SSL libéré.
+[2025-04-30 10:58:56][INFO] [Client] Socket FD: 5 fermé.
+[2025-04-30 10:58:56][INFO] Client ID: mon_client_id_unique déconnecté proprement. Socket FD: -1
+[2025-04-30 10:58:56][INFO] Signal d'arrêt envoyé à BotSession pour client ID: mon_client_id_unique
+[2025-04-30 10:58:57][INFO] Thread BotSession (run) terminé pour client ID: mon_client_id_unique
+[2025-04-30 10:58:57][INFO] Thread BotSession arrêté pour client ID: mon_client_id_unique
+[2025-04-30 10:58:57][INFO] Thread HandleAuthenticatedClient termine pour client ID: mon_client_id_unique. Socket FD: -1. La session est arrêtée.
+[2025-04-30 10:58:57][INFO] Thread HandleClient pour client ID: mon_client_id_unique termine après que HandleAuthenticatedClient est retourné. Socket FD: -1
+[2025-04-30 10:58:57][DEBUG] Session pour client ID: mon_client_id_unique retirée de activeSessions.
+[2025-04-30 10:58:57][DEBUG] Session retirée de activeSessions pour client ID: mon_client_id_unique. Socket FD: -1
+[2025-04-30 10:58:57][INFO] Destructeur BotSession appelé pour client ID: mon_client_id_unique
+[2025-04-30 10:58:57][DEBUG] Stop appelé sur BotSession pour client ID: mon_client_id_unique mais session déjà marquée non running.
+[2025-04-30 10:58:57][ERROR] Erreur: Impossible de créer le répertoire des portefeuilles: ../data/wallets. Erreur: Success
+[2025-04-30 10:58:57][ERROR] Échec de la vérification/création du répertoire wallets pour la sauvegarde. Sauvegarde impossible.
+[2025-04-30 10:58:57][ERROR] Échec de la sauvegarde du portefeuille pour client ID: mon_client_id_unique dans le destructeur BotSession.
+[2025-04-30 10:58:57][INFO] Destructeur BotSession terminé pour client ID: mon_client_id_unique
+[2025-04-30 10:58:57][INFO] Destructeur Bot appelé pour client ID: mon_client_id_unique.
+[2025-04-30 10:58:57][DEBUG] Objet Wallet détruit pour client ID: mon_client_id_unique. Sauvegarde finale en cours...
+[2025-04-30 10:58:57][ERROR] Erreur: Impossible de créer le répertoire des portefeuilles: ../data/wallets. Erreur: Success
+[2025-04-30 10:58:57][ERROR] Échec de la vérification/création du répertoire wallets pour la sauvegarde. Sauvegarde impossible.
+[2025-04-30 10:58:57][ERROR] Échec de la sauvegarde finale du portefeuille pour client ID: mon_client_id_unique vers ../data/wallets/mon_client_id_unique.wallet.
+[2025-04-30 10:58:57][DEBUG] Objet Wallet détruit pour client ID: mon_client_id_unique. Sauvegarde finale terminée.
+[2025-04-30 10:58:57][DEBUG] [Client] Destructeur Client appelé. Socket FD final: -1
+[2025-04-30 10:59:09][DEBUG] [Global] Prix BTC/USD récupéré via API : 94696.000000
+[2025-04-30 10:59:09][INFO] [Global] Nouvelle valeur SRD-BTC : 93569.229104 USD à 2025-04-30 10:59:09
+[2025-04-30 10:59:24][INFO] Signal d'arrêt reçu (15). Demande d'arrêt du serveur.
+[2025-04-30 10:59:24][DEBUG] [Global] Prix BTC/USD récupéré via API : 94696.000000
+[2025-04-30 10:59:24][INFO] [Global] Nouvelle valeur SRD-BTC : 92620.548539 USD à 2025-04-30 10:59:24
+--- Début du log : 1746085900 ---
+[2025-05-01 09:51:40][DEBUG] TransactionQueue créée.
+[2025-05-01 09:51:40][INFO] Gestionnaires de signaux enregistrés.
+[2025-05-01 09:51:40][INFO] Bibliothèque libcurl initialisée globalement.
+[2025-05-01 09:51:40][INFO] Répertoire des portefeuilles créé : ../src/data/wallets
+[2025-05-01 09:51:40][ERROR] Erreur lors de la lecture du compteur de transactions depuis le fichier: ../src/data/transaction_counter.txt. Utilisation du compteur 0.
+[2025-05-01 09:51:40][INFO] Compteur de transactions chargé: 0 depuis ../src/data/transaction_counter.txt
+[2025-05-01 09:51:40][INFO] Compteur de transactions chargé.
+[2025-05-01 09:51:40][INFO] [Global] Demande de démarrage du thread de génération de prix.
+[2025-05-01 09:51:40][INFO] [Global] Thread de génération de prix initié.
+[2025-05-01 09:51:40][INFO] Thread de génération des prix démarré.
+[2025-05-01 09:51:40][INFO] Démarrage du serveur...
+[2025-05-01 09:51:40][INFO] [Global] Thread de génération de prix démarré.
+[2025-05-01 09:51:40][INFO] [Global] Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-05-01 09:51:40][DEBUG] Contexte SSL serveur créé.
+[2025-05-01 09:51:40][DEBUG] Certificat serveur chargé : ../server.crt
+[2025-05-01 09:51:40][DEBUG] Clé privée serveur chargée : ../server.key
+[2025-05-01 09:51:40][INFO] Contexte SSL serveur initialisé avec succès.
+[2025-05-01 09:51:40][INFO] Chargement des utilisateurs terminé. 1 entrées chargées depuis ../src/data/users.txt
+[2025-05-01 09:51:40][WARNING] [Global] Thread de génération de prix déjà en cours.
+[2025-05-01 09:51:40][INFO] Serveur démarré et en écoute sur le port 4433
+[2025-05-01 09:51:40][DEBUG] [Global] Prix BTC/USD récupéré via API : 95057.000000
+[2025-05-01 09:51:40][INFO] [Global] Nouvelle valeur SRD-BTC : 96498.704524 USD à 2025-05-01 09:51:40
+[2025-05-01 09:51:55][DEBUG] [Global] Prix BTC/USD récupéré via API : 95060.000000
+[2025-05-01 09:51:55][INFO] [Global] Nouvelle valeur SRD-BTC : 97761.043223 USD à 2025-05-01 09:51:55
+[2025-05-01 09:52:02][INFO] Nouvelle connexion acceptée. Socket FD: 11, IP: 10.188.240.101
+[2025-05-01 09:52:02][DEBUG] Objet SSL créé pour socket FD: 11
+[2025-05-01 09:52:02][DEBUG] [OpenSSL DEBUG] [OTHER] before SSL initialization
+[2025-05-01 09:52:02][DEBUG] [OpenSSL DEBUG] [LOOP] before SSL initialization
+[2025-05-01 09:52:02][DEBUG] [OpenSSL DEBUG] [WRITE] error
+[2025-05-01 09:52:02][WARNING]   >> Alert (write): fatal - decode error
+[2025-05-01 09:52:02][DEBUG] [OpenSSL DEBUG] [EXIT] error
+[2025-05-01 09:52:02][ERROR] [OpenSSL DEBUG] SSL Error: error:0A000126:SSL routines::unexpected eof while reading
+[2025-05-01 09:52:02][ERROR] Erreur fatale lors du handshake SSL pour socket FD: 11. Erreur SSL: 5
+[2025-05-01 09:52:02][ERROR] Échec du handshake SSL pour la nouvelle connexion. Socket FD: 11. La connexion est fermée.
+[2025-05-01 09:52:10][DEBUG] [Global] Prix BTC/USD récupéré via API : 95060.000000
+[2025-05-01 09:52:10][INFO] [Global] Nouvelle valeur SRD-BTC : 96452.785290 USD à 2025-05-01 09:52:10
+[2025-05-01 09:52:25][DEBUG] [Global] Prix BTC/USD récupéré via API : 95060.000000
+[2025-05-01 09:52:25][INFO] [Global] Nouvelle valeur SRD-BTC : 93104.211697 USD à 2025-05-01 09:52:25
+[2025-05-01 09:52:26][INFO] Signal d'arrêt reçu (15). Demande d'arrêt du serveur.
+--- Début du log : 1746086120 ---
+[2025-05-01 09:55:20][DEBUG] TransactionQueue créée.
+[2025-05-01 09:55:20][INFO] Gestionnaires de signaux enregistrés.
+[2025-05-01 09:55:20][INFO] Bibliothèque libcurl initialisée globalement.
+[2025-05-01 09:55:20][INFO] Répertoire des portefeuilles créé : ../src/data/wallets
+[2025-05-01 09:55:20][ERROR] Erreur lors de la lecture du compteur de transactions depuis le fichier: ../src/data/transaction_counter.txt. Utilisation du compteur 0.
+[2025-05-01 09:55:20][INFO] Compteur de transactions chargé: 0 depuis ../src/data/transaction_counter.txt
+[2025-05-01 09:55:20][INFO] Compteur de transactions chargé.
+[2025-05-01 09:55:20][INFO] [Global] Demande de démarrage du thread de génération de prix.
+[2025-05-01 09:55:20][INFO] [Global] Thread de génération de prix initié.
+[2025-05-01 09:55:20][INFO] Thread de génération des prix démarré.
+[2025-05-01 09:55:20][INFO] Démarrage du serveur...
+[2025-05-01 09:55:20][INFO] [Global] Thread de génération de prix démarré.
+[2025-05-01 09:55:20][INFO] [Global] Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-05-01 09:55:20][DEBUG] Contexte SSL serveur créé.
+[2025-05-01 09:55:20][DEBUG] Certificat serveur chargé : ../server.crt
+[2025-05-01 09:55:20][DEBUG] Clé privée serveur chargée : ../server.key
+[2025-05-01 09:55:20][INFO] Contexte SSL serveur initialisé avec succès.
+[2025-05-01 09:55:20][INFO] Chargement des utilisateurs terminé. 1 entrées chargées depuis ../src/data/users.txt
+[2025-05-01 09:55:20][WARNING] [Global] Thread de génération de prix déjà en cours.
+[2025-05-01 09:55:20][INFO] Serveur démarré et en écoute sur le port 4433
+[2025-05-01 09:55:20][DEBUG] [Global] Prix BTC/USD récupéré via API : 95056.000000
+[2025-05-01 09:55:20][INFO] [Global] Nouvelle valeur SRD-BTC : 96601.525280 USD à 2025-05-01 09:55:20
+--- Début du log : 1746086132 ---
+[2025-05-01 09:55:32][INFO] Client programme démarré.
+[2025-05-01 09:55:32][DEBUG] Socket client créé. FD: 4
+[2025-05-01 09:55:32][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 09:55:32][INFO] Nouvelle connexion acceptée. Socket FD: 9, IP: 10.188.240.101
+[2025-05-01 09:55:32][DEBUG] Objet SSL créé pour socket FD: 9
+[2025-05-01 09:55:32][DEBUG] [OpenSSL DEBUG] [OTHER] before SSL initialization
+[2025-05-01 09:55:32][DEBUG] [OpenSSL DEBUG] [LOOP] before SSL initialization
+[2025-05-01 09:55:32][ERROR] Erreur: Échec du chargement du certificat client.
+--- Fin du log : 1746086132 ---
+[2025-05-01 09:55:32][DEBUG] [OpenSSL DEBUG] [WRITE] error
+[2025-05-01 09:55:32][WARNING]   >> Alert (write): fatal - decode error
+[2025-05-01 09:55:32][DEBUG] [OpenSSL DEBUG] [EXIT] error
+[2025-05-01 09:55:32][ERROR] [OpenSSL DEBUG] SSL Error: error:0A000126:SSL routines::unexpected eof while reading
+[2025-05-01 09:55:32][ERROR] Erreur fatale lors du handshake SSL pour socket FD: 9. Erreur SSL: 5
+[2025-05-01 09:55:32][ERROR] Échec du handshake SSL pour la nouvelle connexion. Socket FD: 9. La connexion est fermée.
+[2025-05-01 09:55:35][DEBUG] [Global] Prix BTC/USD récupéré via API : 95056.000000
+[2025-05-01 09:55:35][INFO] [Global] Nouvelle valeur SRD-BTC : 95954.338425 USD à 2025-05-01 09:55:35
+[2025-05-01 09:55:41][INFO] Signal d'arrêt reçu (15). Demande d'arrêt du serveur.
+--- Début du log : 1746086952 ---
+[2025-05-01 10:09:12][DEBUG] TransactionQueue créée.
+[2025-05-01 10:09:12][INFO] Gestionnaires de signaux enregistrés.
+[2025-05-01 10:09:12][INFO] Bibliothèque libcurl initialisée globalement.
+[2025-05-01 10:09:12][INFO] Répertoire des portefeuilles créé : ../src/data/wallets
+[2025-05-01 10:09:12][ERROR] Erreur lors de la lecture du compteur de transactions depuis le fichier: ../src/data/transaction_counter.txt. Utilisation du compteur 0.
+[2025-05-01 10:09:12][INFO] Compteur de transactions chargé: 0 depuis ../src/data/transaction_counter.txt
+[2025-05-01 10:09:12][INFO] Compteur de transactions chargé.
+[2025-05-01 10:09:12][INFO] [Global] Demande de démarrage du thread de génération de prix.
+[2025-05-01 10:09:12][INFO] [Global] Thread de génération de prix initié.
+[2025-05-01 10:09:12][INFO] Thread de génération des prix démarré.
+[2025-05-01 10:09:12][INFO] Server object created with configuration paths.
+[2025-05-01 10:09:12][INFO] Démarrage du serveur...
+[2025-05-01 10:09:12][INFO] [Global] Thread de génération de prix démarré.
+[2025-05-01 10:09:12][INFO] [Global] Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-05-01 10:09:12][DEBUG] Contexte SSL serveur créé.
+[2025-05-01 10:09:12][DEBUG] Certificat serveur chargé : ../server.crt
+[2025-05-01 10:09:12][DEBUG] Clé privée serveur chargée : ../server.key
+[2025-05-01 10:09:12][INFO] Contexte SSL serveur initialisé avec succès.
+[2025-05-01 10:09:12][INFO] Chargement des utilisateurs terminé. 1 entrées chargées depuis ../src/data/users.txt
+[2025-05-01 10:09:12][WARNING] [Global] Thread de génération de prix déjà en cours.
+[2025-05-01 10:09:12][INFO] Serveur démarré et en écoute sur le port 4433
+[2025-05-01 10:09:12][DEBUG] [Global] Prix BTC/USD récupéré via API : 94993.000000
+[2025-05-01 10:09:12][INFO] [Global] Nouvelle valeur SRD-BTC : 96185.294668 USD à 2025-05-01 10:09:12
+[2025-05-01 10:09:27][DEBUG] [Global] Prix BTC/USD récupéré via API : 94980.000000
+[2025-05-01 10:09:27][INFO] [Global] Nouvelle valeur SRD-BTC : 94365.418996 USD à 2025-05-01 10:09:27
+--- Début du log : 1746086970 ---
+[2025-05-01 10:09:30][INFO] Client programme démarré.
+[2025-05-01 10:09:30][DEBUG] Socket client créé. FD: 4
+[2025-05-01 10:09:30][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 10:09:30][INFO] Nouvelle connexion acceptée. Socket FD: 11, IP: 10.188.240.101
+[2025-05-01 10:09:30][DEBUG] Objet SSL créé pour socket FD: 11
+[2025-05-01 10:09:30][DEBUG] [OpenSSL DEBUG] [OTHER] before SSL initialization
+[2025-05-01 10:09:30][DEBUG] [OpenSSL DEBUG] [LOOP] before SSL initialization
+[2025-05-01 10:09:30][ERROR] Erreur: Échec du chargement du certificat client.
+--- Fin du log : 1746086970 ---
+[2025-05-01 10:09:30][DEBUG] [OpenSSL DEBUG] [WRITE] error
+[2025-05-01 10:09:30][WARNING]   >> Alert (write): fatal - decode error
+[2025-05-01 10:09:30][DEBUG] [OpenSSL DEBUG] [EXIT] error
+[2025-05-01 10:09:30][ERROR] [OpenSSL DEBUG] SSL Error: error:0A000126:SSL routines::unexpected eof while reading
+[2025-05-01 10:09:30][ERROR] Erreur fatale lors du handshake SSL pour socket FD: 11. Erreur SSL: 5
+[2025-05-01 10:09:30][ERROR] Échec du handshake SSL pour la nouvelle connexion. Socket FD: 11. La connexion est fermée.
+[2025-05-01 10:09:42][DEBUG] [Global] Prix BTC/USD récupéré via API : 94980.000000
+[2025-05-01 10:09:42][INFO] [Global] Nouvelle valeur SRD-BTC : 93569.245652 USD à 2025-05-01 10:09:42
+[2025-05-01 10:09:57][DEBUG] [Global] Prix BTC/USD récupéré via API : 94980.000000
+[2025-05-01 10:09:57][INFO] [Global] Nouvelle valeur SRD-BTC : 96221.446736 USD à 2025-05-01 10:09:57
+[2025-05-01 10:10:12][DEBUG] [Global] Prix BTC/USD récupéré via API : 94980.000000
+[2025-05-01 10:10:12][INFO] [Global] Nouvelle valeur SRD-BTC : 95689.022470 USD à 2025-05-01 10:10:12
+[2025-05-01 10:10:27][DEBUG] [Global] Prix BTC/USD récupéré via API : 94971.000000
+[2025-05-01 10:10:27][INFO] [Global] Nouvelle valeur SRD-BTC : 95137.421240 USD à 2025-05-01 10:10:27
+[2025-05-01 10:10:42][DEBUG] [Global] Prix BTC/USD récupéré via API : 94971.000000
+[2025-05-01 10:10:42][INFO] [Global] Nouvelle valeur SRD-BTC : 94036.532723 USD à 2025-05-01 10:10:42
+[2025-05-01 10:10:57][DEBUG] [Global] Prix BTC/USD récupéré via API : 94971.000000
+[2025-05-01 10:10:57][INFO] [Global] Nouvelle valeur SRD-BTC : 94703.856944 USD à 2025-05-01 10:10:57
+[2025-05-01 10:11:12][DEBUG] [Global] Prix BTC/USD récupéré via API : 94971.000000
+[2025-05-01 10:11:12][INFO] [Global] Nouvelle valeur SRD-BTC : 96775.010260 USD à 2025-05-01 10:11:12
+[2025-05-01 10:11:27][INFO] Signal d'arrêt reçu (15). Demande d'arrêt du serveur.
+[2025-05-01 10:11:28][DEBUG] [Global] Prix BTC/USD récupéré via API : 94968.000000
+[2025-05-01 10:11:28][INFO] [Global] Nouvelle valeur SRD-BTC : 93562.252818 USD à 2025-05-01 10:11:28
+--- Début du log : 1746087099 ---
+[2025-05-01 10:11:39][DEBUG] TransactionQueue créée.
+[2025-05-01 10:11:39][INFO] Gestionnaires de signaux enregistrés.
+[2025-05-01 10:11:39][INFO] Bibliothèque libcurl initialisée globalement.
+[2025-05-01 10:11:39][INFO] Répertoire des portefeuilles créé : ../src/data/wallets
+[2025-05-01 10:11:39][ERROR] Erreur lors de la lecture du compteur de transactions depuis le fichier: ../src/data/transaction_counter.txt. Utilisation du compteur 0.
+[2025-05-01 10:11:39][INFO] Compteur de transactions chargé: 0 depuis ../src/data/transaction_counter.txt
+[2025-05-01 10:11:39][INFO] Compteur de transactions chargé.
+[2025-05-01 10:11:39][INFO] [Global] Demande de démarrage du thread de génération de prix.
+[2025-05-01 10:11:39][INFO] [Global] Thread de génération de prix initié.
+[2025-05-01 10:11:39][INFO] Thread de génération des prix démarré.
+[2025-05-01 10:11:39][INFO] [Global] Thread de génération de prix démarré.
+[2025-05-01 10:11:39][INFO] [Global] Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-05-01 10:11:39][INFO] Server object created with configuration paths.
+[2025-05-01 10:11:39][INFO] Démarrage du serveur...
+[2025-05-01 10:11:39][DEBUG] Contexte SSL serveur créé.
+[2025-05-01 10:11:39][DEBUG] Certificat serveur chargé : ../server.crt
+[2025-05-01 10:11:39][DEBUG] Clé privée serveur chargée : ../server.key
+[2025-05-01 10:11:39][INFO] Contexte SSL serveur initialisé avec succès.
+[2025-05-01 10:11:39][INFO] Chargement des utilisateurs terminé. 1 entrées chargées depuis ../src/data/users.txt
+[2025-05-01 10:11:39][WARNING] [Global] Thread de génération de prix déjà en cours.
+[2025-05-01 10:11:39][INFO] Serveur démarré et en écoute sur le port 4433
+[2025-05-01 10:11:39][DEBUG] [Global] Prix BTC/USD récupéré via API : 94968.000000
+[2025-05-01 10:11:39][INFO] [Global] Nouvelle valeur SRD-BTC : 94180.242417 USD à 2025-05-01 10:11:39
+--- Début du log : 1746087105 ---
+[2025-05-01 10:11:45][INFO] Client programme démarré.
+[2025-05-01 10:11:45][DEBUG] Socket client créé. FD: 4
+[2025-05-01 10:11:45][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 10:11:45][INFO] Nouvelle connexion acceptée. Socket FD: 11, IP: 10.188.240.101
+[2025-05-01 10:11:45][DEBUG] Objet SSL créé pour socket FD: 11
+[2025-05-01 10:11:45][DEBUG] [OpenSSL DEBUG] [OTHER] before SSL initialization
+[2025-05-01 10:11:45][DEBUG] [OpenSSL DEBUG] [LOOP] before SSL initialization
+[2025-05-01 10:11:45][ERROR] Erreur: Échec du chargement du certificat client.
+--- Fin du log : 1746087105 ---
+[2025-05-01 10:11:45][DEBUG] [OpenSSL DEBUG] [WRITE] error
+[2025-05-01 10:11:45][WARNING]   >> Alert (write): fatal - decode error
+[2025-05-01 10:11:45][DEBUG] [OpenSSL DEBUG] [EXIT] error
+[2025-05-01 10:11:45][ERROR] [OpenSSL DEBUG] SSL Error: error:0A000126:SSL routines::unexpected eof while reading
+[2025-05-01 10:11:45][ERROR] Erreur fatale lors du handshake SSL pour socket FD: 11. Erreur SSL: 5
+[2025-05-01 10:11:45][ERROR] Échec du handshake SSL pour la nouvelle connexion. Socket FD: 11. La connexion est fermée.
+[2025-05-01 10:11:54][DEBUG] [Global] Prix BTC/USD récupéré via API : 94968.000000
+[2025-05-01 10:11:54][INFO] [Global] Nouvelle valeur SRD-BTC : 93052.847607 USD à 2025-05-01 10:11:54
+[2025-05-01 10:12:09][DEBUG] [Global] Prix BTC/USD récupéré via API : 94968.000000
+[2025-05-01 10:12:09][INFO] [Global] Nouvelle valeur SRD-BTC : 93150.343228 USD à 2025-05-01 10:12:09
+[2025-05-01 10:12:23][INFO] Signal d'arrêt reçu (15). Demande d'arrêt du serveur.
+[2025-05-01 10:12:24][DEBUG] [Global] Prix BTC/USD récupéré via API : 94962.000000
+[2025-05-01 10:12:24][INFO] [Global] Nouvelle valeur SRD-BTC : 94167.526359 USD à 2025-05-01 10:12:24
+--- Début du log : 1746087521 ---
+[2025-05-01 10:18:41][DEBUG] TransactionQueue créée.
+[2025-05-01 10:18:41][INFO] Gestionnaires de signaux enregistrés.
+[2025-05-01 10:18:41][INFO] Bibliothèque libcurl initialisée globalement.
+[2025-05-01 10:18:41][INFO] Répertoire des portefeuilles créé : ../src/data/wallets
+[2025-05-01 10:18:41][ERROR] Erreur lors de la lecture du compteur de transactions depuis le fichier: ../src/data/transaction_counter.txt. Utilisation du compteur 0.
+[2025-05-01 10:18:41][INFO] Compteur de transactions chargé: 0 depuis ../src/data/transaction_counter.txt
+[2025-05-01 10:18:41][INFO] Compteur de transactions chargé.
+[2025-05-01 10:18:41][INFO] [Global] Demande de démarrage du thread de génération de prix.
+[2025-05-01 10:18:41][INFO] [Global] Thread de génération de prix initié.
+[2025-05-01 10:18:41][INFO] Thread de génération des prix démarré.
+[2025-05-01 10:18:41][INFO] Server object created with configuration paths.
+[2025-05-01 10:18:41][INFO] Démarrage du serveur...
+[2025-05-01 10:18:41][INFO] [Global] Thread de génération de prix démarré.
+[2025-05-01 10:18:41][INFO] [Global] Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-05-01 10:18:41][DEBUG] Contexte SSL serveur créé.
+[2025-05-01 10:18:41][DEBUG] Certificat serveur chargé : ../server.crt
+[2025-05-01 10:18:41][DEBUG] Clé privée serveur chargée : ../server.key
+[2025-05-01 10:18:41][INFO] Contexte SSL serveur initialisé avec succès.
+[2025-05-01 10:18:41][INFO] Chargement des utilisateurs terminé. 1 entrées chargées depuis ../src/data/users.txt
+[2025-05-01 10:18:41][WARNING] [Global] Thread de génération de prix déjà en cours.
+[2025-05-01 10:18:41][INFO] Serveur démarré et en écoute sur le port 4433
+[2025-05-01 10:18:41][DEBUG] [Global] Prix BTC/USD récupéré via API : 95029.000000
+[2025-05-01 10:18:41][INFO] [Global] Nouvelle valeur SRD-BTC : 94842.348015 USD à 2025-05-01 10:18:41
+[2025-05-01 10:18:56][DEBUG] [Global] Prix BTC/USD récupéré via API : 95029.000000
+[2025-05-01 10:18:56][INFO] [Global] Nouvelle valeur SRD-BTC : 95142.554910 USD à 2025-05-01 10:18:56
+[2025-05-01 10:18:57][INFO] Nouvelle connexion acceptée. Socket FD: 11, IP: 10.188.240.101
+[2025-05-01 10:18:57][DEBUG] Objet SSL créé pour socket FD: 11
+[2025-05-01 10:18:57][DEBUG] [OpenSSL DEBUG] [OTHER] before SSL initialization
+[2025-05-01 10:18:57][DEBUG] [OpenSSL DEBUG] [LOOP] before SSL initialization
+[2025-05-01 10:18:57][DEBUG] [OpenSSL DEBUG] [WRITE] error
+[2025-05-01 10:18:57][WARNING]   >> Alert (write): fatal - decode error
+[2025-05-01 10:18:57][DEBUG] [OpenSSL DEBUG] [EXIT] error
+[2025-05-01 10:18:57][ERROR] [OpenSSL DEBUG] SSL Error: error:0A000126:SSL routines::unexpected eof while reading
+[2025-05-01 10:18:57][ERROR] Erreur fatale lors du handshake SSL pour socket FD: 11. Erreur SSL: 5
+[2025-05-01 10:18:57][ERROR] Échec du handshake SSL pour la nouvelle connexion. Socket FD: 11. La connexion est fermée.
+[2025-05-01 10:19:11][DEBUG] [Global] Prix BTC/USD récupéré via API : 95029.000000
+[2025-05-01 10:19:11][INFO] [Global] Nouvelle valeur SRD-BTC : 98288.880151 USD à 2025-05-01 10:19:11
+[2025-05-01 10:19:26][DEBUG] [Global] Prix BTC/USD récupéré via API : 95029.000000
+[2025-05-01 10:19:26][INFO] [Global] Nouvelle valeur SRD-BTC : 94250.729311 USD à 2025-05-01 10:19:26
+[2025-05-01 10:19:41][DEBUG] [Global] Prix BTC/USD récupéré via API : 95062.000000
+[2025-05-01 10:19:41][INFO] [Global] Nouvelle valeur SRD-BTC : 94865.910028 USD à 2025-05-01 10:19:41
+[2025-05-01 10:19:57][DEBUG] [Global] Prix BTC/USD récupéré via API : 95062.000000
+[2025-05-01 10:19:57][INFO] [Global] Nouvelle valeur SRD-BTC : 93126.280742 USD à 2025-05-01 10:19:57
+--- Début du log : 1746087598 ---
+[2025-05-01 10:19:58][INFO] Client programme démarré.
+[2025-05-01 10:19:58][DEBUG] Socket client créé. FD: 4
+[2025-05-01 10:19:58][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 10:19:58][INFO] Nouvelle connexion acceptée. Socket FD: 8, IP: 10.188.240.101
+[2025-05-01 10:19:58][DEBUG] Objet SSL créé pour socket FD: 8
+[2025-05-01 10:19:58][DEBUG] [OpenSSL DEBUG] [OTHER] before SSL initialization
+[2025-05-01 10:19:58][DEBUG] [OpenSSL DEBUG] [LOOP] before SSL initialization
+[2025-05-01 10:19:58][ERROR] Erreur: Échec du chargement du certificat client.
+--- Fin du log : 1746087598 ---
+[2025-05-01 10:19:58][DEBUG] [OpenSSL DEBUG] [WRITE] error
+[2025-05-01 10:19:58][WARNING]   >> Alert (write): fatal - decode error
+[2025-05-01 10:19:58][DEBUG] [OpenSSL DEBUG] [EXIT] error
+[2025-05-01 10:19:58][ERROR] [OpenSSL DEBUG] SSL Error: error:0A000126:SSL routines::unexpected eof while reading
+[2025-05-01 10:19:58][ERROR] Erreur fatale lors du handshake SSL pour socket FD: 8. Erreur SSL: 5
+[2025-05-01 10:19:58][ERROR] Échec du handshake SSL pour la nouvelle connexion. Socket FD: 8. La connexion est fermée.
+[2025-05-01 10:20:12][DEBUG] [Global] Prix BTC/USD récupéré via API : 95062.000000
+[2025-05-01 10:20:12][INFO] [Global] Nouvelle valeur SRD-BTC : 96209.132607 USD à 2025-05-01 10:20:12
+[2025-05-01 10:20:27][DEBUG] [Global] Prix BTC/USD récupéré via API : 95062.000000
+[2025-05-01 10:20:27][INFO] [Global] Nouvelle valeur SRD-BTC : 93678.047229 USD à 2025-05-01 10:20:27
+[2025-05-01 10:20:42][DEBUG] [Global] Prix BTC/USD récupéré via API : 95069.000000
+[2025-05-01 10:20:42][INFO] [Global] Nouvelle valeur SRD-BTC : 93919.312775 USD à 2025-05-01 10:20:42
+[2025-05-01 10:20:52][INFO] Signal d'arrêt reçu (15). Demande d'arrêt du serveur.

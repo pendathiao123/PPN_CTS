@@ -273,9 +273,11 @@ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o: \
  /usr/include/c++/11/bits/locale_conv.h \
  /usr/include/c++/11/bits/quoted_string.h /usr/include/c++/11/sstream \
  /usr/include/c++/11/bits/sstream.tcc \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/BotSession.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/ClientSession.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Client.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Bot.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Global.h \
+ /usr/include/c++/11/cstddef \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Wallet.h \
  /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
  /usr/include/c++/11/bits/stl_map.h \
@@ -306,16 +308,17 @@ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o: \
  /usr/include/c++/11/tr1/poly_hermite.tcc \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
  /usr/include/c++/11/tr1/riemann_zeta.tcc \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Logger.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/TransactionQueue.h \
  /usr/include/c++/11/queue /usr/include/c++/11/deque \
  /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
  /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h \
  /usr/include/c++/11/condition_variable \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Logger.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Wallet.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/TransactionQueue.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Global.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/ClientAuthenticator.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Bot.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Client.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
@@ -323,7 +326,6 @@ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o: \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/OpenSSLDeleters.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Wallet.h \
  /usr/include/openssl/rand.h /usr/include/openssl/randerr.h \
  /usr/include/c++/11/random /usr/include/c++/11/bits/random.h \
  /usr/include/c++/11/bits/uniform_int_dist.h \
@@ -333,4 +335,8 @@ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o: \
  /usr/include/c++/11/pstl/glue_numeric_defs.h /usr/include/c++/11/cstring \
  /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
  /usr/include/c++/11/bits/stl_algo.h \
- /usr/include/c++/11/bits/algorithmfwd.h
+ /usr/include/c++/11/bits/algorithmfwd.h /usr/include/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
+ /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_stat.h
