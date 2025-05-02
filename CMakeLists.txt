@@ -86,9 +86,10 @@ set(CLIENT_SRC
 
 set(BENCHMARK_SRC
     ${CODE_DIR}/Benchmark.cpp
-    ${CODE_DIR}/Client.cpp
+    ${CODE_DIR}/ClientInitiator.cpp
     ${CODE_DIR}/Logger.cpp
     ${CODE_DIR}/Transaction.cpp
+    ${CODE_DIR}/ServerConnection.cpp
 )
 
 
