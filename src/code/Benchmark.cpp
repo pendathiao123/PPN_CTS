@@ -305,7 +305,7 @@ void test_transactions(int nb_transactions) {
     auto start_tps = std::chrono::high_resolution_clock::now();
 
     for (int i = 0; i < nb_transactions; ++i) {
-        const char* transaction_message = "SHOW WALLET\n";
+        const char* transaction_message = "SHOW WALLET";
         int bytes_sent = SSL_write(ssl, transaction_message, strlen(transaction_message));
         if (bytes_sent <= 0) {
             std::lock_guard<std::mutex> lock(cout_mutex);
@@ -444,44 +444,44 @@ int main() {
     LOG("Démarrage des tests de benchmark", "INFO");
     
     // Exécuter les tests avec différentes charges
-    //LOG("Démarrage du benchmark avec 10 clients", "INFO");
-    //test_connections(10);
+    LOG("Démarrage du benchmark avec 10 clients", "INFO");
+    test_connections(10);
 
-    //LOG("Démarrage du benchmark avec 100 clients", "INFO");
-    //test_connections(100);
+    LOG("Démarrage du benchmark avec 100 clients", "INFO");
+    test_connections(100);
     
-    //LOG("Démarrage du benchmark avec 1000 clients", "INFO");
-    //test_connections(1000);
+    LOG("Démarrage du benchmark avec 1000 clients", "INFO");
+    test_connections(1000);
 
-    //LOG("Démarrage du benchmark avec 10000 clients", "INFO");
-    //test_connections(10000);
+    LOG("Démarrage du benchmark avec 10000 clients", "INFO");
+    test_connections(10000);
 
-    //LOG("Démarrage du benchmark avec 20000 clients", "INFO");
-    //test_connections(20000);
+    LOG("Démarrage du benchmark avec 20000 clients", "INFO");
+    test_connections(20000);
 
 
 
     //-----------------------------TPS--------------------------------
-    //LOG("Démarrage du benchmark pour 10 transactions", "INFO");
-    //test_transactions(10);
+    LOG("Démarrage du benchmark pour 10 transactions", "INFO");
+    test_transactions(10);
 
-    //LOG("Démarrage du benchmark pour 100 transactions", "INFO");
-    //test_transactions(100);
+    LOG("Démarrage du benchmark pour 100 transactions", "INFO");
+    test_transactions(100);
 
-    //LOG("Démarrage du benchmark pour 1 000 transactions", "INFO");
-    //test_transactions(1000);
+    LOG("Démarrage du benchmark pour 1 000 transactions", "INFO");
+    test_transactions(1000);
 
-    //LOG("Démarrage du benchmark pour 10 000 transactions", "INFO");
-    //test_transactions(10000);
+    LOG("Démarrage du benchmark pour 10 000 transactions", "INFO");
+    test_transactions(10000);
 
-    //LOG("Démarrage du benchmark pour 20 000 transactions", "INFO");
-    //test_transactions(20000);
+    LOG("Démarrage du benchmark pour 20 000 transactions", "INFO");
+    test_transactions(20000);
 
-    //LOG("Démarrage du benchmark pour 1 000 000 transactions", "INFO");
-    //test_transactions(1000000);
+    LOG("Démarrage du benchmark pour 1 000 000 transactions", "INFO");
+    test_transactions(1000000);
 
-    LOG("Démarrage du benchmark pour établir le nombre de connections maximum", "INFO");
-    test_max_connections();
+    //LOG("Démarrage du benchmark pour établir le nombre de connections maximum", "INFO");
+    //test_max_connections();
 
     return 0;
 }
