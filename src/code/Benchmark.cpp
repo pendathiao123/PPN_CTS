@@ -17,7 +17,7 @@
 #include <openssl/err.h>
 #include <openssl/evp.h> 
 #include <openssl/crypto.h> 
-#include "../headers/Client.h"
+#include "../headers/ClientInitiator.h"
 #include "../headers/Logger.h"  
 #include "../headers/OpenSSLDeleters.h"
 
@@ -249,7 +249,7 @@ void test_connections(int num_clients) {
 
 /* Benchmark 2 : TPS; permet de mesurer le débit, on va envoyer un nombre important de transactions/requêtes avec un seul client 
 pour déterminer si la gestion de requêtes est surchargée ou non. On pourra calculer le TPS (transactions par seconde).*/
-void test_transactions(int nb_transactions) {
+void test_transactions(int nb_transactions, std::string clientid) {
     int successful_transactions_loc = 0;
     int failed_transactions_loc = 0;
 
@@ -283,7 +283,7 @@ void test_transactions(int nb_transactions) {
     SSL* ssl = SSL_new(ctx);
     if (!ssl || !SSL_set_fd(ssl, sock)) {
         std::cerr << "Erreur création SSL ou set_fd\n";
-        SSL_free(ssl);
+        if (ssl) SSL_free(ssl);
         SSL_CTX_free(ctx);
         close(sock);
         return;
@@ -297,8 +297,9 @@ void test_transactions(int nb_transactions) {
         return;
     }
 
-    const char* auth_message = "ID:benchmark,TOKEN:abc123\n";
-    int auth_sent = SSL_write(ssl, auth_message, strlen(auth_message));
+    // Authentification
+    std::string auth_message = "ID:" + clientid + ",TOKEN:abc123\n";
+    int auth_sent = SSL_write(ssl, auth_message.c_str(), auth_message.length());
     if (auth_sent <= 0) {
         std::cerr << "Échec envoi message d'authentification\n";
         SSL_free(ssl);
@@ -307,11 +308,26 @@ void test_transactions(int nb_transactions) {
         return;
     }
 
+    // Attendre la réponse d'authentification
+    char auth_buffer[4096];
+    int auth_bytes_read = SSL_read(ssl, auth_buffer, sizeof(auth_buffer));
+    if (auth_bytes_read <= 0) {
+        std::cerr << "Échec lecture réponse d'authentification\n";
+        SSL_free(ssl);
+        SSL_CTX_free(ctx);
+        close(sock);
+        return;
+    }
+
     auto start_tps = std::chrono::high_resolution_clock::now();
 
+    // Activer le mode non-bloquant pour SSL
+    set_socket_non_blocking(sock);
+
     for (int i = 0; i < nb_transactions; ++i) {
-        const char* transaction_message = "SHOW WALLET";
-        int bytes_sent = SSL_write(ssl, transaction_message, strlen(transaction_message));
+        std::string transaction_message = (i % 2 == 0) ? "BUY SRD-BTC 5\n" : "SELL SRD-BTC 5\n";
+        
+        int bytes_sent = SSL_write(ssl, transaction_message.c_str(), transaction_message.length());
         if (bytes_sent <= 0) {
             std::lock_guard<std::mutex> lock(cout_mutex);
             std::cerr << "Échec envoi transaction #" << i << "\n";
@@ -319,18 +335,49 @@ void test_transactions(int nb_transactions) {
             continue;
         }
 
-        // Lecture réponse éventuelle si nécessaire
-        char buffer[4096];
-        int bytes_read = SSL_read(ssl, buffer, sizeof(buffer));
-        if (bytes_read <= 0) {
-            std::lock_guard<std::mutex> lock(cout_mutex);
-            std::cerr << "Échec lecture réponse transaction #" << i << "\n";
-            failed_transactions_loc++;
-            continue;
-        }
+        // Lecture avec timeout
+        fd_set readfds;
+        FD_ZERO(&readfds);
+        FD_SET(sock, &readfds);
 
-        successful_transactions_loc++;
+        struct timeval timeout;
+        timeout.tv_sec = READ_TIMEOUT_MS / 1000;
+        timeout.tv_usec = (READ_TIMEOUT_MS % 1000) * 1000;
+
+        int select_res = select(sock + 1, &readfds, NULL, NULL, &timeout);
+        
+        if (select_res > 0) {
+            char buffer[4096];
+            int bytes_read = SSL_read(ssl, buffer, sizeof(buffer));
+            
+            if (bytes_read > 0) {
+                buffer[bytes_read] = '\0';
+                // Optionnel: Afficher la réponse
+                // std::cout << "Réponse pour transaction #" << i << ": " << buffer << std::endl;
+                successful_transactions_loc++;
+            } else {
+                std::lock_guard<std::mutex> lock(cout_mutex);
+                std::cerr << "Échec lecture réponse transaction #" << i << "\n";
+                failed_transactions_loc++;
+            }
+        } else if (select_res == 0) {
+            // Timeout sur la lecture
+            std::lock_guard<std::mutex> lock(cout_mutex);
+            std::cerr << "Timeout sur lecture réponse transaction #" << i << "\n";
+            failed_transactions_loc++;
+        } else {
+            // Erreur select
+            std::lock_guard<std::mutex> lock(cout_mutex);
+            std::cerr << "Erreur select pour transaction #" << i << ": " << strerror(errno) << "\n";
+            failed_transactions_loc++;
+        }
+        
+        // Petit délai entre les transactions pour éviter de surcharger le serveur
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
+
+    // Attente supplémentaire pour s'assurer que les dernières réponses sont reçues
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     auto end_tps = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end_tps - start_tps;
@@ -341,13 +388,17 @@ void test_transactions(int nb_transactions) {
     SSL_CTX_free(ctx);
     close(sock);
 
-    // Afficher les résultats du benchmark [Transactions totales avec le nombre de réussites et d'erreurs + en %, TPS transactions per second et temps moyen pour une transaction calculé]
+    // Afficher les résultats du benchmark
     std::cout << "\n=== Résultat du benchmark pour " << nb_transactions << " transactions ===\n";
-    std::cout << "Transactions réussies : " << successful_transactions_loc << " (" << (successful_transactions_loc * 100.0 / nb_transactions) << "%)\n";
-    std::cout << "Transactions échouées : " << failed_transactions_loc << " (" << (failed_transactions_loc * 100.0 / nb_transactions) << "%)\n";
+    std::cout << "Transactions réussies : " << successful_transactions_loc << " (" 
+              << (successful_transactions_loc * 100.0 / nb_transactions) << "%)\n";
+    std::cout << "Transactions échouées : " << failed_transactions_loc << " (" 
+              << (failed_transactions_loc * 100.0 / nb_transactions) << "%)\n";
     std::cout << "Durée totale : " << duration.count() << " s\n";
     std::cout << "Transactions par seconde (TPS) : " << tps << "\n";
-    std::cout << "Temps moyen par transaction : " << (duration.count() * 1000 / nb_transactions) << " ms\n\n";
+    std::cout << "Temps moyen par transaction : " 
+              << (successful_transactions_loc > 0 ? (duration.count() * 1000 / successful_transactions_loc) : 0) 
+              << " ms\n\n";
 }
 
 
@@ -455,44 +506,47 @@ int main() {
     LOG("Démarrage du benchmark avec 10 clients", "INFO");
     test_connections(10);
 
-    LOG("Démarrage du benchmark avec 100 clients", "INFO");
-    test_connections(100);
+    //LOG("Démarrage du benchmark avec 100 clients", "INFO");
+    //test_connections(100);
     
-    LOG("Démarrage du benchmark avec 1000 clients", "INFO");
-    test_connections(1000);
+    //LOG("Démarrage du benchmark avec 1000 clients", "INFO");
+    //test_connections(1000);
 
-    LOG("Démarrage du benchmark avec 10000 clients", "INFO");
-    test_connections(10000);
+    //LOG("Démarrage du benchmark avec 10000 clients", "INFO");
+    //test_connections(10000);
 
-    LOG("Démarrage du benchmark avec 20000 clients", "INFO");
-    test_connections(20000);
+    //LOG("Démarrage du benchmark avec 20000 clients", "INFO");
+    //test_connections(20000);
 
-    sleep(10);
+    //sleep(10);
 
     //-----------------------------TPS--------------------------------
     LOG("Démarrage du benchmark pour 10 transactions", "INFO");
-    test_transactions(10);
+    test_transactions(10, "benchmark1");
 
     LOG("Démarrage du benchmark pour 100 transactions", "INFO");
-    test_transactions(100);
+    test_transactions(100, "benchmark2");
 
     LOG("Démarrage du benchmark pour 1 000 transactions", "INFO");
-    test_transactions(1000);
+    test_transactions(1000, "benchmark3");
+
+    LOG("Démarrage du benchmark pour 3 000 transactions", "INFO");
+    test_transactions(3000, "benchmark4");
 
     LOG("Démarrage du benchmark pour 10 000 transactions", "INFO");
-    test_transactions(10000);
+    test_transactions(10000, "benchmark5");
 
-    LOG("Démarrage du benchmark pour 20 000 transactions", "INFO");
-    test_transactions(20000);
+    //LOG("Démarrage du benchmark pour 20 000 transactions", "INFO");
+    //test_transactions(20000, "benchmark6");
 
-    LOG("Démarrage du benchmark pour 1 000 000 transactions", "INFO");
-    test_transactions(1000000);
+    //LOG("Démarrage du benchmark pour 1 000 000 transactions", "INFO");
+    //test_transactions(1000000, "benchmark7");
 
     sleep(10);
 
     //--------------------------Surcharge-------------------------------
-    //LOG("Démarrage du benchmark pour établir le nombre de connections maximum", "INFO");
-    //test_max_connections();
+    LOG("Démarrage du benchmark pour établir le nombre de connections maximum", "INFO");
+    test_max_connections();
 
     return 0;
 }
