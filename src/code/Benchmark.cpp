@@ -203,6 +203,8 @@ void connect_to_server(int id) {
     close(sock);
 }
 
+/* Benchmark 1 : CPS; utilise la fonction connect_to_server pour lancer un certain nombre de clients par paquets, 
+permet de tester la rapidité de connexion clients. On pourra calculer le CPS (connections par seconde), mais aussi la latence de connexion + connexion SSL.*/
 void test_connections(int num_clients) {
     std::vector<std::thread> threads;
     successful_connections = 0;
@@ -244,6 +246,9 @@ void test_connections(int num_clients) {
     std::cout << "Temps moyen par connexion : " << (duration.count() * 1000 / num_clients) << " ms\n\n";    
 }
 
+
+/* Benchmark 2 : TPS; permet de mesurer le débit, on va envoyer un nombre important de transactions/requêtes avec un seul client 
+pour déterminer si la gestion de requêtes est surchargée ou non. On pourra calculer le TPS (transactions par seconde).*/
 void test_transactions(int nb_transactions) {
     int successful_transactions_loc = 0;
     int failed_transactions_loc = 0;
@@ -336,6 +341,7 @@ void test_transactions(int nb_transactions) {
     SSL_CTX_free(ctx);
     close(sock);
 
+    // Afficher les résultats du benchmark [Transactions totales avec le nombre de réussites et d'erreurs + en %, TPS transactions per second et temps moyen pour une transaction calculé]
     std::cout << "\n=== Résultat du benchmark pour " << nb_transactions << " transactions ===\n";
     std::cout << "Transactions réussies : " << successful_transactions_loc << " (" << (successful_transactions_loc * 100.0 / nb_transactions) << "%)\n";
     std::cout << "Transactions échouées : " << failed_transactions_loc << " (" << (failed_transactions_loc * 100.0 / nb_transactions) << "%)\n";
@@ -412,7 +418,9 @@ void connect_to_server_max(int id) {
     }
 }
 
-
+/* Benchmark 3 : utilise la fonction connect_to_server_max. On mesure le nombre de connexion client qu'il faut pour arriver à saturation du server. 
+Le but ici est de générer pleins de clients à la suite sans jamais couper le socket ou la connexion SSL et voir quand le serveur ne peut plus supporter la charge. 
+C'est une valeur importante dans un Serveur pour déterminer quelle capacité celui ci peut avoir et dépend de la machine sur lequel il tourne.*/
 void test_max_connections(){
     std::vector<std::thread> threads;
     int i = 0;
@@ -480,6 +488,8 @@ int main() {
     LOG("Démarrage du benchmark pour 1 000 000 transactions", "INFO");
     test_transactions(1000000);
 
+
+    //--------------------------Surcharge-------------------------------
     //LOG("Démarrage du benchmark pour établir le nombre de connections maximum", "INFO");
     //test_max_connections();
 
