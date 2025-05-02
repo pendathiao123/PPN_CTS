@@ -13,6 +13,8 @@ class Client
 {
 private:
     /* Variables */
+    // compteur statique pour l'initialisation des clients
+    static int cmpt;
     // Identifiant du client
     const int ID;
     // Token permettant au client d'acceder à son compte pour echanges finnanciers
@@ -41,12 +43,16 @@ private:
     std::string receiveResponse();
 
 public:
-    // Constructeur de classe
+    // Constructeurs de classe
+    Client();
     Client(int id);
     // Destructeur pour s'assurer de la fermeture de la connexion SSL
     ~Client();
     // Fonction principale pour démarrer le client (connecter le client au Serveur)
-    void StartClient(const std::string &serverAddress, int port);
+    int StartClient(const std::string &serverAddress, int port);
+
+    // Getteur pour l'identifiant du client
+    int getId();
 
     // Méthode pour mettre de l'argent dans son solde
     void inject(const double money);

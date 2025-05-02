@@ -14,7 +14,7 @@ Transaction::Transaction(const std::string &clientId, const std::string &type, c
     totalAmount = quantity * unitPrice;    // Calculer le montant total
     timestamp = std::time(nullptr);        // Initialise le timestamp au moment de la création
     id = "TX" + std::to_string(++counter); // Génère un ID unique
-    std::cout << "Transaction créée : " << id << ", " << type << ", " << cryptoName << ", " << quantity << ", " << unitPrice << ", " << totalAmount << "\n";
+    //std::cout << "Transaction créée : " << id << ", " << type << ", " << cryptoName << ", " << quantity << ", " << unitPrice << ", " << totalAmount << "\n";
 }
 
 // Méthode pour retourner l'ID de la transaction
@@ -33,7 +33,7 @@ void Transaction::logTransactionToCSV(const std::string &filename) const
         return;
     }
 
-    std::cout << "Enregistrement de la transaction dans le fichier " << filename << "\n";
+    //std::cout << "Enregistrement de la transaction dans le fichier " << filename << "\n";
 
     // Vérifie si le fichier est vide pour ajouter l'en-tête
     if (file.tellp() == 0)

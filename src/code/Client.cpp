@@ -10,6 +10,12 @@
 #include <arpa/inet.h>
 #include <string.h>
 
+int Client::cmpt = 0;
+
+Client::Client() : clientSocket(-1), ctx(nullptr), ssl(nullptr), ID(++cmpt){
+    memset(&serverAddr, 0, sizeof(serverAddr));
+}
+
 Client::Client(int id) : clientSocket(-1), ctx(nullptr), ssl(nullptr), ID(id)
 {
     memset(&serverAddr, 0, sizeof(serverAddr));
@@ -23,6 +29,11 @@ Client::~Client()
 bool Client::isConnected() const
 {
     return ssl != nullptr;
+}
+
+// Getteur pour l'identifiant du client
+int Client::getId(){
+    return ID;
 }
 
 SSL_CTX *Client::InitClientCTX()
@@ -56,7 +67,7 @@ SSL *Client::ConnectSSL(SSL_CTX *ctx, int clientSocket)
 
 // affichages dans le terminal
 void Client::affiche(std::string msg){
-    std::cout << "Client " << ID << ": " << msg << std::endl;
+    //std::cout << "Client " << ID << ": " << msg << std::endl;
 }
 
 // affichage des erreurs dans le terminal
@@ -113,7 +124,7 @@ std::string Client::receiveResponse()
     return response;
 }
 
-void Client::StartClient(const std::string &serverAddress, int port)
+int Client::StartClient(const std::string &serverAddress, int port)
 {
     // création du socket pour le client
     this->clientSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -175,7 +186,7 @@ void Client::StartClient(const std::string &serverAddress, int port)
         if(reponse == ""){
             afficheErr("Erreur lors de la réception de la réponse du serveur");
             closeConnection();
-            exit(EXIT_FAILURE); // ---------------------------------------------> Changer prototype de StartClient()
+            exit(EXIT_FAILURE);
         }
         // Si le message contient NEW_ACCOUNT et ne contient pas DENIED
         if((reponse.find(new_acc) != std::string::npos) && (reponse.find(dend) == std::string::npos)){
@@ -192,7 +203,7 @@ void Client::StartClient(const std::string &serverAddress, int port)
         }else{ // La reponse ne correspond pas à l'acceptation de creation d'un nouveau compte
             affiche("Refus de création d'un nouveau compte");
             closeConnection();
-            return;
+            return 1; // error
         }
     }
 
@@ -217,9 +228,9 @@ void Client::StartClient(const std::string &serverAddress, int port)
     if(reponse.find(conn) == std::string::npos){
         affiche("Demande d'authentification refusé");
         closeConnection();
-        return;
+        return 1;
     }
-    // Si aucun cas d'erreur est detecté on sort de la fonction et le client est connecté
+    return 0;
 }
 
 // Méthode pour mettre de l'argent dans son solde
