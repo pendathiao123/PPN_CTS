@@ -90,6 +90,8 @@ private:
     std::string putMoney(std::string idClient, std::string order);
     // Méthode pour recuperer tout l'argent des clients de leur solde
     std::string takeMoney(std::string idClient);
+    // Méthoe pour vendre les tous les actifs du client et recuperer tout l'argent dans le solde du client
+    std::string takeAllMoney(std::string idClient);
     // Méthode pour acheter des Cryptos
     int buyCrypto(const std::string& id, const std::string& crypto, double q);
     // Méthode pour vendre des Cryptos

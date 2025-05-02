@@ -96,6 +96,7 @@ void Bot::trading(Crypto &cry, int &action, double &q, const double dollars, con
                 return;
             }
             // sinon on achete pas
+            std::cout << "No action taken" << std::endl;
             return;
         }
 
@@ -103,64 +104,7 @@ void Bot::trading(Crypto &cry, int &action, double &q, const double dollars, con
         prv_price = price;
         price = cry.getPrice("SRD-BTC");
     }
-}
-
-
-void Bot::investing(Crypto &cry, int &action, double &q, const double dollars, const double srd_btc)
-{
-    std::cout << "Passage dans Bot::investing " << std::endl;
-
-    double price = cry.getPrice("SRD-BTC");
-    double evolution = 1 + ((price - prv_price) / price);
-
-    std::cout << "Solde: " << dollars << ", Price: " << price << ", Evolution: " << evolution << std::endl;
-
-    if (dollars > 0.5 * 100) // à retravailler
-    {
-        std::cout << "Solde > 0.5 * solde_origin" << std::endl;
-        if (evolution >= 1.005)
-        {
-            std::cout << "Evolution >= 1.005, Selling 100%" << std::endl;
-            // Vente de "SRD-BTC"
-            action = 2; // code de vente
-            q = 100; // quantité vendue
-        }
-        else if (evolution <= 0.995)
-        {
-            std::cout << "Evolution <= 0.995, Buying 5%" << std::endl;
-            // Achat de "SRD-BTC"
-            action = 1; // code d'achat
-            q = 5; // quantité acheté
-        }
-        else
-        {
-            std::cout << "No action taken" << std::endl;
-        }
-    }
-    else
-    {
-        std::cout << "Solde <= 0.5 * solde_origin" << std::endl;
-        if (evolution >= 1.04)
-        {
-            std::cout << "Evolution >= 1.04, Selling 80%" << std::endl;
-            // Vente de "SRD-BTC"
-            action = 2; // code de vente
-            q = 100; // quantité vendue
-        }
-        else if (evolution <= 0.96)
-        {
-            std::cout << "Evolution <= 0.96, Buying 3%" << std::endl;
-            // Achat de "SRD-BTC"
-            action = 1; // code d'achat
-            q = 5; // quantité acheté
-        }
-        else
-        {
-            std::cout << "No action taken" << std::endl;
-        }
-    }
-    prv_price = price;
-    std::cout << "Fin de l'itération de Bot::investing " << std::endl;
+    std::cout << "No action taken" << std::endl;
 }
 
 /*

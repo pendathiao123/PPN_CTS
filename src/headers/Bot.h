@@ -47,9 +47,6 @@ public:
 
     // Fonction de trading du bot
     void trading(Crypto &cry, int &action, double &q, const double dollars, const double srd_btc);
-    
-    // Fonction d'investissement du bot
-    void investing(Crypto &cry, int &action, double &q, const double dollars, const double srd_btc);
 
     // Retourne le prix de la devise spécifiée
     //double getPrice(const std::string &currency);

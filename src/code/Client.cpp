@@ -250,6 +250,25 @@ double Client::withdraw(){
     return res;
 }
 
+// Mèthode pour vendre tous ses actifs et retirer l'agent de son compte (la totalité)
+double Client::recoverAll(){
+    // constitution de la chîne de caractéres à envoyer
+    std::string order = "RECOVER_ALL";
+    sendRequest(order); // on envoie la "demande"
+    std::string response = receiveResponse(); // on attand la reponse du Serveur
+    
+    // de la reponse du serveur on extrait le montant (si il n'y a pas d'erreur)
+    double res;
+    std::istringstream iss(response);
+    std::string action, equal;
+    if (!(iss >> action >> equal >> res)) // extraction données requete
+    {
+        afficheErr("Erreur: Format de commande invalide");
+        return -1;
+    }
+    return res;
+}
+
 void Client::buy(const std::string &currency, double amount)
 {
     std::string request = "BUY " + currency + " " + std::to_string(amount);
@@ -264,14 +283,6 @@ void Client::sell(const std::string &currency, double amount)
     sendRequest(request);
     std::string response = receiveResponse();
     //affiche("Réponse à la vente : " + response);
-}
-
-void Client::invest(){
-    std::string requete = "ID:" + std::to_string(ID) + ", INVEST";
-    sendRequest(requete);
-    //sleep(1); // can be pertinent
-    std::string reponse = receiveResponse();
-    affiche("Résultat d'investissement: " + reponse);
 }
 
 void Client::trade(){

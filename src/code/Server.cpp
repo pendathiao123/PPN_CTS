@@ -301,7 +301,7 @@ std::string Server::takeMoney(std::string idClient){
     double tt = soldes[idClient].at(0);
     soldes[idClient].at(0) = 0.; // mis à jour du solde du client
 
-    return "TOTAL = " + std::to_string(tt);
+    return "AMOUNT = " + std::to_string(tt);
 }
 
 // Méthode pour acheter des Cryptos
@@ -358,6 +358,21 @@ int Server::sellCrypto(const std::string& id, const std::string& crypto, double 
     return -1; // erreur
 }
 
+// Méthoe pour vendre les tous les actifs du client et recuperer tout l'argent dans le solde du client
+std::string Server::takeAllMoney(std::string idClient){
+    // on vend tout (si cela est possible)
+    double actifs = soldes[idClient].at(1);
+    if(actifs > 0){
+        if(sellCrypto(idClient,"SRD-BTC",actifs) == -1){
+            afficheErr("Erreur au niveau de l'achat");
+        }
+    }
+
+    double tt = soldes[idClient].at(0);
+    soldes[idClient].at(0) = 0.; // mis à jour du solde du client
+
+    return "TOTAL = " + std::to_string(tt);
+}
 
 // Gérer la commande d'achat
 std::string Server::handleBuy(const std::string &request, const std::string &clientId)
@@ -424,13 +439,9 @@ std::string Server::serverUseBot(const std::string id, const int a){
     {
     case 1:
         // execution algo complexe
-        serverBot.get()->investing(crypto_monaie, action, qex, soldes[id].at(0), soldes[id].at(1));
-        break;
-
-    case 2:
-        // execution algo complexe
         serverBot.get()->trading(crypto_monaie, action, qex, soldes[id].at(0), soldes[id].at(1));
         break;
+
     // on peut ajouter autant de cas que le Bot peut faire des choses ...
 
     default:
@@ -495,10 +506,10 @@ void Server::HandleClient(SSL *ssl){
         std::string deco = ",DISCONNECT";
         std::string achat = "BUY";
         std::string vente = "SELL";
-        std::string invest = "INVEST";
         std::string trade = "TRADE";
         std::string inject = "INJECT";
         std::string withdraw = "WITHDRAW";
+        std::string recover_all = "RECOVER_ALL";
 
         // Authentification du Client
         if(Connection(ssl,id,receivedMessage)){ // Si le Client arrive à se connecter
@@ -521,15 +532,15 @@ void Server::HandleClient(SSL *ssl){
                 }else if(receivedMessage.find(vente) != std::string::npos){ // Requête de vente
                     // Gérer la commande de vente
                     response = handleSell(receivedMessage, id);
-                }else if(receivedMessage.find(invest) != std::string::npos){ // Requête d'investissement
-                    // Appel à la fonction de gestion des Bots, pour une demande d'investissement
-                    response = serverUseBot(id, 1);
                 }else if(receivedMessage.find(trade) != std::string::npos){ // Requête de trading
                     // Appel à la fonction de gestion des Bots, pour une demande de trade
-                    response = serverUseBot(id, 2);
+                    response = serverUseBot(id, 1);
                 }else if(receivedMessage.find(withdraw) != std::string::npos){ // Requête pour vider son compte
                     // Gérer l'actualisation du solde du client
                     response = takeMoney(id);
+                }else if(receivedMessage.find(recover_all) != std::string::npos){ // Requête pour vider son compte
+                    // Gérer l'actualisation du solde du client
+                    response = takeAllMoney(id);
                 }else{
                     // Le Client n'a pas formulé un demande explicite
                     /* Si on veut faire adopter au Serveur un comportement restrictif,
