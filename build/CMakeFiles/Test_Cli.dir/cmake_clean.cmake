@@ -7,6 +7,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o.d"
   "CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.o"
   "CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.o.d"
+  "CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o"
+  "CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o.d"
+  "CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o"
+  "CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o.d"
   "Test_Cli"
   "Test_Cli.pdb"
 )

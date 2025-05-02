@@ -1,128 +1,95 @@
-#include <iostream>
-#include <filesystem> 
-#include <stdexcept>  
-#include <csignal>   
+// src/code/Main_Serv.cpp - Point d'entrée de l'exécutable serveur
 
-#include "../headers/Server.h"          
-#include "../headers/TransactionQueue.h" 
-#include "../headers/Global.h"           
-#include "../headers/Logger.h"          
-#include "../headers/Transaction.h"  
+#include "../headers/Server.h" // Inclut la classe Server
+#include "../headers/TransactionQueue.h" // Déclare extern la file de transactions globale
+#include "../headers/Logger.h" // Pour la macro LOG
 
-#include <openssl/ssl.h>
-#include <openssl/err.h>
-#include <curl/curl.h>
+#include <iostream> // std::cout, std::cerr
+#include <string>   // std::string
+#include <vector>   // std::vector
+#include <stdexcept> // std::runtime_error
+#include <memory>   // std::shared_ptr, std::make_shared
 
-
-// Déclaration de la file de transactions globale (si elle est gérée comme une variable globale)
-// Si tu as fait de txQueue un membre du Server, retire cette ligne.
-TransactionQueue txQueue;
-
-// Variable globale pour signaler l'arrêt au serveur principal
-// Le gestionnaire de signal modifiera ce flag.
-std::atomic<bool> server_running = true;
-
-// Gestionnaire de signal pour arrêter le serveur proprement
-void signal_handler(int signal) {
-    if (signal == SIGINT || signal == SIGTERM) {
-        LOG("Signal d'arrêt reçu (" + std::to_string(signal) + "). Demande d'arrêt du serveur.", "INFO");
-        server_running.store(false); // Signale à la boucle principale de s'arrêter
-    }
+// --- Initialisation globale OpenSSL ---
+void initialize_openssl() {
+    OpenSSL_add_all_algorithms();
+    SSL_library_init();
+    SSL_load_error_strings();
+    // RAND_poll();
 }
 
+void cleanup_openssl() {
+    EVP_cleanup();
+    // SSL_COMP_free_compression_methods();
+    CRYPTO_cleanup_all_ex_data();
+    ERR_free_strings();
+}
 
-int main() {
-    // Enregistrer le gestionnaire de signal
-    std::signal(SIGINT, signal_handler);
-    std::signal(SIGTERM, signal_handler);
-    LOG("Gestionnaires de signaux enregistrés.", "INFO");
-
-
-    // 1. Initialisation globale des bibliothèques
-    // Initialisation OpenSSL (doit être fait une seule fois au démarrage)
-    SSL_library_init();
-    OpenSSL_add_all_algorithms();
-    SSL_load_error_strings();
-    ERR_load_SSL_strings(); // Charge toutes les chaînes d'erreur OpenSSL (remplace ERR_load_BIO_strings et autres)
-    ERR_load_crypto_strings();
-    LOG("Bibliothèques OpenSSL initialisées.", "INFO");
-
-    // Initialisation libcurl (doit être fait une seule fois au démarrage si utilisé globalement)
-    // C'est le cas car Global utilise libcurl.
-    CURLcode res_curl_init = curl_global_init(CURL_GLOBAL_DEFAULT);
-    if (res_curl_init != CURLE_OK) {
-        LOG("Erreur lors de l'initialisation globale de libcurl : " + std::string(curl_easy_strerror(res_curl_init)), "ERROR");
-        // Gérer l'erreur fatale si curl est essentiel
-        return 1; // Quitter le programme
-    }
-    LOG("Bibliothèque libcurl initialisée globalement.", "INFO");
+// --- Définition de l'instance globale de la TransactionQueue ---
+TransactionQueue txQueue; // Unique instance de la file de transactions globale.
 
 
-    // 2. Vérifie et crée le répertoire des portefeuilles (chemin hardcodé)
-    std::string wallet_dir = "../src/data/wallets"; // Chemin hardcodé
-    if (!std::filesystem::exists(wallet_dir)) {
-        std::error_code ec; // Pour capturer l'erreur au lieu de lancer une exception
-        if (std::filesystem::create_directories(wallet_dir, ec)) {
-            LOG("Répertoire des portefeuilles créé : " + wallet_dir, "INFO");
-        } else {
-            LOG("Erreur lors de la création du répertoire des portefeuilles " + wallet_dir + " : " + ec.message(), "ERROR");
-            // Continuer, mais logger l'erreur
-        }
-    } else {
-        LOG("Répertoire des portefeuilles trouvé : " + wallet_dir, "INFO");
-    }
+// --- Fonction main : Point d'entrée du programme serveur ---
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
+    LOG("Main_Serv INFO : Démarrage du programme serveur (config hardcodée).", "INFO");
 
-    // Définir les chemins de fichiers (hardcodés, à rendre configurables)
-    std::string cert_file = "../server.crt";
-    std::string key_file = "../server.key";
-    std::string users_file = "../src/data/users.txt"; // Chemin hardcodé (ton CMake le nommait configFile.csv ?)
-    std::string log_file = "../server.log"; // Le Logger gère son propre fichier, ce chemin peut être donné au Logger si besoin
-    std::string transaction_counter_file = "../src/data/transaction_counter.txt";
-    std::string transaction_history_file = "../src/data/transactions.csv";
+    // --- Configuration Hardcodée ---
+    // REMPLACEZ CES VALEURS PAR VOS CHEMINS ET PORT RÉELS POUR LE TEST
+    int port = 4433; // Port d'écoute hardcodé
+    std::string certFile = "../server.crt"; // Chemin du certificat hardcodé
+    std::string keyFile = "../server.key";   // Chemin de la clé privée hardcodé
+    std::string usersFile = "users.txt"; // Chemin du fichier utilisateurs hardcodé
+    std::string transactionCounterFile = "counter.txt"; // Chemin du compteur hardcodé
+    std::string transactionHistoryFile = "../src/data/global_transactions.csv"; // Chemin historique hardcodé
+    std::string walletsDir = "../src/data/wallets/"; // Répertoire portefeuilles hardcodé
+    // ASSUREZ-VOUS QUE CES FICHIERS ET RÉPERTOIRES EXISTENT OU SERONT CRÉÉS COMME PRÉVU.
 
-    // 3. Charger le compteur de transactions (Transaction::loadCounter attend un chemin)
-    Transaction::loadCounter(transaction_counter_file);
+    // Le parsing des arguments de ligne de commande est ignoré/retiré ici.
+    LOG("Main_Serv INFO : Configuration chargée (hardcodée). Port: " + std::to_string(port) + ", Cert: " + certFile + ", Key: " + keyFile + ", Users: " + usersFile + ", Counter: " + transactionCounterFile + ", History: " + transactionHistoryFile + ", Wallets Dir: " + walletsDir, "INFO");
 
-    // 4. Création et démarrage du serveur
-    // Le constructeur du serveur prend les chemins et le port
+
+    // --- Initialisation OpenSSL ---
+    LOG("Main_Serv DEBUG : Initialisation globale OpenSSL...", "DEBUG");
+    initialize_openssl();
+    LOG("Main_Serv DEBUG : Initialisation globale OpenSSL terminée.", "DEBUG");
+
+
+    // --- Création et Démarrage du Serveur ---
+    std::shared_ptr<Server> server = nullptr;
     try {
-        Server server(4433, // Port hardcodé
-                      cert_file,
-                      key_file,
-                      users_file,
-                      log_file, // Ce chemin n'est plus utilisé par Server directement pour le log global, mais peut servir pour configurer le Logger.
-                      transaction_counter_file, // Le chemin est passé pour load/saveCounter
-                      transaction_history_file); // Le chemin est passé pour logTransactionToCSV
+        // Utilise les valeurs hardcodées pour créer l'objet Server.
+        server = std::make_shared<Server>(port, certFile, keyFile, usersFile,
+                                          transactionCounterFile, transactionHistoryFile, walletsDir);
 
-        // server.StartServer() contient la boucle principale accept().
-        server.StartServer(); // La boucle interne doit vérifier server_running
-
+        LOG("Main_Serv INFO : Objet Server créé. Démarrage...", "INFO");
+        server->StartServer(); // Cette méthode bloquera jusqu'à l'arrêt (via signal non géré ou implémenté).
 
     } catch (const std::exception& e) {
-        LOG("Exception fatale lors du démarrage ou de l'exécution du serveur : " + std::string(e.what()), "ERROR");
-        // Gérer l'arrêt propre ici si une exception se produit avant le signal d'arrêt
-        server_running.store(false); // S'assurer que le flag est false
-        return 1; // Quitter avec un code d'erreur
+        LOG("Main_Serv CRITICAL : Exception non gérée lors de la création ou du démarrage du serveur. Exception: " + std::string(e.what()), "CRITICAL");
+        if (server) {
+             server->StopServer(); // Tente un arrêt propre.
+        }
+        return 1; // Code d'erreur.
+
+    } catch (...) {
+         LOG("Main_Serv CRITICAL : Exception inconnue non gérée lors de la création ou du démarrage du serveur.", "CRITICAL");
+         if (server) {
+              server->StopServer();
+         }
+         return 1; // Code d'erreur.
     }
 
+    // StartServer() bloque normalement. Ce code n'est atteint que si StartServer() retourne,
+    // ce qui n'arrive pas avec la boucle acceptThread.join() sauf en cas d'arrêt brutal ou de signal.
+    LOG("Main_Serv INFO : Programme serveur terminé normalement.", "INFO");
 
-    // Le programme atteint ce point quand server.StartServer() retourne,
-    // ce qui devrait arriver lorsque le flag server_running devient false.
+    // --- Nettoyage OpenSSL ---
+    LOG("Main_Serv DEBUG : Nettoyage global OpenSSL...", "DEBUG");
+    cleanup_openssl();
+    LOG("Main_Serv DEBUG : Nettoyage global OpenSSL terminé.", "DEBUG");
 
-    LOG("Boucle principale du serveur terminée. Début de l'arrêt propre...", "INFO");
-
-    // Nettoyage global des bibliothèques
-    // Nettoyage libcurl
-    curl_global_cleanup();
-    LOG("Bibliothèque libcurl nettoyée globalement.", "INFO");
-
-    // Nettoyage OpenSSL
-    // Ces appels doivent correspondre aux initialisations
-    ERR_free_strings();
-    EVP_cleanup();
-    LOG("Bibliothèques OpenSSL nettoyées globalement.", "INFO");
-
-
-    LOG("Programme serveur terminé.", "INFO");
-    return 0; // Quitter avec succès
+    return 0; // Code de succès.
 }
+
+// Note : Pour un arrêt propre par Ctrl+C, une gestion des signaux (SIGINT) est nécessaire.
+// Cela complexifierait ce main simple pour l'instant.

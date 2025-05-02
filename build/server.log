@@ -2556,3 +2556,432 @@
 ...
 [2025-05-02 11:21:23][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'QUIT'
 [2025-05-02 11:21:23][INFO] ClientSession INFO : Sortie de la boucle de session pour client Client1. Raison: running=0, client_connected=1
+--- Début du log : 1746187308 ---
+[2025-05-02 14:01:48][DEBUG] TransactionQueue créée.
+[2025-05-02 14:01:48][INFO] Main_Serv INFO : Démarrage du programme serveur (config hardcodée).
+[2025-05-02 14:01:48][INFO] Main_Serv INFO : Configuration chargée (hardcodée). Port: 4433, Cert: ../server.crt, Key: ../server.key, Users: users.txt, Counter: counter.txt, History: ../src/data/global_transactions.csv, Wallets Dir: ../src/data/wallets/
+[2025-05-02 14:01:48][DEBUG] Main_Serv DEBUG : Initialisation globale OpenSSL...
+[2025-05-02 14:01:48][DEBUG] Main_Serv DEBUG : Initialisation globale OpenSSL terminée.
+[2025-05-02 14:01:48][INFO] Server::Server INFO : Objet Server créé avec port 4433 et chemins de configuration.
+[2025-05-02 14:01:48][INFO] Main_Serv INFO : Objet Server créé. Démarrage...
+[2025-05-02 14:01:48][INFO] Server::StartServer INFO : Démarrage du serveur sur le port 4433...
+[2025-05-02 14:01:48][DEBUG] Server::InitServerCTX DEBUG : Initialisation du contexte SSL serveur...
+[2025-05-02 14:01:48][DEBUG] Server::InitServerCTX DEBUG : Contexte SSL serveur créé.
+[2025-05-02 14:01:48][DEBUG] Server::InitServerCTX DEBUG : Certificat serveur chargé : ../server.crt
+[2025-05-02 14:01:48][DEBUG] Server::InitServerCTX DEBUG : Clé privée serveur chargée : ../server.key
+[2025-05-02 14:01:48][INFO] Server::InitServerCTX INFO : Contexte SSL serveur initialisé avec succès.
+[2025-05-02 14:01:48][INFO] Server::StartServer INFO : Contexte SSL serveur initialisé avec succès.
+[2025-05-02 14:01:48][INFO] Server::LoadUsersInternal INFO : Chargement utilisateurs terminé. 3 entrées chargées depuis users.txt
+[2025-05-02 14:01:48][INFO] Server::StartServer INFO : Chargement des utilisateurs terminé (ou fichier non trouvé).
+[2025-05-02 14:01:48][INFO] Transaction::loadCounter Fichier compteur vide ou contenant 0. Compteur démarrera à 0.
+[2025-05-02 14:01:48][INFO] Server::StartServer INFO : Chargement du compteur de transactions terminé.
+[2025-05-02 14:01:48][INFO] Global Demande de démarrage du thread de génération de prix.
+[2025-05-02 14:01:48][INFO] Global Thread de génération de prix initié.
+[2025-05-02 14:01:48][INFO] Server::StartServer INFO : Thread de génération des prix SRD-BTC démarré (module Global).
+[2025-05-02 14:01:48][INFO] TransactionQueue::start Thread de traitement démarré.
+[2025-05-02 14:01:48][INFO] Server::StartServer INFO : Thread de traitement de la TransactionQueue démarré.
+[2025-05-02 14:01:48][DEBUG] Server::StartServer DEBUG : Socket serveur créé avec FD: 4
+[2025-05-02 14:01:48][INFO] Server::StartServer INFO : Socket serveur lié à l'adresse et au port 4433
+[2025-05-02 14:01:48][INFO] Server::StartServer INFO : Serveur en écoute sur le port 4433
+[2025-05-02 14:01:48][INFO] Server::StartServer INFO : Thread d'acceptation des connexions démarré.
+[2025-05-02 14:01:48][DEBUG] Server::StartServer DEBUG : Attente de la fin du thread d'acceptation...
+[2025-05-02 14:01:48][INFO] Server::AcceptLoop INFO : Thread démarré. En attente de connexions...
+[2025-05-02 14:01:48][INFO] Global Thread de génération de prix démarré.
+[2025-05-02 14:01:48][INFO] TransactionQueue::process Thread de traitement en cours...
+[2025-05-02 14:01:48][INFO] Global Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-05-02 14:01:48][INFO] Global Nouveau prix SRD-BTC simulé : 95017.0062513967
+[2025-05-02 14:01:56][INFO] Server::AcceptLoop INFO : Nouvelle connexion acceptée. Socket FD: 5, IP: 10.188.240.101
+[2025-05-02 14:01:56][DEBUG] Server::AcceptSSLConnection DEBUG : Tentative handshake SSL pour socket FD: 5
+[2025-05-02 14:01:56][DEBUG] Server::AcceptSSLConnection DEBUG : Objet SSL créé pour socket FD: 5
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: Handshake before SSL initialization START
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:before SSL initialization
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:before SSL initialization
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS read client hello
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write server hello
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write change cipher spec
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:TLSv1.3 write encrypted extensions
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write certificate
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:TLSv1.3 write server certificate verify
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write finished
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:TLSv1.3 early data
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:TLSv1.3 early data
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS read finished
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: Handshake SSLv3/TLS write session ticket DONE
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write session ticket
+[2025-05-02 14:01:56][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write session ticket
+[2025-05-02 14:01:56][ERROR] OpenSSL Callback: SSL_CB_ERROR - SSL negotiation finished successfully
+[2025-05-02 14:01:56][INFO] Server::AcceptSSLConnection INFO : Handshake SSL réussi pour socket FD: 5
+[2025-05-02 14:01:56][INFO] Server::AcceptLoop INFO : Handshake SSL réussi pour socket FD: 5
+[2025-05-02 14:01:56][INFO] Server::AcceptLoop INFO : Thread gestion client détaché pour socket FD: 5
+[2025-05-02 14:01:56][INFO] Server::HandleClient INFO : Thread démarré pour socket FD: 5
+[2025-05-02 14:01:56][DEBUG] Server::HandleClient DEBUG : Création de l'objet ServerConnection pour socket FD: 5
+[2025-05-02 14:01:56][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (5) et SSL existants.
+[2025-05-02 14:01:56][INFO] Server::HandleClient INFO : Objet ServerConnection créé et connecté pour socket FD: 5
+[2025-05-02 14:01:56][DEBUG] ClientAuthenticator::ClientAuthenticator DEBUG : Objet ClientAuthenticator créé.
+[2025-05-02 14:01:56][DEBUG] Server::HandleClient DEBUG : Lancement du processus AuthenticateClient...
+[2025-05-02 14:01:56][INFO] ClientAuthenticator::AuthenticateClient INFO : Démarrage authentification pour socket FD: 5
+[2025-05-02 14:01:56][DEBUG] ServerConnection DEBUG : Reçu 24 octets pour receiveLine sur socket FD: 5. Buffer accumulation size: 24
+[2025-05-02 14:01:56][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 5. Ligne: 'ID:Client1,TOKEN:Token1'
+[2025-05-02 14:01:56][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Reçu message d'auth de socket FD 5 : 'ID:Client1,TOKEN:Token1'
+[2025-05-02 14:01:56][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Parsing réussi. ID: 'Client1', Mot de passe: '[CACHÉ]'. Socket FD: 5
+[2025-05-02 14:01:56][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Demande au Server de traiter la requête d'auth pour ID: Client1...
+[2025-05-02 14:01:56][INFO] Server::processAuthRequest INFO : Tentative auth/enregistrement pour ID: 'Client1'...
+[2025-05-02 14:01:56][DEBUG] Server::processAuthRequest DEBUG : ID existant trouvé : 'Client1'. Vérification du mot de passe...
+[2025-05-02 14:01:56][WARNING] SecurityUtils WARNING : VerifyPasswordSecure est un placeholder. REMPLACER PAR UNE VRAIE VÉRIFICATION DE HASH SÉCURISÉ !
+[2025-05-02 14:01:56][INFO] Server::processAuthRequest INFO : Authentification réussie pour ID existant : 'Client1'.
+[2025-05-02 14:01:56][INFO] ClientAuthenticator::AuthenticateClient INFO : Authentification terminée avec succès pour ID: 'Client1'. Résultat: SUCCESS. Socket FD: 5
+[2025-05-02 14:01:56][INFO] Server::HandleClient INFO : Authentification/enregistrement réussi pour client ID: 'Client1' (SUCCESS). Socket FD: 5
+[2025-05-02 14:01:56][DEBUG] Server::HandleClient DEBUG : Lancement de la création de ClientSession pour client ID: Client1 (sous lock)...
+[2025-05-02 14:01:56][INFO] ClientSession INFO : Initialisation pour client Client1
+[2025-05-02 14:01:56][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: Chemin répertoire à vérifier/créer : ../src/data/wallets
+[2025-05-02 14:01:56][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: create_directories retour : 0, ec.value : 0, ec.message : 'Success', errno : 0, strerror(errno) : 'Success'
+[2025-05-02 14:01:56][WARNING] Wallet::ensureWalletsDirectoryExists WARNING: create_directories retourné false MAIS ec vide. Comportement inhabituel. Chemin: '../src/data/wallets'.
+[2025-05-02 14:01:56][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: Vérification manuelle après échec create_directories: exists() retour 1, ec_check.message : 'Success'
+[2025-05-02 14:01:56][INFO] Wallet::ensureWalletsDirectoryExists INFO: Répertoire '../src/data/wallets' existe bien malgré l'échec bizarre de create_directories. Considéré comme succès pour la suite.
+[2025-05-02 14:01:56][DEBUG] Wallet Lecture du fichier portefeuille : ../src/data/wallets/Client1.wallet
+[2025-05-02 14:01:56][INFO] Wallet Portefeuille (Client1) chargé avec succès : USD=10000.0000000000, SRD-BTC=0.0000000000, Transactions=0
+[2025-05-02 14:01:56][INFO] Wallet Portefeuille chargé avec succès pour client ID: Client1 depuis ../src/data/wallets/Client1.wallet
+[2025-05-02 14:01:56][DEBUG] Wallet Objet Wallet créé pour client ID: Client1. Chemin du fichier: ../src/data/wallets/Client1.wallet
+[2025-05-02 14:01:56][INFO] Server::HandleClient INFO : Session enregistrée pour client ID: Client1. Total sessions actives: 1 (sous lock).
+[2025-05-02 14:01:56][INFO] Server::HandleClient INFO : Authentification réussie pour client ID: 'Client1'. Envoi réponse AUTH SUCCESS.
+[2025-05-02 14:01:56][DEBUG] Server::HandleClient DEBUG : Démarrage du thread ClientSession pour client ID: Client1...
+[2025-05-02 14:01:56][INFO] ClientSession INFO : Démarrage du thread de session pour client Client1
+[2025-05-02 14:01:56][INFO] ClientSession INFO : Thread de session démarré et joignable pour client Client1
+[2025-05-02 14:01:56][INFO] Server::HandleClient INFO : Thread ClientSession démarré pour client ID: Client1. Le thread HandleClient va se terminer normalement.
+[2025-05-02 14:01:56][DEBUG] Server::HandleClient DEBUG : Ajout de la session à activeSessions...
+[2025-05-02 14:01:56][INFO] Server::HandleClient INFO : Session enregistrée pour client ID: Client1. Total sessions actives: 1.
+[2025-05-02 14:01:56][DEBUG] Server::HandleClient DEBUG : Enregistrement de la session auprès de la TransactionQueue...
+[2025-05-02 14:01:56][INFO] ClientSession INFO : Thread de session démarré pour client Client1
+[2025-05-02 14:01:56][INFO] TransactionQueue::registerSession Session enregistrée pour client ID: Client1
+[2025-05-02 14:01:56][INFO] Server::HandleClient INFO : ClientSession pour client ID: Client1 enregistrée auprès de la TransactionQueue.
+[2025-05-02 14:01:56][DEBUG] Server::HandleClient DEBUG : Démarrage du thread ClientSession...
+[2025-05-02 14:01:56][WARNING] ClientSession WARNING : Impossible de démarrer la session pour client Client1 (déjà en cours ou client déconnecté)
+[2025-05-02 14:01:56][INFO] Server::HandleClient INFO : Thread ClientSession démarré pour client ID: Client1. Le thread HandleClient va se terminer normalement.
+[2025-05-02 14:02:03][INFO] Global Nouveau prix SRD-BTC simulé : 97750.9745344302
+[2025-05-02 14:02:06][DEBUG] ClientSession DEBUG : Reçu 12 octets. Buffer d'accumulation: 12 octets.
+[2025-05-02 14:02:06][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'SHOW WALLET'
+[2025-05-02 14:02:06][INFO] ClientSession INFO : Commande SHOW WALLET reçue pour client Client1
+[2025-05-02 14:02:06][DEBUG] ClientSession DEBUG : Réponse envoyée à Client1: 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000
+'
+[2025-05-02 14:02:06][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'SHOW WALLET'
+[2025-05-02 14:02:12][DEBUG] ClientSession DEBUG : Reçu 17 octets. Buffer d'accumulation: 17 octets.
+[2025-05-02 14:02:12][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'SHOW TRANSACTION'
+[2025-05-02 14:02:12][WARNING] ClientSession WARNING : Cible inconnue pour SHOW reçue pour client Client1 : 'SHOW TRANSACTION'
+[2025-05-02 14:02:12][DEBUG] ClientSession DEBUG : Réponse envoyée à Client1: 'ERROR: Unknown SHOW target. Use SHOW WALLET or SHOW TRANSACTIONS.
+'
+[2025-05-02 14:02:12][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'SHOW TRANSACTION'
+[2025-05-02 14:02:18][INFO] Global Nouveau prix SRD-BTC simulé : 97858.8558554344
+[2025-05-02 14:02:21][DEBUG] ClientSession DEBUG : Reçu 18 octets. Buffer d'accumulation: 18 octets.
+[2025-05-02 14:02:21][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'SHOW TRANSACTIONS'
+[2025-05-02 14:02:21][INFO] ClientSession INFO : Commande SHOW TRANSACTIONS reçue pour client Client1
+[2025-05-02 14:02:21][DEBUG] ClientSession DEBUG : Réponse envoyée à Client1: 'TRANSACTION_HISTORY (Total: 0, Showing last 0):
+'
+[2025-05-02 14:02:21][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'SHOW TRANSACTIONS'
+[2025-05-02 14:02:33][INFO] Global Nouveau prix SRD-BTC simulé : 98177.3765942046
+[2025-05-02 14:02:40][DEBUG] ClientSession DEBUG : Reçu 5 octets. Buffer d'accumulation: 5 octets.
+[2025-05-02 14:02:40][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'QUIT'
+[2025-05-02 14:02:40][INFO] ClientSession INFO : Commande QUIT reçue pour client Client1. Signalement de l'arrêt de la session.
+[2025-05-02 14:02:40][DEBUG] ClientSession DEBUG : Réponse envoyée à Client1: 'OK: Disconnecting.
+'
+[2025-05-02 14:02:40][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'QUIT'
+[2025-05-02 14:02:40][INFO] ClientSession INFO : Sortie de la boucle de session pour client Client1. Raison: running=0, client_connected=1
+[2025-05-02 14:02:43][INFO] Server::AcceptLoop INFO : Nouvelle connexion acceptée. Socket FD: 10, IP: 10.188.240.101
+[2025-05-02 14:02:43][DEBUG] Server::AcceptSSLConnection DEBUG : Tentative handshake SSL pour socket FD: 10
+[2025-05-02 14:02:43][DEBUG] Server::AcceptSSLConnection DEBUG : Objet SSL créé pour socket FD: 10
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: Handshake before SSL initialization START
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:before SSL initialization
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:before SSL initialization
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS read client hello
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write server hello
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write change cipher spec
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:TLSv1.3 write encrypted extensions
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write certificate
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:TLSv1.3 write server certificate verify
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write finished
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:TLSv1.3 early data
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:TLSv1.3 early data
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS read finished
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: Handshake SSLv3/TLS write session ticket DONE
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write session ticket
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write session ticket
+[2025-05-02 14:02:43][ERROR] OpenSSL Callback: SSL_CB_ERROR - SSL negotiation finished successfully
+[2025-05-02 14:02:43][INFO] Server::AcceptSSLConnection INFO : Handshake SSL réussi pour socket FD: 10
+[2025-05-02 14:02:43][INFO] Server::AcceptLoop INFO : Handshake SSL réussi pour socket FD: 10
+[2025-05-02 14:02:43][INFO] Server::AcceptLoop INFO : Thread gestion client détaché pour socket FD: 10
+[2025-05-02 14:02:43][INFO] Server::HandleClient INFO : Thread démarré pour socket FD: 10
+[2025-05-02 14:02:43][DEBUG] Server::HandleClient DEBUG : Création de l'objet ServerConnection pour socket FD: 10
+[2025-05-02 14:02:43][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (10) et SSL existants.
+[2025-05-02 14:02:43][INFO] Server::HandleClient INFO : Objet ServerConnection créé et connecté pour socket FD: 10
+[2025-05-02 14:02:43][DEBUG] ClientAuthenticator::ClientAuthenticator DEBUG : Objet ClientAuthenticator créé.
+[2025-05-02 14:02:43][DEBUG] Server::HandleClient DEBUG : Lancement du processus AuthenticateClient...
+[2025-05-02 14:02:43][INFO] ClientAuthenticator::AuthenticateClient INFO : Démarrage authentification pour socket FD: 10
+[2025-05-02 14:02:43][DEBUG] ServerConnection DEBUG : Reçu 24 octets pour receiveLine sur socket FD: 10. Buffer accumulation size: 24
+[2025-05-02 14:02:43][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 10. Ligne: 'ID:Client1,TOKEN:Token1'
+[2025-05-02 14:02:43][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Reçu message d'auth de socket FD 10 : 'ID:Client1,TOKEN:Token1'
+[2025-05-02 14:02:43][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Parsing réussi. ID: 'Client1', Mot de passe: '[CACHÉ]'. Socket FD: 10
+[2025-05-02 14:02:43][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Demande au Server de traiter la requête d'auth pour ID: Client1...
+[2025-05-02 14:02:43][INFO] Server::processAuthRequest INFO : Tentative auth/enregistrement pour ID: 'Client1'...
+[2025-05-02 14:02:43][DEBUG] Server::processAuthRequest DEBUG : ID existant trouvé : 'Client1'. Vérification du mot de passe...
+[2025-05-02 14:02:43][WARNING] SecurityUtils WARNING : VerifyPasswordSecure est un placeholder. REMPLACER PAR UNE VRAIE VÉRIFICATION DE HASH SÉCURISÉ !
+[2025-05-02 14:02:43][INFO] Server::processAuthRequest INFO : Authentification réussie pour ID existant : 'Client1'.
+[2025-05-02 14:02:43][INFO] ClientAuthenticator::AuthenticateClient INFO : Authentification terminée avec succès pour ID: 'Client1'. Résultat: SUCCESS. Socket FD: 10
+[2025-05-02 14:02:43][INFO] Server::HandleClient INFO : Authentification/enregistrement réussi pour client ID: 'Client1' (SUCCESS). Socket FD: 10
+[2025-05-02 14:02:43][WARNING] Server::HandleClient WARNING : Connexion refusée. Une session pour client ID: 'Client1' est déjà active. Socket FD: 10
+[2025-05-02 14:02:43][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 10
+[2025-05-02 14:02:43][DEBUG] OpenSSL Callback: SSL3 alert write:warning:close notify
+[2025-05-02 14:02:43][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 14:02:43][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 14:02:43][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 10
+[2025-05-02 14:02:43][INFO] ServerConnection::closeConnection INFO : Socket FD: 10 fermé.
+[2025-05-02 14:02:43][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 14:02:43][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 14:02:43][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+[2025-05-02 14:02:48][INFO] Global Nouveau prix SRD-BTC simulé : 97548.3374413531
+--- Début du log : 1746187437 ---
+[2025-05-02 14:03:57][DEBUG] TransactionQueue créée.
+[2025-05-02 14:03:57][INFO] Main_Serv INFO : Démarrage du programme serveur (config hardcodée).
+[2025-05-02 14:03:57][INFO] Main_Serv INFO : Configuration chargée (hardcodée). Port: 4433, Cert: ../server.crt, Key: ../server.key, Users: users.txt, Counter: counter.txt, History: ../src/data/global_transactions.csv, Wallets Dir: ../src/data/wallets/
+[2025-05-02 14:03:57][DEBUG] Main_Serv DEBUG : Initialisation globale OpenSSL...
+[2025-05-02 14:03:57][DEBUG] Main_Serv DEBUG : Initialisation globale OpenSSL terminée.
+[2025-05-02 14:03:57][INFO] Server::Server INFO : Objet Server créé avec port 4433 et chemins de configuration.
+[2025-05-02 14:03:57][INFO] Main_Serv INFO : Objet Server créé. Démarrage...
+[2025-05-02 14:03:57][INFO] Server::StartServer INFO : Démarrage du serveur sur le port 4433...
+[2025-05-02 14:03:57][DEBUG] Server::InitServerCTX DEBUG : Initialisation du contexte SSL serveur...
+[2025-05-02 14:03:57][DEBUG] Server::InitServerCTX DEBUG : Contexte SSL serveur créé.
+[2025-05-02 14:03:57][DEBUG] Server::InitServerCTX DEBUG : Certificat serveur chargé : ../server.crt
+[2025-05-02 14:03:57][DEBUG] Server::InitServerCTX DEBUG : Clé privée serveur chargée : ../server.key
+[2025-05-02 14:03:57][INFO] Server::InitServerCTX INFO : Contexte SSL serveur initialisé avec succès.
+[2025-05-02 14:03:57][INFO] Server::StartServer INFO : Contexte SSL serveur initialisé avec succès.
+[2025-05-02 14:03:57][INFO] Server::LoadUsersInternal INFO : Chargement utilisateurs terminé. 3 entrées chargées depuis users.txt
+[2025-05-02 14:03:57][INFO] Server::StartServer INFO : Chargement des utilisateurs terminé (ou fichier non trouvé).
+[2025-05-02 14:03:57][INFO] Transaction::loadCounter Fichier compteur vide ou contenant 0. Compteur démarrera à 0.
+[2025-05-02 14:03:57][INFO] Server::StartServer INFO : Chargement du compteur de transactions terminé.
+[2025-05-02 14:03:57][INFO] Global Demande de démarrage du thread de génération de prix.
+[2025-05-02 14:03:57][INFO] Global Thread de génération de prix initié.
+[2025-05-02 14:03:57][INFO] Server::StartServer INFO : Thread de génération des prix SRD-BTC démarré (module Global).
+[2025-05-02 14:03:57][INFO] TransactionQueue::start Thread de traitement démarré.
+[2025-05-02 14:03:57][INFO] Server::StartServer INFO : Thread de traitement de la TransactionQueue démarré.
+[2025-05-02 14:03:57][DEBUG] Server::StartServer DEBUG : Socket serveur créé avec FD: 4
+[2025-05-02 14:03:57][INFO] TransactionQueue::process Thread de traitement en cours...
+[2025-05-02 14:03:57][INFO] Global Thread de génération de prix démarré.
+[2025-05-02 14:03:57][INFO] Global Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-05-02 14:03:57][INFO] Server::StartServer INFO : Socket serveur lié à l'adresse et au port 4433
+[2025-05-02 14:03:57][INFO] Server::StartServer INFO : Serveur en écoute sur le port 4433
+[2025-05-02 14:03:57][INFO] Server::StartServer INFO : Thread d'acceptation des connexions démarré.
+[2025-05-02 14:03:57][DEBUG] Server::StartServer DEBUG : Attente de la fin du thread d'acceptation...
+[2025-05-02 14:03:57][INFO] Server::AcceptLoop INFO : Thread démarré. En attente de connexions...
+[2025-05-02 14:03:58][INFO] Global Nouveau prix SRD-BTC simulé : 95785.0486090777
+[2025-05-02 14:04:04][INFO] Server::AcceptLoop INFO : Nouvelle connexion acceptée. Socket FD: 11, IP: 10.188.240.101
+[2025-05-02 14:04:04][DEBUG] Server::AcceptSSLConnection DEBUG : Tentative handshake SSL pour socket FD: 11
+[2025-05-02 14:04:04][DEBUG] Server::AcceptSSLConnection DEBUG : Objet SSL créé pour socket FD: 11
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: Handshake before SSL initialization START
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:before SSL initialization
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:before SSL initialization
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS read client hello
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write server hello
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write change cipher spec
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:TLSv1.3 write encrypted extensions
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write certificate
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:TLSv1.3 write server certificate verify
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write finished
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:TLSv1.3 early data
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:TLSv1.3 early data
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS read finished
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: Handshake SSLv3/TLS write session ticket DONE
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write session ticket
+[2025-05-02 14:04:04][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write session ticket
+[2025-05-02 14:04:04][ERROR] OpenSSL Callback: SSL_CB_ERROR - SSL negotiation finished successfully
+[2025-05-02 14:04:04][INFO] Server::AcceptSSLConnection INFO : Handshake SSL réussi pour socket FD: 11
+[2025-05-02 14:04:04][INFO] Server::AcceptLoop INFO : Handshake SSL réussi pour socket FD: 11
+[2025-05-02 14:04:04][INFO] Server::AcceptLoop INFO : Thread gestion client détaché pour socket FD: 11
+[2025-05-02 14:04:04][INFO] Server::HandleClient INFO : Thread démarré pour socket FD: 11
+[2025-05-02 14:04:04][DEBUG] Server::HandleClient DEBUG : Création de l'objet ServerConnection pour socket FD: 11
+[2025-05-02 14:04:04][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (11) et SSL existants.
+[2025-05-02 14:04:04][INFO] Server::HandleClient INFO : Objet ServerConnection créé et connecté pour socket FD: 11
+[2025-05-02 14:04:04][DEBUG] ClientAuthenticator::ClientAuthenticator DEBUG : Objet ClientAuthenticator créé.
+[2025-05-02 14:04:04][DEBUG] Server::HandleClient DEBUG : Lancement du processus AuthenticateClient...
+[2025-05-02 14:04:04][INFO] ClientAuthenticator::AuthenticateClient INFO : Démarrage authentification pour socket FD: 11
+[2025-05-02 14:04:04][DEBUG] ServerConnection DEBUG : Reçu 24 octets pour receiveLine sur socket FD: 11. Buffer accumulation size: 24
+[2025-05-02 14:04:04][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 11. Ligne: 'ID:Client1,TOKEN:Token1'
+[2025-05-02 14:04:04][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Reçu message d'auth de socket FD 11 : 'ID:Client1,TOKEN:Token1'
+[2025-05-02 14:04:04][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Parsing réussi. ID: 'Client1', Mot de passe: '[CACHÉ]'. Socket FD: 11
+[2025-05-02 14:04:04][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Demande au Server de traiter la requête d'auth pour ID: Client1...
+[2025-05-02 14:04:04][INFO] Server::processAuthRequest INFO : Tentative auth/enregistrement pour ID: 'Client1'...
+[2025-05-02 14:04:04][DEBUG] Server::processAuthRequest DEBUG : ID existant trouvé : 'Client1'. Vérification du mot de passe...
+[2025-05-02 14:04:04][WARNING] SecurityUtils WARNING : VerifyPasswordSecure est un placeholder. REMPLACER PAR UNE VRAIE VÉRIFICATION DE HASH SÉCURISÉ !
+[2025-05-02 14:04:04][INFO] Server::processAuthRequest INFO : Authentification réussie pour ID existant : 'Client1'.
+[2025-05-02 14:04:04][INFO] ClientAuthenticator::AuthenticateClient INFO : Authentification terminée avec succès pour ID: 'Client1'. Résultat: SUCCESS. Socket FD: 11
+[2025-05-02 14:04:04][INFO] Server::HandleClient INFO : Authentification/enregistrement réussi pour client ID: 'Client1' (SUCCESS). Socket FD: 11
+[2025-05-02 14:04:04][DEBUG] Server::HandleClient DEBUG : Lancement de la création de ClientSession pour client ID: Client1 (sous lock)...
+[2025-05-02 14:04:04][INFO] ClientSession INFO : Initialisation pour client Client1
+[2025-05-02 14:04:04][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: Chemin répertoire à vérifier/créer : ../src/data/wallets
+[2025-05-02 14:04:04][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: create_directories retour : 0, ec.value : 0, ec.message : 'Success', errno : 0, strerror(errno) : 'Success'
+[2025-05-02 14:04:04][WARNING] Wallet::ensureWalletsDirectoryExists WARNING: create_directories retourné false MAIS ec vide. Comportement inhabituel. Chemin: '../src/data/wallets'.
+[2025-05-02 14:04:04][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: Vérification manuelle après échec create_directories: exists() retour 1, ec_check.message : 'Success'
+[2025-05-02 14:04:04][INFO] Wallet::ensureWalletsDirectoryExists INFO: Répertoire '../src/data/wallets' existe bien malgré l'échec bizarre de create_directories. Considéré comme succès pour la suite.
+[2025-05-02 14:04:04][DEBUG] Wallet Lecture du fichier portefeuille : ../src/data/wallets/Client1.wallet
+[2025-05-02 14:04:04][INFO] Wallet Portefeuille (Client1) chargé avec succès : USD=10000.0000000000, SRD-BTC=0.0000000000, Transactions=0
+[2025-05-02 14:04:04][INFO] Wallet Portefeuille chargé avec succès pour client ID: Client1 depuis ../src/data/wallets/Client1.wallet
+[2025-05-02 14:04:04][DEBUG] Wallet Objet Wallet créé pour client ID: Client1. Chemin du fichier: ../src/data/wallets/Client1.wallet
+[2025-05-02 14:04:04][INFO] Server::HandleClient INFO : Session enregistrée pour client ID: Client1. Total sessions actives: 1 (sous lock).
+[2025-05-02 14:04:04][INFO] Server::HandleClient INFO : Authentification réussie pour client ID: 'Client1'. Envoi réponse AUTH SUCCESS.
+[2025-05-02 14:04:04][DEBUG] Server::HandleClient DEBUG : Démarrage du thread ClientSession pour client ID: Client1...
+[2025-05-02 14:04:04][INFO] ClientSession INFO : Démarrage du thread de session pour client Client1
+[2025-05-02 14:04:04][INFO] ClientSession INFO : Thread de session démarré et joignable pour client Client1
+[2025-05-02 14:04:04][INFO] Server::HandleClient INFO : Thread ClientSession démarré pour client ID: Client1. Le thread HandleClient va se terminer normalement.
+[2025-05-02 14:04:04][DEBUG] Server::HandleClient DEBUG : Ajout de la session à activeSessions...
+[2025-05-02 14:04:04][INFO] Server::HandleClient INFO : Session enregistrée pour client ID: Client1. Total sessions actives: 1.
+[2025-05-02 14:04:04][DEBUG] Server::HandleClient DEBUG : Enregistrement de la session auprès de la TransactionQueue...
+[2025-05-02 14:04:04][INFO] ClientSession INFO : Thread de session démarré pour client Client1
+[2025-05-02 14:04:04][INFO] TransactionQueue::registerSession Session enregistrée pour client ID: Client1
+[2025-05-02 14:04:04][INFO] Server::HandleClient INFO : ClientSession pour client ID: Client1 enregistrée auprès de la TransactionQueue.
+[2025-05-02 14:04:04][DEBUG] Server::HandleClient DEBUG : Démarrage du thread ClientSession...
+[2025-05-02 14:04:04][WARNING] ClientSession WARNING : Impossible de démarrer la session pour client Client1 (déjà en cours ou client déconnecté)
+[2025-05-02 14:04:04][INFO] Server::HandleClient INFO : Thread ClientSession démarré pour client ID: Client1. Le thread HandleClient va se terminer normalement.
+[2025-05-02 14:04:11][DEBUG] ClientSession DEBUG : Reçu 18 octets. Buffer d'accumulation: 18 octets.
+[2025-05-02 14:04:11][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'GET_PRICE SRD-BTC'
+[2025-05-02 14:04:11][DEBUG] ClientSession DEBUG : Réponse envoyée à Client1: 'PRICE SRD-BTC 95785.04860908
+'
+[2025-05-02 14:04:11][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'GET_PRICE SRD-BTC'
+[2025-05-02 14:04:13][INFO] Global Nouveau prix SRD-BTC simulé : 95842.5850914446
+[2025-05-02 14:04:24][DEBUG] ClientSession DEBUG : Reçu 15 octets. Buffer d'accumulation: 15 octets.
+[2025-05-02 14:04:24][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'BUY SRD-BTC 10'
+[2025-05-02 14:04:24][DEBUG] ClientSession DEBUG : BUY calculé (basé sur prix actuel 95842.585091): utiliser 1000.000000 USD (10.000000%) pour une quantité visée de 0.010434 SRD-BTC.
+[2025-05-02 14:04:24][DEBUG] TransactionQueue::addRequest Requête ajoutée pour client ID: Client1, Type: BUY, Quantité: 0.0104337753. Taille de la queue: 1
+[2025-05-02 14:04:24][INFO] ClientSession INFO : Requête de transaction soumise à la TQ par client Client1: Client=Client1, Type=BUY, Qty Visée=0.010434 SRD-BTC (basé sur 10.000000% de solde USD)
+[2025-05-02 14:04:24][INFO] ClientSession INFO : Requête de trading manuelle (BUY SRD-BTC 10.000000%) reçue pour client Client1. Soumission à la TQ via handleClientTradeRequest.
+[2025-05-02 14:04:24][INFO] TransactionQueue::process Traitement requête pour client ID: Client1, Type: BUY, Quantité: 0.010434
+[2025-05-02 14:04:24][DEBUG] TransactionQueue::processRequest Début traitement logique pour requête ID client: Client1, Type: BUY, Quantité: 0.010434
+[2025-05-02 14:04:24][DEBUG] ClientSession DEBUG : Réponse envoyée à Client1: 'OK: Your BUY request has been submitted for processing.
+'
+[2025-05-02 14:04:24][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'BUY SRD-BTC 10'
+[2025-05-02 14:04:28][INFO] Global Nouveau prix SRD-BTC simulé : 98005.2505979424
+[2025-05-02 14:04:37][DEBUG] ClientSession DEBUG : Reçu 12 octets. Buffer d'accumulation: 12 octets.
+[2025-05-02 14:04:37][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'SHOW WALLET'
+[2025-05-02 14:04:37][INFO] ClientSession INFO : Commande SHOW WALLET reçue pour client Client1
+[2025-05-02 14:04:43][INFO] Global Nouveau prix SRD-BTC simulé : 96175.6649625310
+[2025-05-02 14:04:58][INFO] Global Nouveau prix SRD-BTC simulé : 96506.7916719173
+--- Début du log : 1746189142 ---
+[2025-05-02 14:32:22][DEBUG] TransactionQueue créée.
+[2025-05-02 14:32:22][INFO] Main_Serv INFO : Démarrage du programme serveur (config hardcodée).
+[2025-05-02 14:32:22][INFO] Main_Serv INFO : Configuration chargée (hardcodée). Port: 4433, Cert: ../server.crt, Key: ../server.key, Users: users.txt, Counter: counter.txt, History: ../src/data/global_transactions.csv, Wallets Dir: ../src/data/wallets/
+[2025-05-02 14:32:22][DEBUG] Main_Serv DEBUG : Initialisation globale OpenSSL...
+[2025-05-02 14:32:22][DEBUG] Main_Serv DEBUG : Initialisation globale OpenSSL terminée.
+[2025-05-02 14:32:22][INFO] Server::Server INFO : Objet Server créé avec port 4433 et chemins de configuration.
+[2025-05-02 14:32:22][INFO] Main_Serv INFO : Objet Server créé. Démarrage...
+[2025-05-02 14:32:22][INFO] Server::StartServer INFO : Démarrage du serveur sur le port 4433...
+[2025-05-02 14:32:22][DEBUG] Server::InitServerCTX DEBUG : Initialisation du contexte SSL serveur...
+[2025-05-02 14:32:22][DEBUG] Server::InitServerCTX DEBUG : Contexte SSL serveur créé.
+[2025-05-02 14:32:22][DEBUG] Server::InitServerCTX DEBUG : Certificat serveur chargé : ../server.crt
+[2025-05-02 14:32:22][DEBUG] Server::InitServerCTX DEBUG : Clé privée serveur chargée : ../server.key
+[2025-05-02 14:32:22][INFO] Server::InitServerCTX INFO : Contexte SSL serveur initialisé avec succès.
+[2025-05-02 14:32:22][INFO] Server::StartServer INFO : Contexte SSL serveur initialisé avec succès.
+[2025-05-02 14:32:22][INFO] Server::LoadUsersInternal INFO : Chargement utilisateurs terminé. 3 entrées chargées depuis users.txt
+[2025-05-02 14:32:22][INFO] Server::StartServer INFO : Chargement des utilisateurs terminé (ou fichier non trouvé).
+[2025-05-02 14:32:22][INFO] Transaction::loadCounter Fichier compteur vide ou contenant 0. Compteur démarrera à 0.
+[2025-05-02 14:32:22][INFO] Server::StartServer INFO : Chargement du compteur de transactions terminé.
+[2025-05-02 14:32:22][INFO] Global Demande de démarrage du thread de génération de prix.
+[2025-05-02 14:32:22][INFO] Global Thread de génération de prix initié.
+[2025-05-02 14:32:22][INFO] Global Thread de génération de prix démarré.
+[2025-05-02 14:32:22][INFO] Server::StartServer INFO : Thread de génération des prix SRD-BTC démarré (module Global).
+[2025-05-02 14:32:22][INFO] Global Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-05-02 14:32:22][INFO] TransactionQueue::start Thread de traitement démarré.
+[2025-05-02 14:32:22][INFO] Server::StartServer INFO : Thread de traitement de la TransactionQueue démarré.
+[2025-05-02 14:32:22][DEBUG] Server::StartServer DEBUG : Socket serveur créé avec FD: 5
+[2025-05-02 14:32:22][INFO] Server::StartServer INFO : Socket serveur lié à l'adresse et au port 4433
+[2025-05-02 14:32:22][INFO] Server::StartServer INFO : Serveur en écoute sur le port 4433
+[2025-05-02 14:32:22][INFO] Server::StartServer INFO : Thread d'acceptation des connexions démarré.
+[2025-05-02 14:32:22][DEBUG] Server::StartServer DEBUG : Attente de la fin du thread d'acceptation...
+[2025-05-02 14:32:22][INFO] TransactionQueue::process Thread de traitement en cours...
+[2025-05-02 14:32:22][INFO] Server::AcceptLoop INFO : Thread démarré. En attente de connexions...
+[2025-05-02 14:32:22][INFO] Global Nouveau prix SRD-BTC simulé : 95488.8336413992
+[2025-05-02 14:32:29][INFO] Server::AcceptLoop INFO : Nouvelle connexion acceptée. Socket FD: 10, IP: 10.188.240.101
+[2025-05-02 14:32:29][DEBUG] Server::AcceptSSLConnection DEBUG : Tentative handshake SSL pour socket FD: 10
+[2025-05-02 14:32:29][DEBUG] Server::AcceptSSLConnection DEBUG : Objet SSL créé pour socket FD: 10
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: Handshake before SSL initialization START
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:before SSL initialization
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:before SSL initialization
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS read client hello
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write server hello
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write change cipher spec
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:TLSv1.3 write encrypted extensions
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write certificate
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:TLSv1.3 write server certificate verify
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write finished
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:TLSv1.3 early data
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:TLSv1.3 early data
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS read finished
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: Handshake SSLv3/TLS write session ticket DONE
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write session ticket
+[2025-05-02 14:32:29][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write session ticket
+[2025-05-02 14:32:29][ERROR] OpenSSL Callback: SSL_CB_ERROR - SSL negotiation finished successfully
+[2025-05-02 14:32:29][INFO] Server::AcceptSSLConnection INFO : Handshake SSL réussi pour socket FD: 10
+[2025-05-02 14:32:29][INFO] Server::AcceptLoop INFO : Handshake SSL réussi pour socket FD: 10
+[2025-05-02 14:32:29][INFO] Server::AcceptLoop INFO : Thread gestion client détaché pour socket FD: 10
+[2025-05-02 14:32:29][INFO] Server::HandleClient INFO : Thread démarré pour socket FD: 10
+[2025-05-02 14:32:29][DEBUG] Server::HandleClient DEBUG : Création de l'objet ServerConnection pour socket FD: 10
+[2025-05-02 14:32:29][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (10) et SSL existants.
+[2025-05-02 14:32:29][INFO] Server::HandleClient INFO : Objet ServerConnection créé et connecté pour socket FD: 10
+[2025-05-02 14:32:29][DEBUG] ClientAuthenticator::ClientAuthenticator DEBUG : Objet ClientAuthenticator créé.
+[2025-05-02 14:32:29][DEBUG] Server::HandleClient DEBUG : Lancement du processus AuthenticateClient...
+[2025-05-02 14:32:29][INFO] ClientAuthenticator::AuthenticateClient INFO : Démarrage authentification pour socket FD: 10
+[2025-05-02 14:32:29][DEBUG] ServerConnection DEBUG : Reçu 24 octets pour receiveLine sur socket FD: 10. Buffer accumulation size: 24
+[2025-05-02 14:32:29][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 10. Ligne: 'ID:Client1,TOKEN:Token1'
+[2025-05-02 14:32:29][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Reçu message d'auth de socket FD 10 : 'ID:Client1,TOKEN:Token1'
+[2025-05-02 14:32:29][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Parsing réussi. ID: 'Client1', Mot de passe: '[CACHÉ]'. Socket FD: 10
+[2025-05-02 14:32:29][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Demande au Server de traiter la requête d'auth pour ID: Client1...
+[2025-05-02 14:32:29][INFO] Server::processAuthRequest INFO : Tentative auth/enregistrement pour ID: 'Client1'...
+[2025-05-02 14:32:29][DEBUG] Server::processAuthRequest DEBUG : ID existant trouvé : 'Client1'. Vérification du mot de passe...
+[2025-05-02 14:32:29][WARNING] SecurityUtils WARNING : VerifyPasswordSecure est un placeholder. REMPLACER PAR UNE VRAIE VÉRIFICATION DE HASH SÉCURISÉ !
+[2025-05-02 14:32:29][INFO] Server::processAuthRequest INFO : Authentification réussie pour ID existant : 'Client1'.
+[2025-05-02 14:32:29][INFO] ClientAuthenticator::AuthenticateClient INFO : Authentification terminée avec succès pour ID: 'Client1'. Résultat: SUCCESS. Socket FD: 10
+[2025-05-02 14:32:29][INFO] Server::HandleClient INFO : Authentification/enregistrement réussi pour client ID: 'Client1' (SUCCESS). Socket FD: 10
+[2025-05-02 14:32:29][DEBUG] Server::HandleClient DEBUG : Lancement de la création de ClientSession pour client ID: Client1 (sous lock)...
+[2025-05-02 14:32:29][INFO] ClientSession INFO : Initialisation pour client Client1
+[2025-05-02 14:32:29][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: Chemin répertoire à vérifier/créer : ../src/data/wallets
+[2025-05-02 14:32:29][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: create_directories retour : 0, ec.value : 0, ec.message : 'Success', errno : 0, strerror(errno) : 'Success'
+[2025-05-02 14:32:29][WARNING] Wallet::ensureWalletsDirectoryExists WARNING: create_directories retourné false MAIS ec vide. Comportement inhabituel. Chemin: '../src/data/wallets'.
+[2025-05-02 14:32:29][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: Vérification manuelle après échec create_directories: exists() retour 1, ec_check.message : 'Success'
+[2025-05-02 14:32:29][INFO] Wallet::ensureWalletsDirectoryExists INFO: Répertoire '../src/data/wallets' existe bien malgré l'échec bizarre de create_directories. Considéré comme succès pour la suite.
+[2025-05-02 14:32:29][DEBUG] Wallet Lecture du fichier portefeuille : ../src/data/wallets/Client1.wallet
+[2025-05-02 14:32:29][INFO] Wallet Portefeuille (Client1) chargé avec succès : USD=10000.0000000000, SRD-BTC=0.0000000000, Transactions=0
+[2025-05-02 14:32:29][INFO] Wallet Portefeuille chargé avec succès pour client ID: Client1 depuis ../src/data/wallets/Client1.wallet
+[2025-05-02 14:32:29][DEBUG] Wallet Objet Wallet créé pour client ID: Client1. Chemin du fichier: ../src/data/wallets/Client1.wallet
+[2025-05-02 14:32:29][INFO] Server::HandleClient INFO : Session enregistrée pour client ID: Client1. Total sessions actives: 1 (sous lock).
+[2025-05-02 14:32:29][INFO] Server::HandleClient INFO : Authentification réussie pour client ID: 'Client1'. Envoi réponse AUTH SUCCESS.
+[2025-05-02 14:32:29][DEBUG] Server::HandleClient DEBUG : Démarrage du thread ClientSession pour client ID: Client1...
+[2025-05-02 14:32:29][INFO] ClientSession INFO : Démarrage du thread de session pour client Client1
+[2025-05-02 14:32:29][INFO] ClientSession INFO : Thread de session démarré et joignable pour client Client1
+[2025-05-02 14:32:29][INFO] Server::HandleClient INFO : Thread ClientSession démarré pour client ID: Client1. Le thread HandleClient va se terminer normalement.
+[2025-05-02 14:32:29][DEBUG] Server::HandleClient DEBUG : Ajout de la session à activeSessions...
+[2025-05-02 14:32:29][INFO] Server::HandleClient INFO : Session enregistrée pour client ID: Client1. Total sessions actives: 1.
+[2025-05-02 14:32:29][DEBUG] Server::HandleClient DEBUG : Enregistrement de la session auprès de la TransactionQueue...
+[2025-05-02 14:32:29][INFO] ClientSession INFO : Thread de session démarré pour client Client1
+[2025-05-02 14:32:29][INFO] TransactionQueue::registerSession Session enregistrée pour client ID: Client1
+[2025-05-02 14:32:29][INFO] Server::HandleClient INFO : ClientSession pour client ID: Client1 enregistrée auprès de la TransactionQueue.
+[2025-05-02 14:32:29][DEBUG] Server::HandleClient DEBUG : Démarrage du thread ClientSession...
+[2025-05-02 14:32:29][WARNING] ClientSession WARNING : Impossible de démarrer la session pour client Client1 (déjà en cours ou client déconnecté)
+[2025-05-02 14:32:29][INFO] Server::HandleClient INFO : Thread ClientSession démarré pour client ID: Client1. Le thread HandleClient va se terminer normalement.
+[2025-05-02 14:32:36][DEBUG] ClientSession DEBUG : Reçu 12 octets. Buffer d'accumulation: 12 octets.
+[2025-05-02 14:32:36][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'SHOW WALLET'
+[2025-05-02 14:32:36][INFO] ClientSession INFO : Commande SHOW WALLET reçue pour client Client1
+[2025-05-02 14:32:36][DEBUG] ClientSession DEBUG : Réponse envoyée à Client1: 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000
+'
+[2025-05-02 14:32:36][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'SHOW WALLET'
+[2025-05-02 14:32:37][INFO] Global Nouveau prix SRD-BTC simulé : 98002.4906116136
+[2025-05-02 14:32:49][DEBUG] ClientSession DEBUG : Reçu 15 octets. Buffer d'accumulation: 15 octets.
+[2025-05-02 14:32:49][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'BUY SRD-BTC 10'
+[2025-05-02 14:32:49][DEBUG] ClientSession DEBUG : BUY calculé (basé sur prix actuel 98002.490612): utiliser 1000.000000 USD (10.000000%) pour une quantité visée de 0.010204 SRD-BTC.
+[2025-05-02 14:32:49][DEBUG] TransactionQueue::addRequest Requête ajoutée pour client ID: Client1, Type: BUY, Quantité: 0.0102038223. Taille de la queue: 1
+[2025-05-02 14:32:49][INFO] ClientSession INFO : Requête de transaction soumise à la TQ par client Client1: Client=Client1, Type=BUY, Qty Visée=0.010204 SRD-BTC (basé sur 10.000000% de solde USD)
+[2025-05-02 14:32:49][INFO] ClientSession INFO : Requête de trading manuelle (BUY SRD-BTC 10.000000%) reçue pour client Client1. Soumission à la TQ via handleClientTradeRequest.
+[2025-05-02 14:32:49][INFO] TransactionQueue::process Traitement requête pour client ID: Client1, Type: BUY, Quantité: 0.010204
+[2025-05-02 14:32:49][DEBUG] ClientSession DEBUG : Réponse envoyée à Client1: 'OK: Your BUY request has been submitted for processing.
+'
+[2025-05-02 14:32:49][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'BUY SRD-BTC 10'
+[2025-05-02 14:32:49][DEBUG] TransactionQueue::processRequest Début traitement logique pour requête ID client: Client1, Type: BUY, Quantité: 0.010204
+[2025-05-02 14:32:52][INFO] Global Nouveau prix SRD-BTC simulé : 96897.0588458991
+[2025-05-02 14:33:07][INFO] Global Nouveau prix SRD-BTC simulé : 96931.0881244683
+[2025-05-02 14:33:12][DEBUG] ClientSession DEBUG : Reçu 12 octets. Buffer d'accumulation: 12 octets.
+[2025-05-02 14:33:12][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'SHOW WALLET'
+[2025-05-02 14:33:12][INFO] ClientSession INFO : Commande SHOW WALLET reçue pour client Client1

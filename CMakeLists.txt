@@ -1,13 +1,12 @@
 # Dans CMakeLists.txt à la racine du projet
 
 # Spécifie la version minimale de CMake requise
+# Augmentée légèrement si les fonctionnalités filesystem, atomic, thread, etc. sont utilisées et nécessitent une version plus récente pour une détection complète.
+# 3.12 est un bon minimum pour C++17, mais 3.25 que vous avez est parfait.
 cmake_minimum_required(VERSION 3.25)
 
 # Définit le nom du projet
 project(PPN_CTS CXX) # Indique que c'est un projet C++
-
-# Active les fonctionnalités étendues (pour des choses comme file(GLOB))
-# set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true) # Obsolète, pas nécessaire ici
 
 # --- Recherche des dépendances externes ---
 
@@ -33,79 +32,56 @@ else()
     message(FATAL_ERROR "OpenSSL not found! Please install libssl-dev and libcrypto-dev.")
 endif()
 
-# Recherche de nlohmann/json (généralement un header-only, donc on ne le 'find_package' pas classiquement)
-# On suppose que tu l'as téléchargé et mis dans un répertoire inclus, ou installé via un gestionnaire.
-# S'il est dans un répertoire spécifique (ex: dependencies/json), ajoute son répertoire à include_directories.
+# Recherche de nlohmann/json (généralement un header-only, on suppose qu'il est dans un include_directory)
+# Si nlohmann/json est dans un répertoire spécifique (ex: dependencies/json), ajoute son répertoire à include_directories.
 # message(STATUS "Assuming nlohmann/json is available via include path.")
 
 
-# --- Définition des répertoires sources et headers (CORRIGÉ) ---
+# --- Définition des répertoires sources et headers ---
 
-# Répertoire racine des sources (là où se trouve src/ et headers/ si ta structure est PPN_CTS/src/...)
-# Si src/ et headers/ sont directement sous PPN_CTS, utilise CMAKE_SOURCE_DIR directement.
-# set(SRC_ROOT ${CMAKE_SOURCE_DIR}) # Si src et headers sont à la racine PPN_CTS
-# Sinon, si src/ et headers/ sont sous un répertoire comme 'src' sous PPN_CTS:
-set(SRC_ROOT ${CMAKE_SOURCE_DIR}/src) # Si src et headers sont sous PPN_CTS/src/
+# Répertoire contenant les fichiers .cpp
+# Basé sur la structure : PPN_CTS/src/code/
+set(CODE_DIR ${CMAKE_SOURCE_DIR}/src/code)
 
-# Répertoire contenant les fichiers .cpp (CORRIGÉ)
-# Basé sur ta structure originale : PPN_CTS/src/code/
-set(CODE_DIR ${SRC_ROOT}/code)
-
-# Répertoire contenant les fichiers .h (CORRIGÉ)
-# Basé sur ta structure originale : PPN_CTS/src/headers/
-set(HEADERS_DIR ${SRC_ROOT}/headers)
+# Répertoire contenant les fichiers .h
+# Basé sur la structure : PPN_CTS/src/headers/
+set(HEADERS_DIR ${CMAKE_SOURCE_DIR}/src/headers)
 
 
-# Note : Vérifie bien que les chemins ci-dessus (${SRC_ROOT}, ${CODE_DIR}, ${HEADERS_DIR})
-# correspondent exactement à l'emplacement de tes fichiers sur ton système
-# par rapport au répertoire où se trouve ton CMakeLists.txt racine.
-# Par exemple, si tes fichiers .cpp sont dans PPN_CTS/src/code/ et tes .h dans PPN_CTS/src/headers/.
-# Si tous les .cpp sont dans PPN_CTS/src/ directement, utilise : set(CODE_DIR ${SRC_ROOT})
-# --- Liste des fichiers source pour chaque exécutable ---
+# Note : Vérifie bien que les chemins ci-dessus correspondent à l'emplacement réel de tes fichiers.
 
-# Fichiers source spécifiques au serveur
-set(SERVER_SPECIFIC_SRC
+
+# --- Liste de TOUS les fichiers source (.cpp) par exécutable ---
+
+# Sources nécessaires pour l'exécutable serveur (Test_Serv).
+# Doit inclure TOUS les .cpp dont le serveur a besoin pour compiler et lier.
+set(SERVER_SRC
     ${CODE_DIR}/Main_Serv.cpp
     ${CODE_DIR}/Server.cpp
-    ${CODE_DIR}/BotSession.cpp # BotSession est spécifique au serveur
-    # Global.cpp, TransactionQueue.cpp, Bot.cpp, Transaction.cpp, Client.cpp, Logger.cpp sont partagés
-    # et seront listés ci-dessous
+    ${CODE_DIR}/ServerConnection.cpp   
+    ${CODE_DIR}/ClientAuthenticator.cpp
+    ${CODE_DIR}/ClientSession.cpp
+    ${CODE_DIR}/Transaction.cpp
+    ${CODE_DIR}/TransactionQueue.cpp
+    ${CODE_DIR}/Global.cpp
+    ${CODE_DIR}/Bot.cpp
+    ${CODE_DIR}/Logger.cpp
+    ${CODE_DIR}/Wallet.cpp
+    ${CODE_DIR}/Utils.cpp             
+    # Vérifie si d'autres .cpp sont nécessaires au serveur
 )
 
-# Fichiers source spécifiques au client
-set(CLIENT_SPECIFIC_SRC
+# Sources nécessaires pour l'exécutable client (Test_Cli).
+# Doit inclure TOUS les .cpp dont le client a besoin.
+set(CLIENT_SRC
     ${CODE_DIR}/Main_Cli.cpp
-    # Client.cpp est partagé
-    # Transaction.cpp (peut-être nécessaire pour lire l'historique côté client si tu le fais)
-    # Logger.cpp est partagé
-)
-
-# Fichiers source partagés entre le serveur et le client (ou nécessaires aux deux)
-set(SHARED_SRC
-    ${CODE_DIR}/Client.cpp
-    ${CODE_DIR}/Transaction.cpp # Transaction.cpp est nécessaire pour logTransactionToCSV (côté server) ou readTransaction (côté client si implémenté)
-    ${CODE_DIR}/TransactionQueue.cpp # TransactionQueue est principalement côté serveur (extern)
-    ${CODE_DIR}/Global.cpp # Global est principalement côté serveur (thread de prix) mais getPrice/getPreviousPrice sont utilisés par le Bot (côté server)
-    ${CODE_DIR}/Bot.cpp # Bot est uniquement côté serveur
-    ${CODE_DIR}/Logger.cpp # Logger est utilisé des deux côtés
-)
-
-# Compiler l'ensemble des sources pour le serveur
-set(SERVER_ALL_SRC
-    ${SERVER_SPECIFIC_SRC}
-    ${SHARED_SRC}
-)
-
-# Compiler seulement les sources nécessaires pour le client
-# Le client n'a PAS besoin de Server.cpp, BotSession.cpp, TransactionQueue.cpp, Global.cpp, Bot.cpp
-set(CLIENT_ALL_SRC
-    ${CLIENT_SPECIFIC_SRC}
-    ${CODE_DIR}/Client.cpp # Client.cpp est utilisé par main_Cli.cpp
-    ${CODE_DIR}/Transaction.cpp # Si tu utilises readTransaction ou la structure Transaction côté client
-    ${CODE_DIR}/Logger.cpp # Si tu utilises le Logger côté client
-    # Assure-toi que les .h inclus dans main_Cli.cpp et Client.cpp sont corrects et suffisants.
-    # Ex: main_Cli.cpp inclut Bot.h, ce qui est étrange si Bot n'est pas utilisé côté client.
-    # Corrigeons main_Cli.cpp pour qu'il n'inclue que ce dont il a besoin.
+    ${CODE_DIR}/ClientInitiator.cpp    
+    ${CODE_DIR}/Logger.cpp
+    ${CODE_DIR}/ServerConnection.cpp
+    # ${CODE_DIR}/Utils.cpp # Le client inclut Utils.h mais n'a pas besoin des implémentations .cpp
+    ${CODE_DIR}/Transaction.cpp # Inclure si le client utilise les méthodes de Transaction (peu probable)
+    ${CODE_DIR}/Wallet.cpp # Inclure si le client utilise la classe Wallet (peu probable)
+    # Vérifie si d'autres .cpp sont nécessaires au client
 )
 
 set(BENCHMARK_SRC
@@ -119,37 +95,34 @@ set(BENCHMARK_SRC
 # --- Configuration de compilation ---
 
 # Ajouter les répertoires d'en-têtes
-include_directories(${HEADERS_DIR}) # Ton répertoire d'en-têtes
-include_directories(${CURL_INCLUDE_DIRS}) # En-têtes CURL trouvés
-include_directories(${OpenSSL_INCLUDE_DIRS}) # En-têtes OpenSSL trouvés
-# include_directories(${CMAKE_SOURCE_DIR}/dependencies/json) # Exemple si nlohmann/json est là
-# include_directories(${SRC_ROOT}/code) # Inclure le répertoire des .cpp si certains headers y sont (rare)
-# include_directories(${CMAKE_SOURCE_DIR}/src/code) # Autre façon d'écrire
+include_directories(${HEADERS_DIR}) # Ton répertoire d'en-têtes (où sont Client.h, Server.h, etc.)
+include_directories(${CURL_INCLUDE_DIRS}) # En-têtes CURL trouvés par find_package
+include_directories(${OpenSSL_INCLUDE_DIRS}) # En-têtes OpenSSL trouvés par find_package
+# include_directories(${CMAKE_SOURCE_DIR}/dependencies/json) # Exemple si nlohmann/json est téléchargé localement
 
-
-# OPTIONS POUR LE DÉBOGAGE
-set(CMAKE_BUILD_TYPE Debug)  # Mode Debug pour gdb (symboles de débogage)
-# set(CMAKE_BUILD_TYPE Release) # Mode Release pour optimisation
+# OPTIONS POUR LA CONSTRUCTION
+set(CMAKE_BUILD_TYPE Debug)  # Ou Release
 
 # Options de compilation standard
-add_compile_options(-std=c++17 -Wall -Wextra -pedantic) # -Wextra et -pedantic ajoutent plus d'avertissements
+add_compile_options(-std=c++17 -Wall -Wextra -pedantic) # Options de warning strictes
+
 # Ajouter l'option pour générer des symboles de débogage si en mode Debug
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_compile_options(-g -ggdb) # -ggdb pour GDB
+    add_compile_options(-g -ggdb) # Flags de débogage pour GDB
 endif()
 
-
-# Créer un répertoire de sortie pour les exécutables dans le répertoire build (par défaut)
-# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin) # Exemple pour mettre les binaires dans build/bin
+# Option pour supprimer les warnings sur les fonctions obsolètes (comme ERR_load_SSL_strings)
+# C'est un workaround. La bonne pratique serait de remplacer les appels obsolètes.
+add_compile_options(-Wno-deprecated-declarations)
 
 
 # --- Création des exécutables ---
 
 # Création de l'exécutable serveur
-add_executable(Test_Serv ${SERVER_ALL_SRC})
+add_executable(Test_Serv ${SERVER_SRC})
 
-# Création de l'exécutable client (sources corrigées)
-add_executable(Test_Cli ${CLIENT_ALL_SRC})
+# Création de l'exécutable client
+add_executable(Test_Cli ${CLIENT_SRC})
 
 # Création de l'exécutable benchmark
 add_executable(Test_Benchmark ${BENCHMARK_SRC})
@@ -160,17 +133,20 @@ add_executable(Test_Benchmark ${BENCHMARK_SRC})
 target_link_libraries(Test_Serv
     OpenSSL::SSL    # Lie spécifiquement à la bibliothèque OpenSSL SSL
     OpenSSL::Crypto # Lie spécifiquement à la bibliothèque OpenSSL Crypto
-    ${CURL_LIBRARIES}
-    ${CMAKE_THREAD_LIBS_INIT} # Pour les threads C++11
+    ${CURL_LIBRARIES}     # Lie la bibliothèque CURL trouvée
+    ${CMAKE_THREAD_LIBS_INIT} # Lie les bibliothèques nécessaires pour std::thread
     # Ajoute d'autres bibliothèques si nécessaire (ex: nlohmann_json si tu l'installes via ton système)
+    # Si tu utilises std::filesystem, tu pourrais avoir besoin de lier à une bibliothèque système comme -lstdc++fs ou similaires,
+    # mais C++17 et un compilateur récent l'incluent souvent dans -lstdc++.
 )
 
 # Lier les bibliothèques nécessaires au client
 target_link_libraries(Test_Cli
-    OpenSSL::SSL    # Lie le client à la bibliothèque OpenSSL SSL
-    OpenSSL::Crypto # Lie le client à la bibliothèque OpenSSL Crypto
-    ${CURL_LIBRARIES} # Si ton client utilise Curl
-    ${CMAKE_THREAD_LIBS_INIT} # Si ton client utilise des threads
+    OpenSSL::SSL # Le client utilise OpenSSL pour la connexion SSL
+    OpenSSL::Crypto # Le client utilise OpenSSL pour la connexion SSL
+    ${CURL_LIBRARIES} # Si ton client utilise Curl (probablement non)
+    ${CMAKE_THREAD_LIBS_INIT} # Si ton client utilise des threads (probablement non pour un client simple)
+    # Si tu utilises std::filesystem dans le client, tu pourrais avoir besoin de lier ici aussi.
 )
 
 # Lier les bibliothèques nécessaires au benchmark
@@ -185,18 +161,16 @@ target_link_libraries(Test_Benchmark
 
 # Cible pour exécuter le serveur après la construction
 add_custom_target(Serv
-    COMMAND $<TARGET_FILE:Test_Serv> # Utilise le chemin correct de l'exécutable
+    COMMAND $<TARGET_FILE:Test_Serv>
     DEPENDS Test_Serv
     COMMENT "Running Server executable"
-    # WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin # Si tu utilises un sous-répertoire pour les binaires
 )
 
 # Cible pour exécuter le client après la construction
 add_custom_target(Cli
-    COMMAND $<TARGET_FILE:Test_Cli> # Utilise le chemin correct de l'exécutable
+    COMMAND $<TARGET_FILE:Test_Cli>
     DEPENDS Test_Cli
     COMMENT "Running Client executable"
-    # WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
 # --- Cible pour exécuter benchmark ---
@@ -221,7 +195,6 @@ add_custom_target(gdb_serveur
     COMMAND gdb $<TARGET_FILE:Test_Serv>
     DEPENDS Test_Serv
     COMMENT "Running Server executable under GDB"
-    # WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
 # Cible pour exécuter le client sous GDB
@@ -229,5 +202,4 @@ add_custom_target(gdb_client
     COMMAND gdb $<TARGET_FILE:Test_Cli>
     DEPENDS Test_Cli
     COMMENT "Running Client executable under GDB"
-    # WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )

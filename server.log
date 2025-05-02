@@ -1,0 +1,1417 @@
+--- Début du log : 1746085922 ---
+[2025-05-01 09:52:02][INFO] Client programme démarré.
+[2025-05-01 09:52:02][DEBUG] Socket client créé. FD: 4
+[2025-05-01 09:52:02][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 09:52:02][ERROR] Erreur: Échec du chargement du certificat client.
+--- Fin du log : 1746085922 ---
+--- Début du log : 1746087537 ---
+[2025-05-01 10:18:57][INFO] Client programme démarré.
+[2025-05-01 10:18:57][DEBUG] Socket client créé. FD: 4
+[2025-05-01 10:18:57][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 10:18:57][ERROR] Erreur: Échec du chargement du certificat client.
+--- Fin du log : 1746087537 ---
+--- Début du log : 1746090658 ---
+[2025-05-01 11:10:58][INFO] Client programme démarré.
+[2025-05-01 11:10:58][DEBUG] Socket client créé. FD: 4
+[2025-05-01 11:10:58][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 11:10:58][INFO] Handshake SSL réussi.
+[2025-05-01 11:10:58][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 11:10:58][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 11:10:58][DEBUG] Objet Client créé avec succès.
+[2025-05-01 11:10:58][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+[2025-05-01 11:10:58][INFO] Réponse d'authentification reçue : 'AUTH FAIL: Wallet creation failed. Connection closed.'
+[2025-05-01 11:10:58][ERROR] Authentification échouée. Vérifiez votre ID et Token. Fermeture de la connexion.
+[2025-05-01 11:10:58][DEBUG] [Client] Destructeur Client appelé. Socket FD final: 4
+[2025-05-01 11:10:58][INFO] [Client] Fermeture de la connexion pour socket FD: 4
+[2025-05-01 11:10:58][DEBUG] [Client] Objet SSL libéré.
+[2025-05-01 11:10:58][INFO] [Client] Socket FD: 4 fermé.
+[2025-05-01 11:10:58][DEBUG] [Client] closeConnection terminé pour FD: -1
+--- Fin du log : 1746090658 ---
+--- Début du log : 1746091251 ---
+[2025-05-01 11:20:51][INFO] Client programme démarré.
+[2025-05-01 11:20:51][DEBUG] Socket client créé. FD: 4
+[2025-05-01 11:20:51][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 11:20:51][INFO] Handshake SSL réussi.
+[2025-05-01 11:20:51][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 11:20:51][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 11:20:51][DEBUG] Objet Client créé avec succès.
+[2025-05-01 11:20:51][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+[2025-05-01 11:20:51][INFO] Réponse d'authentification reçue : 'AUTH FAIL: Wallet creation failed. Connection closed.'
+[2025-05-01 11:20:51][ERROR] Authentification échouée. Vérifiez votre ID et Token. Fermeture de la connexion.
+[2025-05-01 11:20:51][DEBUG] [Client] Destructeur Client appelé. Socket FD final: 4
+[2025-05-01 11:20:51][INFO] [Client] Fermeture de la connexion pour socket FD: 4
+[2025-05-01 11:20:51][DEBUG] [Client] Objet SSL libéré.
+[2025-05-01 11:20:51][INFO] [Client] Socket FD: 4 fermé.
+[2025-05-01 11:20:51][DEBUG] [Client] closeConnection terminé pour FD: -1
+--- Fin du log : 1746091251 ---
+--- Début du log : 1746091440 ---
+[2025-05-01 11:24:00][INFO] Client programme démarré.
+[2025-05-01 11:24:00][DEBUG] Socket client créé. FD: 4
+[2025-05-01 11:24:00][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 11:24:00][INFO] Handshake SSL réussi.
+[2025-05-01 11:24:00][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 11:24:00][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 11:24:00][DEBUG] Objet Client créé avec succès.
+[2025-05-01 11:24:00][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+[2025-05-01 11:24:00][INFO] Réponse d'authentification reçue : 'AUTH FAIL: Wallet creation failed. Connection closed.'
+[2025-05-01 11:24:00][ERROR] Authentification échouée. Vérifiez votre ID et Token. Fermeture de la connexion.
+[2025-05-01 11:24:00][DEBUG] [Client] Destructeur Client appelé. Socket FD final: 4
+[2025-05-01 11:24:00][INFO] [Client] Fermeture de la connexion pour socket FD: 4
+[2025-05-01 11:24:00][DEBUG] [Client] Objet SSL libéré.
+[2025-05-01 11:24:00][INFO] [Client] Socket FD: 4 fermé.
+[2025-05-01 11:24:00][DEBUG] [Client] closeConnection terminé pour FD: -1
+--- Fin du log : 1746091440 ---
+--- Début du log : 1746092181 ---
+[2025-05-01 11:36:21][INFO] Client programme démarré.
+[2025-05-01 11:36:21][DEBUG] Socket client créé. FD: 4
+[2025-05-01 11:36:21][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 11:36:21][INFO] Handshake SSL réussi.
+[2025-05-01 11:36:21][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 11:36:21][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 11:36:21][DEBUG] Objet Client créé avec succès.
+[2025-05-01 11:36:21][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+[2025-05-01 11:36:21][INFO] Réponse d'authentification reçue : 'AUTH FAIL: Wallet creation failed. Connection closed.'
+[2025-05-01 11:36:21][ERROR] Authentification échouée. Vérifiez votre ID et Token. Fermeture de la connexion.
+[2025-05-01 11:36:21][DEBUG] [Client] Destructeur Client appelé. Socket FD final: 4
+[2025-05-01 11:36:21][INFO] [Client] Fermeture de la connexion pour socket FD: 4
+[2025-05-01 11:36:21][DEBUG] [Client] Objet SSL libéré.
+[2025-05-01 11:36:21][INFO] [Client] Socket FD: 4 fermé.
+[2025-05-01 11:36:21][DEBUG] [Client] closeConnection terminé pour FD: -1
+--- Fin du log : 1746092181 ---
+--- Début du log : 1746092660 ---
+[2025-05-01 11:44:20][INFO] Client programme démarré.
+[2025-05-01 11:44:20][DEBUG] Socket client créé. FD: 4
+[2025-05-01 11:44:20][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 11:44:20][INFO] Handshake SSL réussi.
+[2025-05-01 11:44:20][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 11:44:20][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 11:44:20][DEBUG] Objet Client créé avec succès.
+[2025-05-01 11:44:20][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+[2025-05-01 11:44:20][INFO] Réponse d'authentification reçue : 'AUTH FAIL: Wallet creation failed. Connection closed.'
+[2025-05-01 11:44:20][ERROR] Authentification échouée. Vérifiez votre ID et Token. Fermeture de la connexion.
+[2025-05-01 11:44:20][DEBUG] [Client] Destructeur Client appelé. Socket FD final: 4
+[2025-05-01 11:44:20][INFO] [Client] Fermeture de la connexion pour socket FD: 4
+[2025-05-01 11:44:20][DEBUG] [Client] Objet SSL libéré.
+[2025-05-01 11:44:20][INFO] [Client] Socket FD: 4 fermé.
+[2025-05-01 11:44:20][DEBUG] [Client] closeConnection terminé pour FD: -1
+--- Fin du log : 1746092660 ---
+--- Début du log : 1746093508 ---
+[2025-05-01 11:58:28][INFO] Client programme démarré.
+[2025-05-01 11:58:28][DEBUG] Socket client créé. FD: 4
+[2025-05-01 11:58:28][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 11:58:28][INFO] Handshake SSL réussi.
+[2025-05-01 11:58:28][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 11:58:28][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 11:58:28][DEBUG] Objet Client créé avec succès.
+[2025-05-01 11:58:28][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+--- Début du log : 1746094618 ---
+[2025-05-01 12:16:58][INFO] Client programme démarré.
+[2025-05-01 12:16:58][DEBUG] Socket client créé. FD: 4
+[2025-05-01 12:16:58][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 12:16:58][INFO] Handshake SSL réussi.
+[2025-05-01 12:16:58][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 12:16:58][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 12:16:58][DEBUG] Objet Client créé avec succès.
+[2025-05-01 12:16:58][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+--- Début du log : 1746095710 ---
+[2025-05-01 12:35:10][INFO] Client programme démarré.
+[2025-05-01 12:35:10][DEBUG] Socket client créé. FD: 4
+[2025-05-01 12:35:10][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 12:35:10][INFO] Handshake SSL réussi.
+[2025-05-01 12:35:10][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 12:35:10][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 12:35:10][DEBUG] Objet Client créé avec succès.
+[2025-05-01 12:35:10][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+--- Début du log : 1746096089 ---
+[2025-05-01 12:41:29][INFO] Client programme démarré.
+[2025-05-01 12:41:29][DEBUG] Socket client créé. FD: 4
+[2025-05-01 12:41:29][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 12:41:29][INFO] Handshake SSL réussi.
+[2025-05-01 12:41:29][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 12:41:29][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 12:41:29][DEBUG] Objet Client créé avec succès.
+[2025-05-01 12:41:29][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+--- Début du log : 1746096301 ---
+[2025-05-01 12:45:01][INFO] Client programme démarré.
+[2025-05-01 12:45:01][DEBUG] Socket client créé. FD: 4
+[2025-05-01 12:45:01][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 12:45:01][INFO] Handshake SSL réussi.
+[2025-05-01 12:45:01][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 12:45:01][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 12:45:01][DEBUG] Objet Client créé avec succès.
+[2025-05-01 12:45:01][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+--- Début du log : 1746096472 ---
+[2025-05-01 12:47:52][INFO] Client programme démarré.
+[2025-05-01 12:47:52][DEBUG] Socket client créé. FD: 4
+[2025-05-01 12:47:52][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 12:47:52][INFO] Handshake SSL réussi.
+[2025-05-01 12:47:52][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 12:47:52][INFO] [Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 12:47:52][DEBUG] Objet Client créé avec succès.
+[2025-05-01 12:47:52][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+--- Début du log : 1746109525 ---
+[2025-05-01 16:25:25][INFO] Client programme démarré.
+[2025-05-01 16:25:25][DEBUG] Socket client créé. FD: 4
+[2025-05-01 16:25:25][INFO] Connexion au serveur 10.188.240.101:4433 établie (socket FD: 4).
+[2025-05-01 16:25:25][DEBUG] Contexte SSL client créé.
+[2025-05-01 16:25:25][DEBUG] Certificat client chargé.
+[2025-05-01 16:25:25][DEBUG] Clé privée client chargée.
+[2025-05-01 16:25:25][DEBUG] CA de confiance client chargées.
+[2025-05-01 16:25:25][DEBUG] Objet SSL créé.
+[2025-05-01 16:25:25][INFO] Handshake SSL réussi.
+[2025-05-01 16:25:25][INFO] Vérification du certificat serveur réussie.
+[2025-05-01 16:25:25][INFO] [Client::Client] Objet Client créé avec socket et SSL existants. Socket FD: 4
+[2025-05-01 16:25:25][DEBUG] Objet Client créé avec succès.
+[2025-05-01 16:25:25][INFO] Envoi du message d'authentification : 'ID:mon_client_id_depuis_script,TOKEN:mon_token_depuis_script'
+[2025-05-01 16:25:25][DEBUG] Message d'authentification envoyé.
+[2025-05-01 16:25:25][INFO] [Client::receive] Connexion fermée proprement par le pair (SSL_ERROR_ZERO_RETURN). Socket FD: 4
+[2025-05-01 16:25:25][DEBUG] [Client::markForClose] Connexion marquée pour fermeture. Socket FD: 4
+[2025-05-01 16:25:25][ERROR] Erreur (0) ou déconnexion du serveur lors de la réception de la réponse d'authentification.
+[2025-05-01 16:25:25][DEBUG] [Client::~Client] Destructeur Client appelé. Socket FD final: 4
+[2025-05-01 16:25:25][INFO] [Client::closeConnection] Fermeture de la connexion pour socket FD: 4
+[2025-05-01 16:25:25][DEBUG] [Client::closeConnection] Objet SSL libéré.
+[2025-05-01 16:25:25][DEBUG] [Client::closeConnection] Fermeture du socket FD: 4
+[2025-05-01 16:25:25][INFO] [Client::closeConnection] Socket FD: 4 fermé.
+[2025-05-01 16:25:25][DEBUG] [Client::closeConnection] Nettoyage de connexion terminé pour FD initial: -1
+--- Fin du log : 1746109525 ---
+--- Début du log : 1746136314 ---
+[2025-05-01 23:51:54][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-01 23:51:54][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-01 23:51:54][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-01 23:51:54][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-01 23:51:54][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-01 23:51:54][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-01 23:51:54][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-01 23:51:54][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-01 23:51:54][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-01 23:51:54][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-01 23:51:54][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-01 23:51:54][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-01 23:51:54][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-01 23:51:54][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-01 23:51:54][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-01 23:51:54][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-01 23:51:54][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-01 23:51:54][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-01 23:51:54][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-01 23:51:54][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-01 23:51:54][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-01 23:51:54][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-01 23:51:54][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (61 bytes).
+[2025-05-01 23:51:54][INFO] ServerConnection::receive INFO : Connexion fermée proprement par le pair (SSL_ERROR_ZERO_RETURN). Socket FD: 4
+[2025-05-01 23:51:54][DEBUG] ServerConnection::markForClose DEBUG : Connexion marquée pour fermeture. Socket FD: 4
+[2025-05-01 23:51:54][ERROR] Main_Cli ERROR : Échec de la réception de la réponse d'authentification ou serveur déconnecté.
+[2025-05-01 23:51:54][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-01 23:51:54][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-01 23:51:54][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-01 23:51:54][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-01 23:51:54][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-01 23:51:54][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-01 23:51:54][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746136314 ---
+--- Début du log : 1746136851 ---
+[2025-05-02 00:00:51][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 00:00:51][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 00:00:51][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 00:00:51][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 00:00:51][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 00:00:51][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 00:00:51][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 00:00:51][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 00:00:51][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 00:00:51][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 00:00:51][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 00:00:51][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 00:00:51][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 00:00:51][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 00:00:51][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 00:00:51][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 00:00:51][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 00:00:51][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 00:00:51][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 00:00:51][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 00:00:51][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 00:00:51][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 00:00:51][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (61 bytes).
+[2025-05-02 00:00:51][INFO] ServerConnection::receive INFO : Connexion fermée proprement par le pair (SSL_ERROR_ZERO_RETURN). Socket FD: 4
+[2025-05-02 00:00:51][DEBUG] ServerConnection::markForClose DEBUG : Connexion marquée pour fermeture. Socket FD: 4
+[2025-05-02 00:00:51][ERROR] Main_Cli ERROR : Échec de la réception de la réponse d'authentification ou serveur déconnecté.
+[2025-05-02 00:00:51][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 00:00:51][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 00:00:51][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 00:00:51][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 00:00:51][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 00:00:51][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 00:00:51][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746136851 ---
+--- Début du log : 1746137811 ---
+[2025-05-02 00:16:51][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 00:16:51][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 00:16:51][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 00:16:51][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 00:16:51][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 00:16:51][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 00:16:51][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 00:16:51][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 00:16:51][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 00:16:51][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 00:16:51][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 00:16:51][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 00:16:51][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 00:16:51][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 00:16:51][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 00:16:51][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 00:16:51][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 00:16:51][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 00:16:51][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 00:16:51][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 00:16:51][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 00:16:51][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 00:16:51][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (61 bytes).
+[2025-05-02 00:17:11][WARNING] ServerConnection::receive WARNING : SSL_read retourné 0. Erreur code: 1. Socket FD: 4
+[2025-05-02 00:17:11][DEBUG] ServerConnection::markForClose DEBUG : Connexion marquée pour fermeture. Socket FD: 4
+[2025-05-02 00:17:11][ERROR] Main_Cli ERROR : Échec de la réception de la réponse d'authentification ou serveur déconnecté.
+[2025-05-02 00:17:11][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 00:17:11][ERROR] ServerConnection::closeConnection ERROR : Erreur lors du SSL_shutdown(). Socket FD: 4
+[2025-05-02 00:17:11][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 00:17:11][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 00:17:11][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 00:17:11][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 00:17:11][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 00:17:11][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746137831 ---
+--- Début du log : 1746138007 ---
+[2025-05-02 00:20:07][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 00:20:07][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 00:20:07][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 00:20:07][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 00:20:07][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 00:20:07][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 00:20:07][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 00:20:07][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 00:20:07][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 00:20:07][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 00:20:07][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 00:20:07][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 00:20:07][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 00:20:07][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 00:20:07][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 00:20:07][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 00:20:07][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 00:20:07][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 00:20:07][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 00:20:07][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 00:20:07][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 00:20:07][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 00:20:07][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (61 bytes).
+[2025-05-02 00:22:14][WARNING] ServerConnection::receive WARNING : SSL_read retourné 0. Erreur code: 1. Socket FD: 4
+[2025-05-02 00:22:14][DEBUG] ServerConnection::markForClose DEBUG : Connexion marquée pour fermeture. Socket FD: 4
+[2025-05-02 00:22:14][ERROR] Main_Cli ERROR : Échec de la réception de la réponse d'authentification ou serveur déconnecté.
+[2025-05-02 00:22:14][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 00:22:14][ERROR] ServerConnection::closeConnection ERROR : Erreur lors du SSL_shutdown(). Socket FD: 4
+[2025-05-02 00:22:14][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 00:22:14][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 00:22:14][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 00:22:14][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 00:22:14][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 00:22:14][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746138134 ---
+--- Début du log : 1746138233 ---
+[2025-05-02 00:23:53][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 00:23:53][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 00:23:53][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 00:23:53][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 00:23:53][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 00:23:53][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 00:23:53][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 00:23:53][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 00:23:53][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 00:23:53][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 00:23:53][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 00:23:53][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 00:23:53][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 00:23:53][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 00:23:53][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 00:23:53][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 00:23:53][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 00:23:53][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 00:23:53][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 00:23:53][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 00:23:53][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 00:23:53][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 00:23:53][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (61 bytes).
+[2025-05-02 00:23:53][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 00:23:53][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 00:23:56][DEBUG] Main_Cli DEBUG : Commande envoyée : 'show'. (5 bytes)
+[2025-05-02 00:23:56][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (66 bytes): 'ERROR: Unknown SHOW target. Use SHOW WALLET or SHOW TRANSACTIONS.'
+[2025-05-02 00:24:03][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 00:24:03][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (44 bytes): 'WALLET_BALANCE USD 0.00, SRD-BTC 0.00000000'
+[2025-05-02 00:24:11][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW TRANSACTION'. (17 bytes)
+[2025-05-02 00:24:11][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (66 bytes): 'ERROR: Unknown SHOW target. Use SHOW WALLET or SHOW TRANSACTIONS.'
+[2025-05-02 00:24:30][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW TRANSACTIONS'. (18 bytes)
+[2025-05-02 00:24:30][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (47 bytes): 'TRANSACTION_HISTORY (0 total, showing last 0):'
+--- Début du log : 1746168712 ---
+[2025-05-02 08:51:52][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 08:51:52][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: nouveau_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 08:51:52][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 08:51:52][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 08:51:52][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 08:51:52][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 08:51:52][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 08:51:52][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 08:51:52][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 08:51:52][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 08:51:52][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 08:51:52][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 08:51:52][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 08:51:52][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 08:51:52][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 08:51:52][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 08:51:52][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 08:51:52][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 08:51:52][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 08:51:52][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 08:51:52][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 08:51:52][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 08:51:52][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (69 bytes).
+[2025-05-02 08:51:52][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH NEW'
+[2025-05-02 08:51:52][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 08:53:16][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 08:53:16][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 08:53:16][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 08:53:16][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 08:53:16][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 08:53:16][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 08:53:16][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 08:53:16][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 08:53:16][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 08:53:16][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 08:53:16][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 08:53:16][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 08:53:16][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 08:53:16][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746168796 ---
+--- Début du log : 1746168811 ---
+[2025-05-02 08:53:31][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 08:53:31][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: nouveau_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 08:53:31][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 08:53:31][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 08:53:31][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 08:53:31][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 08:53:31][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 08:53:31][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 08:53:31][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 08:53:31][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 08:53:31][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 08:53:31][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 08:53:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 08:53:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 08:53:31][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 08:53:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 08:53:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 08:53:31][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 08:53:31][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 08:53:31][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 08:53:31][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 08:53:31][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 08:53:31][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (69 bytes).
+[2025-05-02 08:53:31][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 08:53:31][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 09:08:52][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 09:08:52][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 09:08:52][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 09:08:52][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 09:08:52][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 09:08:52][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 09:08:52][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 09:08:52][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 09:08:52][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 09:08:52][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 09:08:52][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 09:08:52][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 09:08:52][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 09:08:52][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746169732 ---
+--- Début du log : 1746169748 ---
+[2025-05-02 09:09:08][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 09:09:08][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: nouveau_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 09:09:08][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 09:09:08][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 09:09:08][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 09:09:08][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 09:09:08][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 09:09:08][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 09:09:08][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 09:09:08][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 09:09:08][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 09:09:08][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 09:09:08][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 09:09:08][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 09:09:08][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 09:09:08][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 09:09:08][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 09:09:08][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 09:09:08][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 09:09:08][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 09:09:08][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 09:09:08][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 09:09:08][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (69 bytes).
+[2025-05-02 09:09:08][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 09:09:08][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 09:09:28][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 09:09:28][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 09:09:28][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 09:09:28][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 09:09:28][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 09:09:28][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 09:09:28][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 09:09:28][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 09:09:28][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 09:09:28][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 09:09:28][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 09:09:28][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 09:09:28][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 09:09:28][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746169768 ---
+--- Début du log : 1746169772 ---
+[2025-05-02 09:09:32][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 09:09:32][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: nouveau_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 09:09:32][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 09:09:32][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 09:09:32][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 09:09:32][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 09:09:32][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 09:09:32][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 09:09:32][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 09:09:32][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 09:09:32][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 09:09:32][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 09:09:32][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 09:09:32][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 09:09:32][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 09:09:32][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 09:09:32][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 09:09:32][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 09:09:32][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 09:09:32][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 09:09:32][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 09:09:32][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 09:09:32][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (69 bytes).
+[2025-05-02 09:09:32][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 09:09:32][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 09:09:45][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 09:09:45][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 09:09:45][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 09:09:45][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 09:09:45][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 09:09:45][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 09:09:45][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 09:09:45][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 09:09:45][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 09:09:45][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 09:09:45][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 09:09:45][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 09:09:45][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 09:09:45][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746169785 ---
+--- Début du log : 1746171391 ---
+[2025-05-02 09:36:31][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 09:36:31][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: nouveau_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 09:36:31][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 09:36:31][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 09:36:31][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 09:36:31][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 09:36:31][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 09:36:31][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 09:36:31][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 09:36:31][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 09:36:31][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 09:36:31][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 09:36:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 09:36:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 09:36:31][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 09:36:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 09:36:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 09:36:31][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 09:36:31][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 09:36:31][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 09:36:31][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 09:36:31][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 09:36:31][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (69 bytes).
+[2025-05-02 09:36:31][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 09:36:31][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 09:36:45][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+--- Début du log : 1746171858 ---
+[2025-05-02 09:44:18][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 09:44:18][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: nouveau_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 09:44:18][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 09:44:18][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 09:44:18][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 09:44:18][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 09:44:18][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 09:44:18][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 09:44:18][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 09:44:18][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 09:44:18][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 09:44:18][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 09:44:18][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 09:44:18][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 09:44:18][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 09:44:18][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 09:44:18][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 09:44:18][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 09:44:18][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 09:44:18][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 09:44:18][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 09:44:18][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 09:44:18][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (69 bytes).
+[2025-05-02 09:44:18][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 09:44:18][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 09:44:26][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 09:44:26][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (44 bytes): 'WALLET_BALANCE USD 0.00, SRD-BTC 0.00000000'
+[2025-05-02 09:44:43][DEBUG] Main_Cli DEBUG : Commande envoyée : 'BUY'. (4 bytes)
+[2025-05-02 09:44:43][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (80 bytes): 'ERROR: Invalid syntax or value for buy. Use buy <Currency> <Percentage (1-100)>'
+[2025-05-02 09:45:00][DEBUG] Main_Cli DEBUG : Commande envoyée : 'BUY SRD-BTC 100'. (16 bytes)
+[2025-05-02 09:45:00][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (76 bytes): 'ERROR: Calculated amount is zero or negative. Check balance and percentage.'
+[2025-05-02 09:45:20][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 09:45:20][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 09:45:20][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 09:45:20][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 09:45:20][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 09:45:20][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 09:45:20][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 09:45:20][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 09:45:20][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 09:45:20][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 09:45:20][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 09:45:20][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 09:45:20][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 09:45:20][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746171920 ---
+--- Début du log : 1746171923 ---
+[2025-05-02 09:45:23][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 09:45:23][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: nouveau_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 09:45:23][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 09:45:23][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 09:45:23][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 09:45:23][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 09:45:23][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 09:45:23][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 09:45:23][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 09:45:23][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 09:45:23][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 09:45:23][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 09:45:23][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 09:45:23][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 09:45:23][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 09:45:23][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 09:45:23][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 09:45:23][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 09:45:23][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 09:45:23][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 09:45:23][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 09:45:23][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 09:45:23][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (69 bytes).
+[2025-05-02 09:45:23][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 09:45:23][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 09:45:42][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 09:45:42][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (43 bytes): 'AUTH FAIL: Already connected with this ID.'
+--- Début du log : 1746172287 ---
+[2025-05-02 09:51:27][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 09:51:27][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: nouveau_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 09:51:27][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 09:51:27][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 09:51:27][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 09:51:27][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 09:51:27][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 09:51:27][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 09:51:27][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 09:51:27][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 09:51:27][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 09:51:27][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 09:51:27][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 09:51:27][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 09:51:27][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 09:51:27][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 09:51:27][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 09:51:27][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 09:51:27][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 09:51:27][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 09:51:27][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 09:51:27][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 09:51:27][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (69 bytes).
+[2025-05-02 09:51:28][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 09:51:28][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 09:51:46][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 09:51:46][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (44 bytes): 'WALLET_BALANCE USD 0.00, SRD-BTC 0.00000000'
+[2025-05-02 09:52:00][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 09:52:00][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 09:52:00][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 09:52:00][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 09:52:00][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 09:52:00][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 09:52:00][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 09:52:00][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 09:52:00][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 09:52:00][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 09:52:00][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 09:52:00][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 09:52:00][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 09:52:00][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746172320 ---
+--- Début du log : 1746172798 ---
+[2025-05-02 09:59:58][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 09:59:58][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: nouveau_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 09:59:58][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 09:59:58][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 09:59:58][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 09:59:58][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 09:59:58][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 09:59:58][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 09:59:58][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 09:59:58][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 09:59:58][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 09:59:58][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 09:59:58][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 09:59:58][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 09:59:58][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 09:59:58][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 09:59:58][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 09:59:58][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 09:59:58][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 09:59:58][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 09:59:58][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 09:59:58][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 09:59:58][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (69 bytes).
+[2025-05-02 09:59:58][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 09:59:58][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 10:00:06][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 10:00:06][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (44 bytes): 'WALLET_BALANCE USD 0.00, SRD-BTC 0.00000000'
+[2025-05-02 10:00:11][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 10:00:11][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 10:00:11][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 10:00:11][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 10:00:11][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 10:00:11][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 10:00:11][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 10:00:11][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 10:00:11][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 10:00:11][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 10:00:11][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 10:00:11][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 10:00:11][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 10:00:11][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746172811 ---
+--- Début du log : 1746172919 ---
+[2025-05-02 10:01:59][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 10:01:59][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: nouveau_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-02 10:01:59][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 10:01:59][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 10:01:59][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 10:01:59][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 10:01:59][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 10:01:59][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 10:01:59][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 10:01:59][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 10:01:59][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 10:01:59][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 10:01:59][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 10:01:59][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 10:01:59][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 10:01:59][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 10:01:59][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 10:01:59][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 10:01:59][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 10:01:59][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 10:01:59][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 10:01:59][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 10:01:59][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (69 bytes).
+[2025-05-02 10:01:59][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 10:01:59][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 10:02:07][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 10:02:07][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (44 bytes): 'WALLET_BALANCE USD 0.00, SRD-BTC 0.00000000'
+[2025-05-02 10:02:16][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 10:02:16][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 10:02:16][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 10:02:16][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 10:02:16][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 10:02:16][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 10:02:16][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 10:02:16][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 10:02:16][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 10:02:16][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 10:02:16][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 10:02:16][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 10:02:16][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 10:02:16][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746172936 ---
+--- Début du log : 1746172993 ---
+[2025-05-02 10:03:13][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 10:03:13][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 10:03:13][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 10:03:13][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 10:03:13][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 10:03:13][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 10:03:13][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 10:03:13][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 10:03:13][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 10:03:13][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 10:03:13][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 10:03:13][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 10:03:13][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 10:03:13][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 10:03:13][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 10:03:13][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 10:03:13][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 10:03:13][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 10:03:13][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 10:03:13][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 10:03:13][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 10:03:13][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 10:03:13][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 10:03:13][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH NEW'
+[2025-05-02 10:03:13][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 10:03:17][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 10:03:17][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (44 bytes): 'WALLET_BALANCE USD 0.00, SRD-BTC 0.00000000'
+--- Début du log : 1746174451 ---
+[2025-05-02 10:27:31][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 10:27:31][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 10:27:31][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 10:27:31][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 10:27:31][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 10:27:31][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 10:27:31][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 10:27:31][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 10:27:31][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 10:27:31][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 10:27:31][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 10:27:31][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 10:27:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 10:27:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 10:27:31][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 10:27:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 10:27:31][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 10:27:31][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 10:27:31][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 10:27:31][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 10:27:31][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 10:27:31][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 10:27:31][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 10:27:31][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 10:27:31][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 10:27:37][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW'. (5 bytes)
+[2025-05-02 10:27:37][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (66 bytes): 'ERROR: Unknown SHOW target. Use SHOW WALLET or SHOW TRANSACTIONS.'
+[2025-05-02 10:27:44][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 10:27:44][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (53 bytes): 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 10:27:54][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 10:27:54][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 10:27:54][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 10:27:54][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 10:27:54][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 10:27:54][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 10:27:54][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 10:27:54][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 10:27:54][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 10:27:54][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 10:27:54][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 10:27:54][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 10:27:54][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 10:27:54][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746174474 ---
+--- Début du log : 1746174481 ---
+[2025-05-02 10:28:01][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 10:28:01][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 10:28:01][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 10:28:01][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 10:28:01][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 10:28:01][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 10:28:01][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 10:28:01][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 10:28:01][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 10:28:01][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 10:28:01][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 10:28:01][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 10:28:01][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 10:28:01][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 10:28:01][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 10:28:01][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 10:28:01][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 10:28:01][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 10:28:01][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 10:28:01][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 10:28:01][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 10:28:01][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 10:28:01][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 10:28:01][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 10:28:01][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+--- Début du log : 1746175997 ---
+[2025-05-02 10:53:17][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 10:53:17][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 10:53:17][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 10:53:17][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 10:53:17][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 10:53:17][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 10:53:17][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 10:53:17][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 10:53:17][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 10:53:17][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 10:53:17][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 10:53:17][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 10:53:17][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 10:53:17][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 10:53:17][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 10:53:17][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 10:53:17][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 10:53:17][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 10:53:17][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 10:53:17][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 10:53:17][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 10:53:17][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 10:53:17][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 10:53:17][DEBUG] ServerConnection DEBUG : Reçu 13 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 13
+[2025-05-02 10:53:17][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH SUCCESS'
+[2025-05-02 10:53:17][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 10:53:17][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 10:53:20][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 10:53:20][DEBUG] ServerConnection DEBUG : Reçu 53 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 53
+[2025-05-02 10:53:20][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 10:53:20][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (52 bytes): 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 10:53:23][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 10:53:23][INFO] Main_Cli INFO : Sortie de la boucle de commande.
+[2025-05-02 10:53:23][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 10:53:23][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 10:53:23][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 10:53:23][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 10:53:23][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 10:53:23][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 10:53:23][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 10:53:23][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 10:53:23][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 10:53:23][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 10:53:23][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 10:53:23][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 10:53:23][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746176003 ---
+--- Début du log : 1746176005 ---
+[2025-05-02 10:53:25][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 10:53:25][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 10:53:25][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 10:53:25][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 10:53:25][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 10:53:25][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 10:53:25][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 10:53:25][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 10:53:25][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 10:53:25][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 10:53:25][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 10:53:25][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 10:53:25][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 10:53:25][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 10:53:25][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 10:53:25][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 10:53:25][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 10:53:25][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 10:53:25][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 10:53:25][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 10:53:25][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 10:53:25][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 10:53:25][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 10:53:25][DEBUG] ServerConnection DEBUG : Reçu 13 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 13
+[2025-05-02 10:53:25][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH SUCCESS'
+[2025-05-02 10:53:25][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 10:53:25][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 10:54:21][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 10:54:21][DEBUG] ServerConnection DEBUG : Reçu 43 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 43
+[2025-05-02 10:54:21][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 10:54:21][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (42 bytes): 'AUTH FAIL: Already connected with this ID.'
+--- Début du log : 1746176592 ---
+[2025-05-02 11:03:12][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 11:03:12][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 11:03:12][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 11:03:12][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 11:03:12][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 11:03:12][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 11:03:12][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 11:03:12][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 11:03:12][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 11:03:12][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 11:03:12][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 11:03:12][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 11:03:12][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 11:03:12][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 11:03:12][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 11:03:12][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 11:03:12][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 11:03:12][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 11:03:12][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 11:03:12][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 11:03:12][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 11:03:12][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 11:03:12][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 11:03:12][DEBUG] ServerConnection DEBUG : Reçu 13 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 13
+[2025-05-02 11:03:12][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH SUCCESS'
+[2025-05-02 11:03:12][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 11:03:12][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 11:03:16][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 11:03:16][DEBUG] ServerConnection DEBUG : Reçu 13 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 13
+[2025-05-02 11:03:16][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH SUCCESS'
+[2025-05-02 11:03:16][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (12 bytes): 'AUTH SUCCESS'
+[2025-05-02 11:03:32][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 11:03:32][DEBUG] ServerConnection DEBUG : Reçu 53 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 53
+[2025-05-02 11:03:32][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 11:03:32][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (52 bytes): 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 11:03:37][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 11:03:37][INFO] Main_Cli INFO : Sortie de la boucle de commande.
+[2025-05-02 11:03:37][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 11:03:37][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 11:03:37][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 11:03:37][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 11:03:37][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 11:03:37][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 11:03:37][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 11:03:37][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 11:03:37][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 11:03:37][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 11:03:37][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 11:03:37][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 11:03:37][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746176617 ---
+--- Début du log : 1746176619 ---
+[2025-05-02 11:03:39][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 11:03:39][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 11:03:39][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 11:03:39][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 11:03:39][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 11:03:39][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 11:03:39][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 11:03:39][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 11:03:39][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 11:03:39][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 11:03:39][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 11:03:39][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 11:03:39][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 11:03:39][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 11:03:39][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 11:03:39][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 11:03:39][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 11:03:39][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 11:03:39][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 11:03:39][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 11:03:39][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 11:03:39][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 11:03:39][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 11:03:39][DEBUG] ServerConnection DEBUG : Reçu 13 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 13
+[2025-05-02 11:03:39][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH SUCCESS'
+[2025-05-02 11:03:39][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 11:03:39][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 11:03:48][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 11:03:48][DEBUG] ServerConnection DEBUG : Reçu 43 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 43
+[2025-05-02 11:03:48][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 11:03:48][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (42 bytes): 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 11:03:55][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+--- Début du log : 1746177433 ---
+[2025-05-02 11:17:13][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 11:17:13][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 11:17:13][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 11:17:13][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 11:17:13][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 11:17:13][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 11:17:13][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 11:17:13][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 11:17:13][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 11:17:13][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 11:17:13][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 11:17:13][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 11:17:13][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 11:17:13][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 11:17:13][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 11:17:13][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 11:17:13][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 11:17:13][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 11:17:13][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 11:17:13][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 11:17:13][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 11:17:13][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 11:17:13][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 11:17:13][DEBUG] ServerConnection DEBUG : Reçu 13 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 13
+[2025-05-02 11:17:13][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH SUCCESS'
+[2025-05-02 11:17:13][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 11:17:13][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 11:17:27][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 11:17:27][DEBUG] ServerConnection DEBUG : Reçu 53 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 53
+[2025-05-02 11:17:27][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 11:17:27][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (52 bytes): 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 11:17:30][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 11:17:30][INFO] Main_Cli INFO : Sortie de la boucle de commande.
+[2025-05-02 11:17:30][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 11:17:30][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 11:17:30][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 11:17:30][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 11:17:30][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 11:17:30][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 11:17:30][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 11:17:30][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 11:17:30][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 11:17:30][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 11:17:30][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 11:17:30][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 11:17:30][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746177450 ---
+--- Début du log : 1746177454 ---
+[2025-05-02 11:17:34][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 11:17:34][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 11:17:34][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 11:17:34][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 11:17:34][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 11:17:34][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 11:17:34][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 11:17:34][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 11:17:34][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 11:17:34][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 11:17:34][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 11:17:34][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 11:17:34][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 11:17:34][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 11:17:34][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 11:17:34][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 11:17:34][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 11:17:34][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 11:17:34][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 11:17:34][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 11:17:34][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 11:17:34][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 11:17:34][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 11:17:34][DEBUG] ServerConnection DEBUG : Reçu 43 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 43
+[2025-05-02 11:17:34][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 11:17:34][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 11:17:34][WARNING] Main_Cli WARNING : Authentification échouée. Message serveur : AUTH FAIL: Already connected with this ID.
+[2025-05-02 11:17:34][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 11:17:34][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 11:17:34][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 11:17:34][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 11:17:34][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 11:17:34][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 11:17:34][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 11:17:34][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 11:17:34][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 11:17:34][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 11:17:34][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 11:17:34][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 11:17:34][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746177454 ---
+--- Début du log : 1746177461 ---
+[2025-05-02 11:17:41][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 11:17:41][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 11:17:41][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 11:17:41][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 11:17:41][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 11:17:41][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 11:17:41][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 11:17:41][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 11:17:41][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 11:17:41][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 11:17:41][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 11:17:41][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 11:17:41][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 11:17:41][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 11:17:41][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 11:17:41][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 11:17:41][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 11:17:41][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 11:17:41][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 11:17:41][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 11:17:41][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 11:17:41][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 11:17:41][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 11:17:41][DEBUG] ServerConnection DEBUG : Reçu 43 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 43
+[2025-05-02 11:17:41][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 11:17:41][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 11:17:41][WARNING] Main_Cli WARNING : Authentification échouée. Message serveur : AUTH FAIL: Already connected with this ID.
+[2025-05-02 11:17:41][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 11:17:41][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 11:17:41][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 11:17:41][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 11:17:41][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 11:17:41][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 11:17:41][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 11:17:41][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 11:17:41][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 11:17:41][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 11:17:41][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 11:17:41][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 11:17:41][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746177461 ---
+--- Début du log : 1746177472 ---
+[2025-05-02 11:17:52][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 11:17:52][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 11:17:52][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 11:17:52][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 11:17:52][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 11:17:52][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 11:17:52][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 11:17:52][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 11:17:52][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 11:17:52][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 11:17:52][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 11:17:52][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 11:17:52][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 11:17:52][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 11:17:52][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 11:17:52][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 11:17:52][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 11:17:52][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 11:17:52][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 11:17:52][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 11:17:52][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 11:17:52][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 11:17:52][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 11:17:52][DEBUG] ServerConnection DEBUG : Reçu 43 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 43
+[2025-05-02 11:17:52][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 11:17:52][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 11:17:52][WARNING] Main_Cli WARNING : Authentification échouée. Message serveur : AUTH FAIL: Already connected with this ID.
+[2025-05-02 11:17:52][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 11:17:52][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 11:17:52][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 11:17:52][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 11:17:52][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 11:17:52][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 11:17:52][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 11:17:52][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 11:17:52][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 11:17:52][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 11:17:52][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 11:17:52][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 11:17:52][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746177472 ---
+--- Début du log : 1746177640 ---
+[2025-05-02 11:20:40][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 11:20:40][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 11:20:40][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 11:20:40][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 11:20:40][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 11:20:40][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 11:20:40][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 11:20:40][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 11:20:40][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 11:20:40][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 11:20:40][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 11:20:40][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 11:20:40][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 11:20:40][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 11:20:40][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 11:20:40][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 11:20:40][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 11:20:40][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 11:20:40][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 11:20:40][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 11:20:40][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 11:20:40][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 11:20:40][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 11:20:40][DEBUG] ServerConnection DEBUG : Reçu 13 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 13
+[2025-05-02 11:20:40][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH SUCCESS'
+[2025-05-02 11:20:40][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 11:20:40][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 11:20:44][DEBUG] Main_Cli DEBUG : Commande envoyée : 'GET PRICE'. (10 bytes)
+[2025-05-02 11:20:44][DEBUG] ServerConnection DEBUG : Reçu 100 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 100
+[2025-05-02 11:20:44][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'ERROR: Unknown command 'GET PRICE'. Use SHOW WALLET, SHOW TRANSACTIONS, GET_PRICE <symbol> or QUIT.'
+[2025-05-02 11:20:44][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (99 bytes): 'ERROR: Unknown command 'GET PRICE'. Use SHOW WALLET, SHOW TRANSACTIONS, GET_PRICE <symbol> or QUIT.'
+[2025-05-02 11:20:52][DEBUG] Main_Cli DEBUG : Commande envoyée : 'GET_PRICE'. (10 bytes)
+[2025-05-02 11:20:52][DEBUG] ServerConnection DEBUG : Reçu 61 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 61
+[2025-05-02 11:20:52][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'ERROR: Missing symbol for GET_PRICE. Use GET_PRICE <symbol>.'
+[2025-05-02 11:20:52][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (60 bytes): 'ERROR: Missing symbol for GET_PRICE. Use GET_PRICE <symbol>.'
+[2025-05-02 11:20:55][DEBUG] Main_Cli DEBUG : Commande envoyée : 'GETPRICE'. (9 bytes)
+[2025-05-02 11:20:55][DEBUG] ServerConnection DEBUG : Reçu 99 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 99
+[2025-05-02 11:20:55][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'ERROR: Unknown command 'GETPRICE'. Use SHOW WALLET, SHOW TRANSACTIONS, GET_PRICE <symbol> or QUIT.'
+[2025-05-02 11:20:55][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (98 bytes): 'ERROR: Unknown command 'GETPRICE'. Use SHOW WALLET, SHOW TRANSACTIONS, GET_PRICE <symbol> or QUIT.'
+[2025-05-02 11:21:07][DEBUG] Main_Cli DEBUG : Commande envoyée : 'GET_PRICE SRD-BTC'. (18 bytes)
+[2025-05-02 11:21:07][DEBUG] ServerConnection DEBUG : Reçu 29 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 29
+[2025-05-02 11:21:07][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'PRICE SRD-BTC 96249.34139491'
+[2025-05-02 11:21:07][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (28 bytes): 'PRICE SRD-BTC 96249.34139491'
+[2025-05-02 11:21:23][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 11:21:23][INFO] Main_Cli INFO : Sortie de la boucle de commande.
+[2025-05-02 11:21:23][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 11:21:23][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 11:21:23][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 11:21:23][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 11:21:23][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 11:21:23][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 11:21:23][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 11:21:23][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 11:21:23][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 11:21:23][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 11:21:23][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 11:21:23][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 11:21:23][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746177683 ---
+--- Début du log : 1746187316 ---
+[2025-05-02 14:01:56][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 14:01:56][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 14:01:56][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 14:01:56][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 14:01:56][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 14:01:56][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 14:01:56][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 14:01:56][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 14:01:56][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 14:01:56][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 14:01:56][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 14:01:56][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 14:01:56][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 14:01:56][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 14:01:56][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 14:01:56][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 14:01:56][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 14:01:56][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 14:01:56][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 14:01:56][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 14:01:56][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 14:01:56][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 14:01:56][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 14:01:56][DEBUG] ServerConnection DEBUG : Reçu 13 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 13
+[2025-05-02 14:01:56][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH SUCCESS'
+[2025-05-02 14:01:56][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 14:01:56][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 14:02:06][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 14:02:06][DEBUG] ServerConnection DEBUG : Reçu 53 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 53
+[2025-05-02 14:02:06][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 14:02:06][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (52 bytes): 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 14:02:12][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW TRANSACTION'. (17 bytes)
+[2025-05-02 14:02:12][DEBUG] ServerConnection DEBUG : Reçu 66 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 66
+[2025-05-02 14:02:12][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'ERROR: Unknown SHOW target. Use SHOW WALLET or SHOW TRANSACTIONS.'
+[2025-05-02 14:02:12][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (65 bytes): 'ERROR: Unknown SHOW target. Use SHOW WALLET or SHOW TRANSACTIONS.'
+[2025-05-02 14:02:21][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW TRANSACTIONS'. (18 bytes)
+[2025-05-02 14:02:21][DEBUG] ServerConnection DEBUG : Reçu 48 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 48
+[2025-05-02 14:02:21][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'TRANSACTION_HISTORY (Total: 0, Showing last 0):'
+[2025-05-02 14:02:21][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (47 bytes): 'TRANSACTION_HISTORY (Total: 0, Showing last 0):'
+[2025-05-02 14:02:40][INFO] Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.
+[2025-05-02 14:02:40][INFO] Main_Cli INFO : Sortie de la boucle de commande.
+[2025-05-02 14:02:40][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 14:02:40][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 14:02:40][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 14:02:40][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 14:02:40][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 14:02:40][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 14:02:40][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 14:02:40][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 14:02:40][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 14:02:40][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 14:02:40][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 14:02:40][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 14:02:40][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746187360 ---
+--- Début du log : 1746187363 ---
+[2025-05-02 14:02:43][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 14:02:43][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 14:02:43][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 14:02:43][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 14:02:43][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 14:02:43][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 14:02:43][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 14:02:43][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 14:02:43][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 14:02:43][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 14:02:43][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 14:02:43][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 14:02:43][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 14:02:43][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 14:02:43][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 14:02:43][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 14:02:43][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 14:02:43][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 14:02:43][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 14:02:43][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 14:02:43][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 14:02:43][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 14:02:43][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 14:02:43][DEBUG] ServerConnection DEBUG : Reçu 43 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 43
+[2025-05-02 14:02:43][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 14:02:43][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH FAIL: Already connected with this ID.'
+[2025-05-02 14:02:43][WARNING] Main_Cli WARNING : Authentification échouée. Message serveur : AUTH FAIL: Already connected with this ID.
+[2025-05-02 14:02:43][INFO] Main_Cli INFO : Fermeture de la connexion client...
+[2025-05-02 14:02:43][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+[2025-05-02 14:02:43][DEBUG] ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).
+[2025-05-02 14:02:43][DEBUG] ServerConnection::closeConnection DEBUG : Objet SSL libéré.
+[2025-05-02 14:02:43][DEBUG] ServerConnection::closeConnection DEBUG : Fermeture du socket FD: 4
+[2025-05-02 14:02:43][INFO] ServerConnection::closeConnection INFO : Socket FD: 4 fermé.
+[2025-05-02 14:02:43][DEBUG] ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.
+[2025-05-02 14:02:43][INFO] Main_Cli INFO : Connexion client fermée.
+[2025-05-02 14:02:43][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-02 14:02:43][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+[2025-05-02 14:02:43][INFO] Main_Cli INFO : Programme client terminé.
+[2025-05-02 14:02:43][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: -1
+[2025-05-02 14:02:43][DEBUG] ServerConnection::~ServerConnection DEBUG : Destructeur terminé.
+--- Fin du log : 1746187363 ---
+--- Début du log : 1746187444 ---
+[2025-05-02 14:04:04][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 14:04:04][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 14:04:04][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 14:04:04][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 14:04:04][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 14:04:04][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 14:04:04][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 14:04:04][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 14:04:04][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 14:04:04][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 14:04:04][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 14:04:04][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 14:04:04][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 14:04:04][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 14:04:04][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 14:04:04][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 14:04:04][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 14:04:04][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 14:04:04][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 14:04:04][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 14:04:04][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 14:04:04][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 14:04:04][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 14:04:04][DEBUG] ServerConnection DEBUG : Reçu 13 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 13
+[2025-05-02 14:04:04][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH SUCCESS'
+[2025-05-02 14:04:04][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 14:04:04][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 14:04:11][DEBUG] Main_Cli DEBUG : Commande envoyée : 'GET_PRICE SRD-BTC'. (18 bytes)
+[2025-05-02 14:04:11][DEBUG] ServerConnection DEBUG : Reçu 29 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 29
+[2025-05-02 14:04:11][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'PRICE SRD-BTC 95785.04860908'
+[2025-05-02 14:04:11][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (28 bytes): 'PRICE SRD-BTC 95785.04860908'
+[2025-05-02 14:04:24][DEBUG] Main_Cli DEBUG : Commande envoyée : 'BUY SRD-BTC 10'. (15 bytes)
+[2025-05-02 14:04:24][DEBUG] ServerConnection DEBUG : Reçu 56 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 56
+[2025-05-02 14:04:24][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'OK: Your BUY request has been submitted for processing.'
+[2025-05-02 14:04:24][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (55 bytes): 'OK: Your BUY request has been submitted for processing.'
+[2025-05-02 14:04:37][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+--- Début du log : 1746189149 ---
+[2025-05-02 14:32:29][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-02 14:32:29][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.240.101:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-02 14:32:29][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client...
+[2025-05-02 14:32:29][DEBUG] Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.
+[2025-05-02 14:32:29][DEBUG] Main_Cli DEBUG : Création du contexte SSL client...
+[2025-05-02 14:32:29][DEBUG] ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.
+[2025-05-02 14:32:29][DEBUG] ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...
+[2025-05-02 14:32:29][DEBUG] ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.
+[2025-05-02 14:32:29][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-02 14:32:29][DEBUG] Main_Cli DEBUG : Contexte SSL client créé avec succès.
+[2025-05-02 14:32:29][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.240.101:4433...
+[2025-05-02 14:32:29][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.240.101:4433
+[2025-05-02 14:32:29][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: 4
+[2025-05-02 14:32:29][DEBUG] ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour 10.188.240.101
+[2025-05-02 14:32:29][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.240.101:4433. Socket FD: 4
+[2025-05-02 14:32:29][DEBUG] ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: 4
+[2025-05-02 14:32:29][DEBUG] ClientInitiator::ConnectToServer DEBUG : Socket FD 4 associé à l'objet SSL.
+[2025-05-02 14:32:29][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-02 14:32:29][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-02 14:32:29][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-02 14:32:29][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-02 14:32:29][DEBUG] Main_Cli DEBUG : Envoi message d'authentification...
+[2025-05-02 14:32:29][DEBUG] Main_Cli DEBUG : Message d'authentification envoyé (24 bytes).
+[2025-05-02 14:32:29][DEBUG] ServerConnection DEBUG : Reçu 13 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 13
+[2025-05-02 14:32:29][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'AUTH SUCCESS'
+[2025-05-02 14:32:29][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
+[2025-05-02 14:32:29][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+[2025-05-02 14:32:36][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
+[2025-05-02 14:32:36][DEBUG] ServerConnection DEBUG : Reçu 53 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 53
+[2025-05-02 14:32:36][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 14:32:36][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (52 bytes): 'BALANCE USD: 10000.0000000000, SRD-BTC: 0.0000000000'
+[2025-05-02 14:32:49][DEBUG] Main_Cli DEBUG : Commande envoyée : 'BUY SRD-BTC 10'. (15 bytes)
+[2025-05-02 14:32:49][DEBUG] ServerConnection DEBUG : Reçu 56 octets pour receiveLine sur socket FD: 4. Buffer accumulation size: 56
+[2025-05-02 14:32:49][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 4. Ligne: 'OK: Your BUY request has been submitted for processing.'
+[2025-05-02 14:32:49][DEBUG] Main_Cli DEBUG : Réponse serveur reçue (55 bytes): 'OK: Your BUY request has been submitted for processing.'
+[2025-05-02 14:33:12][DEBUG] Main_Cli DEBUG : Commande envoyée : 'SHOW WALLET'. (12 bytes)
