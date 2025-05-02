@@ -299,10 +299,11 @@ std::string Server::putMoney(std::string idClient, std::string order){
 int Server::buyCrypto(const std::string& id, const std::string& crypto, double q){
     // On vérifie le prix de la crypto-monaie en question
     double prix = crypto_monaie.getPrice(crypto);
-    affiche(std::to_string(prix)); // debug line
-    if(prix =! false){
+    //affiche("Priiiiix " + std::to_string(prix)); // debug line
+    if(prix != 0.0){
         // On verifie alors que le Client a assez pour en acheter
         double achat = prix * q;
+        //affiche("===> " + std::to_string(achat)); // debug line
         if(soldes[id].at(0) >= achat){
             // Toutes les verifications sont faites, on passe à l'achat
             soldes[id].at(0) -= achat;
@@ -313,6 +314,8 @@ int Server::buyCrypto(const std::string& id, const std::string& crypto, double q
             affiche("Création de la transaction: " + transaction.getId());
             transaction.logTransactionToCSV(logFile);
 
+            // aprés avoir validé une transaction on simule une retroactivité !
+            crypto_monaie.retroActivitySim();
             return 1; // tout est ok
         }
         return -1; // erreur
@@ -324,7 +327,7 @@ int Server::buyCrypto(const std::string& id, const std::string& crypto, double q
 int Server::sellCrypto(const std::string& id, const std::string& crypto, double q){
     // On vérifie le prix de la crypto-monaie en question
     double prix = crypto_monaie.getPrice(crypto);
-    if(prix =! false){
+    if(prix != false){
         // On vérifie que le Client a assez de cryptos pour en vendre une quantité q
         if(soldes[id].at(1) >= q){
             // On passe à la vente
@@ -336,6 +339,9 @@ int Server::sellCrypto(const std::string& id, const std::string& crypto, double 
             Transaction transaction(id, "sell", crypto, q, prix);
             affiche("Création de la transaction: " + transaction.getId());
             transaction.logTransactionToCSV(logFile);
+            
+            // aprés avoir validé une transaction on simule une retroactivité !
+            crypto_monaie.retroActivitySim();
             return 1; // tout est ok
         }
         return -1; // erreur
@@ -365,7 +371,7 @@ std::string Server::handleBuy(const std::string &request, const std::string &cli
         afficheErr("Erreur au niveau de l'achat");
         return "Erreur au niveau de l'achat";
     }
-    affiche("Achat de " + std::to_string(quantity) + " de " + currency + " réussi");
+    //affiche("Achat de " + std::to_string(quantity) + " de " + currency + " réussi");
 
     return "Achat de " + std::to_string(quantity) + " de" + currency + " réussi\n";
 }
@@ -391,7 +397,7 @@ std::string Server::handleSell(const std::string &request, const std::string &cl
         afficheErr("Erreur au niveau de la vente");
         return "Erreur au niveau de la vente";
     }
-    affiche("Vente de " + std::to_string(quantity) + " de " + currency + " réussie");
+    //affiche("Vente de " + std::to_string(quantity) + " de " + currency + " réussie");
 
     return "Vente de " + std::to_string(quantity) + " de " + currency + " réussie\n";
 }

@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
+#include "Crypto.h"
+
 
 class Server; // ligne nécessaire pour referencer le Serveur !
 
@@ -22,6 +24,9 @@ private:
 
     // solde actuel du Bot
     std::unordered_map<std::string, double> balances;
+
+    // reference vers Crypto:
+    Crypto cry;
 
 public:
     // nom du fichier contenant valeurs (passées) de la cryptomonaie
@@ -47,7 +52,7 @@ public:
     void investing(int &action, double &q, const double dollars, const double srd_btc);
 
     // Retourne le prix de la devise spécifiée
-    double getPrice(const std::string &currency);
+    //double getPrice(const std::string &currency);
 };
 
 #endif // BOT_H

@@ -50,12 +50,12 @@ void Bot::updateBalance(std::unordered_map<std::string, double> bot_balance)
 
 void Bot::trading(int &action, double &q, const double dollars, const double srd_btc)
 {
-    double price = getPrice("SRD-BTC");
+    double price = cry.getPrice("SRD-BTC");
     double evolution = 1 + ((price - prv_price) / price);
     //for (int t = 300; t < 339292800; t += 300) // very long ~ 1 million
     for (int t = 300; t < 33929; t += 300)
     {
-        price = getPrice("SRD-BTC");
+        price = cry.getPrice("SRD-BTC");
         evolution = 1 + ((price - prv_price) / price);
 
         if (dollars > 0.5 * 100.0) // ceci devra être retravaillé
@@ -97,7 +97,7 @@ void Bot::investing(int &action, double &q, const double dollars, const double s
 {
     std::cout << "Passage dans Bot::investing " << std::endl;
 
-    double price = getPrice("SRD-BTC");
+    double price = cry.getPrice("SRD-BTC");
     double evolution = 1 + ((price - prv_price) / price);
 
     std::cout << "Solde: " << dollars << ", Price: " << price << ", Evolution: " << evolution << std::endl;
@@ -150,7 +150,7 @@ void Bot::investing(int &action, double &q, const double dollars, const double s
     std::cout << "Fin de l'itération de Bot::investing " << std::endl;
 }
 
-
+/*
 double Bot::getPrice(const std::string &currency)
 {
     std::time_t currentTime = std::time(0);
@@ -168,3 +168,4 @@ double Bot::getPrice(const std::string &currency)
         return 0.0;
     }
 }
+*/
