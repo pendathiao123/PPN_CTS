@@ -667,17 +667,20 @@ void ClientSession::applyTransactionRequest(const Transaction& tx) {
    result_msg_ss << "\n";
 
 
-   if (client && client->isConnected()) {
-       try {
-           client->send(result_msg_ss.str());
-           LOG("ClientSession INFO : Résultat de TQ envoyé à client " + clientId + " pour Tx " + tx.getId() + " (" + transactionStatusToString(tx.getStatus()) + "). Message: '" + result_msg_ss.str() + "'", "INFO");
-
-       } catch (const std::exception& e) {
-            LOG("ClientSession ERROR : Erreur lors de l'envoi du résultat de TQ à " + clientId + ": " + e.what(), "ERROR");
-       }
-   } else {
-        LOG("ClientSession WARNING : Impossible d'envoyer le résultat de TQ à client " + clientId + ", client déconnecté ou objet client invalide pour Tx " + tx.getId() + ".", "WARNING");
-   }
+   if (client && client->isConnected()) { // Vérifie si la connexion est active AVANT d'envoyer
+    try {
+        // *** NOUVEAUX LOGS AUTOUR DE L'APPEL SEND ***
+        LOG("ClientSession DEBUG : applyTransactionRequest: Tentative d'envoi de la réponse TRANSACTION_RESULT au client...", "DEBUG"); // <-- Log AVANT send
+        client->send(result_msg_ss.str()); // <-- L'appel d'envoi NETWORK I/O
+        LOG("ClientSession DEBUG : applyTransactionRequest: Réponse TRANSACTION_RESULT envoyée (ou appel send terminé sans exception).", "DEBUG"); // <-- Log APRÈS send si pas d'exception
+    } catch (const std::exception& e) {
+         LOG("ClientSession ERROR : applyTransactionRequest: Exception std::exception lors de l'envoi de la réponse TRANSACTION_RESULT à " + clientId + " pour Tx " + tx.getId() + ": " + e.what(), "ERROR"); // Ce log s'affiche si une exception std::exception est lancée par send()
+    } catch (...) { // Catch tout autre type d'exception (moins spécifique)
+          LOG("ClientSession ERROR : applyTransactionRequest: Exception inconnue lors de l'envoi de la réponse TRANSACTION_RESULT à " + clientId + " pour Tx " + tx.getId() + ".", "ERROR");
+    }
+} else {
+     LOG("ClientSession WARNING : applyTransactionRequest: Impossible d'envoyer le résultat de TQ à client " + clientId + ", client déconnecté ou objet client invalide pour Tx " + tx.getId() + ".", "WARNING");
+}
 }
 
 

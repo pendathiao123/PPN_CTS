@@ -19,6 +19,9 @@
 #include <cerrno>       // errno
 #include <cstring>      // strerror
 
+    //IMPORTANT : Le verrouillage du Wallet se fait actuellement déjà dans le ProcessRequest, par conséquent,
+    //il faut enlever ici le mutex interne afin d'éviter les deadlocks
+
 
 // --- Implémentation generateWalletFilePath ---
 // Construit le chemin complet du fichier portefeuille. dataDirPath est le répertoire où stocker (e.g., "../src/data/wallets").
@@ -134,7 +137,7 @@ Wallet::~Wallet() {
 // --- Implémentation des méthodes de solde (Thread-Safe) ---
 
 double Wallet::getBalance(Currency currency) const {
-    std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent en lecture
+    //std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent en lecture
     auto it = balances.find(currency);
     if (it != balances.end()) {
         return it->second;
@@ -146,7 +149,7 @@ double Wallet::getBalance(Currency currency) const {
 // --- Implémentation des méthodes d'historique (Thread-Safe) ---
 
 void Wallet::addTransaction(const Transaction& tx) {
-    std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent
+    //std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent
     if (tx.getClientId() != this->clientId) {
         LOG("Wallet Portefeuille (" + clientId + ") : Tentative d'ajouter transaction avec ClientId non correspondant ('" + tx.getClientId() + "' vs '" + this->clientId + "'). Transaction ID: " + tx.getId() + ". Ignorée.", "ERROR");
         return;
@@ -156,14 +159,14 @@ void Wallet::addTransaction(const Transaction& tx) {
 }
 
 std::vector<Transaction> Wallet::getTransactionHistory() const {
-    std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent en lecture
+    //std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent en lecture
     return transactionHistory; // Retourne une copie (thread-safe)
 }
 
 // --- Implémentation des méthodes de persistance (Thread-Safe) ---
 
 bool Wallet::loadFromFile() {
-    std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent pendant le chargement
+    //std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent pendant le chargement
 
     if (!ensureWalletsDirectoryExists()) {
          // ensureWalletsDirectoryExists loggue déjà l'erreur
@@ -285,7 +288,7 @@ bool Wallet::loadFromFile() {
 }
 
 bool Wallet::saveToFile() const {
-    std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent pendant la sauvegarde
+    //std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent pendant la sauvegarde
 
     if (!ensureWalletsDirectoryExists()) {
          // ensureWalletsDirectoryExists loggue déjà l'erreur
@@ -346,7 +349,7 @@ bool Wallet::saveToFile() const {
 void Wallet::updateBalance(Currency currency, double amount) {
     // Le verrouillage est ESSENTIEL car cette méthode modifie les soldes.
     // C'est le verrouillage INTERNE du Wallet.
-    std::lock_guard<std::mutex> lock(walletMutex);
+    //std::lock_guard<std::mutex> lock(walletMutex);
 
     // Assurez-vous que la devise existe dans la map (le constructeur devrait déjà l'avoir fait pour USD/SRD-BTC)
     // Le constructeur initialise déjà USD et SRD-BTC à 0.0, donc at() est safe.

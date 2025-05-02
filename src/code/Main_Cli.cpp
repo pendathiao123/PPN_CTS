@@ -61,73 +61,86 @@ void start_command_loop(std::shared_ptr<ServerConnection> connection) {
     std::string command;
 
     // Boucle de lecture des commandes sur stdin et envoi au serveur
-    while (connection && connection->isConnected()) { // Continuer tant que la connexion est active
+    while (connection && connection->isConnected()) {
         std::cout << "> "; // Invite de commande
-        // Lit une ligne entière depuis l'entrée standard (stdin).
-        // std::getline échoue en cas de fin de fichier (Ctrl+D) ou erreur de lecture.
         if (!std::getline(std::cin, command)) {
             LOG("Main_Cli INFO : Échec de lecture de la commande (stdin) ou fin de fichier. Déconnexion.", "INFO");
-            break; // Sort de la boucle pour gérer la déconnexion
+            break;
         }
 
-        // Enlever les espaces blancs et les retours chariot/sauts de ligne en début et fin.
         command.erase(0, command.find_first_not_of(" \t\n\r\f\v"));
         command.erase(command.find_last_not_of(" \t\n\r\f\v") + 1);
 
         if (command.empty()) {
-            continue; // Ignore les commandes vides
+            continue;
         }
 
-        // La commande QUIT est gérée côté client pour quitter la boucle interactive.
-        // Elle est aussi envoyée au serveur pour lui signaler la déconnexion propre.
-        if (command == "QUIT") {
-            LOG("Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.", "INFO");
-            // Ne pas break immédiatement, envoyer QUIT au serveur d'abord.
-        }
+        bool is_trading_command = (command.rfind("BUY", 0) == 0 || command.rfind("SELL", 0) == 0); // Vérifie si c'est une commande de trading
+        bool is_quit_command = (command == "QUIT");
 
         // Envoyer la commande au serveur.
-        // Assurez-vous que le serveur attend un terminateur (comme \n) après chaque commande.
-        // La méthode send() devrait gérer les erreurs réseau et lancer des exceptions si nécessaire.
         try {
-            int cmdBytesSent = connection->send(command + "\n"); // Ajouter \n pour terminer la commande
-            if (cmdBytesSent <= 0 && command != "QUIT") { // Log l'échec d'envoi, sauf si la commande est QUIT (où l'envoi peut échouer si le serveur a déjà fermé en réponse à QUIT)
+            int cmdBytesSent = connection->send(command + "\n");
+            if (cmdBytesSent <= 0 && !is_quit_command) {
                  LOG("Main_Cli ERROR : Échec de l'envoi de la commande ou serveur déconnecté pendant l'envoi. Code retour send: " + std::to_string(cmdBytesSent), "ERROR");
-                 break; // Sort de la boucle en cas d'erreur d'envoi
+                 break;
             }
-            // Log l'envoi, mais pas si la commande est QUIT (pour éviter double log avant la sortie)
-            if (command != "QUIT") {
+            if (!is_quit_command) {
                 LOG("Main_Cli DEBUG : Commande envoyée : '" + command + "'. (" + std::to_string(cmdBytesSent) + " bytes)", "DEBUG");
             }
 
-
         } catch (const std::exception& e) {
             LOG("Main_Cli ERROR : Exception lors de l'envoi de la commande '" + command + "'. Exception: " + std::string(e.what()), "ERROR");
-            break; // Sort de la boucle en cas d'exception pendant l'envoi
+            break;
         }
 
-
-        // Si la commande était QUIT, on a envoyé le message, on sort maintenant de la boucle.
-        if (command == "QUIT") {
-            break; // Sort de la boucle de commandes
+        if (is_quit_command) {
+            break; // Sort de la boucle de commandes si c'était QUIT
         }
 
-
-        // Recevoir la réponse du serveur.
-        // UTILISER receiveLine() pour lire un message complet terminé par \n.
-        // receiveLine() gère l'accumulation de buffer et les erreurs.
+        // --- Section de Réception des Réponses (CORRIGÉE) ---
         std::string serverResponse;
-        try {
-             serverResponse = connection->receiveLine(); // <-- Utilise receiveLine() !
-        } catch (const std::exception& e) {
-             LOG("Main_Cli ERROR : Échec de la réception de la réponse du serveur ou serveur déconnecté pendant la boucle de commande. Exception: " + std::string(e.what()), "ERROR");
-             // receiveLine() loggue déjà la raison de l'échec (connexion fermée, etc.).
-             break; // Sort de la boucle en cas d'erreur de réception
-        }
+        [[maybe_unused]] bool waiting_for_more_responses = is_trading_command; // On s'attend à plus de réponses si c'est une commande de trading
 
-        // Afficher la réponse du serveur à l'utilisateur
-        std::cout << "< " << serverResponse << "\n";
-        // Log la réponse reçue (peut être tronquée si très longue)
-        LOG("Main_Cli DEBUG : Réponse serveur reçue (" + std::to_string(serverResponse.size()) + " bytes): '" + serverResponse.substr(0, std::min((size_t)serverResponse.size(), (size_t)200)) + ((serverResponse.size() > 200) ? "..." : "") + "'", "DEBUG");
+        while (connection && connection->isConnected()) { // Boucle de réception
+            try {
+                 serverResponse = connection->receiveLine(); // <-- Utilise receiveLine()
+            } catch (const std::exception& e) {
+                 LOG("Main_Cli ERROR : Échec de la réception de la réponse du serveur ou serveur déconnecté pendant la boucle de commande. Exception: " + std::string(e.what()), "ERROR");
+                 break; // Sort de la boucle de réception (et la boucle principale) en cas d'erreur
+            }
+
+            // Afficher la réponse reçue
+            std::cout << "< " << serverResponse << "\n";
+            // Log la réponse reçue
+             LOG("Main_Cli DEBUG : Réponse serveur reçue (" + std::to_string(serverResponse.size()) + " bytes): '" + serverResponse.substr(0, std::min((size_t)serverResponse.size(), (size_t)200)) + ((serverResponse.size() > 200) ? "..." : "") + "'", "DEBUG");
+
+
+            // --- Logique pour arrêter la réception (CORRIGÉE) ---
+            // Si ce n'est pas une commande de trading (SHOW, GET_PRICE), on n'attend qu'une seule réponse.
+            if (!is_trading_command) {
+                break; // Sort de la boucle de réception après la première ligne
+            }
+
+            // Si c'est une commande de trading, on attend le message TRANSACTION_RESULT.
+            // On continue de lire tant qu'on ne reçoit pas ce message.
+            // ATTENTION : Cela suppose que TRANSACTION_RESULT est le dernier message pour une transaction.
+            if (serverResponse.rfind("TRANSACTION_RESULT", 0) == 0) { // Si la réponse commence par "TRANSACTION_RESULT"
+                waiting_for_more_responses = false; // On a reçu le message final attendu
+                break; // Sort de la boucle de réception
+            }
+
+            // Si on arrive ici dans la boucle de réception d'une commande de trading,
+            // cela signifie qu'on a reçu une ligne (le "OK: ..." par exemple)
+            // mais qu'on attend encore le TRANSACTION_RESULT. La boucle continue.
+
+        } // Fin de la boucle de réception while
+
+        // Si la boucle de réception s'est terminée à cause d'une erreur,
+        // la boucle principale se terminera aussi grâce au 'break'.
+        if (!connection || !connection->isConnected()) {
+             break;
+        }
 
 
     } // Fin de la boucle while(connection && connection->isConnected())
@@ -135,7 +148,6 @@ void start_command_loop(std::shared_ptr<ServerConnection> connection) {
     LOG("Main_Cli INFO : Sortie de la boucle de commande.", "INFO");
     // La connexion sera fermée après la sortie de cette fonction, dans le main().
 }
-
 
 // --- Fonction main : Point d'entrée du programme client ---
 int main(int argc, char* argv[]) {
