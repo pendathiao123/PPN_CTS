@@ -170,8 +170,9 @@ void connect_to_server(int id) {
     const char* auth_message = "ID:benchmark,TOKEN:abc123\n";
     int bytes_sent = SSL_write(ssl, auth_message, strlen(auth_message));
     if (bytes_sent <= 0) {
+        int auth_err = SSL_get_error(ssl, bytes_sent);
         std::lock_guard<std::mutex> lock(cout_mutex);   //permet de pas mélanger tous les clients dans l'affichage 
-        std::cerr << "Client #" << id << ": Échec envoi message d'authentification\n";
+        std::cerr << "Client #" << id << ": auth_failed, error = " << auth_err << "\n";
         SSL_free(ssl);
         SSL_CTX_free(ctx);
         close(sock);
@@ -243,7 +244,197 @@ void test_connections(int num_clients) {
     std::cout << "Temps moyen par connexion : " << (duration.count() * 1000 / num_clients) << " ms\n\n";    
 }
 
+void test_transactions(int nb_transactions) {
+    int successful_transactions_loc = 0;
+    int failed_transactions_loc = 0;
+
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock < 0) {
+        std::lock_guard<std::mutex> lock(cout_mutex);
+        std::cerr << "Erreur création socket pour la transaction\n";
+        return;
+    }
+
+    sockaddr_in server_addr{};
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(SERVER_PORT);
+    inet_pton(AF_INET, SERVER_IP, &server_addr.sin_addr);
+
+    bool connected = connect_with_timeout(sock, &server_addr, CONNECTION_TIMEOUT_MS);
+    if (!connected) {
+        std::lock_guard<std::mutex> lock(cout_mutex);
+        std::cerr << "Échec connexion TCP pour la transaction\n";
+        close(sock);
+        return;
+    }
+
+    SSL_CTX* ctx = SSL_CTX_new(SSLv23_client_method());
+    if (!ctx) {
+        std::cerr << "Erreur création SSL_CTX\n";
+        close(sock);
+        return;
+    }
+
+    SSL* ssl = SSL_new(ctx);
+    if (!ssl || !SSL_set_fd(ssl, sock)) {
+        std::cerr << "Erreur création SSL ou set_fd\n";
+        SSL_free(ssl);
+        SSL_CTX_free(ctx);
+        close(sock);
+        return;
+    }
+
+    if (SSL_connect(ssl) <= 0) {
+        std::cerr << "Échec connexion SSL\n";
+        SSL_free(ssl);
+        SSL_CTX_free(ctx);
+        close(sock);
+        return;
+    }
+
+    const char* auth_message = "ID:benchmark,TOKEN:abc123\n";
+    int auth_sent = SSL_write(ssl, auth_message, strlen(auth_message));
+    if (auth_sent <= 0) {
+        std::cerr << "Échec envoi message d'authentification\n";
+        SSL_free(ssl);
+        SSL_CTX_free(ctx);
+        close(sock);
+        return;
+    }
+
+    auto start_tps = std::chrono::high_resolution_clock::now();
+
+    for (int i = 0; i < nb_transactions; ++i) {
+        const char* transaction_message = "SHOW WALLET\n";
+        int bytes_sent = SSL_write(ssl, transaction_message, strlen(transaction_message));
+        if (bytes_sent <= 0) {
+            std::lock_guard<std::mutex> lock(cout_mutex);
+            std::cerr << "Échec envoi transaction #" << i << "\n";
+            failed_transactions_loc++;
+            continue;
+        }
+
+        // Lecture réponse éventuelle si nécessaire
+        char buffer[4096];
+        int bytes_read = SSL_read(ssl, buffer, sizeof(buffer));
+        if (bytes_read <= 0) {
+            std::lock_guard<std::mutex> lock(cout_mutex);
+            std::cerr << "Échec lecture réponse transaction #" << i << "\n";
+            failed_transactions_loc++;
+            continue;
+        }
+
+        successful_transactions_loc++;
+    }
+
+    auto end_tps = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end_tps - start_tps;
+    double tps = successful_transactions_loc / duration.count();
+
+    SSL_shutdown(ssl);
+    SSL_free(ssl);
+    SSL_CTX_free(ctx);
+    close(sock);
+
+    std::cout << "\n=== Résultat du benchmark pour " << nb_transactions << " transactions ===\n";
+    std::cout << "Transactions réussies : " << successful_transactions_loc << " (" << (successful_transactions_loc * 100.0 / nb_transactions) << "%)\n";
+    std::cout << "Transactions échouées : " << failed_transactions_loc << " (" << (failed_transactions_loc * 100.0 / nb_transactions) << "%)\n";
+    std::cout << "Durée totale : " << duration.count() << " s\n";
+    std::cout << "Transactions par seconde (TPS) : " << tps << "\n";
+    std::cout << "Temps moyen par transaction : " << (duration.count() * 1000 / nb_transactions) << " ms\n\n";
+}
+
+
+void connect_to_server_max(int id) {
+    // Créer un socket
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock < 0) {
+        throw std::runtime_error("Erreur création socket");
+    }
+    
+    sockaddr_in server_addr{};
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(SERVER_PORT);
+    inet_pton(AF_INET, SERVER_IP, &server_addr.sin_addr);
+    
+    auto connect_start = std::chrono::high_resolution_clock::now();
+    bool connected = connect_with_timeout(sock, &server_addr, CONNECTION_TIMEOUT_MS);
+    auto connect_end = std::chrono::high_resolution_clock::now();
+    
+    if (!connected) {
+        close(sock);
+        throw std::runtime_error("Échec de la connexion (timeout)");
+    }
+
+    // Créer un objet SSL_CTX pour cette connexion
+    SSL_CTX* ctx = SSL_CTX_new(SSLv23_client_method());
+    if (!ctx) {
+        close(sock);
+        throw std::runtime_error("Erreur création SSL_CTX");
+    }
+
+    // Créer un objet SSL en utilisant le contexte SSL_CTX
+    SSL* ssl = SSL_new(ctx);
+    if (!ssl) {
+        SSL_CTX_free(ctx);
+        close(sock);
+        throw std::runtime_error("Échec création SSL");
+    }
+
+    // Connecter le socket à SSL
+    if (!SSL_set_fd(ssl, sock)) {
+        SSL_free(ssl);
+        SSL_CTX_free(ctx);
+        close(sock);
+        throw std::runtime_error("Erreur SSL_set_fd");
+    }
+    
+    // Initier la connexion SSL
+    int ssl_result = SSL_connect(ssl);
+    if (ssl_result <= 0) {
+        SSL_free(ssl);
+        SSL_CTX_free(ctx);
+        close(sock);
+        throw std::runtime_error("Échec connexion SSL");
+    }
+    
+    // Envoi d'une chaîne d'authentification fictive après une connexion SSL réussie, wallet aura donc le nom benchmark
+    const char* auth_message = "ID:benchmark,TOKEN:abc123\n";
+    int bytes_sent = SSL_write(ssl, auth_message, strlen(auth_message));
+    if (bytes_sent <= 0) {
+        int auth_err = SSL_get_error(ssl, bytes_sent);
+        std::lock_guard<std::mutex> lock(cout_mutex);   //permet de pas mélanger tous les clients dans l'affichage 
+        std::cerr << "Client #" << id << ": auth_failed, error = " << auth_err << "\n";
+        SSL_free(ssl);
+        SSL_CTX_free(ctx);
+        close(sock);
+    return;
+    }
+}
+
+
+void test_max_connections(){
+    std::vector<std::thread> threads;
+    int i = 0;
+
+    while (true) {
+        try {
+            threads.emplace_back(connect_to_server_max, i++);
+            std::cout << i << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "Thread creation failed at " << i << " connections: " << e.what() << std::endl;
+            break;
+        }
+    }
+
+    std::cout << "Total threads successfully launched: " << threads.size() << std::endl;
+
+    // Ne pas joindre les threads pour les laisser vivre et saturer le serveur
+    std::this_thread::sleep_for(std::chrono::seconds(10));
+}
+
 int main() {
+    //------------------------CPS------------------------------
     //ignorer les erreurs dues au connexions/deconnexion trop rapides
     signal(SIGPIPE, SIG_IGN);
     // Initialiser OpenSSL
@@ -253,20 +444,44 @@ int main() {
     LOG("Démarrage des tests de benchmark", "INFO");
     
     // Exécuter les tests avec différentes charges
-    LOG("Démarrage du benchmark avec 10 clients", "INFO");
-    test_connections(10);
+    //LOG("Démarrage du benchmark avec 10 clients", "INFO");
+    //test_connections(10);
 
-    LOG("Démarrage du benchmark avec 100 clients", "INFO");
-    test_connections(100);
+    //LOG("Démarrage du benchmark avec 100 clients", "INFO");
+    //test_connections(100);
     
-    LOG("Démarrage du benchmark avec 1000 clients", "INFO");
-    test_connections(1000);
+    //LOG("Démarrage du benchmark avec 1000 clients", "INFO");
+    //test_connections(1000);
 
-    LOG("Démarrage du benchmark avec 10000 clients", "INFO");
-    test_connections(10000);
+    //LOG("Démarrage du benchmark avec 10000 clients", "INFO");
+    //test_connections(10000);
 
-    LOG("Démarrage du benchmark avec 20000 clients", "INFO");
-    test_connections(20000);
+    //LOG("Démarrage du benchmark avec 20000 clients", "INFO");
+    //test_connections(20000);
+
+
+
+    //-----------------------------TPS--------------------------------
+    //LOG("Démarrage du benchmark pour 10 transactions", "INFO");
+    //test_transactions(10);
+
+    //LOG("Démarrage du benchmark pour 100 transactions", "INFO");
+    //test_transactions(100);
+
+    //LOG("Démarrage du benchmark pour 1 000 transactions", "INFO");
+    //test_transactions(1000);
+
+    //LOG("Démarrage du benchmark pour 10 000 transactions", "INFO");
+    //test_transactions(10000);
+
+    //LOG("Démarrage du benchmark pour 20 000 transactions", "INFO");
+    //test_transactions(20000);
+
+    //LOG("Démarrage du benchmark pour 1 000 000 transactions", "INFO");
+    //test_transactions(1000000);
+
+    LOG("Démarrage du benchmark pour établir le nombre de connections maximum", "INFO");
+    test_max_connections();
 
     return 0;
 }
