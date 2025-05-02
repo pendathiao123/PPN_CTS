@@ -88,6 +88,8 @@ private:
     //==================Méthodes critiques !!==================
     // Méthode pour mettre l'argent des clients dans leur solde
     std::string putMoney(std::string idClient, std::string order);
+    // Méthode pour recuperer tout l'argent des clients de leur solde
+    std::string takeMoney(std::string idClient);
     // Méthode pour acheter des Cryptos
     int buyCrypto(const std::string& id, const std::string& crypto, double q);
     // Méthode pour vendre des Cryptos

@@ -2,9 +2,11 @@
 #include "../headers/Client.h"
 #include "../headers/Bot.h"
 
+// le capital initial du client
+#define CAPITAL_INIT 10000
 
 int main() {
-    Client client{7201};
+    Client client{7195};
     /**
      * Au debut le client n'a pas de Token/Mot de passe
      * Et on lui donne l'adresse et le port pour se connecter au serveur
@@ -20,16 +22,22 @@ int main() {
     // fonctions d'achat/vente clasiques
     client.buy("SRD-BTC", 50);
     //client.buy("SRD-BTC", 5);
-    client.sell("SRD-BTC", 51);
-    client.sell("SRD-BTC", 20);
+    //client.sell("SRD-BTC", 51);
+    client.sell("SRD-BTC", 50);
     /**
-     * Dans les focntions d'investissement et de trading, pour le moment on insère pas de valeur 
+     * Dans les focntions d'investissement et de trading,
      * on laisse au Bot le soin de calculer les montants idéaux
     */
-    
     //client.invest();
     //client.trade();
+
+    // Finalement on recupére notre argent:
+    double capital_final = client.withdraw();
     // Pour une bonne terminaison
     client.EndClient();
+
+    // a-t-on été rentables ?
+    std::cout << "Le client à fait un gain de " << (capital_final - CAPITAL_INIT) << std::endl;
+
     return 0;
 }

@@ -4,6 +4,7 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <iostream>
+#include <sstream>
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -228,6 +229,25 @@ void Client::inject(const double money){
     sendRequest(order); // on envoie la "demande"
     std::string response = receiveResponse(); // on attand la reponse du Serveur
     //affiche("Reponse à l'injection d'argent: " + response);
+}
+
+// Mèthode pour retirer l'agent de son compte (la totalité)
+double Client::withdraw(){
+    // constitution de la chîne de caractéres à envoyer
+    std::string order = "WITHDRAW";
+    sendRequest(order); // on envoie la "demande"
+    std::string response = receiveResponse(); // on attand la reponse du Serveur
+    
+    // de la reponse du serveur on extrait le montant (si il n'y a pas d'erreur)
+    double res;
+    std::istringstream iss(response);
+    std::string action, equal;
+    if (!(iss >> action >> equal >> res)) // extraction données requete
+    {
+        afficheErr("Erreur: Format de commande invalide");
+        return -1;
+    }
+    return res;
 }
 
 void Client::buy(const std::string &currency, double amount)

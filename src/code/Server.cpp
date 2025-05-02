@@ -290,9 +290,18 @@ std::string Server::putMoney(std::string idClient, std::string order){
     }
 
     // on suppose que money n'est pas négatif
-    soldes[idClient].at(0) = money; // mis à jour du solde du client
+    soldes[idClient].at(0) += money; // mis à jour du solde du client
 
     return "Montant inseré dans le compte";
+}
+
+// Méthode pour recuperer tout l'argent des clients de leur solde
+std::string Server::takeMoney(std::string idClient){
+    // on suppose que le solde du client n'est pas négatif
+    double tt = soldes[idClient].at(0);
+    soldes[idClient].at(0) = 0.; // mis à jour du solde du client
+    
+    return "TOTAL = " + std::to_string(tt);
 }
 
 // Méthode pour acheter des Cryptos
@@ -489,6 +498,7 @@ void Server::HandleClient(SSL *ssl){
         std::string invest = "INVEST";
         std::string trade = "TRADE";
         std::string inject = "INJECT";
+        std::string withdraw = "WITHDRAW";
 
         // Authentification du Client
         if(Connection(ssl,id,receivedMessage)){ // Si le Client arrive à se connecter
@@ -517,6 +527,9 @@ void Server::HandleClient(SSL *ssl){
                 }else if(receivedMessage.find(trade) != std::string::npos){ // Requête de trading
                     // Appel à la fonction de gestion des Bots, pour une demande de trade
                     response = serverUseBot(id, 2);
+                }else if(receivedMessage.find(withdraw) != std::string::npos){ // Requête pour vider son compte
+                    // Gérer l'actualisation du solde du client
+                    response = takeMoney(id);
                 }else{
                     // Le Client n'a pas formulé un demande explicite
                     /* Si on veut faire adopter au Serveur un comportement restrictif,
