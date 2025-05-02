@@ -1,0 +1,11 @@
+# Hashes of file build rules.
+5867b9a4afed0c55b005d6fbfef6117d _deps/curl-build/CMakeFiles/curl_uninstall
+aa87c841a8e6a3026d2750c7066a573f _deps/curl-build/docs/CMakeFiles/curl-generate-curl-config.1
+aa87c841a8e6a3026d2750c7066a573f _deps/curl-build/docs/CMakeFiles/curl-generate-mk-ca-bundle.1
+06431601edda563314d866a2d61121df _deps/curl-build/docs/curl-config.1
+b6321265543456aea5a25cddc9be9efa _deps/curl-build/docs/libcurl/CMakeFiles/curl-man
+3fa847aaf088c2c75ae0d95c4c37fba8 _deps/curl-build/docs/libcurl/curl_easy_cleanup.3
+dae59d09aaf978e2a7c525d34523e16f _deps/curl-build/docs/libcurl/libcurl-symbols.md
+d12dba993edd47f45c34c86cddc88d51 _deps/curl-build/docs/libcurl/opts/CMakeFiles/curl-opts-man
+982cc0afb957717446a1539a406d025c _deps/curl-build/docs/libcurl/opts/CURLINFO_ACTIVESOCKET.3
+3ef1568aee49516dd9b19d7385f14a81 _deps/curl-build/docs/mk-ca-bundle.1

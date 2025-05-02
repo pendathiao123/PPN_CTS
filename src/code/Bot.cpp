@@ -1,156 +1,268 @@
 #include "../headers/Bot.h"
 #include "../headers/Global.h"
-#include "../headers/TransactionQueue.h"
 #include "../headers/Logger.h"
+#include "../headers/Transaction.h"
+#include "../headers/Wallet.h" 
 
 #include <iostream>
-#include <unordered_map>
+#include <cmath>     
+#include <numeric>    
+#include <algorithm>  
+#include <vector>
 #include <string>
-#include <fstream>
-#include <sstream>
-#include <iomanip>
-#include <limits>
+#include <memory>
 #include <mutex>
+#include <sstream>    
+#include <iomanip>    
 
 
-// Constructeur : initialise l'ID, le mutex et charge le portefeuille
-Bot::Bot(const std::string &clientId)
-    : id(clientId)
-    // balanceMutex est automatiquement initialisé
+// --- Implémentation des helpers de calcul ---
+
+// Calcule la moyenne mobile simple (SMA).
+double Bot::calculateSMA(const std::vector<double>& data) {
+    if (data.empty()) {
+        return 0.0;
+    }
+    double sum = std::accumulate(data.begin(), data.end(), 0.0);
+    return sum / static_cast<double>(data.size());
+}
+
+// Calcule l'écart-type.
+double Bot::calculateStdDev(const std::vector<double>& data, double sma) {
+    if (data.size() <= 1) {
+        return 0.0;
+    }
+    double variance_sum = 0.0;
+    for (double price : data) {
+        variance_sum += std::pow(price - sma, 2);
+    }
+    return std::sqrt(variance_sum / static_cast<double>(data.size())); // Population standard deviation
+}
+
+// Calcule les Bandes de Bollinger en utilisant l'historique interne.
+// Appelé par `processLatestPrice` (qui gère déjà le mutex).
+BollingerBands Bot::calculateBands() const {
+    // Pas de lock_guard ici car l'appelant (processLatestPrice) verrouille.
+
+    size_t required_size = static_cast<size_t>(bollingerPeriod);
+    if (priceHistoryForCalculation.size() < required_size) {
+        // Pas assez de données.
+        return {0.0, 0.0, 0.0};
+    }
+
+    size_t start_index = priceHistoryForCalculation.size() - required_size;
+    std::vector<double> relevant_prices(
+        priceHistoryForCalculation.begin() + start_index,
+        priceHistoryForCalculation.end()
+    );
+
+    double sma = calculateSMA(relevant_prices);
+    double stddev = calculateStdDev(relevant_prices, sma);
+
+    return {
+        sma, // Middle Band
+        sma + bollingerK * stddev, // Upper Band
+        sma - bollingerK * stddev  // Lower Band
+    };
+}
+
+
+// --- Constructeur ---
+Bot::Bot(const std::string& id, int period, double k, std::shared_ptr<Wallet> wallet)
+    : clientId(id),
+      bollingerPeriod(period),
+      bollingerK(k),
+      currentState(PositionState::NONE), // Commence sans position
+      entryPrice(0.0),
+      clientWallet(wallet)
 {
-    LOG("Bot créé pour client ID: " + id, "DEBUG");
-    loadWallet();
+    // Validation basique des paramètres Bollinger
+    if (bollingerPeriod <= 0) {
+         LOG("Bot " + clientId + " - Avertissement : Période Bollinger invalide (" + std::to_string(bollingerPeriod) + "). Utilisation par défaut 20.", "WARNING");
+         bollingerPeriod = 20;
+    }
+     if (bollingerK <= 0 || !std::isfinite(bollingerK)) {
+         std::stringstream ss_log;
+         ss_log << "Bot " << clientId << " - Avertissement : Facteur K Bollinger invalide (" << std::fixed << std::setprecision(2) << bollingerK << "). Utilisation par défaut 2.0.";
+         LOG(ss_log.str(), "WARNING");
+         bollingerK = 2.0;
+     }
+
+    LOG("Bot créé pour client ID : " + clientId +
+        " avec période Bollinger = " + std::to_string(bollingerPeriod) +
+        " et K = " + std::to_string(bollingerK), "INFO");
 }
 
-// Destructeur
+// --- Destructeur ---
 Bot::~Bot() {
-    LOG("Destructeur Bot appelé pour client ID: " + id, "DEBUG");
-    // La sauvegarde est gérée par BotSession dans son destructeur.
+    LOG("Bot détruit pour client ID : " + clientId, "INFO");
 }
 
-std::string Bot::getId() const {
-    return id;
+// --- Getters (thread-safe) ---
+
+// Retourne l'état actuel de la position. Protégé par mutex.
+PositionState Bot::getCurrentState() const {
+    std::lock_guard<std::mutex> lock(botMutex);
+    return currentState;
 }
 
-void Bot::setTransactionQueue(TransactionQueue* queue) {
-    transactionQueue = queue;
-    if (queue) {
-        LOG("TransactionQueue définie pour le bot " + id, "DEBUG");
-    } else {
-        LOG("TransactionQueue définie à null pour le bot " + id, "WARNING");
+// Retourne le prix d'entrée. Protégé par mutex.
+double Bot::getEntryPrice() const {
+    std::lock_guard<std::mutex> lock(botMutex);
+    return entryPrice;
+}
+
+// Retourne l'ID client (membre const).
+const std::string& Bot::getClientId() const {
+    return clientId;
+}
+
+// Retourne le shared_ptr du Wallet (le pointeur lui-même est atomique).
+std::shared_ptr<Wallet> Bot::getClientWallet() const {
+    return clientWallet;
+}
+
+
+// --- Implémentation des méthodes principales ---
+
+// Traite le dernier prix, met à jour l'historique, calcule les indicateurs, décide de l'action.
+// Thread-safe (appelé par ClientSession). Protégé par mutex.
+TradingAction Bot::processLatestPrice() {
+    // Protège l'accès aux membres mutables (historique, état, prix d'entrée)
+    std::lock_guard<std::mutex> lock(botMutex);
+
+    LOG("Bot " + clientId + " - Traitement du dernier prix...", "INFO");
+
+    // 1. Obtenir le dernier prix.
+    double latestPrice = Global::getPrice("SRD-BTC"); // Accès thread-safe à Global
+    if (latestPrice <= 0 || !std::isfinite(latestPrice)) {
+        std::stringstream ss_log;
+        ss_log << "Bot " << clientId << " - Avertissement: Prix invalide (" << std::fixed << std::setprecision(10) << latestPrice << "). HOLD.";
+        LOG(ss_log.str(), "WARNING");
+        return TradingAction::HOLD;
     }
+
+    // 2. Mettre à jour et limiter l'historique.
+    priceHistoryForCalculation.push_back(latestPrice);
+    size_t max_history_size = static_cast<size_t>(bollingerPeriod) * 2;
+    if (priceHistoryForCalculation.size() > max_history_size) {
+        priceHistoryForCalculation.erase(
+            priceHistoryForCalculation.begin(),
+            priceHistoryForCalculation.begin() + (priceHistoryForCalculation.size() - max_history_size)
+        );
+        // LOG("Bot " + clientId + " - Historique tronqué. Taille: " + std::to_string(priceHistoryForCalculation.size()), "DEBUG"); // Debug log optionnel
+    }
+
+    // 3. Calculer les Bandes de Bollinger.
+    size_t required_size = static_cast<size_t>(bollingerPeriod);
+    if (priceHistoryForCalculation.size() < required_size) {
+        LOG("Bot " + clientId + " - Pas assez de données pour Bandes (" +
+            std::to_string(priceHistoryForCalculation.size()) + "/" + std::to_string(bollingerPeriod) + "). HOLD.", "INFO");
+        return TradingAction::HOLD;
+    }
+
+    BollingerBands bands = calculateBands(); // Appelle calculateBands (protégé par le même lock)
+    std::stringstream ss_log_bands;
+    ss_log_bands << "Bot " << clientId << " - Prix : " << std::fixed << std::setprecision(10) << latestPrice
+                 << ", Bandes (M: " << std::fixed << std::setprecision(10) << bands.middleBand
+                 << ", U: " << std::fixed << std::setprecision(10) << bands.upperBand
+                 << ", L: " << std::fixed << std::setprecision(10) << bands.lowerBand << ")";
+    LOG(ss_log_bands.str(), "INFO");
+
+
+    // --- 4. Logique de Trading (Bollinger simple) ---
+    TradingAction action = TradingAction::HOLD;
+
+    if (currentState == PositionState::NONE) {
+        if (latestPrice <= bands.lowerBand) {
+            LOG("Bot " + clientId + " - Signal BUY (Prix <= Bande Inf.).", "INFO");
+            action = TradingAction::BUY;
+        }
+    } else if (currentState == PositionState::LONG) {
+        if (latestPrice >= bands.upperBand) {
+             LOG("Bot " + clientId + " - Signal CLOSE_LONG (Prix >= Bande Sup.).", "INFO");
+            action = TradingAction::CLOSE_LONG;
+        }
+    }
+
+    // Log l'action décidée.
+    // Utilise l'helper transactionTypeToString pour rendre le log plus propre pour BUY/SELL, etc.
+    std::stringstream ss_log_action;
+    ss_log_action << "Bot " << clientId << " - Action décidée: ";
+    switch(action) {
+        case TradingAction::HOLD: ss_log_action << "HOLD"; break;
+        case TradingAction::BUY: ss_log_action << "BUY"; break;
+        case TradingAction::SELL: ss_log_action << "SELL"; break; // Si SHORT implémenté
+        case TradingAction::CLOSE_LONG: ss_log_action << "CLOSE_LONG"; break;
+        case TradingAction::CLOSE_SHORT: ss_log_action << "CLOSE_SHORT"; break; // Si SHORT implémenté
+        default: ss_log_action << "UNKNOWN"; break;
+    }
+    LOG(ss_log_action.str(), "INFO");
+    return action; // Retourne l'action décidée.
 }
 
 
-// Charge le portefeuille depuis un fichier CSV
-void Bot::loadWallet() {
-    std::lock_guard<std::mutex> lock(balanceMutex); // Protège l'accès à 'balance'
+// Notification reçue lorsque l'application d'une transaction pour ce client bot est complétée.
+// Met à jour l'état de position du bot. Thread-safe (appelé par TransactionQueue). Protégé par mutex.
+void Bot::notifyTransactionCompleted(const Transaction& tx) {
+    // Protège l'accès aux membres mutables (currentState, entryPrice)
+    std::lock_guard<std::mutex> lock(botMutex);
 
-    std::ifstream walletFile("../src/data/wallets/" + id + ".wallet"); // Chemin hardcodé
-    if (walletFile.is_open()) {
-        balance.clear(); // Nettoyer la map avant de charger
-        std::string line;
-        while (getline(walletFile, line)) {
-            std::istringstream stream(line);
-            std::string currency;
-            double balance_value;
-            if (std::getline(stream, currency, ':') && (stream >> balance_value)) {
-                balance[currency] = balance_value;
+    // Log la notification.
+    // Utilise Transaction helpers pour les enums
+    std::stringstream ss_log_tx;
+    ss_log_tx << "Bot " << clientId << " - Notification transaction (ID: " << tx.getId()
+              << ", Type: " << transactionTypeToString(tx.getType()) // Utilise helper
+              << ", Statut: " << transactionStatusToString(tx.getStatus()) // Utilise helper
+              << ", Client ID TX: " << tx.getClientId() << ")";
+    LOG(ss_log_tx.str(), "INFO");
+
+
+    // Vérifie si la transaction est COMPLETED/FAILED et si elle appartient bien à ce client bot.
+    if (tx.getClientId() == this->clientId) { // Utilise getter
+        if (tx.getStatus() == TransactionStatus::COMPLETED) { // Utilise getter
+            // Gère la mise à jour de l'état en cas de succès.
+            if (tx.getType() == TransactionType::BUY) { // Utilise getter
+                if (currentState == PositionState::NONE) {
+                    currentState = PositionState::LONG;
+                    entryPrice = tx.getUnitPrice(); // Utilise getter
+                    std::stringstream ss_log_entry;
+                    ss_log_entry << "Bot " << clientId << " - Position ouverte: LONG @ " << std::fixed << std::setprecision(10) << entryPrice;
+                    LOG(ss_log_entry.str(), "INFO");
+                } else if (currentState == PositionState::LONG) {
+                     std::stringstream ss_log_reinforce;
+                     ss_log_reinforce << "Bot " << clientId << " - LONG renforcée @ " << std::fixed << std::setprecision(10) << tx.getUnitPrice() << " (logique moyenne d'entrée à implémenter)";
+                     LOG(ss_log_reinforce.str(), "INFO");
+                }
+                
+
+            } else if (tx.getType() == TransactionType::SELL) { // Utilise getter
+                if (currentState == PositionState::LONG) {
+                     std::stringstream ss_log_close_long;
+                     ss_log_close_long << "Bot " << clientId << " - Position LONG clôturée @ " << std::fixed << std::setprecision(10) << tx.getUnitPrice() << ". Entrée était @ " << std::fixed << std::setprecision(10) << entryPrice;
+                     LOG(ss_log_close_long.str(), "INFO");
+                    currentState = PositionState::NONE;
+                    entryPrice = 0.0;
+                } else if (currentState == PositionState::NONE) {
+                     std::stringstream ss_log_try_short;
+                     ss_log_try_short << "Bot " << clientId << " - Tente d'ouvrir une position SHORT @ " << std::fixed << std::setprecision(10) << tx.getUnitPrice();
+                     LOG(ss_log_try_short.str(), "INFO");
+                }
             }
+            // TODO: Gérer autres types de transactions (DEPOSIT/WITHDRAW) si pertinents pour le bot
+            // Log le nouvel état
+            LOG("Bot " + clientId + " - Nouvel état après TX: " + (currentState == PositionState::NONE ? "NONE" : (currentState == PositionState::LONG ? "LONG" : "SHORT")), "INFO");
+
+        } else if (tx.getStatus() == TransactionStatus::FAILED) { // Utilise getter
+            // Gère l'échec de transaction
+            std::stringstream ss_log_failed;
+            ss_log_failed << "Bot " << clientId << " - Transaction (ID: " << tx.getId()
+                          << ", Type: " << transactionTypeToString(tx.getType())
+                          << ") ÉCHOUÉE. Raison: " << tx.getFailureReason(); // Utilise getter
+            LOG(ss_log_failed.str(), "ERROR"); // Log niveau ERROR
+            // TODO : Implémenter logique de gestion d'erreur (retry? ajuster?)
         }
-        walletFile.close();
-        LOG("Portefeuille chargé pour client ID: " + id + ". Solde DOLLARS: " + std::to_string(balance["DOLLARS"]) + ", SRD-BTC: " + std::to_string(balance["SRD-BTC"]), "INFO");
-    } else {
-        // Initialiser le portefeuille si le fichier n'existe pas
-        balance.clear(); // Assurer qu'elle est vide
-        balance["DOLLARS"] = 10000.0; // Solde initial hardcodé
-        balance["SRD-BTC"] = 0.0;
-        LOG("Fichier portefeuille non trouvé pour client ID: " + id + ". Initialisation avec solde par défaut.", "INFO");
-        /*On ne sauvegarde pas ici, BotSession ou un autre mécanisme gérera la sauvegarde initiale si c'est un nouvel utilisateur.
-        La sauvegarde est faite par SaveUsers appelée dans HandleClient après création du wallet file.*/
+         // Ignore les statuts PENDING ou UNKNOWN.
     }
-}
-
-// Sauvegarde le portefeuille vers un fichier CSV
-void Bot::saveBalance() {
-    std::lock_guard<std::mutex> lock(balanceMutex); // Protège l'accès à 'balance'
-
-    std::ofstream walletFile("../src/data/wallets/" + id + ".wallet");
-    if (walletFile.is_open()) {
-        for (const auto &entry : balance) {
-            walletFile << entry.first << ":" << std::fixed << std::setprecision(10) << entry.second << "\n";
-        }
-        walletFile.close();
-        LOG("Solde sauvegardé pour client ID: " + id + ".", "INFO");
-    } else {
-        LOG("Erreur : Impossible d'ouvrir le fichier portefeuille pour sauvegarde : " + id, "ERROR");
-    }
-}
-
-// Méthodes pour soumettre des requêtes (ne modifient pas le solde directement)
-void Bot::submitBuyRequest(const std::string &currency, double pourcentage) {
-    /* L'accès en lecture au solde pour la vérification basique peut se faire ici, mais la vérification finale et la 
-    modification sont faites dans applyTransactionRequest. Pour être thread-safe, même une lecture ici devrait utiliser le mutex
-    si le solde peut être modifié. Mais comme applyTransactionRequest fait la vérification finale, on peut s'en passer ici pour simplifier
-    ou ajouter un lock_guard si la lecture ici est critique. Ajoutons le lock pour la lecture aussi, par sécurité.*/
-    std::lock_guard<std::mutex> lock(balanceMutex); // Protège la lecture
-
-    if (!transactionQueue) { /* ... */ return; }
-    if (balance.count("DOLLARS") == 0 || balance["DOLLARS"] <= 0) { /* ... */ return; }
-
-    TransactionRequest request(id, RequestType::BUY, currency, pourcentage);
-    transactionQueue->addRequest(request);
-    LOG("Bot " + id + " a soumis une requête d'ACHAT pour " + std::to_string(pourcentage * 100) + "% de capital en " + currency + ".", "INFO");
-}
-
-void Bot::submitSellRequest(const std::string &currency, double pourcentage) {
-    std::lock_guard<std::mutex> lock(balanceMutex); // Protège la lecture
-
-    if (!transactionQueue) { /* ... */ return; }
-    if (balance.count(currency) == 0 || balance[currency] <= 0) { /* ... */ return; }
-
-    TransactionRequest request(id, RequestType::SELL, currency, pourcentage);
-    transactionQueue->addRequest(request);
-    LOG("Bot " + id + " a soumis une requête de VENTE pour " + std::to_string(pourcentage * 100) + "% de " + currency + ".", "INFO");
-}
-
-// Méthode de trading (lit le solde pour décider), je vais bientôt l'implémenter avec une méthode plus raffinée
-void Bot::trading(const std::string &currency) {
-    double currentPrice = Global::getPrice(currency);
-    double previousPrice = Global::getPreviousPrice(currency, 60);
-
-    if (currentPrice <= 0 || previousPrice <= 0) { /* ... */ return; }
-
-    // Lit le solde pour décider s'il y a quelque chose à acheter/vendre
-    // Ces appels à getBalance doivent utiliser le mutex à l'intérieur de getBalance.
-    // La décision elle-même ne modifie pas le solde.
-
-    if (currentPrice > previousPrice) {
-        submitBuyRequest(currency, 0.1);
-    } else if (currentPrice < previousPrice) {
-        submitSellRequest(currency, 0.1);
-    }
-}
-
-// Retourne le solde d'une devise
-double Bot::getBalance(const std::string &currency) const {
-    std::lock_guard<std::mutex> lock(balanceMutex); // <<<--- PROTÈGE l'accès en lecture
-
-    auto it = balance.find(currency);
-    if (it != balance.end()) {
-        return it->second;
-    }
-    return 0.0;
-}
-
-// Modifie le solde d'une devise
-void Bot::setBalance(const std::string &currency, double value) {
-    std::lock_guard<std::mutex> lock(balanceMutex); // Protège l'accès en écriture
-
-    balance[currency] = value;
-}
-
-void Bot::updateBalance() {
-    // Cette méthode appelle saveBalance(), qui utilise déjà le mutex.
-    saveBalance();
+     // Ignore les transactions d'autres clients.
 }

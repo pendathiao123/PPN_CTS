@@ -128,12 +128,42 @@ CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/ServerConnection.cpp -o CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.s
 
+CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o: CMakeFiles/Test_Cli.dir/flags.make
+CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/Transaction.cpp
+CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o: CMakeFiles/Test_Cli.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o -MF CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o.d -o CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/Transaction.cpp
+
+CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ark30/Files/PPN/PPN_CTS/src/code/Transaction.cpp > CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.i
+
+CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/Transaction.cpp -o CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.s
+
+CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o: CMakeFiles/Test_Cli.dir/flags.make
+CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o: /home/ark30/Files/PPN/PPN_CTS/src/code/Wallet.cpp
+CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o: CMakeFiles/Test_Cli.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o -MF CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o.d -o CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o -c /home/ark30/Files/PPN/PPN_CTS/src/code/Wallet.cpp
+
+CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ark30/Files/PPN/PPN_CTS/src/code/Wallet.cpp > CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.i
+
+CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ark30/Files/PPN/PPN_CTS/src/code/Wallet.cpp -o CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.s
+
 # Object files for target Test_Cli
 Test_Cli_OBJECTS = \
 "CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o" \
 "CMakeFiles/Test_Cli.dir/src/code/ClientInitiator.cpp.o" \
 "CMakeFiles/Test_Cli.dir/src/code/Logger.cpp.o" \
-"CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.o"
+"CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.o" \
+"CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o" \
+"CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o"
 
 # External object files for target Test_Cli
 Test_Cli_EXTERNAL_OBJECTS =
@@ -142,12 +172,14 @@ Test_Cli: CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o
 Test_Cli: CMakeFiles/Test_Cli.dir/src/code/ClientInitiator.cpp.o
 Test_Cli: CMakeFiles/Test_Cli.dir/src/code/Logger.cpp.o
 Test_Cli: CMakeFiles/Test_Cli.dir/src/code/ServerConnection.cpp.o
+Test_Cli: CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o
+Test_Cli: CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o
 Test_Cli: CMakeFiles/Test_Cli.dir/build.make
 Test_Cli: /usr/lib/x86_64-linux-gnu/libssl.so
 Test_Cli: /usr/lib/x86_64-linux-gnu/libcrypto.so
 Test_Cli: /usr/lib/x86_64-linux-gnu/libcurl.so
 Test_Cli: CMakeFiles/Test_Cli.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Test_Cli"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable Test_Cli"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Test_Cli.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

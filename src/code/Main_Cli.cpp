@@ -1,335 +1,317 @@
-#include "../headers/Client.h"
-#include "../headers/Logger.h"  
+// src/code/Main_Cli.cpp - Point d'entrée de l'exécutable client
 
-#include <openssl/ssl.h>
-#include <openssl/err.h>
-#include <openssl/evp.h> 
-#include <openssl/crypto.h> 
+// Includes standards et système nécessaires
+#include <iostream>      // std::cout, std::cerr, std::cin, std::getline
+#include <string>        // std::string
+#include <vector>        // std::vector
+#include <stdexcept>     // std::runtime_error
+#include <memory>        // std::shared_ptr, std::make_shared, std::unique_ptr
+#include <limits>        // std::numeric_limits
+#include <cstdlib>       // EXIT_FAILURE, EXIT_SUCCESS
+#include <cstring>       // strerror
+#include <algorithm>     // std::transform, std::min
+#include <cerrno>        // errno
 
-#include <sys/socket.h> 
-#include <arpa/inet.h>  
-#include <unistd.h>     
-#include <netdb.h>      
-#include <cstring>      
-#include <cerrno>       
+// Includes OpenSSL spécifiques
+#include <openssl/ssl.h>   // SSL
+#include <openssl/err.h>   // Erreurs OpenSSL
+#include <openssl/rand.h>  // RAND_poll (si besoin)
 
-#include <iostream> 
-#include <string>  
-#include <memory>   
-#include <stdexcept> 
-#include <limits> 
-#include <sstream> 
-#include <cstdlib> 
-#include <vector> 
+// Includes spécifiques au projet (assurez-vous que les chemins sont corrects)
+#include "../headers/ClientInitiator.h" // Logique d'initiation connexion/contexte SSL client
+#include "../headers/ServerConnection.h" // Encapsule la connexion Socket+SSL (DOIT AVOIR receiveLine)
+#include "../headers/Logger.h"           // Système de log
+#include "../headers/Utils.h"            // Fonctions utilitaires (si utilisées)
+#include "../headers/Transaction.h"      // Structures de transaction (si utilisées par le client)
+#include "../headers/OpenSSLDeleters.h" // Gestion RAII OpenSSL (pour UniqueSSLCTX)
 
 
-int main(int argc, char const* argv[]) {
+// Constantes et macros
+#define RECEIVE_BUFFER_SIZE 4096 // Taille du buffer pour receiveLine (peut être interne à ServerConnection)
 
-    // NOTE IMPORTANTE : Initialisation globale des bibliothèques (OpenSSL, Curl si utilisé)
-    // Ceci doit être fait UNE SEULE FOIS au démarrage du programme client (ici dans main).
-    // NE PAS appeler ces fonctions dans le constructeur ou une méthode de la classe Client.
+// --- Initialisation globale OpenSSL (côté client) ---
+void initialize_openssl_client() {
+    LOG("Main_Cli DEBUG : Initialisation globale OpenSSL client...", "DEBUG");
+    // Load encryption & hashing algorithms
+    OpenSSL_add_all_algorithms();
+    // Load SSL/TLS algorithms
+    SSL_library_init(); // Obsolète dans les versions très récentes, mais compatible
+    // Load error strings
+    SSL_load_error_strings();
+    // Seed the PRNG if needed (modern OpenSSL versions often seed automatically)
+    // RAND_poll();
+    LOG("Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.", "DEBUG");
+}
 
-    // Initialisation OpenSSL
-    SSL_library_init(); // Initialise la bibliothèque SSL/TLS
-    OpenSSL_add_all_algorithms(); // Charge tous les algorithmes (cipher, hash)
-    SSL_load_error_strings(); // Remplacement moderne pour charger les chaînes d'erreur
+// --- Nettoyage global OpenSSL (côté client) ---
+void cleanup_openssl_client() {
+    LOG("Main_Cli INFO : Nettoyage global OpenSSL client...", "INFO");
+    EVP_cleanup();
+    // SSL_COMP_free_compression_methods(); // Si pas de compression utilisée
+    CRYPTO_cleanup_all_ex_data(); // Libère les données d'index allouées par CRYPTO_get_ex_new_index
+    ERR_free_strings(); // Libère la table des chaînes d'erreur
+    LOG("Main_Cli INFO : Nettoyage global OpenSSL client terminé.", "INFO");
+}
 
-    // Initialisation globale de libcurl si le CLIENT devait l'utiliser (peu probable pour la comm direct client-serveur)
-    // curl_global_init(CURL_GLOBAL_DEFAULT);
+// --- Boucle de Commandes Interactive ---
+// Gère la lecture des commandes utilisateur, l'envoi au serveur et l'affichage des réponses.
+// Ne retourne que lorsque l'utilisateur tape QUIT ou qu'une erreur réseau survient.
+void start_command_loop(std::shared_ptr<ServerConnection> connection) {
+    std::cout << "Connecté. Entrez vos commandes (tapez 'QUIT' pour déconnecter) :\n";
+    std::string command;
 
-    LOG("Client programme démarré.", "INFO");
+    // Boucle de lecture des commandes sur stdin et envoi au serveur
+    while (connection && connection->isConnected()) { // Continuer tant que la connexion est active
+        std::cout << "> "; // Invite de commande
+        // Lit une ligne entière depuis l'entrée standard (stdin).
+        // std::getline échoue en cas de fin de fichier (Ctrl+D) ou erreur de lecture.
+        if (!std::getline(std::cin, command)) {
+            LOG("Main_Cli INFO : Échec de lecture de la commande (stdin) ou fin de fichier. Déconnexion.", "INFO");
+            break; // Sort de la boucle pour gérer la déconnexion
+        }
 
-    // Vérification des arguments de ligne de commande (adresse et port du serveur)
-    if (argc != 3) {
-        LOG("Usage: " + std::string(argv[0]) + " <server_address> <server_port>", "ERROR");
-        // Nettoyer les bibliothèques globales avant de quitter en cas d'erreur
-        EVP_cleanup();      // Nettoie les algorithmes EVP
-        CRYPTO_cleanup_all_ex_data(); // Nettoie d'autres données OpenSSL
-        return EXIT_FAILURE; // Quitter avec un code d'erreur
+        // Enlever les espaces blancs et les retours chariot/sauts de ligne en début et fin.
+        command.erase(0, command.find_first_not_of(" \t\n\r\f\v"));
+        command.erase(command.find_last_not_of(" \t\n\r\f\v") + 1);
+
+        if (command.empty()) {
+            continue; // Ignore les commandes vides
+        }
+
+        // La commande QUIT est gérée côté client pour quitter la boucle interactive.
+        // Elle est aussi envoyée au serveur pour lui signaler la déconnexion propre.
+        if (command == "QUIT") {
+            LOG("Main_Cli INFO : Commande QUIT reçue. Déconnexion demandée par l'utilisateur.", "INFO");
+            // Ne pas break immédiatement, envoyer QUIT au serveur d'abord.
+        }
+
+        // Envoyer la commande au serveur.
+        // Assurez-vous que le serveur attend un terminateur (comme \n) après chaque commande.
+        // La méthode send() devrait gérer les erreurs réseau et lancer des exceptions si nécessaire.
+        try {
+            int cmdBytesSent = connection->send(command + "\n"); // Ajouter \n pour terminer la commande
+            if (cmdBytesSent <= 0 && command != "QUIT") { // Log l'échec d'envoi, sauf si la commande est QUIT (où l'envoi peut échouer si le serveur a déjà fermé en réponse à QUIT)
+                 LOG("Main_Cli ERROR : Échec de l'envoi de la commande ou serveur déconnecté pendant l'envoi. Code retour send: " + std::to_string(cmdBytesSent), "ERROR");
+                 break; // Sort de la boucle en cas d'erreur d'envoi
+            }
+            // Log l'envoi, mais pas si la commande est QUIT (pour éviter double log avant la sortie)
+            if (command != "QUIT") {
+                LOG("Main_Cli DEBUG : Commande envoyée : '" + command + "'. (" + std::to_string(cmdBytesSent) + " bytes)", "DEBUG");
+            }
+
+
+        } catch (const std::exception& e) {
+            LOG("Main_Cli ERROR : Exception lors de l'envoi de la commande '" + command + "'. Exception: " + std::string(e.what()), "ERROR");
+            break; // Sort de la boucle en cas d'exception pendant l'envoi
+        }
+
+
+        // Si la commande était QUIT, on a envoyé le message, on sort maintenant de la boucle.
+        if (command == "QUIT") {
+            break; // Sort de la boucle de commandes
+        }
+
+
+        // Recevoir la réponse du serveur.
+        // UTILISER receiveLine() pour lire un message complet terminé par \n.
+        // receiveLine() gère l'accumulation de buffer et les erreurs.
+        std::string serverResponse;
+        try {
+             serverResponse = connection->receiveLine(); // <-- Utilise receiveLine() !
+        } catch (const std::exception& e) {
+             LOG("Main_Cli ERROR : Échec de la réception de la réponse du serveur ou serveur déconnecté pendant la boucle de commande. Exception: " + std::string(e.what()), "ERROR");
+             // receiveLine() loggue déjà la raison de l'échec (connexion fermée, etc.).
+             break; // Sort de la boucle en cas d'erreur de réception
+        }
+
+        // Afficher la réponse du serveur à l'utilisateur
+        std::cout << "< " << serverResponse << "\n";
+        // Log la réponse reçue (peut être tronquée si très longue)
+        LOG("Main_Cli DEBUG : Réponse serveur reçue (" + std::to_string(serverResponse.size()) + " bytes): '" + serverResponse.substr(0, std::min((size_t)serverResponse.size(), (size_t)200)) + ((serverResponse.size() > 200) ? "..." : "") + "'", "DEBUG");
+
+
+    } // Fin de la boucle while(connection && connection->isConnected())
+
+    LOG("Main_Cli INFO : Sortie de la boucle de commande.", "INFO");
+    // La connexion sera fermée après la sortie de cette fonction, dans le main().
+}
+
+
+// --- Fonction main : Point d'entrée du programme client ---
+int main(int argc, char* argv[]) {
+    // Configuration initiale du Logger (si non fait dans son constructeur ou init)
+    // Logger::init("client.log"); // Exemple: Initialise un logger fichier, sinon utilise cout/cerr par défaut
+
+    LOG("Main_Cli INFO : Démarrage du programme client.", "INFO");
+
+    // --- Parsing des arguments de ligne de commande ---
+    // Le client attend 4 arguments SUPPLÉMENTAIRES après le nom de l'exécutable (argv[0]):
+    // argv[1]: <server_host>
+    // argv[2]: <server_port>
+    // argv[3]: <client_id>
+    // argv[4]: <client_token> (qui est le mot de passe en clair pour l'auth)
+    if (argc != 5) {
+        std::cerr << "Usage: " << argv[0] << " <server_host> <server_port> <client_id> <client_token>\n";
+        LOG("Main_Cli ERROR : Nombre d'arguments incorrect. Attendu 4 (host, port, id, token), reçu " + std::to_string(argc - 1) + ".", "ERROR");
+        return EXIT_FAILURE;
     }
 
-    // Récupérer l'adresse et le port du serveur depuis les arguments
-    std::string serverAddress = argv[1];
-    int serverPort = 0;
+    std::string serverHost = argv[1];
+    int serverPort = std::stoi(argv[2]); // Convertit le port de string en int
+    std::string clientId = argv[3];
+    std::string clientToken = argv[4]; // Ce sera le mot de passe en clair pour l'authentification
+
+
+    LOG("Main_Cli INFO : Arguments parsés. Serveur: " + serverHost + ":" + std::to_string(serverPort) + ", Client ID: " + clientId + ", Token/Password: [CACHÉ]", "INFO");
+    // Note : Ne jamais logguer le mot de passe en clair dans un système de production !
+
+    // --- Initialisation OpenSSL (côté client) ---
+    initialize_openssl_client(); // Appel de la fonction d'initialisation
+    // Le nettoyage sera fait à la fin du main() via cleanup_openssl_client() ou dans le catch.
+
+
+    // --- Création du contexte SSL client ---
+    // Le contexte est nécessaire pour initier une connexion SSL.
+    LOG("Main_Cli DEBUG : Création du contexte SSL client...", "DEBUG");
+    ClientInitiator clientInitiator; // Crée l'objet ClientInitiator.
+    // UniqueSSLCTX gère la libération du contexte à la sortie de portée.
+    UniqueSSLCTX client_ctx = clientInitiator.InitClientCTX(); // Appelle la méthode pour créer le contexte.
+    if (!client_ctx) {
+        LOG("Main_Cli CRITICAL : Échec de la création du contexte SSL client. Arrêt.", "CRITICAL");
+        cleanup_openssl_client(); // Nettoie OpenSSL globalement
+        return EXIT_FAILURE;
+    }
+    LOG("Main_Cli DEBUG : Contexte SSL client créé avec succès.", "DEBUG");
+
+
+    // --- Connexion au Serveur ---
+    std::shared_ptr<ServerConnection> connection = nullptr; // Pointeur pour la connexion active.
+
     try {
-        serverPort = std::stoi(argv[2]); // Convertir le port en entier
-        if (serverPort <= 0 || serverPort > 65535) {
-             throw std::out_of_range("Port number out of range.");
+        LOG("Main_Cli INFO : Tentative de connexion au serveur " + serverHost + ":" + std::to_string(serverPort) + "...", "INFO");
+        // Utilise ClientInitiator pour connecter TCP et faire le handshake SSL.
+        // Passe le pointeur brut (.get()) du contexte SSL client à la méthode.
+        connection = clientInitiator.ConnectToServer(serverHost, serverPort, client_ctx.get());
+
+        if (!connection || !connection->isConnected()) {
+            // ConnectToServer loggue déjà les raisons de l'échec.
+            LOG("Main_Cli CRITICAL : Échec de la connexion TCP ou du handshake SSL au serveur. Arrêt.", "CRITICAL");
+            // Pas besoin de fermer 'connection', car si elle est nulle ou non connectée, il n'y a rien à fermer.
+            // Le contexte client (client_ctx) sera automatiquement libéré ici par son destructeur UniqueSSLCTX.
+            cleanup_openssl_client();
+            return EXIT_FAILURE;
         }
+        LOG("Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: " + std::to_string(connection->getSocketFD()), "INFO");
+
+        // --- Protocole d'Authentification (côté client) ---
+        // Le client envoie le message au format "ID:votre_id,TOKEN:votre_mot_de_passe_en_clair"
+        std::string authMessage = "ID:" + clientId + ",TOKEN:" + clientToken;
+        LOG("Main_Cli DEBUG : Envoi message d'authentification...", "DEBUG");
+
+        // Envoyer le message d'authentification suivi d'un newline.
+        // La méthode send() devrait gérer les erreurs réseau et lancer des exceptions si nécessaire.
+        try {
+            int bytesSent = connection->send(authMessage + "\n"); // Ajouter \n
+            if (bytesSent <= 0) {
+                LOG("Main_Cli ERROR : Échec de l'envoi du message d'authentification. Code retour send: " + std::to_string(bytesSent), "ERROR");
+                // Gérer l'échec d'envoi. closeConnection sera appelée dans le catch global ou à la sortie.
+                throw std::runtime_error("Failed to send authentication message.");
+            }
+            LOG("Main_Cli DEBUG : Message d'authentification envoyé (" + std::to_string(bytesSent) + " bytes).", "DEBUG");
+
+        } catch (const std::exception& e) {
+             LOG("Main_Cli ERROR : Exception lors de l'envoi du message d'authentification. Exception: " + std::string(e.what()), "ERROR");
+             // L'exception sera attrapée par le catch global pour un nettoyage.
+             throw;
+        }
+
+
+        // Recevoir la réponse d'authentification du serveur ("AUTH SUCCESS", "AUTH NEW", "AUTH FAIL:...")
+        // UTILISER receiveLine() pour lire la réponse complète terminée par newline.
+        std::string authResponse;
+        try {
+            authResponse = connection->receiveLine(); // <-- Utilise receiveLine() pour la réponse Auth !
+            // receiveLine() lancera une exception si la connexion est fermée ou s'il y a une erreur avant de recevoir une ligne complète.
+        } catch (const std::exception& e) {
+             LOG("Main_Cli ERROR : Échec de la réception de la réponse d'authentification ou serveur déconnecté. Exception: " + std::string(e.what()), "ERROR");
+             // L'exception sera attrapée par le catch global pour un nettoyage.
+             throw;
+        }
+
+        // Log la réponse authentification reçue.
+        LOG("Main_Cli INFO : Réponse d'authentification reçue : '" + authResponse + "'", "INFO");
+
+        // --- Vérifier la réponse d'authentification et agir en conséquence ---
+        if (authResponse == "AUTH SUCCESS" || authResponse == "AUTH NEW") {
+            // Authentification ou enregistrement et authentification réussis.
+            LOG("Main_Cli INFO : Authentification/enregistrement réussi(e).", "INFO");
+            // Le client est authentifié, on peut passer à la boucle de commandes interactive.
+
+            // Lancer la boucle interactive de commandes.
+            start_command_loop(connection); // Appel de la fonction qui gère l'invite et les commandes.
+
+            // Lorsque start_command_loop se termine (par QUIT ou erreur réseau),
+            // la connexion sera fermée après (voir code ci-dessous).
+
+        } else if (authResponse.rfind("AUTH FAIL", 0) == 0) { // La réponse commence par "AUTH FAIL"
+            // Authentification explicitement refusée par le serveur.
+            LOG("Main_Cli WARNING : Authentification échouée. Message serveur : " + authResponse, "WARNING");
+            std::cerr << "Échec de connexion. Réponse serveur : " << authResponse << std::endl;
+            // Ne pas lancer la boucle de commandes. La connexion sera fermée ci-dessous.
+            // Le programme principal sortira avec un code d'échec.
+
+        } else {
+            // Réponse d'authentification inattendue.
+            LOG("Main_Cli ERROR : Réponse d'authentification inattendue du serveur : '" + authResponse + "'", "ERROR");
+            std::cerr << "Échec de connexion. Réponse serveur inattendue : " << authResponse << std::endl;
+            // Ne pas lancer la boucle de commandes. La connexion sera fermée ci-dessous.
+            // Le programme principal sortira avec un code d'échec.
+        }
+
+
     } catch (const std::exception& e) {
-        LOG("Erreur: Port serveur invalide: " + std::string(argv[2]) + ". " + e.what(), "ERROR");
-        EVP_cleanup(); CRYPTO_cleanup_all_ex_data(); // Nettoyage global
-        return EXIT_FAILURE;
+        // Gérer les exceptions non gérées pendant la connexion, l'authentification ou (si start_command_loop est inline) la boucle de commande.
+        LOG("Main_Cli CRITICAL : Exception non gérée lors de la connexion ou de l'interaction avec le serveur. Exception: " + std::string(e.what()), "CRITICAL");
+        std::cerr << "Erreur critique : " << e.what() << std::endl;
+
+    } catch (...) {
+        // Attraper toute autre exception inconnue.
+        LOG("Main_Cli CRITICAL : Exception inconnue non gérée dans le programme client.", "CRITICAL");
+        std::cerr << "Erreur critique inconnue." << std::endl;
     }
 
-
-    // --- 1. Création du socket client ---
-    int clientSocket = socket(AF_INET, SOCK_STREAM, 0); // Crée un socket TCP/IPv4
-    if (clientSocket < 0) {
-        LOG("Erreur: Impossible de créer la socket. Erreur: " + std::string(strerror(errno)), "ERROR");
-        // Nettoyer les bibliothèques globales et quitter
-        EVP_cleanup(); CRYPTO_cleanup_all_ex_data();
-        return EXIT_FAILURE;
-    }
-    LOG("Socket client créé. FD: " + std::to_string(clientSocket), "DEBUG");
-
-
-    // --- 2. Résolution de l'adresse du serveur et préparation de la structure d'adresse ---
-    // Utilise getaddrinfo pour une résolution de nom de domaine plus moderne et flexible que gethostbyname (obsolète).
-    struct addrinfo hints, *res, *p;
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC; // Autorise IPv4 ou IPv6
-    hints.ai_socktype = SOCK_STREAM; // Socket de flux (TCP)
-
-    int status = getaddrinfo(serverAddress.c_str(), argv[2], &hints, &res);
-    if (status != 0) {
-        LOG("Erreur: Impossible de résoudre l'adresse du serveur '" + serverAddress + "': " + std::string(gai_strerror(status)), "ERROR");
-        close(clientSocket); // Ferme le socket créé
-        EVP_cleanup(); CRYPTO_cleanup_all_ex_data();
-        return EXIT_FAILURE;
-    }
-
-    // Tenter de se connecter au premier résultat valide retourné par getaddrinfo
-    int connect_status = -1;
-    for(p = res; p != NULL; p = p->ai_next) {
-        connect_status = connect(clientSocket, p->ai_addr, p->ai_addrlen);
-        if (connect_status == 0) {
-            // Connexion réussie
-            break;
+    // --- Fermeture de la connexion (si elle est encore active) ---
+    // Cette étape s'exécute que la connexion ait réussi ou échoué, sauf si le programme a quitté plus tôt via return.
+    // Si la connexion est valide et active (pointeur non null et isConnected() true), la fermer proprement.
+    if (connection && connection->isConnected()) {
+        LOG("Main_Cli INFO : Fermeture de la connexion client...", "INFO");
+        try {
+             connection->closeConnection(); // Assure la fermeture côté client (envoie shutdown SSL si possible).
+             LOG("Main_Cli INFO : Connexion client fermée.", "INFO");
+        } catch (const std::exception& e) {
+             LOG("Main_Cli ERROR : Exception lors de la fermeture de la connexion client. Exception: " + std::string(e.what()), "ERROR");
         }
+    } else {
+         // Loguer si la connexion était déjà non valide/fermée au moment de la tentative de fermeture finale.
+         LOG("Main_Cli DEBUG : Connexion client déjà non valide/fermée avant la tentative de fermeture finale.", "DEBUG");
     }
 
-    freeaddrinfo(res); // Libère la structure allouée par getaddrinfo
 
-    if (connect_status < 0) {
-        LOG("Erreur: Connexion au serveur " + serverAddress + ":" + std::to_string(serverPort) + " échouée après toutes les tentatives.", "ERROR");
-        close(clientSocket); // Ferme le socket
-        EVP_cleanup(); CRYPTO_cleanup_all_ex_data();
-        return EXIT_FAILURE;
-    }
+    // Le contexte client (client_ctx) est libéré automatiquement ici par son destructeur UniqueSSLCTX
+    // (car client_ctx est une variable locale à main et sort de portée),
+    // si le programme atteint la fin du main() sans quitter plus tôt via return avant la déclaration de client_ctx.
+    // Si le programme quitte via return avant la déclaration de client_ctx, le cleanup OpenSSL global
+    // est toujours appelé.
 
-    LOG("Connexion au serveur " + serverAddress + ":" + std::to_string(serverPort) + " établie (socket FD: " + std::to_string(clientSocket) + ").", "INFO");
-
-
-    // --- 3. Initialisation SSL côté client ---
-    // Crée un nouveau contexte SSL client. Utilise TLS_client_method() qui négocie TLSv1.0 à TLSv1.3.
-    // Si tu utilises UniqueSSLCTX, crée-le ici : UniqueSSLCTX ctx_u(...);
-    SSL_CTX* ctx = SSL_CTX_new(TLS_client_method());
-    if (!ctx) {
-        LOG("Erreur: Impossible de créer le contexte SSL client.", "ERROR");
-        ERR_print_errors_fp(stderr); // Log les erreurs OpenSSL détaillées sur stderr
-        close(clientSocket); // Ferme le socket
-        EVP_cleanup(); CRYPTO_cleanup_all_ex_data();
-        return EXIT_FAILURE;
-    }
-    
-    // --- 4. Création de l'objet SSL et association avec le socket ---
-    // Crée un nouvel objet SSL pour cette connexion.
-    // Si tu utilises UniqueSSL, crée-le ici : UniqueSSL ssl_u(...);
-    SSL* ssl = SSL_new(ctx);
-    if (!ssl) {
-        LOG("Erreur: Impossible de créer l'objet SSL.", "ERROR");
-        ERR_print_errors_fp(stderr);
-        SSL_CTX_free(ctx); // Libère le contexte
-        close(clientSocket); // Ferme le socket
-        EVP_cleanup(); CRYPTO_cleanup_all_ex_data();
-        return EXIT_FAILURE;
-    }
-
-    // Associe l'objet SSL au descripteur de fichier du socket connecté
-    SSL_set_fd(ssl, clientSocket);
+    // --- Nettoyage OpenSSL (côté client) ---
+    // Ce cleanup est appelé en cas de succès ou d'échec géré avant la sortie du main().
+    cleanup_openssl_client();
 
 
-    // --- 5. Effectuer le handshake SSL côté client ---
-    // Ceci est une opération bloquante pour un socket bloquant.
-    int ssl_connect_ret = SSL_connect(ssl);
-    if (ssl_connect_ret <= 0) {
-        int ssl_err = SSL_get_error(ssl, ssl_connect_ret); // Obtient le code d'erreur SSL détaillé
-        LOG("Erreur: Échec du handshake SSL. Code SSL: " + std::to_string(ssl_err), "ERROR");
-        ERR_print_errors_fp(stderr); // Log les erreurs OpenSSL détaillées
-        SSL_free(ssl); // Libère l'objet SSL
-        SSL_CTX_free(ctx); // Libère le contexte
-        close(clientSocket); // Ferme le socket
-        EVP_cleanup(); CRYPTO_cleanup_all_ex_data();
-        return EXIT_FAILURE;
-    }
+    LOG("Main_Cli INFO : Programme client terminé.", "INFO");
 
-    LOG("Handshake SSL réussi.", "INFO");
-
-    // --- La connexion SSL est maintenant prête pour la communication applicative ---
-
-    // --- 6. Créer un objet Client pour gérer la communication de haut niveau ---
-    // La classe Client encapsule le socket et l'objet SSL et gère les opérations d'envoi/réception via SSL_write/SSL_read.
-    // L'objet Client prend possession du descripteur de fichier socket et du pointeur raw SSL* passés à son constructeur.
-    // Son destructeur doit s'assurer de fermer le socket et de libérer l'objet SSL.
-    auto client_comm = std::make_shared<Client>(clientSocket, ssl); // Client prend possession du socket et du SSL*
-
-    // Note : À partir de maintenant, la fermeture du socket et la libération de l'objet SSL
-    // sont gérées par le destructeur de l'objet Client lorsque le shared_ptr client_comm est détruit (sort de portée ou dernière référence disparaît).
-    // Il ne faut plus appeler close(clientSocket) ou SSL_free(ssl) manuellement si client_comm est valide.
-
-
-    // --- 7. Implémentation de la logique applicative du client ---
-    // Ceci inclus l'authentification, l'envoi de requêtes, la réception et le traitement des réponses.
-
-    // Étape d'authentification : Envoyer l'ID et le Token au serveur
-    // --- Tâche future : Implémenter la logique pour gérer l'ID et le Token de manière persistante. ---
-    // Dans un client réel, tu lirais l'ID et le token sauvegardés localement (par exemple, dans un fichier de configuration).
-    // Si le fichier n'existe pas ou est vide, tu pourrais générer un nouvel ID/Token et les utiliser pour l'authentification "AUTH NEW".
-    // Si le serveur répond "AUTH NEW" avec un ID/Token assigné, tu devrais sauvegarder ces valeurs assignées localement pour les prochaines connexions.
-    // Utilise GenerateRandomId() et GenerateToken() si tu as implémenté la création automatique côté client aussi.
-
-    std::string myClientId = "mon_client_id_unique"; // <<<--- REMPLACER CECI PAR LA LOGIQUE RÉELLE
-    std::string myToken = "mon_token_secret";   // <<<--- REMPLACER CECI PAR LA LOGIQUE RÉELLE
-
-
-    std::string authMessage = "ID:" + myClientId + ",TOKEN:" + myToken; // Message au format attendu par le serveur
-    LOG("Envoi du message d'authentification : '" + authMessage + "'", "INFO");
-
-    // Envoyer le message d'authentification via l'objet Client
-    if (!client_comm->send(authMessage.c_str(), authMessage.size())) {
-        LOG("Erreur lors de l'envoi du message d'authentification.", "ERROR");
-        // La connexion sera fermée par le destructeur de client_comm.
-        SSL_CTX_free(ctx); // Libère le contexte SSL (créé manuellement)
-        EVP_cleanup(); CRYPTO_cleanup_all_ex_data(); // Nettoyage global
-        return EXIT_FAILURE;
-    }
-
-    // Recevoir la réponse d'authentification du serveur
-    char authResponseBuffer[1024]; // Buffer pour la réponse d'authentification (taille raisonnable)
-    // client_comm->receive retourne le nombre d'octets lus, 0 pour déconnexion propre, <0 pour erreur.
-    int bytesRead = client_comm->receive(authResponseBuffer, sizeof(authResponseBuffer) - 1); // Attente bloquante
-    if (bytesRead <= 0) {
-         // Gérer la déconnexion propre (0) ou les erreurs de réception (<0).
-         LOG("Erreur (" + std::to_string(bytesRead) + ") ou déconnexion du serveur lors de la réception de la réponse d'authentification.", "ERROR");
-         // La connexion sera fermée par le destructeur de client_comm.
-         SSL_CTX_free(ctx); // Libère le contexte SSL (créé manuellement)
-         EVP_cleanup(); CRYPTO_cleanup_all_ex_data(); // Nettoyage global
-         return EXIT_FAILURE;
-    }
-    authResponseBuffer[bytesRead] = '\0'; // Null-terminer la chaîne reçue
-    std::string authResponse(authResponseBuffer); // Convertir le buffer en std::string
-    LOG("Réponse d'authentification reçue : '" + authResponse + "'", "INFO");
-
-    // Vérifier la réponse d'authentification du serveur
-    if (authResponse.rfind("AUTH FAIL", 0) == 0) { // rfind avec 0 pour vérifier si la chaîne commence par "AUTH FAIL"
-         LOG("Authentification échouée. Vérifiez votre ID et Token. Fermeture de la connexion.", "ERROR");
-         // La connexion sera fermée par le destructeur de client_comm.
-         SSL_CTX_free(ctx); // Libère le contexte SSL (créé manuellement)
-         EVP_cleanup(); CRYPTO_cleanup_all_ex_data(); // Nettoyage global
-         return EXIT_FAILURE; // Quitter avec un code d'erreur
-    }
-    // Si l'authentification réussit (AUTH SUCCESS ou AUTH NEW)
-    if (authResponse.rfind("AUTH SUCCESS", 0) == 0 || authResponse.rfind("AUTH NEW", 0) == 0) {
-         LOG("Authentification réussie ! Client prêt pour les commandes applicatives.", "INFO");
-         // Si un nouveau compte a été créé par le serveur (AUTH NEW), extraire l'ID/Token et les sauvegarder.
-         if (authResponse.rfind("AUTH NEW", 0) == 0) {
-              // Exemple de parsing simple pour extraire ID et Token assignés par le serveur après "AUTH NEW:"
-              // Le format est "AUTH NEW:assignedId,assignedToken"
-              size_t colon_pos = authResponse.find(":", strlen("AUTH NEW")); // Cherche le premier ':' après "AUTH NEW"
-              size_t comma_pos = authResponse.find(",", colon_pos); // Cherche la première ',' après ce ':'
-              if (colon_pos != std::string::npos && comma_pos != std::string::npos && comma_pos > colon_pos) {
-                   std::string assignedId = authResponse.substr(colon_pos + 1, comma_pos - (colon_pos + 1));
-                   std::string assignedToken = authResponse.substr(comma_pos + 1); // Reste de la chaîne après ','
-                   LOG("Serveur a créé un nouveau compte. ID assigné : " + assignedId + ", Token assigné : " + assignedToken, "INFO");
-                   // --- Tâche importante : sauvegarder assignedId et assignedToken dans un fichier de configuration local. ---
-                   // Exemple : saveConfig("client_config.txt", assignedId, assignedToken);
-                   // Ces valeurs devraient ensuite être lues au prochain démarrage du client.
-               } else {
-                   LOG("Avertissement : Impossible de parser l'ID et le Token de la réponse AUTH NEW : '" + authResponse + "'", "WARNING");
-               }
-         }
-
-        // --- 8. Début de la boucle interactive pour envoyer des commandes au serveur ---
-        // Le client est maintenant authentifié et prêt à envoyer/recevoir des commandes applicatives.
-        std::string userInput; // Pour stocker l'entrée de l'utilisateur
-        char serverResponseBuffer[4096]; // Buffer pour les réponses du serveur (taille ajustée pour historique/wallet)
-
-        std::cout << "Authentification réussie. Connecté au serveur. Entrez vos commandes (tapez 'EXIT' ou 'exit' pour quitter) :" << std::endl;
-
-        // Boucle principale pour lire l'entrée de l'utilisateur et communiquer avec le serveur
-        while (true) { // La boucle continue tant qu'on n'envoie pas 'EXIT' ou qu'il n'y a pas d'erreur critique de communication.
-            std::cout << "> "; // Invite de commande pour l'utilisateur
-
-            // Lire une ligne d'entrée depuis la console (jusqu'au saut de ligne)
-            // std::cin >> peut être problématique avec des lignes contenant des espaces ou après des erreurs.
-            // std::getline est plus sûr pour lire une ligne complète.
-            std::getline(std::cin, userInput);
-
-            // Gérer les cas où la lecture échoue (ex: fin de fichier, erreur irrécupérable sur cin)
-            if (std::cin.fail()) {
-                 LOG("Erreur lors de la lecture de l'entrée utilisateur. Sortie de la boucle interactive.", "ERROR");
-                 break; // Sortir de la boucle interactive
-            }
-            if (std::cin.eof()) {
-                 LOG("Fin de l'entrée utilisateur (EOF). Sortie de la boucle interactive.", "INFO");
-                 break; // Sortir de la boucle interactive
-            }
-
-            // Si l'utilisateur tape 'EXIT' (ou 'exit'), envoyer cette commande au serveur et quitter la boucle côté client.
-            // Le serveur est configuré pour arrêter la session sur réception de "EXIT".
-            if (userInput == "EXIT" || userInput == "exit") { // Permettre 'exit' aussi
-                 LOG("Commande 'EXIT' ou 'exit' saisie. Envoi au serveur et fermeture du client.", "INFO");
-                 // Envoyer la commande EXIT au serveur. L'échec d'envoi ici n'est pas critique, on sort quand même.
-                 client_comm->send(userInput.c_str(), userInput.size()); // Tentative d'envoi
-                 // Sortir de la boucle interactive
-                 break;
-            }
-
-            // Si l'entrée n'est pas vide (et n'est pas la commande de sortie)
-            if (!userInput.empty()) {
-                 // Envoyer l'entrée utilisateur comme requête au serveur
-                 LOG("Envoi de la requête: '" + userInput + "'", "INFO");
-                 if (!client_comm->send(userInput.c_str(), userInput.size())) {
-                     LOG("Erreur lors de l'envoi de la requête '" + userInput + "'. Déconnexion ou erreur réseau probable.", "ERROR");
-                     // Si l'envoi échoue, la connexion est probablement cassée. Sortir de la boucle.
-                     break;
-                 }
-
-                 // Recevoir la réponse du serveur
-                 // Le buffer doit être assez grand pour la réponse attendue (portefeuille, historique).
-                 // client_comm->receive retourne le nombre d'octets lus, 0 pour déconnexion propre, <0 pour erreur.
-                 bytesRead = client_comm->receive(serverResponseBuffer, sizeof(serverResponseBuffer) - 1);
-                 if (bytesRead <= 0) {
-                      // Gérer la déconnexion propre (0) ou les erreurs de réception (<0).
-                      LOG("Erreur (" + std::to_string(bytesRead) + ") ou déconnexion du serveur lors de la réception de la réponse.", "ERROR");
-                      // Si la réception échoue ou si le serveur déconnecte, sortir de la boucle.
-                      break;
-                 }
-
-                 serverResponseBuffer[bytesRead] = '\0'; // Null-terminer la chaîne reçue
-                 std::string serverResponse(serverResponseBuffer); // Convertir le buffer en std::string
-                 LOG("Réponse du serveur :\n" + serverResponse, "INFO"); // Afficher la réponse reçue
-            } // Fin if (!userInput.empty())
-
-        } // --- Fin de la boucle while (true) interactive ---
-
-        // Si on sort de la boucle interactive (par commande EXIT saisie, erreur send/receive, ou erreur cin/eof)
-        LOG("Boucle interactive terminée. Fermeture de la connexion et nettoyage.", "INFO");
-
-
-    } else { // Bloc pour gérer les réponses d'authentification autres que SUCCESS/NEW/FAIL (imprévues)
-         // Réponse d'authentification inattendue du serveur.
-         LOG("Réponse d'authentification inattendue du serveur : '" + authResponse + "'. Fermeture.", "WARNING");
-         // Le destructeur de client_comm gérera la fermeture de la connexion.
-         SSL_CTX_free(ctx); // Libère le contexte SSL (créé manuellement)
-         return EXIT_FAILURE; // Quitter avec un code d'erreur
-    }
-
-    // --- La connexion sera fermée lorsque l'objet client_comm (shared_ptr) sera détruit ---
-    // (lorsqu'il sortira de sa portée à la fin de main()).
-    // Le contexte SSL ctx a été libéré ci-dessus après la boucle interactive (si authentification réussie)
-    // ou dans les branches d'erreur d'authentification/handshake/connexion.
-    // Si UniqueSSLCTX était utilisé, sa destruction automatique suffirait ici.
-
-
-    // --- Nettoyage global des bibliothèques ---
-    // Ces fonctions doivent être appelées UNE SEULE FOIS à la fin du programme client,
-    // après que toutes les opérations SSL/socket soient terminées et tous les objets SSL/SSL_CTX libérés.
-    EVP_cleanup();      // Nettoie les algorithmes EVP (si utilisés, bonne pratique)
-    CRYPTO_cleanup_all_ex_data(); // Nettoie d'autres données OpenSSL
-
-    LOG("Client programme terminé.", "INFO");
-
-    return EXIT_SUCCESS; // Quitter avec succès
+    // Retourner un code d'échec si une erreur s'est produite (si on est arrivé ici après un échec géré)
+    // ou un code de succès. Une meilleure gestion des codes de retour des blocs try/catch serait nécessaire
+    // pour différencier succès et échec à ce point. Pour l'instant, on retourne EXIT_SUCCESS si on arrive ici.
+    return EXIT_SUCCESS; // Indique que le programme client s'est terminé "normalement" (même après un échec d'auth s'il a été géré).
 }

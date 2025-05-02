@@ -459,6 +459,7 @@ src/code/Transaction.o: src/code/Transaction.cpp.o
 # target to build an object file
 src/code/Transaction.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.o
 .PHONY : src/code/Transaction.cpp.o
 
 src/code/Transaction.i: src/code/Transaction.cpp.i
@@ -467,6 +468,7 @@ src/code/Transaction.i: src/code/Transaction.cpp.i
 # target to preprocess a source file
 src/code/Transaction.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.i
 .PHONY : src/code/Transaction.cpp.i
 
 src/code/Transaction.s: src/code/Transaction.cpp.s
@@ -475,6 +477,7 @@ src/code/Transaction.s: src/code/Transaction.cpp.s
 # target to generate assembly for a file
 src/code/Transaction.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Transaction.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Transaction.cpp.s
 .PHONY : src/code/Transaction.cpp.s
 
 src/code/TransactionQueue.o: src/code/TransactionQueue.cpp.o
@@ -531,6 +534,7 @@ src/code/Wallet.o: src/code/Wallet.cpp.o
 # target to build an object file
 src/code/Wallet.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.o
 .PHONY : src/code/Wallet.cpp.o
 
 src/code/Wallet.i: src/code/Wallet.cpp.i
@@ -539,6 +543,7 @@ src/code/Wallet.i: src/code/Wallet.cpp.i
 # target to preprocess a source file
 src/code/Wallet.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.i
 .PHONY : src/code/Wallet.cpp.i
 
 src/code/Wallet.s: src/code/Wallet.cpp.s
@@ -547,6 +552,7 @@ src/code/Wallet.s: src/code/Wallet.cpp.s
 # target to generate assembly for a file
 src/code/Wallet.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Wallet.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Wallet.cpp.s
 .PHONY : src/code/Wallet.cpp.s
 
 # Help Target

@@ -63,6 +63,15 @@
         "cinttypes": "cpp",
         "variant": "cpp",
         "ranges": "cpp",
-        "codecvt": "cpp"
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "csignal": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "future": "cpp",
+        "mutex": "cpp",
+        "valarray": "cpp"
     }
 }
