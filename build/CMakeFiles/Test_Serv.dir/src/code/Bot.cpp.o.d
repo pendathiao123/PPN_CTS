@@ -155,19 +155,18 @@ CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o: \
  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
  /usr/include/c++/11/backward/auto_ptr.h \
  /usr/include/c++/11/pstl/glue_memory_defs.h \
- /usr/include/c++/11/pstl/execution_defs.h /usr/include/c++/11/mutex \
- /usr/include/c++/11/chrono /usr/include/c++/11/ratio \
- /usr/include/c++/11/limits /usr/include/c++/11/ctime \
- /usr/include/c++/11/bits/parse_numbers.h \
+ /usr/include/c++/11/pstl/execution_defs.h /usr/include/c++/11/thread \
+ /usr/include/c++/11/bits/std_thread.h \
+ /usr/include/c++/11/bits/this_thread_sleep.h /usr/include/c++/11/chrono \
+ /usr/include/c++/11/ratio /usr/include/c++/11/limits \
+ /usr/include/c++/11/ctime /usr/include/c++/11/bits/parse_numbers.h \
+ /usr/include/c++/11/atomic /usr/include/c++/11/mutex \
  /usr/include/c++/11/system_error \
  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
  /usr/include/c++/11/stdexcept /usr/include/c++/11/bits/std_mutex.h \
  /usr/include/c++/11/bits/unique_lock.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
- /usr/include/c++/11/atomic /usr/include/c++/11/thread \
- /usr/include/c++/11/bits/std_thread.h \
- /usr/include/c++/11/bits/this_thread_sleep.h /usr/include/c++/11/cstddef \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
+ /usr/include/c++/11/cstddef \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Wallet.h \
  /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
  /usr/include/c++/11/bits/node_handle.h \
@@ -199,6 +198,7 @@ CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o: \
  /usr/include/c++/11/bits/istream.tcc \
  /usr/include/c++/11/bits/sstream.tcc /usr/include/c++/11/codecvt \
  /usr/include/c++/11/bits/fs_dir.h /usr/include/c++/11/bits/fs_ops.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
  /usr/include/c++/11/iostream /usr/include/c++/11/fstream \
@@ -207,6 +207,99 @@ CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o: \
  /usr/include/c++/11/bits/fstream.tcc \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Wallet.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/ClientSession.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Server.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/ClientAuthenticator.h \
+ /usr/include/c++/11/unordered_map /usr/include/c++/11/bits/hashtable.h \
+ /usr/include/c++/11/bits/hashtable_policy.h \
+ /usr/include/c++/11/bits/enable_special_members.h \
+ /usr/include/c++/11/bits/unordered_map.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/ServerConnection.h \
+ /usr/include/x86_64-linux-gnu/sys/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
+ /usr/include/x86_64-linux-gnu/bits/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h \
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h \
+ /usr/include/x86_64-linux-gnu/asm/socket.h \
+ /usr/include/asm-generic/socket.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h \
+ /usr/include/asm-generic/posix_types.h \
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h \
+ /usr/include/x86_64-linux-gnu/asm/sockios.h \
+ /usr/include/asm-generic/sockios.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
+ /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/bits/in.h \
+ /usr/include/arpa/inet.h /usr/include/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+ /usr/include/linux/close_range.h /usr/include/openssl/ssl.h \
+ /usr/include/openssl/macros.h \
+ /usr/include/x86_64-linux-gnu/openssl/opensslconf.h \
+ /usr/include/x86_64-linux-gnu/openssl/configuration.h \
+ /usr/include/openssl/opensslv.h /usr/include/openssl/e_os2.h \
+ /usr/include/openssl/comp.h /usr/include/openssl/crypto.h \
+ /usr/include/c++/11/stdlib.h /usr/include/openssl/safestack.h \
+ /usr/include/openssl/stack.h /usr/include/openssl/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
+ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+ /usr/include/openssl/cryptoerr.h /usr/include/openssl/symhacks.h \
+ /usr/include/openssl/cryptoerr_legacy.h /usr/include/openssl/core.h \
+ /usr/include/openssl/comperr.h /usr/include/openssl/bio.h \
+ /usr/include/openssl/bioerr.h /usr/include/openssl/x509.h \
+ /usr/include/openssl/buffer.h /usr/include/openssl/buffererr.h \
+ /usr/include/openssl/evp.h /usr/include/openssl/core_dispatch.h \
+ /usr/include/openssl/evperr.h /usr/include/openssl/params.h \
+ /usr/include/openssl/bn.h /usr/include/openssl/bnerr.h \
+ /usr/include/openssl/objects.h /usr/include/openssl/obj_mac.h \
+ /usr/include/openssl/asn1.h /usr/include/openssl/asn1err.h \
+ /usr/include/openssl/objectserr.h /usr/include/openssl/ec.h \
+ /usr/include/string.h /usr/include/strings.h \
+ /usr/include/openssl/ecerr.h /usr/include/openssl/rsa.h \
+ /usr/include/openssl/rsaerr.h /usr/include/openssl/dsa.h \
+ /usr/include/openssl/dh.h /usr/include/openssl/dherr.h \
+ /usr/include/openssl/dsaerr.h /usr/include/openssl/sha.h \
+ /usr/include/openssl/x509err.h /usr/include/openssl/x509_vfy.h \
+ /usr/include/openssl/lhash.h /usr/include/openssl/pkcs7.h \
+ /usr/include/openssl/pkcs7err.h /usr/include/openssl/ocsp.h \
+ /usr/include/openssl/http.h /usr/include/openssl/conf.h \
+ /usr/include/openssl/conferr.h /usr/include/openssl/conftypes.h \
+ /usr/include/openssl/x509v3.h /usr/include/openssl/x509v3err.h \
+ /usr/include/openssl/ocsperr.h /usr/include/openssl/pem.h \
+ /usr/include/openssl/pemerr.h /usr/include/openssl/hmac.h \
+ /usr/include/openssl/async.h /usr/include/openssl/asyncerr.h \
+ /usr/include/openssl/ct.h /usr/include/openssl/cterr.h \
+ /usr/include/openssl/sslerr.h /usr/include/openssl/sslerr_legacy.h \
+ /usr/include/openssl/prov_ssl.h /usr/include/openssl/ssl2.h \
+ /usr/include/openssl/ssl3.h /usr/include/openssl/tls1.h \
+ /usr/include/openssl/dtls1.h /usr/include/openssl/srtp.h \
+ /usr/include/openssl/err.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/OpenSSLDeleters.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/../headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/OpenSSLDeleters.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/ServerConnection.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/ClientSession.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/TransactionQueue.h \
+ /usr/include/c++/11/queue /usr/include/c++/11/deque \
+ /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
+ /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h \
+ /usr/include/c++/11/condition_variable \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Utils.h \
+ /usr/include/openssl/rand.h /usr/include/openssl/randerr.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Bot.h \
  /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
@@ -233,11 +326,7 @@ CMakeFiles/Test_Serv.dir/src/code/Bot.cpp.o: \
  /usr/include/c++/11/pstl/glue_numeric_defs.h \
  /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
  /usr/include/c++/11/bits/algorithmfwd.h \
- /usr/include/c++/11/bits/stl_heap.h \
  /usr/include/c++/11/bits/uniform_int_dist.h \
  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
  /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
- /usr/include/c++/11/unordered_map /usr/include/c++/11/bits/hashtable.h \
- /usr/include/c++/11/bits/hashtable_policy.h \
- /usr/include/c++/11/bits/enable_special_members.h \
- /usr/include/c++/11/bits/unordered_map.h
+ /usr/include/c++/11/future /usr/include/c++/11/bits/atomic_futex.h

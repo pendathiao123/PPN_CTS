@@ -279,26 +279,23 @@ CMakeFiles/Test_Serv.dir/src/code/ClientAuthenticator.cpp.o: \
  /home/ark30/Files/PPN/PPN_CTS/src/headers/OpenSSLDeleters.h \
  /home/ark30/Files/PPN/PPN_CTS/src/headers/ServerConnection.h \
  /home/ark30/Files/PPN/PPN_CTS/src/headers/ClientSession.h \
- /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Bot.h \
- /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Global.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Global.h \
  /usr/include/c++/11/cstddef \
- /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Transaction.h \
- /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Wallet.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Server.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Wallet.h \
  /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
  /usr/include/c++/11/bits/stl_map.h \
  /usr/include/c++/11/bits/stl_multimap.h /usr/include/c++/11/filesystem \
  /usr/include/c++/11/bits/fs_fwd.h /usr/include/c++/11/bits/fs_path.h \
  /usr/include/c++/11/codecvt /usr/include/c++/11/bits/fs_dir.h \
  /usr/include/c++/11/bits/fs_ops.h \
- /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/TransactionQueue.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Transaction.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/Bot.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/headers/TransactionQueue.h \
  /usr/include/c++/11/queue /usr/include/c++/11/deque \
  /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
  /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h \
  /usr/include/c++/11/condition_variable \
- /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/headers/../headers/Wallet.h \
- /home/ark30/Files/PPN/PPN_CTS/src/headers/TransactionQueue.h \
- /home/ark30/Files/PPN/PPN_CTS/src/headers/Global.h \
  /home/ark30/Files/PPN/PPN_CTS/src/headers/Logger.h \
  /home/ark30/Files/PPN/PPN_CTS/src/headers/Utils.h \
  /usr/include/openssl/rand.h /usr/include/openssl/randerr.h \

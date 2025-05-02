@@ -309,6 +309,7 @@ src/code/Global.o: src/code/Global.cpp.o
 # target to build an object file
 src/code/Global.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Global.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Global.cpp.o
 .PHONY : src/code/Global.cpp.o
 
 src/code/Global.i: src/code/Global.cpp.i
@@ -317,6 +318,7 @@ src/code/Global.i: src/code/Global.cpp.i
 # target to preprocess a source file
 src/code/Global.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Global.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Global.cpp.i
 .PHONY : src/code/Global.cpp.i
 
 src/code/Global.s: src/code/Global.cpp.s
@@ -325,6 +327,7 @@ src/code/Global.s: src/code/Global.cpp.s
 # target to generate assembly for a file
 src/code/Global.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Serv.dir/build.make CMakeFiles/Test_Serv.dir/src/code/Global.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Cli.dir/build.make CMakeFiles/Test_Cli.dir/src/code/Global.cpp.s
 .PHONY : src/code/Global.cpp.s
 
 src/code/Logger.o: src/code/Logger.cpp.o

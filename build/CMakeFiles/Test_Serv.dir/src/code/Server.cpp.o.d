@@ -277,26 +277,23 @@ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o: \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/OpenSSLDeleters.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/ServerConnection.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/ClientSession.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Bot.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Global.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
  /usr/include/c++/11/cstddef \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Transaction.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Wallet.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Server.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Wallet.h \
  /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
  /usr/include/c++/11/bits/stl_map.h \
  /usr/include/c++/11/bits/stl_multimap.h /usr/include/c++/11/filesystem \
  /usr/include/c++/11/bits/fs_fwd.h /usr/include/c++/11/bits/fs_path.h \
  /usr/include/c++/11/codecvt /usr/include/c++/11/bits/fs_dir.h \
  /usr/include/c++/11/bits/fs_ops.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/TransactionQueue.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Bot.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/TransactionQueue.h \
  /usr/include/c++/11/queue /usr/include/c++/11/deque \
  /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
  /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h \
  /usr/include/c++/11/condition_variable \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Wallet.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/TransactionQueue.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Utils.h \
  /usr/include/openssl/rand.h /usr/include/openssl/randerr.h \
@@ -318,4 +315,25 @@ CMakeFiles/Test_Serv.dir/src/code/Server.cpp.o: \
  /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
  /usr/include/c++/11/algorithm \
- /usr/include/c++/11/pstl/glue_algorithm_defs.h
+ /usr/include/c++/11/pstl/glue_algorithm_defs.h /usr/include/c++/11/cmath \
+ /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+ /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+ /usr/include/c++/11/bits/specfun.h /usr/include/c++/11/tr1/gamma.tcc \
+ /usr/include/c++/11/tr1/special_function_util.h \
+ /usr/include/c++/11/tr1/bessel_function.tcc \
+ /usr/include/c++/11/tr1/beta_function.tcc \
+ /usr/include/c++/11/tr1/ell_integral.tcc \
+ /usr/include/c++/11/tr1/exp_integral.tcc \
+ /usr/include/c++/11/tr1/hypergeometric.tcc \
+ /usr/include/c++/11/tr1/legendre_function.tcc \
+ /usr/include/c++/11/tr1/modified_bessel_func.tcc \
+ /usr/include/c++/11/tr1/poly_hermite.tcc \
+ /usr/include/c++/11/tr1/poly_laguerre.tcc \
+ /usr/include/c++/11/tr1/riemann_zeta.tcc

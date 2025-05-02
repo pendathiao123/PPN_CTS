@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Test_Cli.dir/src/code/ClientInitiator.cpp.o"
   "CMakeFiles/Test_Cli.dir/src/code/ClientInitiator.cpp.o.d"
+  "CMakeFiles/Test_Cli.dir/src/code/Global.cpp.o"
+  "CMakeFiles/Test_Cli.dir/src/code/Global.cpp.o.d"
   "CMakeFiles/Test_Cli.dir/src/code/Logger.cpp.o"
   "CMakeFiles/Test_Cli.dir/src/code/Logger.cpp.o.d"
   "CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o"

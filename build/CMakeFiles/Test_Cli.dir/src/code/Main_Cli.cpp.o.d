@@ -280,4 +280,8 @@ CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o: \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Utils.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
+ /usr/include/c++/11/atomic /usr/include/c++/11/thread \
+ /usr/include/c++/11/bits/std_thread.h \
+ /usr/include/c++/11/bits/this_thread_sleep.h /usr/include/c++/11/cstddef \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/OpenSSLDeleters.h

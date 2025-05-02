@@ -276,26 +276,23 @@ CMakeFiles/Test_Serv.dir/src/code/Main_Serv.cpp.o: \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/OpenSSLDeleters.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/ServerConnection.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/ClientSession.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Bot.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Global.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
  /usr/include/c++/11/cstddef \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Transaction.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Wallet.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Server.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Wallet.h \
  /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
  /usr/include/c++/11/bits/stl_map.h \
  /usr/include/c++/11/bits/stl_multimap.h /usr/include/c++/11/filesystem \
  /usr/include/c++/11/bits/fs_fwd.h /usr/include/c++/11/bits/fs_path.h \
  /usr/include/c++/11/codecvt /usr/include/c++/11/bits/fs_dir.h \
  /usr/include/c++/11/bits/fs_ops.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/TransactionQueue.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Transaction.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Bot.h \
+ /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/TransactionQueue.h \
  /usr/include/c++/11/queue /usr/include/c++/11/deque \
  /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
  /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h \
  /usr/include/c++/11/condition_variable \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Logger.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/../headers/Wallet.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/TransactionQueue.h \
- /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Global.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Logger.h \
  /home/ark30/Files/PPN/PPN_CTS/src/code/../headers/Utils.h \
  /usr/include/openssl/rand.h /usr/include/openssl/randerr.h \
