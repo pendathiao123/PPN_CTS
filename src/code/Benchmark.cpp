@@ -24,7 +24,7 @@
 constexpr const char* SERVER_IP = "127.0.0.1";
 constexpr int SERVER_PORT = 4433;
 constexpr int CONNECTION_TIMEOUT_MS = 1000;
-constexpr int MAX_THREADS = 100;
+//constexpr int MAX_THREADS = 100;
 constexpr int READ_TIMEOUT_MS = 2000;
 
 std::mutex cout_mutex;  //mutex affichage
@@ -216,10 +216,10 @@ void test_connections(int num_clients) {
     // Créer les threads de test
     for (int i = 0; i < num_clients; ++i) {
         // Limite le nombre de threads simultanés, utile si on veut faire des mesures sur de la durée (1000 clients par paquet de 10) ou bien en brut (1000 clients d'un coup)
-        if (threads.size() >= MAX_THREADS) {
-            threads.front().join();
-            threads.erase(threads.begin());
-        }
+        //if (threads.size() >= MAX_THREADS) {
+        //    threads.front().join();
+        //    threads.erase(threads.begin());
+        //}
         //fonction routine des threads
         threads.emplace_back(connect_to_server, i);
         
@@ -467,7 +467,7 @@ int main() {
     LOG("Démarrage du benchmark avec 20000 clients", "INFO");
     test_connections(20000);
 
-
+    sleep(10);
 
     //-----------------------------TPS--------------------------------
     LOG("Démarrage du benchmark pour 10 transactions", "INFO");
@@ -488,6 +488,7 @@ int main() {
     LOG("Démarrage du benchmark pour 1 000 000 transactions", "INFO");
     test_transactions(1000000);
 
+    sleep(10);
 
     //--------------------------Surcharge-------------------------------
     //LOG("Démarrage du benchmark pour établir le nombre de connections maximum", "INFO");
