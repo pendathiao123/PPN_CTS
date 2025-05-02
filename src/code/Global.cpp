@@ -146,7 +146,7 @@ void Global::readBTCValuesFromCSV(const std::string &filename)
                         std::cerr << "Valeur invalide (inf ou nan) dans la cellule : " << cell << std::endl;
                         value = 0.0; // Valeur par défaut en cas d'erreur
                     }
-                    std::cout << "Valeur lue : " << value << std::endl; // Message de débogage
+                    //std::cout << "Valeur lue : " << value << std::endl; // Message de débogage
                 }
                 catch (const std::invalid_argument &e)
                 {

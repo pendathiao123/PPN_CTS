@@ -47,53 +47,66 @@ void Bot::updateBalance(std::unordered_map<std::string, double> bot_balance)
     balances = bot_balance;
 }
 
-
-void Bot::trading(int &action, double &q, const double dollars, const double srd_btc)
+// Fonction de trading du bot
+void Bot::trading(Crypto &cry, int &action, double &q, const double dollars, const double srd_btc)
 {
+    /** Dans cette fonction nous allons itérer pour observer la tendance du SRD-BTC
+     * Si on observe une tendance, on peut effectuer une action.
+     * Sinon on va iterer sans rien faire.
+     * Cet algo ne fonctionne que si on a des dollars et des cryptos.
+    */
+    // verification initiale
+    if((dollars == 0) || (srd_btc == 0)){ // si l'une des deux valeurs est nulle
+        return; // on sort
+    }
+    // initialisation des varaibles
+    prv_price = cry.getPrice("SRD-BTC");
+    cry.retroActivitySim(); // évolution de la valeur de la crypto
     double price = cry.getPrice("SRD-BTC");
-    double evolution = 1 + ((price - prv_price) / price);
-    //for (int t = 300; t < 339292800; t += 300) // very long ~ 1 million
-    for (int t = 300; t < 33929; t += 300)
-    {
-        price = cry.getPrice("SRD-BTC");
-        evolution = 1 + ((price - prv_price) / price);
+    signed int indice_conf = 0; // indice de confiance
+    double comp;
 
-        if (dollars > 0.5 * 100.0) // ceci devra être retravaillé
-        {
-            if (evolution >= 1.02)
-            {
-                // Vente de "SRD-BTC"
-                action = 2; // code de vente
-                q = 100; // quantité vendue
-            }
-            else if (evolution <= 0.98)
-            {
-                // Achat de "SRD-BTC"
-                action = 1; // code d'achat
-                q = 5; // quantité acheté
-            }
+    for(int t = 0; t < MAX_ITER; ++t)
+    {
+        // evolution prix de la crypto
+        comp = price - prv_price;
+
+        // actualisation de l'indice de confiance
+        if(comp > 0){ // si la valeur augmente
+            ++indice_conf;
+        }else if(comp < 0){
+            --indice_conf;
         }
-        else
-        {
-            if (evolution >= 1.04)
-            {
-                // Vente de "SRD-BTC"
-                action = 2; // code de vente
-                q = 100; // quantité vendue
-            }
-            else if (evolution <= 0.96)
-            {
-                // Achat de "SRD-BTC"
+
+        if(indice_conf <= -3){ // tendence de la crypto: valeur décroissante
+            // on vend une partie de ce qu'on a avant que ça ne perde trop de valeur
+            action = 2; // code de vente
+            q = srd_btc / 3; // quantité vendue
+            return; 
+        }else if(indice_conf >= 5){ // tendence de la crypto: valeur croissante
+            // on achette un peu de crypto avant que ça devienne trop cher
+            double achat_max = dollars / price;
+            double degre = 1;
+            if(achat_max > degre){ // pour ne pas aller sur des subdivisions trop petites
+                while(achat_max > degre){ // avoir une echélle de combien on peut en acheter
+                    degre *= 10;
+                }
                 action = 1; // code d'achat
-                q = 5; // quantité acheté
+                q = degre * 0.1 * 0.2; // quantité acheté
+                return;
             }
+            // sinon on achete pas
+            return;
         }
+
+        cry.retroActivitySim(); // évolution de la valeur de la crypto
         prv_price = price;
+        price = cry.getPrice("SRD-BTC");
     }
 }
 
 
-void Bot::investing(int &action, double &q, const double dollars, const double srd_btc)
+void Bot::investing(Crypto &cry, int &action, double &q, const double dollars, const double srd_btc)
 {
     std::cout << "Passage dans Bot::investing " << std::endl;
 

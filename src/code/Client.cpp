@@ -83,7 +83,7 @@ int Client::sendRequest(const std::string &request)
     }
     else
     {
-        affiche("Nombre d'octets envoyés : " + std::to_string(bytesSent));
+        //affiche("Nombre d'octets envoyés : " + std::to_string(bytesSent));
     }
     return 0;
 }

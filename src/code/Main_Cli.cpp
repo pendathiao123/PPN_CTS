@@ -6,7 +6,7 @@
 #define CAPITAL_INIT 10000
 
 int main() {
-    Client client{7195};
+    Client client{7191};
     /**
      * Au debut le client n'a pas de Token/Mot de passe
      * Et on lui donne l'adresse et le port pour se connecter au serveur
@@ -20,16 +20,20 @@ int main() {
     client.inject(10000); // on injecte 10 000$ dans notre compte
 
     // fonctions d'achat/vente clasiques
-    client.buy("SRD-BTC", 50);
+    client.buy("SRD-BTC", 5);
     //client.buy("SRD-BTC", 5);
     //client.sell("SRD-BTC", 51);
-    client.sell("SRD-BTC", 50);
+    //client.sell("SRD-BTC", 50);
     /**
      * Dans les focntions d'investissement et de trading,
      * on laisse au Bot le soin de calculer les montants idéaux
     */
-    //client.invest();
+    client.trade();
     //client.trade();
+    //client.trade();
+    //client.trade();
+    //client.invest();
+    
 
     // Finalement on recupére notre argent:
     double capital_final = client.withdraw();

@@ -186,13 +186,13 @@ std::string Server::newConnection(const std::string idClient){
     if(users.find(idClient) == users.end()){
         // generation d'un token
         std::string token = GenerateToken();
-        affiche("Token generé: " + token);
+        //affiche("Token generé: " + token);
 
         // asociation de l'identifiant du client au token generé
         users[idClient] = token;
         // Enregistrement du nouveau compte client dans la base des données
         SaveUsers(usersFile, users);
-        affiche("Nouvel ID: " + idClient + ", Nouveau Token: " + token);
+        //affiche("Nouvel ID: " + idClient + ", Nouveau Token: " + token);
 
         // Avant de sortir de la fonction on initialise le solde du nouveau client
         std::array<double,2> vide = {0.0,0.0}; // 0 $ et 0 SRD-BTC
@@ -240,7 +240,7 @@ int Server::Connection(SSL *ssl, const std::string idClient, std::string msgClie
         // extraction du token envoyé par le client
         size_t token_start = msgClient.find(prefix_token) + prefix_token.length();
         token = msgClient.substr(token_start);
-        affiche("ID: " + idClient + " a envoyé comme Token: " + token);
+        //affiche("ID: " + idClient + " a envoyé comme Token: " + token);
 
         // verification des données envoyés par rapport à la base des données
         auto it = users.find(idClient);
@@ -300,7 +300,7 @@ std::string Server::takeMoney(std::string idClient){
     // on suppose que le solde du client n'est pas négatif
     double tt = soldes[idClient].at(0);
     soldes[idClient].at(0) = 0.; // mis à jour du solde du client
-    
+
     return "TOTAL = " + std::to_string(tt);
 }
 
@@ -424,12 +424,12 @@ std::string Server::serverUseBot(const std::string id, const int a){
     {
     case 1:
         // execution algo complexe
-        serverBot.get()->investing(action, qex, soldes[id].at(0), soldes[id].at(1));
+        serverBot.get()->investing(crypto_monaie, action, qex, soldes[id].at(0), soldes[id].at(1));
         break;
 
     case 2:
         // execution algo complexe
-        serverBot.get()->trading(action, qex, soldes[id].at(0), soldes[id].at(1));
+        serverBot.get()->trading(crypto_monaie, action, qex, soldes[id].at(0), soldes[id].at(1));
         break;
     // on peut ajouter autant de cas que le Bot peut faire des choses ...
 
