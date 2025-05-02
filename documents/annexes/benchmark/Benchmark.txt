@@ -1,0 +1,85 @@
+=== Résultat du benchmark pour 10 clients ===
+Total de connexions : 10
+Connexions réussies : 10 (100%)
+Connexions échouées : 0 (0%)
+Durée : 0.100012 s
+Connexions par seconde (CPS) : 99.9876
+Temps moyen par connexion : 10.0012 ms
+
+[2025-05-02 21:47:27][INFO] Démarrage du benchmark avec 100 clients
+
+=== Résultat du benchmark pour 100 clients ===
+Total de connexions : 100
+Connexions réussies : 100 (100%)
+Connexions échouées : 0 (0%)
+Durée : 0.561414 s
+Connexions par seconde (CPS) : 178.122
+Temps moyen par connexion : 5.61414 ms
+
+[2025-05-02 21:47:27][INFO] Démarrage du benchmark avec 1000 clients
+
+=== Résultat du benchmark pour 1000 clients ===
+Total de connexions : 1000
+Connexions réussies : 1000 (100%)
+Connexions échouées : 0 (0%)
+Durée : 5.18327 s
+Connexions par seconde (CPS) : 192.928
+Temps moyen par connexion : 5.18327 ms
+
+[2025-05-02 21:47:33][INFO] Démarrage du benchmark avec 10000 clients
+
+=== Résultat du benchmark pour 10000 clients ===
+Total de connexions : 10000
+Connexions réussies : 10000 (100%)
+Connexions échouées : 0 (0%)
+Durée : 51.4175 s
+Connexions par seconde (CPS) : 194.486
+Temps moyen par connexion : 5.14175 ms
+
+[2025-05-02 21:48:34][INFO] Démarrage du benchmark pour 10 transactions
+
+=== Résultat du benchmark pour 10 transactions ===
+Transactions réussies : 10 (100%)
+Transactions échouées : 0 (0%)
+Durée totale : 0.202865 s
+Transactions par seconde (TPS) : 49.2938
+Temps moyen par transaction : 20.2865 ms
+
+[2025-05-02 21:48:34][INFO] Démarrage du benchmark pour 100 transactions
+
+=== Résultat du benchmark pour 100 transactions ===
+Transactions réussies : 100 (100%)
+Transactions échouées : 0 (0%)
+Durée totale : 1.11985 s
+Transactions par seconde (TPS) : 89.2978
+Temps moyen par transaction : 11.1985 ms
+
+[2025-05-02 21:48:35][INFO] Démarrage du benchmark pour 1 000 transactions
+
+=== Résultat du benchmark pour 1000 transactions ===
+Transactions réussies : 1000 (100%)
+Transactions échouées : 0 (0%)
+Durée totale : 10.2371 s
+Transactions par seconde (TPS) : 97.6841
+Temps moyen par transaction : 10.2371 ms
+
+[2025-05-02 21:49:12][INFO] Démarrage du benchmark pour 3 000 transactions
+
+=== Résultat du benchmark pour 3000 transactions ===
+Transactions réussies : 3000 (100%)
+Transactions échouées : 0 (0%)
+Durée totale : 30.4255 s
+Transactions par seconde (TPS) : 98.6014
+Temps moyen par transaction : 10.1418 ms
+
+[2025-05-02 21:49:33][INFO] Démarrage du benchmark pour 10 000 transactions
+
+=== Résultat du benchmark pour 10000 transactions ===
+Transactions réussies : 10000 (100%)
+Transactions échouées : 0 (0%)
+Durée totale : 102.413 s
+Transactions par seconde (TPS) : 97.6434
+Temps moyen par transaction : 10.2413 ms
+
+[2025-05-02 21:55:02][INFO] Démarrage du benchmark pour établir le nombre de connections maximum
+1802
