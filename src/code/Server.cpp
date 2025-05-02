@@ -3,7 +3,6 @@
 #include "../headers/Client.h"
 #include "../headers/Transaction.h"
 #include "../headers/Global.h"
-#include "../headers/SRD_BTC.h"
 #include "../headers/Crypto.h"
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
@@ -140,7 +139,7 @@ SSL *AcceptSSLConnection(SSL_CTX *ctx, int clientSocket)
 
 // Gestion des affichages dans le terminal
 void Server::affiche(std::string msg){
-    //std::cout << "Serveur: " << msg << std::endl;
+    std::cout << "Serveur: " << msg << std::endl;
 }
 
 // Gestion des affichage d'erreurs dans le terminal

@@ -27,8 +27,6 @@ namespace Global
     // Complète les valeurs BTC pour chaque seconde de la journée et les écrit dans un fichier CSV
     void Complete_BTC_value();
 
-    //double getRandomDouble(double range);
-
     // genère un double aléatoire respectant certaines contraintes
     double getRandomDouble();
     // Retourne la valeur quotidienne du BTC pour un jour donné

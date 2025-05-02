@@ -55,17 +55,7 @@ private:
     Crypto crypto_monaie;
     // structure pour gerer les soldes des tous les clients
     std::unordered_map<std::string,std::array<double,2>> soldes;
-
-    /*
-    // structure de données pour le compte d'un client    
-    struct portfolio{
-        std::string id_Client;
-        double currency[2]: // pour l'instant on se limite à 2: [$,SRD-BTC]
-    };
-    // structure pour gerer les soldes des tous les clients:
-    std::vector soldes<portfolio>;
-    */
-    
+        
 
     /* Méthodes privés du serveur */
     // Gestion des affichages dans le terminal

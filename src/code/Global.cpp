@@ -56,7 +56,7 @@ void Global::populateBTCValuesFromCSV(const std::string &filename)
                 try
                 {
                     BTC_daily_values[dayIndex] = std::stod(cell);
-                    std::cout << "BTC_daily_value[" << dayIndex << "] = " << BTC_daily_values[dayIndex] << std::endl; // Message de débogage
+                    //std::cout << "BTC_daily_value[" << dayIndex << "] = " << BTC_daily_values[dayIndex] << std::endl; // Message de débogage
                 }
                 catch (const std::invalid_argument &e)
                 {
@@ -297,7 +297,7 @@ void Global::Complete_BTC_value()
             // Message de débogage pour vérifier les valeurs de BTC_value
             if (t % 3600 == 0)
             { // Imprimer les valeurs toutes les heures
-                std::cout << "Jour : " << d << ", Seconde : " << t << ", Valeur BTC : " << BTC_value << std::endl;
+                //std::cout << "Jour : " << d << ", Seconde : " << t << ", Valeur BTC : " << BTC_value << std::endl;
             }
         }
     }

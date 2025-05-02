@@ -1,7 +1,6 @@
 #include "../headers/Bot.h"
 #include "../headers/Client.h"
 #include "../headers/Global.h"
-#include "../headers/SRD_BTC.h"
 #include <iostream>
 #include <unordered_map>
 #include <ctime>
@@ -9,43 +8,13 @@
 // Initialisation des constantes
 const std::string Bot::BTC_VALUES_FILE = "../src/data/btc_data.csv";
 
-Bot::Bot(){
-    // quand on demarre un Bot, toutes ses valeurs sont à zéro.
-    solde_origin = 0.0f;
-    prv_price = 0.0f;
-    balances = {
-        {"SRD-BTC", 0.0},
-        {"DOLLARS", 0.0}};
-    Global::populateBTCValuesFromCSV(BTC_VALUES_FILE);
-}
+Bot::Bot() : prv_price(0.) {}
 
 // Destructeur
 Bot::~Bot()
 {
 }
 
-
-
-std::unordered_map<std::string, double> Bot::get_total_Balance()
-{
-    return balances;
-}
-
-
-double Bot::getBalance(const std::string &currency)
-{
-    if (balances.find(currency) != balances.end())
-    {
-        return balances[currency];
-    }
-    return 0.0;
-}
-
-
-void Bot::updateBalance(std::unordered_map<std::string, double> bot_balance)
-{
-    balances = bot_balance;
-}
 
 // Fonction de trading du bot
 void Bot::trading(Crypto &cry, int &action, double &q, const double dollars, const double srd_btc)
@@ -106,23 +75,3 @@ void Bot::trading(Crypto &cry, int &action, double &q, const double dollars, con
     }
     std::cout << "No action taken" << std::endl;
 }
-
-/*
-double Bot::getPrice(const std::string &currency)
-{
-    std::time_t currentTime = std::time(0);
-    std::tm *now = std::localtime(&currentTime);
-    int day = now->tm_yday;
-    int second = now->tm_hour * 3600 + now->tm_min * 60 + now->tm_sec;
-
-    if (currency == "SRD-BTC")
-    {
-        // Global::readBTCValuesFromCSV("btc_sec_values.csv");
-        return get_complete_BTC_value(day, second);
-    }
-    else
-    {
-        return 0.0;
-    }
-}
-*/

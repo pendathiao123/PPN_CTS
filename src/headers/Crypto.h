@@ -13,10 +13,6 @@ private:
     std::string name;     // Nom de la crypto
     double price;         // Prix actuel de la crypto
     double changeRate;    // Taux de variation du prix (en pourcentage)
-    std::unordered_map<std::string, double>& balances;    //Dictionnaire du portefolio
-
-    // Variable contenant l'ensemble des cryptos:
-    std::unordered_map<std::string, std::array<double, CRYPTO_MAX>> cryptoCurrency;
 
     // variable qui simule l'evolution des valeurs des crypto-monaies
     long int current_value;
@@ -32,7 +28,7 @@ public:
     // retourne la valeur de la crypto pour current_value
     double get_SRD_BTC_value();
 
-    // Getter pour le prix actuel
+    // Getteur pour le prix actuel
     double getPrice(const std::string& currency);
 
     // Mise à jour du prix selon le taux de variation
@@ -40,9 +36,6 @@ public:
 
     // Affichage des informations sur la crypto
     void displayInfo() const;
-
-    // Méthode pour récupérer le dernier prix enregistré (pour le bot)
-    static double get_prv_price(const std::string& currency);
 
     // Méthode qui fait evouler le prix des cryptos à chaque appel
     void retroActivitySim();
