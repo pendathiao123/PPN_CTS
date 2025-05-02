@@ -319,7 +319,7 @@ int Server::buyCrypto(const std::string& id, const std::string& crypto, double q
 
             // Créer une transaction et l'enregistrer dans le fichier
             Transaction transaction(id, "buy", crypto, q, prix);
-            affiche("Création de la transaction: " + transaction.getId());
+            //affiche("Création de la transaction: " + transaction.getId());
             transaction.logTransactionToCSV(logFile);
 
             // aprés avoir validé une transaction on simule une retroactivité !
@@ -345,7 +345,7 @@ int Server::sellCrypto(const std::string& id, const std::string& crypto, double 
 
             // Créer une transaction et l'enregistrer dans le fichier
             Transaction transaction(id, "sell", crypto, q, prix);
-            affiche("Création de la transaction: " + transaction.getId());
+            //affiche("Création de la transaction: " + transaction.getId());
             transaction.logTransactionToCSV(logFile);
             
             // aprés avoir validé une transaction on simule une retroactivité !
@@ -488,7 +488,7 @@ void Server::HandleClient(SSL *ssl){
         afficheErr("Erreur lors de la reception du message (vide).");
         return;
     }
-    affiche("Le Serveur à Reçu: " + receivedMessage);
+    //affiche("Le Serveur à Reçu: " + receivedMessage);
 
     // Extraction de l'ID du Client:
     std::string prefix_id = "ID:";
