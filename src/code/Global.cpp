@@ -1,306 +1,358 @@
+#include "../headers/Global.h"
+#include "../headers/Logger.h"
+
+#include <curl/curl.h>        
+#include <nlohmann/json.hpp>  
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <stdexcept>
+#include <vector>
+#include <ctime>              
+#include <atomic>             
+#include <random>             
+#include <thread>             
+#include <chrono>             
+#include <cmath>              
 #include <filesystem>
-#include <algorithm>
-#include <limits>
-#include <random>
-#include <iostream>
-#include <cmath>
-#include <random>
-#include "../headers/Global.h"
+#include <stdexcept>          
+#include <iomanip>            
+#include <sstream>            
+#include <mutex>              
 
+
+// Utilisation de l'espace de noms pour la bibliothèque JSON
+using json = nlohmann::json;
+
+// --- Initialisation des membres statiques ---
+
+// Mutex pour la dernière valeur instantanée
+std::mutex Global::srdMutex;
+double Global::lastSRDBTCValue = 0.0;
+
+// Mutex pour le buffer circulaire et son index
+std::mutex Global::bufferMutex;
+
+// Buffer circulaire des prix historiques (taille fixe, initialisé à 0.0)
+std::vector<double> Global::ActiveSRDBTC(Global::MAX_VALUES_PER_DAY, 0.0);
+// Index de la prochaine position d'écriture dans le buffer circulaire
+std::atomic<int> Global::activeIndex = 0; // Commence à 0
+
+// Flag pour signaler l'arrêt du thread de génération de prix
 std::atomic<bool> Global::stopRequested = false;
-std::array<double, 1> Global::BTC_daily_values = {};
 
-std::atomic<bool> &Global::getStopRequested()
-{
-    return stopRequested;
+// Thread dédié à la génération/mise à jour des prix
+std::thread Global::priceGenerationWorker;
+
+
+// --- Callback de libcurl ---
+// Stocke les données reçues dans un std::string.
+size_t Global::WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    return size * nmemb;
 }
 
-std::array<double, 1> &Global::getBTCDailyValues()
-{
-    return BTC_daily_values;
-}
+// --- Implémentation des Fonctions Utilitaires StringTo/ToString ---
 
-// Remplit BTC_daily_values à partir d'un fichier CSV
-void Global::populateBTCValuesFromCSV(const std::string &filename)
-{
-    std::ifstream file(filename);
-    if (!file.is_open())
-    {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << "\n";
-        return;
+
+// Convertit Currency enum en string
+std::string currencyToString(Currency currency) {
+    switch (currency) {
+        case Currency::USD: return "USD";
+        case Currency::SRD_BTC: return "SRD-BTC";
+        case Currency::UNKNOWN: return "UNKNOWN_CURRENCY";
+        default: return "UNKNOWN_CURRENCY"; // Retour par défaut pour robustesse.
     }
+}
 
-    std::string line;
-    int dayIndex = 0;
+// Convertit string en Currency enum (insensible à la casse)
+Currency stringToCurrency(const std::string& str) {
+    std::string lower_str = str;
+    std::transform(lower_str.begin(), lower_str.end(), lower_str.begin(), ::tolower);
+    if (lower_str == "usd") return Currency::USD;
+    if (lower_str == "srd-btc") return Currency::SRD_BTC;
+    return Currency::UNKNOWN;
+}
 
-    // Ignorer la première ligne (en-tête)
-    std::getline(file, line);
+// Convertit TransactionType enum en string
+std::string transactionTypeToString(TransactionType type) {
+    switch (type) {
+        case TransactionType::BUY: return "BUY";
+        case TransactionType::SELL: return "SELL";
+        case TransactionType::UNKNOWN: return "UNKNOWN_TYPE";
+        default: return "UNKNOWN_TYPE"; // Retour par défaut pour robustesse.
+    }
+}
 
-    while (std::getline(file, line) && dayIndex < BTC_daily_values.size())
-    {
-        std::istringstream lineStream(line);
-        std::string cell;
-        int cellIndex = 0;
+// Convertit string en TransactionType enum (insensible à la casse)
+TransactionType stringToTransactionType(const std::string& str) {
+    std::string lower_str = str;
+    std::transform(lower_str.begin(), lower_str.end(), lower_str.begin(), ::tolower);
+    if (lower_str == "buy") return TransactionType::BUY;
+    if (lower_str == "sell") return TransactionType::SELL;
+    return TransactionType::UNKNOWN;
+}
 
-        while (std::getline(lineStream, cell, ','))
-        {
-            // Supprimer les guillemets de la valeur de la cellule
-            cell.erase(std::remove(cell.begin(), cell.end(), '\"'), cell.end());
+// Convertit TransactionStatus enum en string
+std::string transactionStatusToString(TransactionStatus status) {
+    switch (status) {
+        case TransactionStatus::PENDING: return "PENDING";
+        case TransactionStatus::COMPLETED: return "COMPLETED";
+        case TransactionStatus::FAILED: return "FAILED";
+        case TransactionStatus::UNKNOWN: return "UNKNOWN_STATUS";
+        default: return "UNKNOWN_STATUS"; // Retour par défaut pour robustesse.
+    }
+}
 
-            if (cellIndex == 1)
-            { // La valeur "Dernier" est dans la deuxième cellule (index 1)
-                try
-                {
-                    BTC_daily_values[dayIndex] = std::stod(cell);
-                    std::cout << "BTC_daily_value[" << dayIndex << "] = " << BTC_daily_values[dayIndex] << std::endl; // Message de débogage
-                }
-                catch (const std::invalid_argument &e)
-                {
-                    std::cerr << "Format de nombre invalide dans la cellule : " << cell << std::endl;
-                }
-                catch (const std::out_of_range &e)
-                {
-                    std::cerr << "Nombre hors de portée dans la cellule : " << cell << std::endl;
-                }
-                break; // Passer à la ligne suivante après avoir trouvé la valeur "Dernier"
-            }
-            ++cellIndex;
+// Convertit string en TransactionStatus enum (insensible à la casse)
+TransactionStatus stringToTransactionStatus(const std::string& str) {
+    std::string lower_str = str;
+    std::transform(lower_str.begin(), lower_str.end(), lower_str.begin(), ::tolower);
+    if (lower_str == "pending") return TransactionStatus::PENDING;
+    if (lower_str == "completed") return TransactionStatus::COMPLETED;
+    if (lower_str == "failed") return TransactionStatus::FAILED;
+    if (lower_str == "unknown") return TransactionStatus::UNKNOWN; // Gère aussi "unknown" string si jamais loggué ainsi
+    return TransactionStatus::UNKNOWN;
+}
+
+// --- Implémentation de positionStateToString ---
+std::string positionStateToString(PositionState ps) {
+    switch (ps) {
+        case PositionState::NONE: return "NONE";
+        case PositionState::LONG: return "LONG";
+        case PositionState::SHORT: return "SHORT";
+        case PositionState::UNKNOWN: return "UNKNOWN";
+        default: return "UNKNOWN_STATE"; // Cas par défaut si une valeur inattendue est passée
+    }
+}
+
+// --- Implémentation de tradingActionToString ---
+std::string tradingActionToString(TradingAction ta) {
+    switch (ta) {
+        case TradingAction::HOLD: return "HOLD";
+        case TradingAction::BUY: return "BUY";
+        case TradingAction::SELL: return "SELL";
+        case TradingAction::CLOSE_LONG: return "CLOSE_LONG";
+        case TradingAction::CLOSE_SHORT: return "CLOSE_SHORT";
+        case TradingAction::UNKNOWN: return "UNKNOWN";
+        default: return "UNKNOWN_ACTION"; // Cas par défaut
+    }
+}
+
+// --- Boucle principale du thread de génération de prix ---
+// S'exécute dans priceGenerationWorker.
+void Global::generate_SRD_BTC_loop_impl() {
+    LOG("Global Thread de génération de prix démarré.", "INFO");
+
+    // Initialisation des ressources du thread.
+    CURL* curl = nullptr;
+    std::string readBuffer;
+    std::default_random_engine generator(std::random_device{}());
+    // Distribution normale pour une fluctuation aléatoire (moyenne 0.0, écart-type 0.015 = 1.5%)
+    std::normal_distribution<double> distribution(0.0, 0.015);
+
+    std::string priceLogPath = "../src/data/srd_btc_values.csv"; // Chemin relatif du fichier de log
+    std::ofstream priceFile(priceLogPath, std::ios::app); // Ouvre en mode ajout
+
+    if (!priceFile.is_open()) {
+        LOG("Global Impossible d'ouvrir/créer le fichier de log des prix : " + priceLogPath + ". Le thread continuera mais sans logging disque.", "ERROR");
+    } else {
+        priceFile.seekp(0, std::ios::end);
+        if (priceFile.tellp() == 0) {
+             priceFile << "Timestamp,SRD-BTC_USD\n";
+             priceFile.flush();
+             LOG("Global Fichier de log des prix '" + priceLogPath + "' ouvert. En-tête ajouté.", "INFO");
+        } else {
+             LOG("Global Fichier de log des prix '" + priceLogPath + "' ouvert en mode append.", "INFO");
         }
-        ++dayIndex;
     }
 
-    file.close();
-}
-
-// Écrit les valeurs BTC dans un fichier CSV
-void Global::writeBTCValuesToCSV(const std::string &filename)
-{
-    std::ofstream file(filename);
-
-    if (!file.is_open())
-    {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << "\n";
-        return;
+    // Initialisation cURL.
+    curl = curl_easy_init();
+    if (!curl) {
+        LOG("Global Erreur fatale : Impossible d'initialiser cURL. Les requêtes API échoueront.", "ERROR");
     }
 
-    // Écrire l'en-tête du fichier CSV
-    file << "Day,Second,Value\n";
+    // --- Boucle principale ---
+    while (!stopRequested.load()) { // Le thread tourne tant que l'arrêt n'est pas demandé
 
-    for (int d = 0; d < 1; ++d)
-    {
-        float BTC_value = BTC_daily_values[d];
-        for (int t = 0; t < 100; ++t)
-        {
-            file << d << "," << t << "," << BTC_value << "\n";
-        }
-    }
+        double currentBTCValue = -1.0; // Initialise la valeur BTC pour ce cycle
 
-    file.close();
-}
+        // --- Récupération du prix via API ---
+        if (curl) {
+            readBuffer.clear();
+            curl_easy_setopt(curl, CURLOPT_URL, "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
 
-// Lit les valeurs BTC à partir d'un fichier CSV
-void Global::readBTCValuesFromCSV(const std::string &filename)
-{
-    std::ifstream file(filename);
+            CURLcode res = curl_easy_perform(curl);
 
-    if (!file.is_open())
-    {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier " << filename << "\n";
-        return;
-    }
-
-    std::string line;
-    int day, second;
-    double value;
-
-    // Ignorer la ligne d'en-tête
-    std::getline(file, line);
-
-    while (std::getline(file, line))
-    {
-        std::istringstream lineStream(line);
-        std::string cell;
-        int cellIndex = 0;
-
-        while (std::getline(lineStream, cell, ','))
-        {
-            switch (cellIndex)
-            {
-            case 0:
-                day = std::stoi(cell);
-                break;
-            case 1:
-                second = std::stoi(cell);
-                break;
-            case 2:
-                try
-                {
-                    value = std::stod(cell);
-                    // Vérification de la validité de la valeur
-                    if (std::isinf(value) || std::isnan(value))
-                    {
-                        std::cerr << "Valeur invalide (inf ou nan) dans la cellule : " << cell << std::endl;
-                        value = 0.0; // Valeur par défaut en cas d'erreur
+            if (res == CURLE_OK) {
+                try {
+                    auto jsonData = json::parse(readBuffer);
+                    if (jsonData.contains("bitcoin") && jsonData["bitcoin"].contains("usd")) {
+                        currentBTCValue = jsonData["bitcoin"]["usd"].get<double>();
+                    } else {
+                         LOG("Global Réponse JSON de CoinGecko inattendue. Réponse: '" + readBuffer + "'.", "WARNING");
                     }
-                    std::cout << "Valeur lue : " << value << std::endl; // Message de débogage
+                } catch (const json::exception& e) {
+                    LOG("Global Erreur parsing JSON. Erreur: " + std::string(e.what()) + ". Réponse brute: '" + readBuffer + "'.", "ERROR");
+                } catch (const std::exception& e) {
+                     LOG("Global Erreur inattendue lors du traitement de la réponse API. Erreur: " + std::string(e.what()) + ".", "ERROR");
                 }
-                catch (const std::invalid_argument &e)
-                {
-                    std::cerr << "Format de nombre invalide dans la cellule : " << cell << std::endl;
-                    value = 0.0; // Valeur par défaut en cas d'erreur
-                }
-                catch (const std::out_of_range &e)
-                {
-                    std::cerr << "Nombre hors de portée dans la cellule : " << cell << std::endl;
-                    value = 0.0; // Valeur par défaut en cas d'erreur
-                }
-                break;
+            } else {
+                LOG("Global Erreur cURL lors de la récupération du prix : " + std::string(curl_easy_strerror(res)) + ".", "ERROR");
             }
-            ++cellIndex;
+        } else {
+             if (!stopRequested.load()) {
+                 LOG("Global Le handle cURL n'est pas valide. Impossible d'effectuer la requête API.", "ERROR");
+             }
         }
-    }
+        // --- Fin Récupération Prix ---
 
-    file.close();
-}
 
-// Affiche les valeurs BTC pour un jour donné, entre deux secondes spécifiques
-void Global::printBTCValuesForDay(int day, int start_second, int end_second)
-{
-    std::ifstream file("../src/data/btc_sec_values.csv");
+        // --- Simulation et Mise à jour Thread-Safe ---
+        if (currentBTCValue > 0 && std::isfinite(currentBTCValue)) { // Vérifie si le prix BTC est valide et fini
+            double fluctuation = distribution(generator);
+            double srd_btc = currentBTCValue * (1.0 + fluctuation);
+            if (srd_btc <= 0 || !std::isfinite(srd_btc)) srd_btc = 0.01; // Assure un prix positif et fini
 
-    if (!file.is_open())
-    {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier btc_sec_values.csv\n";
-        return;
-    }
+            { // Début section critique avec verrous
+                std::lock_guard<std::mutex> lock_srd(srdMutex);
+                lastSRDBTCValue = srd_btc; // Mise à jour dernière valeur
 
-    std::string line;
-    int d, second;
-    double value;
+                std::lock_guard<std::mutex> lock_buffer(bufferMutex);
+                 // Utilisation simple (seq_cst) ou relaxed/acquire/release - seq_cst est plus sûr/simple ici
+                 int index = activeIndex.load(); // Peut utiliser memory_order_seq_cst (par défaut)
+                ActiveSRDBTC[index] = srd_btc;
+                 activeIndex.store((index + 1) % MAX_VALUES_PER_DAY); // Peut utiliser memory_order_seq_cst (par défaut)
+            } // Les verrous sont libérés
 
-    // Ignorer la ligne d'en-tête
-    std::getline(file, line);
+            // --- Logging de la nouvelle valeur ---
+            auto now = std::chrono::system_clock::now();
+            auto time_t = std::chrono::system_clock::to_time_t(now);
+            std::tm timeinfo_buffer;
+            std::tm* timeinfo = localtime_r(&time_t, &timeinfo_buffer); // Utilise localtime_r (thread-safe)
 
-    while (std::getline(file, line))
-    {
-        std::istringstream lineStream(line);
-        std::string cell;
-        int cellIndex = 0;
+            std::stringstream ss_timestamp;
+            if (timeinfo) { ss_timestamp << std::put_time(timeinfo, "%Y-%m-%d %X"); } else { ss_timestamp << "[TIMESTAMP_ERROR]"; }
 
-        while (std::getline(lineStream, cell, ','))
-        {
-            switch (cellIndex)
-            {
-            case 0:
-                d = std::stoi(cell);
-                break;
-            case 1:
-                second = std::stoi(cell);
-                break;
-            case 2:
-                try
-                {
-                    value = std::stod(cell);
-                    // Vérification de la validité de la valeur
-                    if (std::isinf(value) || std::isnan(value))
-                    {
-                        std::cerr << "Valeur invalide (inf ou nan) dans la cellule : " << cell << std::endl;
-                        value = 0.0; // Valeur par défaut en cas d'erreur
-                    }
-                }
-                catch (const std::invalid_argument &e)
-                {
-                    std::cerr << "Format de nombre invalide dans la cellule : " << cell << std::endl;
-                    value = 0.0; // Valeur par défaut en cas d'erreur
-                }
-                catch (const std::out_of_range &e)
-                {
-                    std::cerr << "Nombre hors de portée dans la cellule : " << cell << std::endl;
-                    value = 0.0; // Valeur par défaut en cas d'erreur
-                }
-                break;
+            if (priceFile.is_open()) {
+                priceFile << ss_timestamp.str() << "," << std::fixed << std::setprecision(10) << srd_btc << "\n";
+                priceFile.flush();
             }
-            ++cellIndex;
-        }
+            std::stringstream ss_log_price;
+            ss_log_price << "Global Nouveau prix SRD-BTC simulé : " << std::fixed << std::setprecision(10) << srd_btc;
+            LOG(ss_log_price.str(), "INFO");
 
-        if (d == day && second >= start_second && second <= end_second)
-        {
-            std::cout << "{" << d << ", " << second << "} : " << value << "\n";
+
+        } else {
+             LOG("Global Prix BTC non récupéré ou invalide. La valeur SRD-BTC n'est pas mise à jour dans ce cycle.", "WARNING");
         }
+        // --- Fin Simulation et Mise à jour ---
+
+
+        // Pause avant le prochain cycle.
+        std::this_thread::sleep_for(std::chrono::seconds(15)); // Fréquence de mise à jour des prix
+
+    } // --- Fin de la boucle principale ---
+
+    // --- Nettoyage à l'arrêt du thread ---
+    if (curl) { curl_easy_cleanup(curl); } // Supprimé (DEBUG)
+    if (priceFile.is_open()) {
+        auto now = std::chrono::system_clock::now();
+        auto time_t = std::chrono::system_clock::to_time_t(now);
+        std::tm timeinfo_buffer;
+        std::tm* timeinfo = localtime_r(&time_t, &timeinfo_buffer);
+        std::stringstream ss_timestamp;
+        if (timeinfo) { ss_timestamp << std::put_time(timeinfo, "%Y-%m-%d %X"); } else { ss_timestamp << "[TIMESTAMP_ERROR]"; }
+        priceFile << "--- Fin du log de prix : " << ss_timestamp.str() << " ---\n";
+        priceFile.close();
+        LOG("Global Fichier de log des prix fermé.", "INFO");
     }
-
-    file.close();
+    LOG("Global Thread de génération de prix terminé.", "INFO");
 }
 
 
-double Global::getRandomDouble() {
-    // Utiliser un générateur de nombres aléatoires
-    std::random_device rd;
-    std::mt19937 gen(rd());  // Mersenne Twister pour une meilleure qualité d'aléatoire
+// --- Implémentation des méthodes de gestion du thread ---
 
-    // Distribution normale centrée en 0.02 et écart-type petit pour contenir les résultats dans [0, 0.004]
-    std::normal_distribution<> dis(0.02, 0.004);  // Moyenne = 0.02, écart-type = 0.004
+// Démarre le thread s'il n'est pas lancé.
+void Global::startPriceGenerationThread() {
+    if (!priceGenerationWorker.joinable()) {
+        LOG("Global Demande de démarrage du thread de génération de prix.", "INFO");
+        stopRequested.store(false);
+        priceGenerationWorker = std::thread(&Global::generate_SRD_BTC_loop_impl);
+        LOG("Global Thread de génération de prix initié.", "INFO");
+    } else {
+        LOG("Global Thread de génération de prix déjà en cours.", "WARNING");
+    }
+}
 
-    // Générer un nombre normal dans la plage [0, 0.1]
-    double result = dis(gen);
-
-    // Si le résultat dépasse 0.04 ou est inférieur à 0, on le recale pour qu'il reste dans la plage souhaitée
-    if (result > 0.04) result = 0.04;
-    if (result < 0.0) result = 0.0;
-
-    return result;
+// Signale l'arrêt et attend la fin du thread.
+void Global::stopPriceGenerationThread() {
+    LOG("Global Demande d'arrêt du thread de génération de prix.", "INFO");
+    stopRequested.store(true);
+    if (priceGenerationWorker.joinable()) {
+        LOG("Global Jointure du thread de génération de prix...", "INFO");
+        priceGenerationWorker.join();
+        LOG("Global Thread de génération de prix joint.", "INFO");
+    } else {
+        LOG("Global Thread de génération de prix non joignable ou déjà terminé lors de la demande d'arrêt.", "WARNING");
+    }
 }
 
 
-// Retourne la valeur quotidienne du BTC pour un jour donné
-float Global::get_daily_BTC_value(int d)
-{
-    const auto &BTC_daily_values = Global::getBTCDailyValues();
-    if (d < 0 || d >= BTC_daily_values.size())
-    {
-        std::cerr << "Erreur : Index " << d << " hors des limites pour BTC_daily_values.\n";
+// --- Implémentation des méthodes d'accès aux prix (Thread-Safe) ---
+
+// Retourne le dernier prix SRD-BTC connu.
+double Global::getPrice(const std::string& currency) {
+    if (currency == "SRD-BTC") {
+        std::lock_guard<std::mutex> lock(srdMutex); // Protège la lecture
+        return lastSRDBTCValue;
+    }
+    LOG("Global Tentative d'accès au prix pour devise non supportée : " + currency, "WARNING");
+    return 0.0;
+}
+
+// Retourne un prix historique approximatif.
+double Global::getPreviousPrice(const std::string& currency, int secondsBack) {
+     if (currency != "SRD-BTC") {
+        LOG("Global Tentative d'accès à l'historique pour devise non supportée : " + currency, "WARNING");
         return 0.0;
+     }
+     if (secondsBack <= 0) {
+        return getPrice(currency); // Retourne le prix actuel (qui est déjà thread-safe)
+     }
+
+    // L'intervalle entre deux mises à jour stockées.
+    const int update_interval_sec = 15; // Doit correspondre à la pause dans la boucle de génération.
+
+    // Calcule le nombre de pas en arrière.
+    int stepsBack = secondsBack / update_interval_sec;
+
+    // Limite les pas si cela dépasse la capacité du buffer.
+    if (stepsBack >= MAX_VALUES_PER_DAY) {
+        LOG("Global getPreviousPrice - Histoire demandée (" + std::to_string(secondsBack) + "s) excède la capacité du buffer (" + std::to_string(MAX_VALUES_PER_DAY * update_interval_sec) + "s). Retourne l'élément le plus ancien stocké.", "WARNING");
+        stepsBack = MAX_VALUES_PER_DAY - 1; // Indexe l'élément le plus ancien.
     }
-    double BTC_value = BTC_daily_values[d];
-    return static_cast<float>(BTC_value);
+
+    { // Début section critique pour lecture du buffer et de l'index
+        std::lock_guard<std::mutex> lock(bufferMutex); // Protège la lecture
+
+        // Calcule l'index cible.
+        // activeIndex pointe vers la prochaine écriture.
+        int raw_index = activeIndex.load() - stepsBack; // Peut utiliser memory_order_seq_cst (par défaut)
+        int target_index = raw_index % MAX_VALUES_PER_DAY;
+        if (target_index < 0) {
+            target_index += MAX_VALUES_PER_DAY; // Gère l'enroulement pour les indices négatifs
+        }
+
+        // Retourne la valeur.
+        return ActiveSRDBTC[target_index];
+
+    } // Le verrou est libéré
 }
 
-// Complète les valeurs BTC pour chaque seconde de la journée et les écrit dans un fichier CSV
-void Global::Complete_BTC_value()
-{
-    std::ofstream file("../src/data/btc_sec_values.csv");
-    if (!file.is_open())
-    {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier btc_sec_values.csv\n";
-        return;
-    }
-
-    // Écrire l'en-tête du fichier CSV
-    file << "Day,Second,Value\n";
-
-    for (int d = 0; d < 1; ++d)
-    {
-        double BTC_value = get_daily_BTC_value(d);
-        for (int t = 0; t < 86400; ++t)
-        {
-            double randomValue = getRandomDouble(); // Générer une valeur aléatoire
-
-            BTC_value = (0.98 +randomValue)  * BTC_value;
-
-       
-            file << d << "," << t << "," << BTC_value << "\n";
-
-            // Message de débogage pour vérifier les valeurs de BTC_value
-            if (t % 3600 == 0)
-            { // Imprimer les valeurs toutes les heures
-                std::cout << "Jour : " << d << ", Seconde : " << t << ", Valeur BTC : " << BTC_value << std::endl;
-            }
-        }
-    }
-
-    file.close();
+// Accède au flag atomique stopRequested (utilisé par le Server pour arrêter le thread).
+std::atomic<bool>& Global::getStopRequested() {
+    return stopRequested;
 }
