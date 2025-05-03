@@ -1,101 +1,34 @@
-// --- Implémentation de Transaction.cpp ---
+#include "../headers/Transaction.h" 
+#include "../headers/Logger.h"      
 
-#include "../headers/Transaction.h" // Inclut les déclarations de la classe Transaction, des enums et helpers
-#include "../headers/Logger.h"      // Pour le logging
-
-// Includes pour les fonctionnalités spécifiques utilisées ici :
-#include <fstream>      // Flux de fichiers (ifstream, ofstream)
-#include <iostream>     // Flux console (cerr)
-#include <sstream>      // String streams (stringstream)
-#include <iomanip>      // Manipulateurs de flux (fixed, setprecision, put_time)
-#include <chrono>       // Gestion moderne du temps (chrono)
-#include <ctime>        // Types de temps C-style (time_t, struct tm, localtime_r, strftime)
-#include <cmath>        // Fonctions mathématiques (abs, isfinite)
-#include <filesystem>   // Gestion du système de fichiers (potentiellement pour les fichiers statiques, mais pas d'usage direct ici)
-#include <random>       // Pour la génération de nombres aléatoires (non utilisé pour l'ID actuel)
-#include <mutex>        // Mutex (utilisé pour lock_guard)
-#include <cerrno>       // Variable globale errno
-#include <cstring>      // Fonction strerror
+#include <fstream>     
+#include <iostream>    
+#include <sstream>      
+#include <iomanip>      
+#include <chrono>       
+#include <ctime>       
+#include <cmath>      
+#include <filesystem>  
+#include <random>       
+#include <mutex>        
+#include <cerrno>       
+#include <cstring>      
 
 // Ajout pour stringToCurrency, etc.
-#include <algorithm>    // Pour std::transform
-#include <cctype>       // Pour ::tolower
-#include <unordered_map> // Pour les maps de conversion si préféré au switch
+#include <algorithm>    
+#include <cctype>       
+#include <unordered_map> 
 
 
-// --- Définition et initialisation des membres statiques (déclarés dans Transaction.h) ---
+// --- Définition et initialisation des membres statiques ---
 // Ces membres statiques déclarés dans le .h doivent être définis (et initialisés si besoin) dans UN SEUL fichier .cpp
 int Transaction::counter = 0; // Initialisation du compteur d'ID unique à 0.
 std::mutex Transaction::counterMutex; // Définition du mutex statique pour le compteur.
-std::mutex Transaction::persistenceMutex; // Définition du mutex statique pour les accès fichiers statiques (log global, compteur).
+std::mutex Transaction::persistenceMutex; // Définition du mutex statique pour les accès fichiers statiques.
 
 
-// --- Implémentation des Fonctions Utilitaires StringTo/ToString ---
 
-// Convertit Currency enum en string
-std::string currencyToString(Currency currency) {
-    switch (currency) {
-        case Currency::USD: return "USD";
-        case Currency::SRD_BTC: return "SRD-BTC";
-        case Currency::UNKNOWN: return "UNKNOWN_CURRENCY";
-        default: return "UNKNOWN_CURRENCY";
-    }
-}
-
-// Convertit string en Currency enum (insensible à la casse)
-Currency stringToCurrency(const std::string& str) {
-    std::string lower_str = str;
-    std::transform(lower_str.begin(), lower_str.end(), lower_str.begin(), ::tolower);
-    if (lower_str == "usd") return Currency::USD;
-    if (lower_str == "srd-btc") return Currency::SRD_BTC;
-    return Currency::UNKNOWN;
-}
-
-// Convertit TransactionType enum en string
-std::string transactionTypeToString(TransactionType type) {
-    switch (type) {
-        case TransactionType::BUY: return "BUY";
-        case TransactionType::SELL: return "SELL";
-        // DEPOSIT et WITHDRAW ont été retirés
-        case TransactionType::UNKNOWN: return "UNKNOWN_TYPE";
-        default: return "UNKNOWN_TYPE";
-    }
-}
-
-// Convertit string en TransactionType enum (insensible à la casse)
-TransactionType stringToTransactionType(const std::string& str) {
-    std::string lower_str = str;
-    std::transform(lower_str.begin(), lower_str.end(), lower_str.begin(), ::tolower);
-    if (lower_str == "buy") return TransactionType::BUY;
-    if (lower_str == "sell") return TransactionType::SELL;
-    // DEPOSIT et WITHDRAW ont été retirés
-    return TransactionType::UNKNOWN;
-}
-
-// Convertit TransactionStatus enum en string
-std::string transactionStatusToString(TransactionStatus status) {
-    switch (status) {
-        case TransactionStatus::PENDING: return "PENDING";
-        case TransactionStatus::COMPLETED: return "COMPLETED";
-        case TransactionStatus::FAILED: return "FAILED";
-        case TransactionStatus::UNKNOWN: return "UNKNOWN_STATUS";
-        default: return "UNKNOWN_STATUS";
-    }
-}
-
-// Convertit string en TransactionStatus enum (insensible à la casse)
-TransactionStatus stringToTransactionStatus(const std::string& str) {
-    std::string lower_str = str;
-    std::transform(lower_str.begin(), lower_str.end(), lower_str.begin(), ::tolower);
-    if (lower_str == "pending") return TransactionStatus::PENDING;
-    if (lower_str == "completed") return TransactionStatus::COMPLETED;
-    if (lower_str == "failed") return TransactionStatus::FAILED;
-    if (lower_str == "unknown") return TransactionStatus::UNKNOWN; // Gère aussi "unknown" string si jamais loggué ainsi
-    return TransactionStatus::UNKNOWN;
-}
-
-
-// --- Implémentation generateUniqueId (privée statique) ---
+// --- Implémentation generateUniqueId ---
 // Génère un ID unique pour une nouvelle transaction. Thread-safe.
 std::string Transaction::generateUniqueId() {
     std::lock_guard<std::mutex> lock(counterMutex); // Protège l'accès au compteur statique
@@ -112,7 +45,7 @@ std::string Transaction::generateUniqueId() {
     return ss.str();
 }
 
-// --- Implémentation generateNewIdString (publique statique) ---
+// --- Implémentation generateNewIdString ---
 // Génère et retourne un nouvel ID de transaction unique. Thread-safe.
 // Appelée par TransactionQueue.
 std::string Transaction::generateNewIdString() {
@@ -122,13 +55,13 @@ std::string Transaction::generateNewIdString() {
 
 // --- Implémentation des Constructeurs ---
 
-// Constructeur pour créer une transaction (utilisé par TQ ou chargement).
+// Constructeur pour créer une transaction.
 // Prend tous les détails comme arguments.
 Transaction::Transaction(const std::string& id, const std::string& clientId, TransactionType type,
                 const std::string& cryptoName, double quantity, double unitPrice,
                 double totalAmount, double fee, std::time_t timestamp_t, TransactionStatus status,
                 const std::string& failureReason)
-    // Liste d'initialisation : Assigne directement toutes les valeurs fournies (calculées par TQ ou chargées).
+    // Liste d'initialisation : Assigne directement toutes les valeurs fournies.
     : id(id), clientId(clientId), type(type), cryptoName(cryptoName),
       quantity(quantity), unitPrice(unitPrice), totalAmount(totalAmount), fee(fee),
       timestamp_t(timestamp_t), status(status), failureReason(failureReason)
@@ -146,11 +79,10 @@ Transaction::Transaction(const std::string& id, const std::string& clientId, Tra
     if (this->status == TransactionStatus::FAILED) { // Utilise le membre directement
         ss_log << ", Raison Échec='" << this->failureReason << "'";
     }
-    LOG(ss_log.str(), "DEBUG");
 }
 
 
-// --- Implémentation des Getters (const) ---
+// --- Implémentation des Getters ---
 // Retournent la valeur des membres correspondants. Simples accès, ne nécessitent pas de mutex.
 const std::string& Transaction::getId() const { return id; }
 const std::string& Transaction::getClientId() const { return clientId; }
@@ -168,10 +100,10 @@ const std::string& Transaction::getFailureReason() const { return failureReason;
 
 // --- Implémentation des Getters Helpers ---
 
-// Génère une description textuelle lisible de la transaction. Thread-safe (accès en lecture seule aux membres const).
+// Génère une description textuelle lisible de la transaction.
 std::string Transaction::getDescription() const {
     std::stringstream ss;
-    // Début de la description basé sur le type (ex: "BUY 0.001 SRD-BTC")
+    // Début de la description basé sur le type
     ss << transactionTypeToString(type) << " " // Utilise helper
        << std::fixed << std::setprecision(10) << quantity << " "
        << cryptoName; // Ou devise selon le type
@@ -182,9 +114,11 @@ std::string Transaction::getDescription() const {
     }
 
     // Ajoute le montant total et les frais.
-    ss << " (Total: " << std::fixed << std::setprecision(10) << totalAmount << ", Fee: " << std::fixed << std::setprecision(10) << fee << ")"; // Préciser la devise si différente de USD
+    ss << " (Total: " << std::fixed << std::setprecision(10) << totalAmount << ", Fee: " << std::fixed << std::setprecision(10) << fee << ")";
 
-    return ss.str(); // La raison d'échec est incluse dans le log/CSV, pas toujours dans la description courte.
+    // La raison d'échec est incluse dans le log/CSV, pas toujours dans la description courte.
+
+    return ss.str();
 }
 
 // Retourne le timestamp formaté en string ("YYYY-MM-DD HH:MM:SS"). Thread-safe.
@@ -199,7 +133,7 @@ std::string Transaction::getTimestampString() const {
         std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %X", &timeinfo_buffer); // %X est le format standard HH:MM:SS
         return buffer; // Retourne la string formatée.
     } else {
-        LOG("Transaction::getTimestampString Erreur: localtime_r a échoué pour timestamp.", "ERROR"); // Correction LOG
+        LOG("Transaction::getTimestampString Erreur: localtime_r a échoué pour timestamp.", "ERROR");
         return "[TIMESTAMP_ERROR]"; // Retourne une string d'erreur.
     }
 }
@@ -218,7 +152,7 @@ void Transaction::setFailureReason(const std::string& reason) {
 }
 
 
-// --- Implémentation des Méthodes Statiques de Persistance (thread-safe via mutex statique) ---
+// --- Implémentation des Méthodes Statiques de Persistance ---
 
 // Log une transaction terminée dans un fichier CSV global. Thread-safe.
 // Protégé par persistenceMutex.
@@ -228,7 +162,7 @@ void Transaction::logTransactionToCSV(const std::string &filename, const Transac
     std::ofstream logFile(filename, std::ios::app); // Ouvre le fichier en mode ajout à la fin.
 
     if (!logFile.is_open()) {
-        LOG("Transaction::logTransactionToCSV Erreur: Impossible d'ouvrir log transaction CSV: " + filename + ". Erreur système: " + std::string(strerror(errno)), "ERROR"); // Correction LOG
+        LOG("Transaction::logTransactionToCSV Erreur: Impossible d'ouvrir log transaction CSV: " + filename + ". Erreur système: " + std::string(strerror(errno)), "ERROR");
         return; // Quitte si l'ouverture échoue.
     }
 
@@ -240,7 +174,7 @@ void Transaction::logTransactionToCSV(const std::string &filename, const Transac
     if (current_pos == 0) { // Si la position est 0, le fichier était vide
          // Écrire l'en-tête. Assure-toi que l'en-tête correspond au format d'écriture ci-dessous.
          logFile << "ID,Client ID,Type,Crypto,Quantite,Prix Unitaire,Montant Total,Frais,Timestamp (Epoch),Timestamp (String),Statut,Description,Raison Echec\n";
-         LOG("Transaction Fichier de log transaction CSV créé avec en-tête: " + filename, "INFO"); // Correction LOG
+         LOG("Transaction Fichier de log transaction CSV créé avec en-tête: " + filename, "INFO");
     }
      // Si le fichier n'était pas vide, tellp() est à la fin, on peut écrire directement.
 
@@ -268,7 +202,7 @@ void Transaction::logTransactionToCSV(const std::string &filename, const Transac
 
     // Vérification optionnelle après fermeture pour les erreurs d'écriture différées.
     if (logFile.fail()) {
-         LOG("Transaction::logTransactionToCSV Erreur: Échec écriture/fermeture log CSV: " + filename + ". Erreur système: " + std::string(strerror(errno)), "ERROR"); // Correction LOG
+         LOG("Transaction::logTransactionToCSV Erreur: Échec écriture/fermeture log CSV: " + filename + ". Erreur système: " + std::string(strerror(errno)), "ERROR");
     }
 }
 
@@ -284,19 +218,19 @@ void Transaction::loadCounter(const std::string& filename) {
         counterFile >> loadedCounter; // Tente de lire la valeur.
         // Vérifie si la lecture a échoué MAIS que ce n'est pas juste la fin du fichier (fichier vide).
         if (counterFile.fail() && !counterFile.eof()) {
-            LOG("Transaction::loadCounter Erreur: Échec lecture compteur depuis fichier: " + filename + ". Erreur système: " + std::string(strerror(errno)) + ". Utilisation compteur 0.", "ERROR"); // Correction LOG
+            LOG("Transaction::loadCounter Erreur: Échec lecture compteur depuis fichier: " + filename + ". Erreur système: " + std::string(strerror(errno)) + ". Utilisation compteur 0.", "ERROR");
             loadedCounter = 0; // Réinitialise si la lecture a vraiment échoué.
         } else if (counterFile.eof() && loadedCounter == 0) {
              // Fichier vide ou ne contenant que 0. C'est valide.
-             LOG("Transaction::loadCounter Fichier compteur vide ou contenant 0. Compteur démarrera à 0.", "INFO"); // Correction LOG
+             LOG("Transaction::loadCounter Fichier compteur vide ou contenant 0. Compteur démarrera à 0.", "INFO");
         } else if (!counterFile.fail()) {
              // Lecture réussie (et pas seulement EOF).
-             LOG("Transaction::loadCounter Compteur chargé: " + std::to_string(loadedCounter) + " depuis " + filename, "INFO"); // Correction LOG
+             LOG("Transaction::loadCounter Compteur chargé: " + std::to_string(loadedCounter) + " depuis " + filename, "INFO");
         }
         counterFile.close();
     } else {
         // Le fichier n'existe pas. Le compteur démarrera à 0 (initialisation par défaut).
-        LOG("Transaction::loadCounter Fichier compteur non trouvé: " + filename + ". Le compteur démarrera à 0.", "INFO"); // Correction LOG
+        LOG("Transaction::loadCounter Fichier compteur non trouvé: " + filename + ". Le compteur démarrera à 0.", "INFO");
     }
 
     // Met à jour le compteur statique global avec la valeur chargée.
@@ -325,12 +259,12 @@ void Transaction::saveCounter(const std::string& filename) {
         counterFile.close(); // Ferme le fichier. Le contenu est flushé.
         // Vérification optionnelle pour les erreurs d'écriture différées.
         if (counterFile.fail()) {
-             LOG("Transaction::saveCounter Erreur: Échec écriture/fermeture fichier compteur: " + filename + ". Erreur système: " + std::string(strerror(errno)), "ERROR"); // Correction LOG
+             LOG("Transaction::saveCounter Erreur: Échec écriture/fermeture fichier compteur: " + filename + ". Erreur système: " + std::string(strerror(errno)), "ERROR");
              return;
         }
-        LOG("Transaction::saveCounter Compteur sauvegardé: " + std::to_string(currentCounterValue) + " vers " + filename, "INFO"); // Correction LOG
+        LOG("Transaction::saveCounter Compteur sauvegardé: " + std::to_string(currentCounterValue) + " vers " + filename, "INFO");
     } else {
         // L'ouverture a échoué.
-        LOG("Transaction::saveCounter Erreur: Impossible d'ouvrir fichier compteur pour sauvegarde: " + filename + ". Erreur système: " + std::string(strerror(errno)), "ERROR"); // Correction LOG
+        LOG("Transaction::saveCounter Erreur: Impossible d'ouvrir fichier compteur pour sauvegarde: " + filename + ". Erreur système: " + std::string(strerror(errno)), "ERROR");
     }
 }

@@ -1,29 +1,24 @@
-// src/code/Main_Cli.cpp - Point d'entrée de l'exécutable client
+#include <iostream>      
+#include <string>       
+#include <vector>        
+#include <stdexcept>    
+#include <memory>     
+#include <limits>     
+#include <cstdlib>      
+#include <cstring>      
+#include <algorithm>   
+#include <cerrno>       
 
-// Includes standards et système nécessaires
-#include <iostream>      // std::cout, std::cerr, std::cin, std::getline
-#include <string>        // std::string
-#include <vector>        // std::vector
-#include <stdexcept>     // std::runtime_error
-#include <memory>        // std::shared_ptr, std::make_shared, std::unique_ptr
-#include <limits>        // std::numeric_limits
-#include <cstdlib>       // EXIT_FAILURE, EXIT_SUCCESS
-#include <cstring>       // strerror
-#include <algorithm>     // std::transform, std::min
-#include <cerrno>        // errno
+#include <openssl/ssl.h>   
+#include <openssl/err.h>   
+#include <openssl/rand.h>
 
-// Includes OpenSSL spécifiques
-#include <openssl/ssl.h>   // SSL
-#include <openssl/err.h>   // Erreurs OpenSSL
-#include <openssl/rand.h>  // RAND_poll (si besoin)
-
-// Includes spécifiques au projet (assurez-vous que les chemins sont corrects)
-#include "../headers/ClientInitiator.h" // Logique d'initiation connexion/contexte SSL client
-#include "../headers/ServerConnection.h" // Encapsule la connexion Socket+SSL (DOIT AVOIR receiveLine)
-#include "../headers/Logger.h"           // Système de log
-#include "../headers/Utils.h"            // Fonctions utilitaires (si utilisées)
-#include "../headers/Transaction.h"      // Structures de transaction (si utilisées par le client)
-#include "../headers/OpenSSLDeleters.h" // Gestion RAII OpenSSL (pour UniqueSSLCTX)
+#include "../headers/ClientInitiator.h" 
+#include "../headers/ServerConnection.h" 
+#include "../headers/Logger.h"           
+#include "../headers/Utils.h"            
+#include "../headers/Transaction.h"      
+#include "../headers/OpenSSLDeleters.h" 
 
 
 // Constantes et macros
@@ -31,24 +26,19 @@
 
 // --- Initialisation globale OpenSSL (côté client) ---
 void initialize_openssl_client() {
-    LOG("Main_Cli DEBUG : Initialisation globale OpenSSL client...", "DEBUG");
     // Load encryption & hashing algorithms
     OpenSSL_add_all_algorithms();
     // Load SSL/TLS algorithms
     SSL_library_init(); // Obsolète dans les versions très récentes, mais compatible
     // Load error strings
     SSL_load_error_strings();
-    // Seed the PRNG if needed (modern OpenSSL versions often seed automatically)
-    // RAND_poll();
-    LOG("Main_Cli DEBUG : Initialisation globale OpenSSL client terminée.", "DEBUG");
 }
 
 // --- Nettoyage global OpenSSL (côté client) ---
 void cleanup_openssl_client() {
     LOG("Main_Cli INFO : Nettoyage global OpenSSL client...", "INFO");
     EVP_cleanup();
-    // SSL_COMP_free_compression_methods(); // Si pas de compression utilisée
-    CRYPTO_cleanup_all_ex_data(); // Libère les données d'index allouées par CRYPTO_get_ex_new_index
+    // CRYPTO_cleanup_all_ex_data(); // Libère les données d'index allouées par CRYPTO_get_ex_new_index - Souvent pas nécessaire avec des versions récentes
     ERR_free_strings(); // Libère la table des chaînes d'erreur
     LOG("Main_Cli INFO : Nettoyage global OpenSSL client terminé.", "INFO");
 }
@@ -85,9 +75,6 @@ void start_command_loop(std::shared_ptr<ServerConnection> connection) {
                  LOG("Main_Cli ERROR : Échec de l'envoi de la commande ou serveur déconnecté pendant l'envoi. Code retour send: " + std::to_string(cmdBytesSent), "ERROR");
                  break;
             }
-            if (!is_quit_command) {
-                LOG("Main_Cli DEBUG : Commande envoyée : '" + command + "'. (" + std::to_string(cmdBytesSent) + " bytes)", "DEBUG");
-            }
 
         } catch (const std::exception& e) {
             LOG("Main_Cli ERROR : Exception lors de l'envoi de la commande '" + command + "'. Exception: " + std::string(e.what()), "ERROR");
@@ -98,52 +85,72 @@ void start_command_loop(std::shared_ptr<ServerConnection> connection) {
             break; // Sort de la boucle de commandes si c'était QUIT
         }
 
-        // --- Section de Réception des Réponses (CORRIGÉE) ---
+        // --- Section de Réception des Réponses ---
         std::string serverResponse;
-        [[maybe_unused]] bool waiting_for_more_responses = is_trading_command; // On s'attend à plus de réponses si c'est une commande de trading
+        [[maybe_unused]] bool received_ok_for_trading_command = false; // Flag pour savoir si on a reçu l'accusé "OK: ..." pour un trade.
 
         while (connection && connection->isConnected()) { // Boucle de réception
             try {
-                 serverResponse = connection->receiveLine(); // <-- Utilise receiveLine()
+                 serverResponse = connection->receiveLine(); // Utilise receiveLine()
             } catch (const std::exception& e) {
                  LOG("Main_Cli ERROR : Échec de la réception de la réponse du serveur ou serveur déconnecté pendant la boucle de commande. Exception: " + std::string(e.what()), "ERROR");
-                 break; // Sort de la boucle de réception (et la boucle principale) en cas d'erreur
+                 // Si receiveLine échoue (ex: connexion fermée), on sort de la boucle de réception ET de la boucle principale.
+                 goto exit_reception_loop; // Utilisation d'un goto pour sortir proprement des boucles imbriquées
             }
 
             // Afficher la réponse reçue
             std::cout << "< " << serverResponse << "\n";
-            // Log la réponse reçue
-             LOG("Main_Cli DEBUG : Réponse serveur reçue (" + std::to_string(serverResponse.size()) + " bytes): '" + serverResponse.substr(0, std::min((size_t)serverResponse.size(), (size_t)200)) + ((serverResponse.size() > 200) ? "..." : "") + "'", "DEBUG");
 
+            // --- Logique pour arrêter la réception ---
 
-            // --- Logique pour arrêter la réception (CORRIGÉE) ---
-            // Si ce n'est pas une commande de trading (SHOW, GET_PRICE), on n'attend qu'une seule réponse.
+            // Cas 1 : La commande n'était pas de trading. On attend une seule réponse.
             if (!is_trading_command) {
                 break; // Sort de la boucle de réception après la première ligne
             }
 
-            // Si c'est une commande de trading, on attend le message TRANSACTION_RESULT.
-            // On continue de lire tant qu'on ne reçoit pas ce message.
-            // ATTENTION : Cela suppose que TRANSACTION_RESULT est le dernier message pour une transaction.
-            if (serverResponse.rfind("TRANSACTION_RESULT", 0) == 0) { // Si la réponse commence par "TRANSACTION_RESULT"
-                waiting_for_more_responses = false; // On a reçu le message final attendu
-                break; // Sort de la boucle de réception
+            // Cas 2 : La commande était de trading (BUY/SELL).
+            // On a reçu une réponse.
+            // Vérifier si cette réponse est l'accusé de réception "OK: ..."
+            if (serverResponse.rfind("OK:", 0) == 0) {
+                // C'est l'accusé de réception initial pour une commande de trading.
+                received_ok_for_trading_command = true;
+                // On NE break PAS ici. On continue la boucle de réception pour attendre TRANSACTION_RESULT.
+
+            }
+            // Vérifier si cette réponse est le résultat final "TRANSACTION_RESULT..."
+            else if (serverResponse.rfind("TRANSACTION_RESULT", 0) == 0) {
+                // C'est le message final attendu pour une commande de trading.
+                break; // Sort de la boucle de réception après le message final
+            }
+            // Si ce n'est NI "OK:..." NI "TRANSACTION_RESULT...",
+            // c'est probablement un message d'erreur (comme "ERROR: Manual trading...")
+            // ou un message inattendu. Dans ce cas, cette réponse est la réponse finale.
+            else {
+                 LOG("Main_Cli WARNING : Reçu réponse inattendue ou message d'erreur pour commande de trading. Traité comme réponse finale.", "WARNING");
+                break; // Sort de la boucle de réception car la réponse est finale (erreur ou autre)
             }
 
             // Si on arrive ici dans la boucle de réception d'une commande de trading,
-            // cela signifie qu'on a reçu une ligne (le "OK: ..." par exemple)
-            // mais qu'on attend encore le TRANSACTION_RESULT. La boucle continue.
+            // c'est qu'on a reçu "OK:..." et qu'on continue la boucle pour attendre TRANSACTION_RESULT.
 
         } // Fin de la boucle de réception while
 
-        // Si la boucle de réception s'est terminée à cause d'une erreur,
-        // la boucle principale se terminera aussi grâce au 'break'.
+    // Label pour le goto en cas d'erreur de réception
+    exit_reception_loop:;
+
+
+        // Si la boucle de réception s'est terminée à cause d'une erreur (goto),
+        // la boucle principale se terminera aussi.
         if (!connection || !connection->isConnected()) {
-             break;
+             break; // Sort de la boucle principale
         }
 
+        // Si on arrive ici, la boucle de réception s'est terminée normalement (via break).
+        // La boucle principale while(connection && connection->isConnected()) continue
+        // et retournera au début pour afficher "> " et lire la prochaine commande.
 
-    } // Fin de la boucle while(connection && connection->isConnected())
+
+    } // Fin de la boucle while(connection && connection->isConnected()) principale
 
     LOG("Main_Cli INFO : Sortie de la boucle de commande.", "INFO");
     // La connexion sera fermée après la sortie de cette fonction, dans le main().
@@ -152,16 +159,12 @@ void start_command_loop(std::shared_ptr<ServerConnection> connection) {
 // --- Fonction main : Point d'entrée du programme client ---
 int main(int argc, char* argv[]) {
     // Configuration initiale du Logger (si non fait dans son constructeur ou init)
-    // Logger::init("client.log"); // Exemple: Initialise un logger fichier, sinon utilise cout/cerr par défaut
 
     LOG("Main_Cli INFO : Démarrage du programme client.", "INFO");
 
     // --- Parsing des arguments de ligne de commande ---
     // Le client attend 4 arguments SUPPLÉMENTAIRES après le nom de l'exécutable (argv[0]):
-    // argv[1]: <server_host>
-    // argv[2]: <server_port>
-    // argv[3]: <client_id>
-    // argv[4]: <client_token> (qui est le mot de passe en clair pour l'auth)
+    // <server_host> <server_port> <client_id> <client_token>
     if (argc != 5) {
         std::cerr << "Usage: " << argv[0] << " <server_host> <server_port> <client_id> <client_token>\n";
         LOG("Main_Cli ERROR : Nombre d'arguments incorrect. Attendu 4 (host, port, id, token), reçu " + std::to_string(argc - 1) + ".", "ERROR");
@@ -184,7 +187,6 @@ int main(int argc, char* argv[]) {
 
     // --- Création du contexte SSL client ---
     // Le contexte est nécessaire pour initier une connexion SSL.
-    LOG("Main_Cli DEBUG : Création du contexte SSL client...", "DEBUG");
     ClientInitiator clientInitiator; // Crée l'objet ClientInitiator.
     // UniqueSSLCTX gère la libération du contexte à la sortie de portée.
     UniqueSSLCTX client_ctx = clientInitiator.InitClientCTX(); // Appelle la méthode pour créer le contexte.
@@ -193,7 +195,6 @@ int main(int argc, char* argv[]) {
         cleanup_openssl_client(); // Nettoie OpenSSL globalement
         return EXIT_FAILURE;
     }
-    LOG("Main_Cli DEBUG : Contexte SSL client créé avec succès.", "DEBUG");
 
 
     // --- Connexion au Serveur ---
@@ -218,19 +219,16 @@ int main(int argc, char* argv[]) {
         // --- Protocole d'Authentification (côté client) ---
         // Le client envoie le message au format "ID:votre_id,TOKEN:votre_mot_de_passe_en_clair"
         std::string authMessage = "ID:" + clientId + ",TOKEN:" + clientToken;
-        LOG("Main_Cli DEBUG : Envoi message d'authentification...", "DEBUG");
 
         // Envoyer le message d'authentification suivi d'un newline.
         // La méthode send() devrait gérer les erreurs réseau et lancer des exceptions si nécessaire.
         try {
-            int bytesSent = connection->send(authMessage + "\n"); // Ajouter \n
+            int bytesSent = connection->send(authMessage + "\n");
             if (bytesSent <= 0) {
                 LOG("Main_Cli ERROR : Échec de l'envoi du message d'authentification. Code retour send: " + std::to_string(bytesSent), "ERROR");
-                // Gérer l'échec d'envoi. closeConnection sera appelée dans le catch global ou à la sortie.
+                // Gérer l'échec d'envoi.
                 throw std::runtime_error("Failed to send authentication message.");
             }
-            LOG("Main_Cli DEBUG : Message d'authentification envoyé (" + std::to_string(bytesSent) + " bytes).", "DEBUG");
-
         } catch (const std::exception& e) {
              LOG("Main_Cli ERROR : Exception lors de l'envoi du message d'authentification. Exception: " + std::string(e.what()), "ERROR");
              // L'exception sera attrapée par le catch global pour un nettoyage.
@@ -239,10 +237,10 @@ int main(int argc, char* argv[]) {
 
 
         // Recevoir la réponse d'authentification du serveur ("AUTH SUCCESS", "AUTH NEW", "AUTH FAIL:...")
-        // UTILISER receiveLine() pour lire la réponse complète terminée par newline.
+        // Utilise receiveLine() pour lire la réponse complète terminée par newline.
         std::string authResponse;
         try {
-            authResponse = connection->receiveLine(); // <-- Utilise receiveLine() pour la réponse Auth !
+            authResponse = connection->receiveLine(); // Utilise receiveLine() pour la réponse Auth !
             // receiveLine() lancera une exception si la connexion est fermée ou s'il y a une erreur avant de recevoir une ligne complète.
         } catch (const std::exception& e) {
              LOG("Main_Cli ERROR : Échec de la réception de la réponse d'authentification ou serveur déconnecté. Exception: " + std::string(e.what()), "ERROR");
@@ -282,7 +280,7 @@ int main(int argc, char* argv[]) {
 
 
     } catch (const std::exception& e) {
-        // Gérer les exceptions non gérées pendant la connexion, l'authentification ou (si start_command_loop est inline) la boucle de commande.
+        // Gérer les exceptions non gérées pendant la connexion, l'authentification ou la boucle de commande.
         LOG("Main_Cli CRITICAL : Exception non gérée lors de la connexion ou de l'interaction avec le serveur. Exception: " + std::string(e.what()), "CRITICAL");
         std::cerr << "Erreur critique : " << e.what() << std::endl;
 
@@ -304,16 +302,12 @@ int main(int argc, char* argv[]) {
              LOG("Main_Cli ERROR : Exception lors de la fermeture de la connexion client. Exception: " + std::string(e.what()), "ERROR");
         }
     } else {
-         // Loguer si la connexion était déjà non valide/fermée au moment de la tentative de fermeture finale.
-         LOG("Main_Cli DEBUG : Connexion client déjà non valide/fermée avant la tentative de fermeture finale.", "DEBUG");
+        
     }
 
 
     // Le contexte client (client_ctx) est libéré automatiquement ici par son destructeur UniqueSSLCTX
-    // (car client_ctx est une variable locale à main et sort de portée),
-    // si le programme atteint la fin du main() sans quitter plus tôt via return avant la déclaration de client_ctx.
-    // Si le programme quitte via return avant la déclaration de client_ctx, le cleanup OpenSSL global
-    // est toujours appelé.
+    // (car client_ctx est une variable locale à main et sort de portée).
 
     // --- Nettoyage OpenSSL (côté client) ---
     // Ce cleanup est appelé en cas de succès ou d'échec géré avant la sortie du main().

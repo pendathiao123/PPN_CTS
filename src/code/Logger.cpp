@@ -58,7 +58,7 @@ void Logger::log(LogLevel level, const std::string& message) {
     std::lock_guard<std::mutex> lock(mtx);
 
     if (!logFile.is_open()) {
-        // Si le fichier n'est pas ouvert, écrire sur stderr (ou une autre gestion d'erreur)
+        // Si le fichier n'est pas ouvert, écrire sur stderr
         std::cerr << "[LOG FILE ERROR] " << message << std::endl;
         return; // Sortie si le fichier n'est pas prêt
     }

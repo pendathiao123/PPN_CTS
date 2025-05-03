@@ -1,32 +1,29 @@
-// --- Implémentation de la classe ServerConnection ---
-
 #include "../headers/ServerConnection.h"
-#include "../headers/OpenSSLDeleters.h" // Inclusion nécessaire pour UniqueSSL/UniqueSSLCTX
-#include "../headers/Logger.h"          // Inclusion nécessaire pour la macro LOG
+#include "../headers/OpenSSLDeleters.h" 
+#include "../headers/Logger.h"          
 
-// Includes standards et système nécessaires pour l'implémentation
-#include <iostream>     // std::cerr (pour ERR_print_errors_fp)
+#include <iostream>    
 #include <string>
 #include <vector>
-#include <sstream>      // std::stringstream
-#include <iomanip>      // std::fixed, std::setprecision
-#include <limits>       // std::numeric_limits
-#include <cmath>        // std::isfinite, std::abs
-#include <stdexcept>    // std::runtime_error
-#include <memory>       // std::shared_ptr, std::unique_ptr
-#include <mutex>        // std::mutex, std::lock_guard (si utilisé)
-#include <cerrno>       // errno
-#include <cstring>      // strerror
-#include <algorithm>    // std::transform
-#include <cctype>       // ::tolower
-#include <ctime>        // std::tm, localtime_r
-#include <cstdio>       // snprintf, stderr
-#include <sys/socket.h> // socket functions, types
-#include <netinet/in.h> // sockaddr_in
-#include <arpa/inet.h>  // inet_ntoa (si utilisé)
-#include <unistd.h>     // close, ::close
-#include <openssl/ssl.h> // SSL_write, SSL_read, SSL_shutdown, SSL_get_error etc.
-#include <openssl/err.h> // ERR_print_errors_fp, X509_verify_cert_error_string
+#include <sstream>     
+#include <iomanip>    
+#include <limits>
+#include <cmath>      
+#include <stdexcept>   
+#include <memory>     
+#include <mutex>        
+#include <cerrno>       
+#include <cstring>     
+#include <algorithm>   
+#include <cctype>       
+#include <ctime>        
+#include <cstdio>       
+#include <sys/socket.h> 
+#include <netinet/in.h> 
+#include <arpa/inet.h>
+#include <unistd.h>     
+#include <openssl/ssl.h> 
+#include <openssl/err.h> 
 
 
 // --- Constructeur ---
@@ -55,17 +52,15 @@ ServerConnection::ServerConnection(int socket_fd, SSL* ssl_ptr)
     }
     // Les membres string clientId et token sont vides par défaut, définis après authentification.
     // m_markedForClose est false par défaut.
-    // commMutex (si existant) est initialisé par défaut.
+    // commMutex est initialisé par défaut.
 }
 
 // --- Destructeur ---
 // Assure la fermeture propre de la connexion et la libération des ressources.
 ServerConnection::~ServerConnection() {
-    LOG("ServerConnection::~ServerConnection DEBUG : Destructeur appelé. Socket FD final: " + std::to_string(clientSocket), "DEBUG");
     closeConnection(); // Appelle la méthode principale de nettoyage.
     // Le unique_ptr 'ssl' sera automatiquement détruit ici, appelant son deleter (SSL_free) si non-null.
     // Le unique_ptr 'ctx' (s'il existait dans cette classe) serait aussi détruit ici.
-    LOG("ServerConnection::~ServerConnection DEBUG : Destructeur terminé.", "DEBUG");
 }
 
 // --- Getters ---
@@ -93,7 +88,6 @@ void ServerConnection::setToken(const std::string& tok) { this->token = tok; }
 // Gère les erreurs SSL_ERROR_WANT_READ/WRITE en mode bloquant en réessayant.
 int ServerConnection::send(const char* data, int size) {
     // Note Thread-Safety : Dans l'architecture ClientSession-par-thread, l'accès est sérialisé par le thread de session.
-    // Un mutex interne n'est pas nécessaire pour send/receive eux-mêmes.
 
     if (!isConnected()) { // Vérifie l'état valide de la connexion.
         LOG("ServerConnection::send ERROR : Connexion non valide ou marquée pour fermeture. Socket FD: " + std::to_string(clientSocket), "ERROR");
@@ -106,8 +100,6 @@ int ServerConnection::send(const char* data, int size) {
     const char* current_data = data;
 
     // Boucle pour gérer les écritures partielles et les erreurs WANT_WRITE en mode bloquant.
-    // SSL_write en mode bloquant devrait bloquer jusqu'à ce qu'il puisse écrire.
-    // Arriver à WANT_WRITE en bloquant est inhabituel et peut indiquer un problème temporaire.
     while (remaining > 0) {
         bytesSent = SSL_write(ssl.get(), current_data, remaining);
 
@@ -122,7 +114,7 @@ int ServerConnection::send(const char* data, int size) {
              // Peut indiquer une déconnexion propre (rare sur write).
              int error = SSL_get_error(ssl.get(), bytesSent);
              if (error == SSL_ERROR_ZERO_RETURN) {
-                  LOG("ServerConnection::send INFO : SSL_write retourné 0 (SSL_ERROR_ZERO_RETURN). Connexion fermée proprement par pair?", "INFO");
+                  LOG("ServerConnection::send INFO : SSL_write retourné 0 (SSL_ERROR_ZERO_RETURN).", "INFO");
              } else {
                   LOG("ServerConnection::send WARNING : SSL_write retourné 0. Erreur code: " + std::to_string(error) + ". Socket FD: " + std::to_string(clientSocket), "WARNING");
                   ERR_print_errors_fp(stderr);
@@ -135,7 +127,6 @@ int ServerConnection::send(const char* data, int size) {
 
             if (error == SSL_ERROR_WANT_WRITE) {
                  LOG("ServerConnection::send WARNING : SSL_ERROR_WANT_WRITE en mode bloquant. Réessai... Socket FD: " + std::to_string(clientSocket), "WARNING");
-                 // sleep(1); // Pause optionnelle.
                  continue; // Recommence la boucle.
             } else if (error == SSL_ERROR_WANT_READ) {
                  LOG("ServerConnection::send WARNING : SSL_ERROR_WANT_READ sur SSL_write en mode bloquant. Traité comme erreur fatale. Socket FD: " + std::to_string(clientSocket), "WARNING");
@@ -157,13 +148,12 @@ int ServerConnection::send(const char* data, int size) {
         }
     }
 
-    // LOG("ServerConnection::send DEBUG : Envoi réussi de " + std::to_string(totalBytesSent) + " octets. Socket FD: " + std::to_string(clientSocket), "DEBUG");
     return totalBytesSent; // Retourne le nombre total d'octets envoyés.
 }
 
 // Reçoit des données via la connexion SSL.
 // Retourne le nombre d'octets reçus (>0), 0 pour déconnexion propre (SSL_ERROR_ZERO_RETURN), < 0 pour erreur fatale.
-// Gère les erreurs SSL_ERROR_WANT_READ/WRITE en mode bloquant en retournant 0 pour signaler à l'appelant de réessayer.
+// Gère les erreurs SSL_ERROR_WANT_READ/WRITE en mode bloquant en retournant 0.
 int ServerConnection::receive(char* buffer, int size) {
      // Note Thread-Safety : Voir commentaires dans send().
 
@@ -181,7 +171,6 @@ int ServerConnection::receive(char* buffer, int size) {
     // --- Gestion du résultat de SSL_read ---
     if (bytesRead > 0) {
         // Lecture réussie.
-        // LOG("ServerConnection::receive DEBUG : Reçu " + std::to_string(bytesRead) + " octets. Socket FD: " + std::to_string(clientSocket), "DEBUG");
         return bytesRead; // Retourne le nombre d'octets lus (> 0).
 
     } else if (bytesRead == 0) {
@@ -202,7 +191,6 @@ int ServerConnection::receive(char* buffer, int size) {
         if (error == SSL_ERROR_WANT_READ || error == SSL_ERROR_WANT_WRITE) {
              // En mode bloquant, cela ne devrait pas arriver ou indique qu'aucune donnée n'est disponible POUR L'INSTANT.
              // Retourne 0 pour signaler à l'appelant qu'il faut réessayer (ou qu'il est bloqué en attendant).
-             LOG("ServerConnection::receive DEBUG : SSL_ERROR_WANT_READ/WRITE, rien à lire pour l'instant. Socket FD: " + std::to_string(clientSocket), "DEBUG");
              return 0; // Rien lu pour l'instant.
 
         } else if (error == SSL_ERROR_SYSCALL) {
@@ -237,7 +225,6 @@ int ServerConnection::send(const std::string& data) {
 void ServerConnection::markForClose() {
     // Un simple bool suffit si l'accès est mono-threadé par ClientSession.
     this->m_markedForClose = true;
-    LOG("ServerConnection::markForClose DEBUG : Connexion marquée pour fermeture. Socket FD: " + std::to_string(clientSocket), "DEBUG");
 }
 
 // Ferme la connexion (socket et SSL) et libère les ressources.
@@ -249,13 +236,12 @@ void ServerConnection::closeConnection() {
     LOG("ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: " + std::to_string(clientSocket), "INFO");
 
     // Tenter une fermeture propre de la connexion SSL.
-    // SSL_shutdown envoie "close_notify". En mode bloquant, la seconde étape attend la réponse.
-    // Une gestion robuste nécessiterait un timeout ici.
+    // SSL_shutdown envoie "close_notify".
     if (ssl) { // Vérifie si l'objet SSL est valide
         int shutdown_ret = SSL_shutdown(ssl.get());
         if (shutdown_ret == 0) {
-            LOG("ServerConnection::closeConnection DEBUG : SSL_shutdown étape 1/2 terminée. Tentative étape 2 (peut bloquer).", "DEBUG");
-             // Optionnel : tenter le second appel, mais attention au blocage infini.
+             // Étape 1/2 terminée.
+             // Optionnel : tenter le second appel, mais attention au blocage infini en mode bloquant.
              // shutdown_ret = SSL_shutdown(ssl.get());
         }
         if (shutdown_ret < 0) {
@@ -263,12 +249,10 @@ void ServerConnection::closeConnection() {
              ERR_print_errors_fp(stderr);
         }
         ssl.reset(); // Libère explicitement l'objet SSL (appelle deleter).
-        LOG("ServerConnection::closeConnection DEBUG : Objet SSL libéré.", "DEBUG");
     }
 
     // Ferme le socket TCP sous-jacent.
     if (clientSocket != -1) {
-        LOG("ServerConnection::closeConnection DEBUG : Fermeture du socket FD: " + std::to_string(clientSocket), "DEBUG");
         if (::close(clientSocket) == -1) {
             LOG("ServerConnection::closeConnection ERROR : Erreur lors de la fermeture du socket FD: " + std::to_string(clientSocket) + ". Erreur système: " + std::string(strerror(errno)), "ERROR");
         } else {
@@ -279,16 +263,12 @@ void ServerConnection::closeConnection() {
 
     // Marque la connexion comme fermée.
     m_markedForClose = true;
-
-    LOG("ServerConnection::closeConnection DEBUG : Nettoyage de connexion terminé.", "DEBUG");
 }
 
 // --- Implémentation de receiveLine ---
 // Lit depuis la connexion jusqu'à trouver un newline ('\n'). Accumule les données si nécessaire.
 // Peut lancer une exception en cas d'erreur (connexion fermée, erreur SSL/socket).
 std::string ServerConnection::receiveLine() {
-    // std::lock_guard<std::mutex> lock(receive_mutex); // Si vous avez ajouté le mutex
-
     char buffer[1024]; // Buffer temporaire pour les appels à receive
     size_t newline_pos;
 
@@ -297,16 +277,13 @@ std::string ServerConnection::receiveLine() {
         // Le newline n'est pas dans le buffer d'accumulation. Lire plus de données.
         int bytes_read = 0;
         // Utilise la méthode receive existante pour lire depuis le socket SSL.
-        // receive() doit gérer les erreurs SSL (SSL_ERROR_WANT_READ, etc.) et les convertir en exceptions
-        // ou codes de retour clairs (0 pour déconnexion propre, <0 pour erreur fatale).
         try {
-             // Lire dans le buffer temporaire, en laissant de la place pour le null-terminator.
-             // Utilisez la méthode receive qui gère l'interface SSL_read.
+             // Lire dans le buffer temporaire.
              bytes_read = receive(buffer, sizeof(buffer) - 1); // Appelle this->receive(char*, int)
 
         } catch (const std::exception& e) {
              // Si la méthode receive (this->receive) lance une exception (ex: erreur SSL), la propager.
-             LOG("ServerConnection ERROR : Exception propagée de receive() dans receiveLine() pour socket FD: " + std::to_string(clientSocket) + ". Exception: " + e.what(), "ERROR"); 
+             LOG("ServerConnection ERROR : Exception propagée de receive() dans receiveLine() pour socket FD: " + std::to_string(clientSocket) + ". Exception: " + e.what(), "ERROR");
              closeConnection(); // S'assurer que l'état interne de la connexion est marqué comme fermée.
              throw; // Re-lance l'exception pour être gérée plus haut dans la pile (ex: dans main()).
         }
@@ -317,27 +294,22 @@ std::string ServerConnection::receiveLine() {
             buffer[bytes_read] = '\0'; // Null-terminer le buffer temporaire
             receive_buffer.append(buffer, bytes_read); // Ajouter les octets lus au buffer d'accumulation
 
-            // Loguer le nombre d'octets lus (Optionnel, peut être verbeux)
-            LOG("ServerConnection DEBUG : Reçu " + std::to_string(bytes_read) + " octets pour receiveLine sur socket FD: " + std::to_string(clientSocket) + ". Buffer accumulation size: " + std::to_string(receive_buffer.size()), "DEBUG"); 
-
              // Re-vérifier si le newline est maintenant dans le buffer d'accumulation après l'ajout.
              newline_pos = receive_buffer.find('\n');
 
         } else if (bytes_read == 0) {
-            // receive retourne 0 lorsque le pair (le client) ferme la connexion proprement (envoi SSL_close_notify).
+            // receive retourne 0 lorsque le pair ferme la connexion proprement.
             // Si le buffer d'accumulation n'est pas vide, cela signifie que le pair s'est déconnecté au milieu d'une ligne.
             // Selon le protocole, cela peut être considéré comme une erreur.
             LOG("ServerConnection INFO : Connexion fermée par le pair pendant receiveLine() pour socket FD: " + std::to_string(clientSocket) + ". Buffer accumulation size: " + std::to_string(receive_buffer.size()) + ".", "INFO");
             closeConnection(); // Marquer la connexion comme fermée.
-            // Si receive_buffer n'est pas vide, on pourrait logguer son contenu partiel avant de lancer l'exception.
              if (!receive_buffer.empty()) {
                   LOG("ServerConnection WARNING : Déconnexion pair avec données partielles dans buffer: '" + receive_buffer + "'", "WARNING");
              }
-            throw std::runtime_error("Connection closed by peer while reading a line."); // Lancer une exception pour signaler l'échec de lecture de ligne complète.
+            throw std::runtime_error("Connection closed by peer while reading a line."); // Lancer une exception.
 
         } else { // bytes_read < 0
             // receive retourne une valeur négative pour des erreurs fatales non gérées par receive en interne.
-            // receive() devrait idéalement lancer une exception pour ces cas. Si elle retourne < 0, c'est une erreur système/SSL non gérée.
              unsigned long ssl_err = ERR_get_error(); // Obtenir l'erreur SSL si disponible
              std::string err_msg = "Unknown error";
              if (ssl_err != 0) {
@@ -350,7 +322,7 @@ std::string ServerConnection::receiveLine() {
                   err_msg = "Unknown error code from receive: " + std::to_string(bytes_read);
              }
 
-             LOG("ServerConnection ERROR : Erreur fatale (" + std::to_string(bytes_read) + ") pendant receiveLine() pour socket FD: " + std::to_string(clientSocket) + ". Erreur: " + err_msg, "ERROR"); 
+             LOG("ServerConnection ERROR : Erreur fatale (" + std::to_string(bytes_read) + ") pendant receiveLine() pour socket FD: " + std::to_string(clientSocket) + ". Erreur: " + err_msg, "ERROR");
              closeConnection(); // Marquer la connexion comme fermée.
              throw std::runtime_error("Fatal error during receiveLine(): " + err_msg); // Lancer une exception.
 
@@ -366,8 +338,6 @@ std::string ServerConnection::receiveLine() {
     // Retirer la ligne extraite (et le newline) du buffer d'accumulation
     // pour les lectures futures.
     receive_buffer.erase(0, newline_pos + 1); // +1 pour retirer le '\n'
-
-    LOG("ServerConnection DEBUG : Ligne complète lue pour socket FD: " + std::to_string(clientSocket) + ". Ligne: '" + complete_line + "'", "DEBUG");
 
     return complete_line; // Retourne la ligne complète lue (sans le '\n').
 }

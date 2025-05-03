@@ -1,5 +1,3 @@
-// --- Implémentation de la classe Server ---
-
 #include "../headers/ClientAuthenticator.h"  // Le Server utilise ClientAuthenticator (dépendance logique)
 #include "../headers/Server.h"
 #include "../headers/ServerConnection.h"     // Le Server crée des ServerConnection
@@ -11,40 +9,37 @@
 #include "../headers/OpenSSLDeleters.h"      // Pour UniqueSSLCTX, UniqueSSL (gestion RAII)
 #include "../headers/Utils.h"                // Pour les fonctions utilitaires globales (GenerateToken, HashPasswordSecure, etc.)
 
-// Includes pour les fonctionnalités standards et systèmes utilisées dans ce .cpp.
-#include <openssl/ssl.h>       // Fonctions SSL (SSL_accept, SSL_set_fd, SSL_CTX_new etc.)
-#include <openssl/err.h>       // Gestion des erreurs SSL (ERR_*)
-#include <openssl/x509.h>      // X509_verify_cert_error_string, X509_V_OK
+#include <openssl/ssl.h>       
+#include <openssl/err.h>       
+#include <openssl/x509.h>      
 
-#include <iostream>            // std::cerr, std::endl
-#include <sstream>             // std::stringstream, std::istringstream, std::ostringstream
-#include <cstring>             // strerror, memset
-#include <arpa/inet.h>         // inet_ntoa, inet_pton
-#include <unistd.h>            // close
-#include <fstream>             // std::ifstream, std::ofstream
-#include <unordered_map>       // std::unordered_map
-#include <ctime>               // time_t
-#include <chrono>              // std::chrono
-#include <thread>              // std::thread
-#include <filesystem>          // std::filesystem (pour create_directories)
-#include <memory>              // std::shared_ptr, std::unique_ptr, std::make_shared
-#include <system_error>        // std::error_code
-#include <functional>          // std::function
-#include <vector>              // std::vector
-#include <cerrno>              // errno
-#include <fcntl.h>             // fcntl
-#include <algorithm>           // std::transform
-#include <cctype>              // ::tolower
+#include <iostream>            
+#include <sstream>             
+#include <cstring>             
+#include <arpa/inet.h>         
+#include <unistd.h>            
+#include <fstream>             
+#include <unordered_map>       
+#include <ctime>               
+#include <chrono>              
+#include <thread>              
+#include <filesystem>          
+#include <memory>              
+#include <system_error>        
+#include <functional>          
+#include <vector>              
+#include <cerrno>              
+#include <fcntl.h>             
+#include <algorithm>           
+#include <cctype>              
+#include <cmath>
 
 
-// Définition de l'instance globale de la TransactionQueue (déclarée extern dans TransactionQueue.h)
-// C'est le SEUL endroit où cette instance est définie. Placé dans main_serv.cpp selon notre discussion.
 extern TransactionQueue txQueue;
-
 
 // --- Fonctions Utilitaires Globales ---
 // Les implémentations de GenerateRandomHex, GenerateRandomId, GenerateToken, HashPasswordSecure, VerifyPasswordSecure
-// sont maintenant dans Utils.cpp. Leurs déclarations sont dans Utils.h.
+// sont maintenant dans Utils.cpp.
 
 
 // --- Implémentation des méthodes membres de la classe Server ---
@@ -80,10 +75,6 @@ void Server::StartServer() {
     LOG("Server::StartServer INFO : Démarrage du serveur sur le port " + std::to_string(this->port) + "...", "INFO");
 
     // 1. Initialiser les bibliothèques OpenSSL (si pas déjà fait dans main).
-    // Idéalement, l'initialisation/nettoyage global OpenSSL est fait une seule fois dans main().
-    // SSL_library_init();
-    // SSL_load_error_strings();
-    // OpenSSL_add_all_algorithms();
 
 
     // 2. Charger le contexte SSL du serveur.
@@ -122,7 +113,6 @@ void Server::StartServer() {
         StopServer(); // Nettoie ce qui a été démarré.
         return;
     }
-    LOG("Server::StartServer DEBUG : Socket serveur créé avec FD: " + std::to_string(this->serverSocket), "DEBUG");
 
     // Configurer l'option SO_REUSEADDR.
     int opt = 1;
@@ -162,9 +152,7 @@ void Server::StartServer() {
     LOG("Server::StartServer INFO : Thread d'acceptation des connexions démarré.", "INFO");
 
     // La méthode StartServer() devient bloquante en joignant le thread d'acceptation.
-    LOG("Server::StartServer DEBUG : Attente de la fin du thread d'acceptation...", "DEBUG");
     this->acceptThread.join();
-    LOG("Server::StartServer DEBUG : Thread d'acceptation joint dans StartServer.", "DEBUG");
 
     // StartServer se termine ici après l'arrêt propre de la boucle d'acceptation.
 }
@@ -183,15 +171,11 @@ void Server::StopServer() {
 
     // 1. Signaler au thread d'acceptation de s'arrêter.
     this->acceptingConnections.store(false, std::memory_order_release);
-    LOG("Server::StopServer DEBUG : acceptingConnections flag positionné à false.", "DEBUG");
 
     // 2. Débloquer la socket d'écoute.
     if (this->serverSocket != -1) {
-        LOG("Server::StopServer DEBUG : Fermeture de la socket d'écoute (FD " + std::to_string(this->serverSocket) + ") pour débloquer accept().", "DEBUG");
         close(this->serverSocket);
         this->serverSocket = -1;
-    } else {
-         LOG("Server::StopServer DEBUG : Socket d'écoute déjà fermé (-1).", "DEBUG");
     }
 
     // 3. Attendre la fin du thread d'acceptation.
@@ -206,7 +190,6 @@ void Server::StopServer() {
     std::vector<std::shared_ptr<ClientSession>> sessions_to_stop;
     {
         std::lock_guard<std::mutex> lock(this->sessionsMutex);
-        LOG("Server::StopServer DEBUG : Copie de " + std::to_string(this->activeSessions.size()) + " sessions actives pour arrêt.", "DEBUG");
         sessions_to_stop.reserve(this->activeSessions.size());
         for (auto const& [clientId, session] : this->activeSessions) {
             if (session) {
@@ -221,7 +204,6 @@ void Server::StopServer() {
               session->stop(); // stop() de ClientSession doit joindre son thread interne.
          }
     }
-    LOG("Server::StopServer DEBUG : Appel stop() terminé pour toutes les sessions copiées.", "DEBUG");
 
     // 5. Sauvegarder la liste des utilisateurs sur disque. Utilise la méthode interne sécurisée.
     this->SaveUsers(this->usersFile_path);
@@ -240,12 +222,7 @@ void Server::StopServer() {
     LOG("Server::StopServer INFO : Thread de traitement de la TransactionQueue arrêté.", "INFO");
 
     // 9. Nettoyage final des ressources globales OpenSSL si nécessaire (dans main).
-    /*
-    ERR_free_strings();
-    EVP_cleanup();
-    SSL_COMP_free_compression_methods();
-    CRYPTO_cleanup_all_ex_data();
-    */
+
 
     LOG("Server::StopServer INFO : Arrêt ordonné du serveur terminé.", "INFO");
     stop_in_progress.store(false, std::memory_order_release);
@@ -264,7 +241,7 @@ void Server::removeSession(const std::string& clientId) {
     std::lock_guard<std::mutex> lock(this->sessionsMutex);
     size_t removed_count = this->activeSessions.erase(clientId);
     if (removed_count > 0) {
-        LOG("Server::removeSession DEBUG : Session client ID: " + clientId + " retirée de activeSessions.", "DEBUG");
+        // Aucune log DEBUG ici
     } else {
         LOG("Server::removeSession WARNING : Tentative de retirer session ID: " + clientId + ", non trouvée.", "WARNING");
     }
@@ -274,7 +251,6 @@ void Server::removeSession(const std::string& clientId) {
 // --- Implémentation de la méthode Server::CreateWalletFile ---
 bool Server::CreateWalletFile(const std::string& clientId) {
     std::string walletFilename = this->wallets_dir_path + "/" + clientId + ".wallet";
-    LOG("Server::CreateWalletFile DEBUG : Tentative création fichier portefeuille: " + walletFilename, "DEBUG");
 
     std::error_code ec;
     bool dir_exists_or_created = std::filesystem::create_directories(this->wallets_dir_path, ec);
@@ -283,7 +259,7 @@ bool Server::CreateWalletFile(const std::string& clientId) {
         LOG("Server::CreateWalletFile ERROR : Impossible créer/vérifier répertoire portefeuilles: " + this->wallets_dir_path + ". Erreur: " + ec.message(), "ERROR");
         return false;
     } else if (dir_exists_or_created) {
-         LOG("Server::CreateWalletFile DEBUG : Répertoire portefeuilles vérifié/créé : " + this->wallets_dir_path, "DEBUG");
+         // Aucune log DEBUG ici
     } else {
          LOG("Server::CreateWalletFile WARNING : std::filesystem::create_directories retourné false mais ec non set. État inconnu répertoire.", "WARNING");
     }
@@ -293,7 +269,6 @@ bool Server::CreateWalletFile(const std::string& clientId) {
         LOG("Server::CreateWalletFile ERROR : Impossible créer/ouvrir fichier portefeuille pour client ID: " + clientId + " chemin: " + walletFilename + ". Erreur: " + std::string(strerror(errno)), "ERROR");
         return false;
     }
-    LOG("Server::CreateWalletFile DEBUG : Fichier portefeuille ouvert/créé : " + walletFilename, "DEBUG");
 
     walletFile << "USD 10000.0\n";
     walletFile << "SRD-BTC 0.0\n";
@@ -390,17 +365,15 @@ void Server::SaveUsersInternal(const std::string& filename) {
 }
 
 
-// --- Implémentation de la NOUVELLE méthode privée Server::processAuthRequest ---
-// C'est l'implémentation que le compilateur ne trouvait pas.
-// Elle combine la logique de vérification et d'enregistrement.
-
+// --- Implémentation de la méthode Server::processAuthRequest ---
+// Combine la logique de vérification et d'enregistrement.
 AuthOutcome Server::processAuthRequest(const std::string& userIdPlainText, const std::string& passwordPlain, std::string& authenticatedUserId) {
     LOG("Server::processAuthRequest INFO : Tentative auth/enregistrement pour ID: '" + userIdPlainText + "'...", "INFO");
 
     // Initialise le paramètre de sortie pour s'assurer qu'il est vide par défaut si l'auth échoue.
     authenticatedUserId.clear();
 
-    // Vérifications de base (peut être fait dans Authenticator, mais redondance n'est pas nuisible).
+    // Vérifications de base.
     if (userIdPlainText.empty() || passwordPlain.empty()) {
         LOG("Server::processAuthRequest WARNING : ID ou Mot de passe vide fourni pour ID: '" + userIdPlainText + "'.", "WARNING");
         return AuthOutcome::FAIL;
@@ -414,13 +387,11 @@ AuthOutcome Server::processAuthRequest(const std::string& userIdPlainText, const
 
     if (it != this->users.end()) {
         // --- Cas : Utilisateur existant ---
-        LOG("Server::processAuthRequest DEBUG : ID existant trouvé : '" + userIdPlainText + "'. Vérification du mot de passe...", "DEBUG");
 
         // Vérifie le mot de passe en clair par rapport au HASH stocké (it->second).
         // !!! C'est ici que la VÉRIFICATION SÉCURISÉE DOIT avoir lieu !!!
         // Appelle la fonction sécurisée VerifyPasswordSecure (déclarée dans Utils.h, implémentée dans Utils.cpp).
-        // bool password_match = VerifyPasswordSecure(passwordPlain, it->second);
-        bool password_match = VerifyPasswordSecure(passwordPlain, it->second); // Placeholder INSECURE - IMPLÉMENTER SECURISÉ !
+        bool password_match = VerifyPasswordSecure(passwordPlain, it->second);
 
         if (password_match) {
             LOG("Server::processAuthRequest INFO : Authentification réussie pour ID existant : '" + userIdPlainText + "'.", "INFO");
@@ -434,11 +405,9 @@ AuthOutcome Server::processAuthRequest(const std::string& userIdPlainText, const
 
     } else {
         // --- Cas : Nouvel utilisateur ---
-        LOG("Server::processAuthRequest DEBUG : ID non trouvé : '" + userIdPlainText + "'. Tentative d'enregistrement...", "DEBUG");
 
          // !!! C'est ici que le HACHAGE SÉCURISÉ DOIT avoir lieu pour le nouveau mot de passe !!!
         // Le mot de passe en clair (passwordPlain) doit être hashé avec un sel unique.
-        // std::string hashedPasswordWithSalt = HashPasswordSecure(passwordPlain);
         std::string password_to_store = HashPasswordSecure(passwordPlain); // Placeholder INSECURE - IMPLÉMENTER SECURISÉ !
 
         if (password_to_store.empty()) {
@@ -449,12 +418,9 @@ AuthOutcome Server::processAuthRequest(const std::string& userIdPlainText, const
 
         // Ajouter le nouvel utilisateur à la map en mémoire.
         this->users[userIdPlainText] = password_to_store; // Stocke l'ID et le HASH + SEL.
-        LOG("Server::processAuthRequest DEBUG : Nouvel utilisateur '" + userIdPlainText + "' ajouté à map en mémoire.", "DEBUG");
 
         // Sauvegarder la liste des utilisateurs sur disque immédiatement après un ajout.
-        // La méthode SaveUsersInternal prend le lock et le libère, mais comme processAuthRequest
-        // a déjà un lock sur usersMutex, il faut appeler SaveUsersInternal qui ne reprend pas le lock.
-        // Note : Appeler SaveUsersInternal *pendant* que usersMutex est verrouillé est le bon comportement.
+        // Sauvegarde les utilisateurs sur disque.
         SaveUsersInternal(this->usersFile_path); // Sauvegarde les utilisateurs (interne, sous lock)
         LOG("Server::processAuthRequest INFO : Liste utilisateurs sauvegardée sur disque après ajout ID: '" + userIdPlainText + "'.", "INFO");
 
@@ -482,14 +448,12 @@ AuthOutcome Server::processAuthRequest(const std::string& userIdPlainText, const
 
 // --- Implémentation de la méthode Server::InitServerCTX ---
 UniqueSSLCTX Server::InitServerCTX(const std::string& certFile, const std::string& keyFile) {
-    LOG("Server::InitServerCTX DEBUG : Initialisation du contexte SSL serveur...", "DEBUG");
     UniqueSSLCTX context(SSL_CTX_new(TLS_server_method()));
     if (!context) {
         LOG("Server::InitServerCTX ERROR : Impossible de créer le contexte SSL serveur.", "ERROR");
         ERR_print_errors_fp(stderr);
         return nullptr;
     }
-    LOG("Server::InitServerCTX DEBUG : Contexte SSL serveur créé.", "DEBUG");
 
     SSL_CTX_set_info_callback(context.get(), openssl_debug_callback);
     SSL_CTX_set_min_proto_version(context.get(), TLS1_2_VERSION);
@@ -500,14 +464,12 @@ UniqueSSLCTX Server::InitServerCTX(const std::string& certFile, const std::strin
         ERR_print_errors_fp(stderr);
         return nullptr;
     }
-    LOG("Server::InitServerCTX DEBUG : Certificat serveur chargé : " + certFile, "DEBUG");
 
     if (SSL_CTX_use_PrivateKey_file(context.get(), keyFile.c_str(), SSL_FILETYPE_PEM) <= 0) {
         LOG("Server::InitServerCTX ERROR : Échec chargement clé privée serveur : " + keyFile, "ERROR");
         ERR_print_errors_fp(stderr);
         return nullptr;
     }
-    LOG("Server::InitServerCTX DEBUG : Clé privée serveur chargée : " + keyFile, "DEBUG");
 
      if (!SSL_CTX_check_private_key(context.get())) {
          LOG("Server::InitServerCTX ERROR : La clé privée ne correspond pas au certificat public !", "ERROR");
@@ -521,7 +483,6 @@ UniqueSSLCTX Server::InitServerCTX(const std::string& certFile, const std::strin
 
 // --- Implémentation de la méthode Server::AcceptSSLConnection ---
 UniqueSSL Server::AcceptSSLConnection(SSL_CTX* ctx_raw, int clientSocket) {
-    LOG("Server::AcceptSSLConnection DEBUG : Tentative handshake SSL pour socket FD: " + std::to_string(clientSocket), "DEBUG");
     if (!ctx_raw) {
         LOG("Server::AcceptSSLConnection ERROR : Contexte SSL raw est null. Fermeture socket FD: " + std::to_string(clientSocket), "ERROR");
         close(clientSocket);
@@ -535,7 +496,6 @@ UniqueSSL Server::AcceptSSLConnection(SSL_CTX* ctx_raw, int clientSocket) {
         close(clientSocket);
         return nullptr;
     }
-    LOG("Server::AcceptSSLConnection DEBUG : Objet SSL créé pour socket FD: " + std::to_string(clientSocket), "DEBUG");
 
     if (SSL_set_fd(ssl_ptr.get(), clientSocket) <= 0) {
         LOG("Server::AcceptSSLConnection ERROR : Erreur SSL_set_fd(). Socket FD: " + std::to_string(clientSocket), "ERROR");
@@ -565,24 +525,100 @@ UniqueSSL Server::AcceptSSLConnection(SSL_CTX* ctx_raw, int clientSocket) {
 }
 
 
+// --- Implémentation de la méthode Server::InitServerCTX ---
+UniqueSSLCTX Server::InitServerCTX(const std::string& certFile, const std::string& keyFile) {
+
+    UniqueSSLCTX context(SSL_CTX_new(TLS_server_method()));
+    if (!context) {
+        LOG("Server::InitServerCTX ERROR : Impossible de créer le contexte SSL serveur.", "ERROR");
+        ERR_print_errors_fp(stderr);
+        return nullptr;
+    }
+
+    SSL_CTX_set_info_callback(context.get(), openssl_debug_callback);
+    SSL_CTX_set_min_proto_version(context.get(), TLS1_2_VERSION);
+    SSL_CTX_set_options(context.get(), SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3 | SSL_OP_SINGLE_DH_USE);
+
+    if (SSL_CTX_use_certificate_file(context.get(), certFile.c_str(), SSL_FILETYPE_PEM) <= 0) {
+        LOG("Server::InitServerCTX ERROR : Échec chargement certificat serveur : " + certFile, "ERROR");
+        ERR_print_errors_fp(stderr);
+        return nullptr;
+    }
+
+    if (SSL_CTX_use_PrivateKey_file(context.get(), keyFile.c_str(), SSL_FILETYPE_PEM) <= 0) {
+        LOG("Server::InitServerCTX ERROR : Échec chargement clé privée serveur : " + keyFile, "ERROR");
+        ERR_print_errors_fp(stderr);
+        return nullptr;
+    }
+
+     if (!SSL_CTX_check_private_key(context.get())) {
+         LOG("Server::InitServerCTX ERROR : La clé privée ne correspond pas au certificat public !", "ERROR");
+         ERR_print_errors_fp(stderr);
+         return nullptr;
+     }
+
+     LOG("Server::InitServerCTX INFO : Contexte SSL serveur initialisé avec succès.", "INFO");
+    return context;
+}
+
+// --- Implémentation de la méthode Server::AcceptSSLConnection ---
+UniqueSSL Server::AcceptSSLConnection(SSL_CTX* ctx_raw, int clientSocket) {
+    if (!ctx_raw) {
+        LOG("Server::AcceptSSLConnection ERROR : Contexte SSL raw est null. Fermeture socket FD: " + std::to_string(clientSocket), "ERROR");
+        close(clientSocket);
+        return nullptr;
+    }
+
+    UniqueSSL ssl_ptr(SSL_new(ctx_raw));
+    if (!ssl_ptr) {
+        LOG("Server::AcceptSSLConnection ERROR : Erreur SSL_new(). Socket FD: " + std::to_string(clientSocket), "ERROR");
+        ERR_print_errors_fp(stderr);
+        close(clientSocket);
+        return nullptr;
+    }
+
+    if (SSL_set_fd(ssl_ptr.get(), clientSocket) <= 0) {
+        LOG("Server::AcceptSSLConnection ERROR : Erreur SSL_set_fd(). Socket FD: " + std::to_string(clientSocket), "ERROR");
+        ERR_print_errors_fp(stderr);
+        close(clientSocket);
+        return nullptr;
+    }
+
+    int ssl_accept_ret = SSL_accept(ssl_ptr.get());
+
+    if (ssl_accept_ret <= 0) {
+        int ssl_err = SSL_get_error(ssl_ptr.get(), ssl_accept_ret);
+        if (ssl_err == SSL_ERROR_WANT_READ || ssl_err == SSL_ERROR_WANT_WRITE) {
+             LOG("Server::AcceptSSLConnection WARNING : SSL_accept() retourné WANT_READ/WRITE pour socket FD: " + std::to_string(clientSocket) + ". Erreur SSL: " + std::to_string(ssl_err) + ". Connexion fermée car handshake non immédiat en mode bloquant.", "WARNING");
+             close(clientSocket);
+             return nullptr;
+        } else {
+            LOG("Server::AcceptSSLConnection ERROR : Erreur fatale lors du handshake SSL pour socket FD: " + std::to_string(clientSocket) + ". Erreur SSL: " + std::to_string(ssl_err), "ERROR");
+            ERR_print_errors_fp(stderr);
+            close(clientSocket);
+            return nullptr;
+        }
+    }
+
+    LOG("Server::AcceptSSLConnection INFO : Handshake SSL réussi pour socket FD: " + std::to_string(clientSocket), "INFO");
+    return ssl_ptr;
+}
+
 // --- Implémentation de la méthode Server::HandleClient ---
+// Gère toute la durée de vie d'une connexion cliente dans son propre thread.
 void Server::HandleClient(int clientSocket, SSL* raw_ssl_ptr) {
-    // Ce thread gère toute la durée de vie d'une connexion cliente, de l'acceptation à la déconnexion.
-    // Utilisez les variables 'clientSocket' et 'raw_ssl_ptr' qui sont passées et appartiennent à ce thread.
     LOG("Server::HandleClient INFO : Thread démarré pour socket FD: " + std::to_string(clientSocket), "INFO");
 
     // Déclarer client_conn et session au début du scope du try/catch principal
     // pour s'assurer que leur destruction (et donc le nettoyage de la connexion/session)
-    // se fasse même si une exception survient APRES leur création.
+    // se fasse même si une exception survient.
     std::shared_ptr<ServerConnection> client_conn = nullptr;
     std::shared_ptr<ClientSession> session = nullptr; // Sera créé après l'authentification.
     std::string authenticated_clientId; // Variable pour stocker l'ID après auth réussie.
 
     try {
         // --- 1. Créer l'objet ServerConnection ---
-        // Cet objet encapsule la socket et l'objet SSL. Il prend possession du socket et de l'objet SSL.
-        // Le constructeur de ServerConnection devrait vérifier que raw_ssl_ptr est valide.
-        LOG("Server::HandleClient DEBUG : Création de l'objet ServerConnection pour socket FD: " + std::to_string(clientSocket), "DEBUG");
+        // Cet objet encapsule la socket et l'objet SSL.
         client_conn = std::make_shared<ServerConnection>(clientSocket, raw_ssl_ptr);
         // raw_ssl_ptr ne doit plus être utilisé directement après cette ligne si ServerConnection en prend possession.
 
@@ -597,16 +633,13 @@ void Server::HandleClient(int clientSocket, SSL* raw_ssl_ptr) {
 
         // --- 2. Authentification du client ---
         // ClientAuthenticator est une classe qui gère le protocole d'authentification sur la connexion.
-        // Elle est locale à ce thread et temporaire.
         ClientAuthenticator authenticator;
 
         AuthOutcome authOutcome = AuthOutcome::FAIL;
 
         try {
-            // Appelle la méthode d'authentification. Elle gère la réception du message auth,
-            // le parsing, et DÉLÈGUE la logique de gestion utilisateur (vérif/enregistrement)
-            // à Server::processAuthRequest. authenticated_clientId est un paramètre OUT.
-            LOG("Server::HandleClient DEBUG : Lancement du processus AuthenticateClient...", "DEBUG");
+            // Appelle la méthode d'authentification.
+            // AuthenticateClient a besoin d'une référence au serveur pour appeler processAuthRequest.
             authOutcome = authenticator.AuthenticateClient(*client_conn, *this, authenticated_clientId);
 
             // --- Vérifier le résultat de l'authentification ---
@@ -620,7 +653,7 @@ void Server::HandleClient(int clientSocket, SSL* raw_ssl_ptr) {
             if (authenticated_clientId.empty()) {
                  // Cela ne devrait pas arriver si AuthenticateClient fonctionne comme prévu, mais c'est une sécurité.
                  LOG("Server::HandleClient ERROR : Authentification réussie (" + authOutcomeToString(authOutcome) + ") mais authenticated_clientId est vide. Socket FD: " + std::to_string(client_conn->getSocketFD()) + ". Arrêt du thread.", "ERROR");
-                 // Logique d'erreur grave interne : l'Authenticator a dit succès mais n'a pas fourni l'ID.
+                 // Logique d'erreur grave interne.
                  if(client_conn && client_conn->isConnected()) {
                       try { client_conn->send("AUTH FAIL: Server internal error after successful authentication.\n"); } catch(...) {}
                       client_conn->closeConnection();
@@ -632,10 +665,9 @@ void Server::HandleClient(int clientSocket, SSL* raw_ssl_ptr) {
 
 
         } catch (const std::exception& e) {
-             // Log toute exception survenue *pendant* l'appel à AuthenticateClient (parsing message, etc.).
+             // Log toute exception survenue *pendant* l'appel à AuthenticateClient.
              LOG("Server::HandleClient ERROR : Exception lors du processus d'authentification pour socket FD " + std::to_string(client_conn->getSocketFD()) + ". Exception: " + e.what() + ". Arrêt du thread.", "ERROR");
-             // Authenticator aurait dû envoyer un message d'erreur et fermer la connexion en cas d'exception interne.
-             // On ferme ici par sécurité si ce n'est pas le cas ou si l'exception vient d'ailleurs dans AuthenticateClient.
+             // Fermer ici par sécurité si l'exception vient d'ailleurs dans AuthenticateClient.
              if(client_conn && client_conn->isConnected()) {
                  try { client_conn->send("AUTH FAIL: Internal server error during authentication processing.\n"); } catch(...) {}
                  client_conn->closeConnection();
@@ -645,75 +677,92 @@ void Server::HandleClient(int clientSocket, SSL* raw_ssl_ptr) {
 
         // --- 3. Authentification réussie (SUCCESS ou NEW) ---
 
-        std::shared_ptr<ClientSession> session = nullptr; // Déclarer ici pour la portée
 
-
-        // ========================================================================
-        // Vérification d'une session active et création de la nouvelle session (SOUS LOCK)
-        // ========================================================================
-        { // Début du bloc pour le lock_guard protégeant activeSessions. Le verrou dure le temps de la vérification ET de l'ajout.
+        // Charger ou créer le Wallet ET vérifier une session active ET créer la nouvelle session
+        { // Début du bloc pour le lock_guard protégeant activeSessions et la création/chargement du Wallet.
              std::lock_guard<std::mutex> lock(this->sessionsMutex);
 
-             // Vérifie si une session pour cet authenticated_clientId est déjà active.
+             // --- 1. Vérifie si une session pour cet authenticated_clientId est déjà active (sous lock) ---
              if (this->activeSessions.count(authenticated_clientId)) {
-                  // Une session existe déjà. Refuser la nouvelle connexion.
+                  // Une session existe déjà.
                   LOG("Server::HandleClient WARNING : Connexion refusée. Une session pour client ID: '" + authenticated_clientId + "' est déjà active. Socket FD: " + std::to_string(client_conn->getSocketFD()), "WARNING");
                   // Envoyer un message d'erreur spécifique au client.
                   if(client_conn && client_conn->isConnected()) {
-                       try { client_conn->send("AUTH FAIL: Already connected with this ID.\n"); } catch(...) {} // ENVOYER LE FAIL ICI !
+                       try { client_conn->send("AUTH FAIL: Already connected with this ID.\n"); } catch(...) {}
                        client_conn->closeConnection(); // Fermer la nouvelle connexion entrante.
                   }
                   return; // Quitte le thread de gestion client (HandleClient).
              }
              // Si on arrive ici : Authentification réussie ET PAS DE SESSION ACTIVE EXISTANTE.
 
-             // La nouvelle connexion est autorisée. Créer la ClientSession.
-             LOG("Server::HandleClient DEBUG : Lancement de la création de ClientSession pour client ID: " + authenticated_clientId + " (sous lock)...", "DEBUG");
+             // --- 2. Charger ou créer le Wallet pour ce client ID (sous lock) ---
+             std::shared_ptr<Wallet> clientWallet = nullptr;
              try {
-                 // Créer l'objet ClientSession. Le constructeur de ClientSession crée l'objet Wallet.
-                 session = std::make_shared<ClientSession>(client_conn, authenticated_clientId, shared_from_this(), this->wallets_dir_path);
-                 // Vérifier si la création a échoué (ptr null).
-                 if (!session) {
-                      // Cas critique : make_shared a retourné nullptr.
-                      LOG("Server::HandleClient CRITICAL ERROR : std::make_shared<ClientSession>() a retourné nullptr de manière inattendue pour client ID: " + authenticated_clientId + ". Socket FD: " + std::to_string(client_conn->getSocketFD()) + " (sous lock). Arrêt.", "CRITICAL");
-                      // La connexion sera fermée après le bloc lock si session est null.
-                      // Pas besoin d'envoyer un message ici, on le fera juste après le bloc lock.
-                 } else {
-                      // Objet ClientSession créé avec succès. L'ajouter à la map activeSessions pendant que le verrou est actif.
-                      this->activeSessions[authenticated_clientId] = session;
-                      LOG("Server::HandleClient INFO : Session enregistrée pour client ID: " + authenticated_clientId + ". Total sessions actives: " + std::to_string(this->activeSessions.size()) + " (sous lock).", "INFO");
+                 // APPEL make_shared<Wallet> pour CRÉER ou CHARGER le Wallet.
+                 clientWallet = std::make_shared<Wallet>(authenticated_clientId, this->wallets_dir_path);
+                 // Le constructeur du Wallet gère lui-même si le fichier existe ou non.
+                 // Assurez-vous que le constructeur/loadFromFile de Wallet est thread-safe ou que cet accès est synchronisé si plusieurs HandleClient peuvent l'appeler pour le même ID.
+
+                 if (!clientWallet) {
+                      // Cas critique : make_shared a retourné nullptr pour le Wallet.
+                      LOG("Server::HandleClient CRITICAL ERROR : std::make_shared<Wallet>() a retourné nullptr de manière inattendue pour client ID: " + authenticated_clientId + ". Socket FD: " + std::to_string(client_conn->getSocketFD()) + " (sous lock). Arrêt.", "CRITICAL");
+                      // Gérer l'erreur.
                  }
 
              } catch (const std::exception& e) {
-                  // Attrape exceptions lors de la création/initialisation de ClientSession/Wallet.
-                  LOG("Server::HandleClient ERROR : Exception lors de la création/initialisation de ClientSession/Wallet pour client ID " + authenticated_clientId + ". Socket FD: " + std::to_string(client_conn->getSocketFD()) + ". Exception: " + e.what() + " (sous lock). Arrêt.", "ERROR");
-                  // Pas besoin d'envoyer un message ici, on le fera juste après le bloc lock.
-                  // La session sera nulle, le nettoyage se fera après le bloc lock.
+                  // Attrape exceptions lors de la création/chargement du Wallet.
+                  LOG("Server::HandleClient ERROR : Exception lors de la création/chargement du Wallet pour client ID " + authenticated_clientId + ". Socket FD: " + std::to_string(client_conn->getSocketFD()) + ". Exception: " + e.what() + " (sous lock). Arrêt.", "ERROR");
+                  clientWallet = nullptr; // S'assurer que le pointeur est null en cas d'échec.
              }
+
+
+             // --- 3. Créer l'objet ClientSession (sous lock) ---
+             // Seulement si le Wallet a été créé/chargé avec succès.
+             session = nullptr; // Réinitialiser le pointeur session local avant de potentiellement le créer.
+             if (clientWallet) { // Vérifie que le Wallet est valide avant de créer la session.
+                 try {
+                     // APPEL à make_shared<ClientSession> avec les 3 arguments.
+                     // ID Client (string), Connexion (shared_ptr<ServerConnection>), Wallet (shared_ptr<Wallet>)
+                     session = std::make_shared<ClientSession>(authenticated_clientId, client_conn, clientWallet);
+
+                     // Vérifier si la création de la Session a échoué (ptr null).
+                     if (!session) {
+                          // Cas critique : make_shared<ClientSession>() a retourné nullptr.
+                          LOG("Server::HandleClient CRITICAL ERROR : std::make_shared<ClientSession>() a retourné nullptr de manière inattendue pour client ID: " + authenticated_clientId + ". Socket FD: " + std::to_string(client_conn->getSocketFD()) + " (sous lock). Arrêt.", "CRITICAL");
+                          // La connexion sera fermée après le bloc lock si session est null.
+                     } else {
+                          // Objet ClientSession créé avec succès. L'ajouter à la map activeSessions.
+                          this->activeSessions[authenticated_clientId] = session;
+                          LOG("Server::HandleClient INFO : Session enregistrée pour client ID: " + authenticated_clientId + ". Total sessions actives: " + std::to_string(this->activeSessions.size()) + " (sous lock).", "INFO");
+                     }
+
+                 } catch (const std::exception& e) {
+                      // Attrape exceptions lors de la création/initialisation de ClientSession elle-même.
+                      LOG("Server::HandleClient ERROR : Exception lors de la création/initialisation de ClientSession pour client ID " + authenticated_clientId + ". Socket FD: " + std::to_string(client_conn->getSocketFD()) + ". Exception: " + e.what() + " (sous lock). Arrêt.", "ERROR");
+                      session = nullptr; // S'assurer que le pointeur est null en cas d'échec.
+                 }
+             } // Fin if (clientWallet)
             // Le verrou (lock_guard) se termine ici, libérant le mutex activeSessions.
         } // Fin du bloc lock_guard
 
 
-        // ============================================
-        // Gérer les cas d'échec APRES le bloc du lock
-        // ============================================
-        // Si session est nullptr, c'est qu'il y a eu un échec lors de la création ou initialisation (capture par les catch{} ou vérification nullptr).
+        // Gérer les cas d'échec APRES le bloc du lock (si session est nullptr)
         if (!session) {
              // L'échec a déjà été loggué dans le bloc lock.
              // Nettoyage : fermer la connexion car la session n'a pas pu être initialisée ou enregistrée.
-             // On n'a pas encore envoyé AUTH SUCCESS/NEW, donc on envoie un message d'erreur serveur.
+             LOG("Server::HandleClient ERROR : Échec de création ou initialisation du Wallet ou de la Session pour client ID " + authenticated_clientId + ". Socket FD: " + std::to_string(client_conn->getSocketFD()) + ". Arrêt.", "ERROR");
              if(client_conn && client_conn->isConnected()) {
                   try { client_conn->send("ERROR: Server internal error initializing your session. Connection closing.\n"); } catch(...) {}
                   client_conn->closeConnection(); // Fermer la connexion.
              }
-             return; // Quitte le thread.
+             // Le thread HandleClient se termine ici.
+             return;
         }
-        // Si on arrive ici, la session a été créée et ajoutée à activeSessions avec succès.
+
+        // Si on arrive ici, la session a été créée, enregistrée et le Wallet est chargé (SANS LOCK)
 
 
-        // ===================================================================
         // Envoyer la réponse d'authentification réussie au client (SANS LOCK)
-        // ===================================================================
         // Maintenant que la connexion est validée et que la session a été créée et enregistrée.
         if (authOutcome == AuthOutcome::SUCCESS) {
              LOG("Server::HandleClient INFO : Authentification réussie pour client ID: '" + authenticated_clientId + "'. Envoi réponse AUTH SUCCESS.", "INFO");
@@ -729,17 +778,42 @@ void Server::HandleClient(int clientSocket, SSL* raw_ssl_ptr) {
         // Le client va lire cette réponse AUTH SUCCESS/NEW avec receiveLine() et passer à la boucle de commandes.
 
 
-        // ========================================================================
-        // Démarrer le thread de la ClientSession et finaliser la gestion (SANS LOCK)
-        // ========================================================================
-        // La session est déjà créée et enregistrée. Reste à la démarrer (ce qui lance son thread run()).
+        // Enregistrer la session auprès de la TransactionQueue globale (SANS LOCK)
+        // La TQ a besoin d'un pointeur vers la session pour lui envoyer des notifications (ex: transaction terminée).
+        try {
+            // txQueue est une variable globale (extern). registerSession attend un shared_ptr<ClientSession>.
+            extern TransactionQueue txQueue; // Déclaration pour accéder à l'instance globale
+            txQueue.registerSession(session);
+            LOG("Server::HandleClient INFO : ClientSession pour client ID: " + authenticated_clientId + " enregistrée auprès de la TransactionQueue.", "INFO");
+        } catch (const std::exception& e) {
+            // Si l'enregistrement TQ échoue, on retire la session de activeSessions et on ferme la connexion.
+            LOG("Server::HandleClient ERROR : Échec enregistrement ClientSession auprès de TQ pour client ID " + authenticated_clientId + ". Exception: " + e.what() + ". Arrêt du thread.", "ERROR");
+            { // Bloc pour le lock_guard pour retirer de activeSessions.
+                std::lock_guard<std::mutex> lock(this->sessionsMutex);
+                // Vérifier si la session existe toujours dans la map avant de tenter de la retirer.
+                 if (this->activeSessions.count(authenticated_clientId)) {
+                      this->activeSessions.erase(authenticated_clientId); // Retire la session pour éviter une référence pendante.
+                      LOG("Server::HandleClient INFO : Session pour client ID: " + authenticated_clientId + " retirée de activeSessions suite à un échec d'enregistrement TQ. Total sessions actives: " + std::to_string(this->activeSessions.size()) + ".", "INFO");
+                 } else {
+                      LOG("Server::HandleClient WARNING : Session pour client ID: " + authenticated_clientId + " n'était plus dans activeSessions lors du nettoyage après échec enregistrement TQ.", "WARNING");
+                 }
+            } // Fin lock_guard pour retrait.
 
-        LOG("Server::HandleClient DEBUG : Démarrage du thread ClientSession pour client ID: " + authenticated_clientId + "...", "DEBUG");
+             // Envoyer un message d'erreur au client et fermer la connexion.
+             if(client_conn && client_conn->isConnected()) {
+                 try { client_conn->send("ERROR: Server internal error initializing transaction processing for your session. Connection closing.\n"); } catch(...) {}
+                 client_conn->closeConnection();
+             }
+            return; // Quitte le thread.
+        }
+
+
+        // Démarrer le thread de la ClientSession et finaliser la gestion (SANS LOCK)
+        // La session est déjà créée et enregistrée. Reste à la démarrer (ce qui lance son thread run()).
         try {
              // Le démarrage lance le thread run().
-             session->start(); // TODO: Implement ClientSession::start() if not already done.
-             // La méthode start() doit créer le thread 'sessionThread' et le lancer, puis potentiellement se détacher ou le rendre joignable.
-             // Si start() lance une exception, elle sera attrapée ici.
+             session->start();
+             LOG("Server::HandleClient INFO : Thread ClientSession démarré pour client ID: " + authenticated_clientId + ". Le thread HandleClient va se terminer normalement.", "INFO");
         } catch (const std::exception& e) {
              LOG("Server::HandleClient ERROR : Exception lors du démarrage du thread ClientSession pour client ID " + authenticated_clientId + ". Socket FD: " + std::to_string(client_conn->getSocketFD()) + ". Exception: " + e.what() + ". Tentative de nettoyage.", "ERROR");
              // Si le démarrage du thread échoue, il faut nettoyer la session (retirer de activeSessions, fermer connexion).
@@ -766,68 +840,11 @@ void Server::HandleClient(int clientSocket, SSL* raw_ssl_ptr) {
              return; // Quitte le thread.
         }
 
-        // Si on arrive ici, le thread ClientSession a été démarré avec succès.
-        LOG("Server::HandleClient INFO : Thread ClientSession démarré pour client ID: " + authenticated_clientId + ". Le thread HandleClient va se terminer normalement.", "INFO");
-
-        // --- Le thread HandleClient a terminé son travail ---
+        // Le thread HandleClient a terminé son travail
         // Il n'a plus besoin de pointer vers client_conn ou session.
         // Les shared_ptr détenus par le Server (via activeSessions) et la ClientSession elle-même
         // maintiennent les objets en vie tant que la session est active.
         // Les variables locales client_conn et session dans HandleClient sortiront de portée ici.
-
-
-
-        // --- 4. Enregistrer et démarrer la session ---
-
-        // Ajouter la session à la liste active des sessions gérées par le serveur. Thread-safe.
-        // Cela assure que l'objet ClientSession (et donc ServerConnection et Wallet) reste en vie.
-        LOG("Server::HandleClient DEBUG : Ajout de la session à activeSessions...", "DEBUG");
-        {
-            std::lock_guard<std::mutex> lock(this->sessionsMutex);
-            this->activeSessions[authenticated_clientId] = session; // activeSessions garde un shared_ptr
-        }
-        LOG("Server::HandleClient INFO : Session enregistrée pour client ID: " + authenticated_clientId + ". Total sessions actives: " + std::to_string(this->activeSessions.size()) + ".", "INFO");
-
-
-        // Enregistrer la session auprès de la TransactionQueue globale. Thread-safe.
-        // La TQ a besoin d'un pointeur vers la session pour lui envoyer des notifications (ex: transaction terminée).
-        LOG("Server::HandleClient DEBUG : Enregistrement de la session auprès de la TransactionQueue...", "DEBUG");
-        try {
-            txQueue.registerSession(session); // txQueue est une variable globale (extern). registerSession attend un shared_ptr<ClientSession>.
-            LOG("Server::HandleClient INFO : ClientSession pour client ID: " + authenticated_clientId + " enregistrée auprès de la TransactionQueue.", "INFO");
-        } catch (const std::exception& e) {
-            // Si l'enregistrement TQ échoue, on retire la session de activeSessions et on ferme la connexion.
-            LOG("Server::HandleClient ERROR : Échec enregistrement ClientSession auprès de TQ pour client ID " + authenticated_clientId + ". Exception: " + e.what() + ". Arrêt du thread.", "ERROR");
-            { // Bloc pour le lock_guard
-                std::lock_guard<std::mutex> lock(this->sessionsMutex);
-                this->activeSessions.erase(authenticated_clientId); // Retire la session pour éviter une référence pendante.
-            }
-             // Envoyer un message d'erreur au client et fermer la connexion.
-             if(client_conn && client_conn->isConnected()) {
-                 try { client_conn->send("ERROR: Server internal error initializing transaction processing for your session. Connection closing.\n"); } catch(...) {}
-                 client_conn->closeConnection();
-             }
-            return; // Quitte le thread.
-        }
-
-
-        // Lancer le thread principal de la ClientSession.
-        // C'est session->start() qui met le flag 'running' à true et démarre le thread de la session
-        // qui va ensuite gérer la communication (receive messages, process commands).
-        LOG("Server::HandleClient DEBUG : Démarrage du thread ClientSession...", "DEBUG");
-        session->start(); // Cette méthode ne devrait pas bloquer le thread HandleClient, elle démarre un nouveau thread interne.
-        LOG("Server::HandleClient INFO : Thread ClientSession démarré pour client ID: " + authenticated_clientId + ". Le thread HandleClient va se terminer normalement.", "INFO");
-
-        // --- 5. Fin du thread HandleClient ---
-        // Le thread HandleClient se termine ici.
-        // Il a créé et configuré la ClientSession et démarré son thread interne.
-        // Le travail de communication avec le client et de traitement des commandes
-        // est maintenant entièrement pris en charge par le thread démarré dans session->start().
-
-        // Les objets ClientSession, ServerConnection et Wallet sont maintenus en vie par les shared_ptr
-        // dans activeSessions et la TransactionQueue tant qu'ils ne sont pas explicitement retirés.
-        // Le thread Server::HandleClient est terminé et ses copies locales de shared_ptr sont détruites,
-        // mais cela ne détruit pas les objets tant que d'autres shared_ptr existent.
 
         return; // Fin normale du thread HandleClient.
 
@@ -848,13 +865,11 @@ void Server::HandleClient(int clientSocket, SSL* raw_ssl_ptr) {
             // Si client_conn n'a pas pu être créé ou connecté, il faut nettoyer raw_ssl_ptr et clientSocket manuellement.
              LOG("Server::HandleClient CRITICAL ERROR : client_conn n'était pas valide/connecté. Tentative de nettoyage manuel socket/SSL (FD: " + std::to_string(clientSocket) + ") suite à exception.", "CRITICAL");
             // Ssl_free gère les cas où le socket FD est déjà fermé. close gère les cas où FD est -1.
-            if (raw_ssl_ptr) { SSL_free(raw_ssl_ptr); raw_ssl_ptr = nullptr; LOG("Server::HandleClient CRITICAL ERROR : raw_ssl_ptr libéré manuellement.", "CRITICAL"); }
-            if (clientSocket != -1) { close(clientSocket); clientSocket = -1; LOG("Server::HandleClient CRITICAL ERROR : clientSocket " + std::to_string(clientSocket) + " fermé manuellement.", "CRITICAL"); }
+            if (raw_ssl_ptr) { SSL_free(raw_ssl_ptr); raw_ssl_ptr = nullptr; }
+            if (clientSocket != -1) { close(clientSocket); clientSocket = -1; }
         }
 
         // 2. Si la session a été créée avant l'exception, tenter de la retirer des listes globales.
-        // Attention, si l'exception a corrompu l'objet session, cela peut être risqué.
-        // Un mécanisme de surveillance/nettoyage des sessions zombies serait plus robuste.
         // Pour l'instant, on retire la session de activeSessions si elle y a été ajoutée.
         if (session && !authenticated_clientId.empty()) {
              LOG("Server::HandleClient CRITICAL ERROR : Tentative de retrait de la session '" + authenticated_clientId + "' de activeSessions.", "CRITICAL");
@@ -863,16 +878,12 @@ void Server::HandleClient(int clientSocket, SSL* raw_ssl_ptr) {
                   this->activeSessions.erase(authenticated_clientId);
                   LOG("Server::HandleClient CRITICAL ERROR : Session '" + authenticated_clientId + "' retirée de activeSessions.", "CRITICAL");
              }
-             // Si la session a été enregistrée auprès de la TQ (après activeSessions),
-             // il faudrait aussi la désenregistrer (si une méthode unregisterSession existe dans TQ).
-             // txQueue.unregisterSession(session); // <-- Si cette méthode existe dans TransactionQueue
         }
 
 
         // Le thread HandleClient se termine suite à l'exception.
     }
     // Fin de la méthode Server::HandleClient. Le thread se termine ici.
-    LOG("Server::HandleClient DEBUG : Fin du thread Server::HandleClient pour socket FD: " + std::to_string(clientSocket) + ".", "DEBUG");
 }
 
 
@@ -910,7 +921,7 @@ void Server::AcceptLoop() {
         }
 
         std::stringstream log_accept_ss;
-        log_accept_ss << "Server::AcceptLoop INFO : Nouvelle connexion acceptée. Socket FD: " << clientSocket << ", IP: " << inet_ntoa(clientAddr.sin_addr); // inet_ntoa non thread-safe, mais ici c'est juste pour un log rapide dans le thread d'accept. Pour un usage critique, utiliser inet_ntop.
+        log_accept_ss << "Server::AcceptLoop INFO : Nouvelle connexion acceptée. Socket FD: " << clientSocket << ", IP: " << inet_ntoa(clientAddr.sin_addr); // inet_ntoa non thread-safe, mais ici c'est juste pour un log rapide dans le thread d'accept.
         LOG(log_accept_ss.str(), "INFO");
 
         UniqueSSL client_ssl = AcceptSSLConnection(this->ctx.get(), clientSocket);
@@ -923,9 +934,7 @@ void Server::AcceptLoop() {
 
         try {
              // Lance un nouveau thread HandleClient pour cette connexion.
-             // Passe la référence au ServerConnection par pointeur brut (ou shared_ptr si HandleClient l'attendait),
-             // et le pointeur RAW SSL (dont HandleClient/ServerConnection prend la propriété via release()).
-             // On passe clientSocket et client_ssl.release() qui seront pris en charge par ServerConnection dans HandleClient.
+             // Passe clientSocket et client_ssl.release() qui seront pris en charge par ServerConnection dans HandleClient.
              std::thread clientThread(&Server::HandleClient, this, clientSocket, client_ssl.release());
              clientThread.detach();
              LOG("Server::AcceptLoop INFO : Thread gestion client détaché pour socket FD: " + std::to_string(clientSocket), "INFO");

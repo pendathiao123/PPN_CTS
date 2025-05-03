@@ -8,7 +8,7 @@
 #include "../headers/TransactionQueue.h" // Pour ajouter requêtes et accéder à txQueue globale
 #include "../headers/Logger.h" // Pour LOG macro
 #include "../headers/Transaction.h" // Pour enums et struct TransactionRequest, et helpers stringTo/ToString
-#include "../headers/TransactionQueue.h" // Pour RequestType et requestTypeToString
+#include "../headers/TransactionQueue.h"
 
 #include <iostream>
 #include <sstream> // Pour le parsing des commandes et le formatage
@@ -22,47 +22,32 @@
 #include <string> // Inclure explicitement pour std::to_string si nécessaire selon le compilateur/standard
 #include <cmath> // Pour std::isfinite
 
+
 // Assurez-vous que l'instance globale de la file est déclarée dans UN SEUL fichier .cpp (souvent Server.cpp)
-// extern TransactionQueue txQueue; // Déjà déclarée comme extern dans TransactionQueue.h
 
 // Constante pour la fréquence d'appel du bot (légèrement > fréquence de prix)
 const std::chrono::seconds BOT_CALL_INTERVAL(16);
 // Taille du buffer de réception
 const int RECEIVE_BUFFER_SIZE = 1024; // Taille typique pour lire des commandes texte
 
-// Constante pour le pourcentage d'investissement du bot (par exemple, 100% du solde disponible)
-// Ou une autre valeur si le bot n'investit pas toujours tout.
-const double BOT_INVESTMENT_PERCENTAGE = 100.0; // Exemple : 100%
-
 
 // Déclaration des méthodes privées pour que le compilateur les connaisse
 // si elles sont appelées avant leur définition complète dans le fichier.
-// (Elles étaient déjà déclarées dans le .h, mais c'est une bonne pratique ici).
-// void run(); // Déclaré dans .h
-// void processClientCommand(const std::string& request); // Déclaré dans .h
-// bool handleClientTradeRequest(RequestType req_type, Currency trade_currency, double percentage); // Déclaré dans .h
-// --- Nouvelle méthode pour la soumission d'ordres du bot ---
-bool submitBotOrder(TradingAction action);
+bool submitBotOrder(TradingAction action); // Cette déclaration libre semble incorrecte pour une méthode membre ClientSession
 
 
 // --- Constructeur ---
-ClientSession::ClientSession(std::shared_ptr<ServerConnection> client_ptr, const std::string& id, [[maybe_unused]] std::shared_ptr<Server> server, const std::string& dataDirPath)
-    : clientId(id), client(client_ptr), bot(nullptr), running(false) // running est initialisé à false ici.
+ClientSession::ClientSession(const std::string& id, std::shared_ptr<ServerConnection> clientConn, std::shared_ptr<Wallet> wallet)
+    // Initialise les membres dans l'ordre de déclaration
+    : clientId(id),
+      client(clientConn),
+      clientWallet(wallet),
+      bot(nullptr), // Initialisation du shared_ptr bot à nullptr
+      running(false) // Initialisation du flag running à false
 {
-    // Correction des appels LOG (Source, Niveau, Message)
     LOG("ClientSession INFO : Initialisation pour client " + clientId, "INFO");
-
-    // Création du Wallet. Le constructeur du Wallet appelle loadFromFile() UNE FOIS.
-    clientWallet = std::make_shared<Wallet>(clientId, dataDirPath);
-
-    // Pas besoin d'appeler loadFromFile() à nouveau ici, ni de logguer "Portefeuille chargé/Impossible de charger"
-    // car le constructeur du Wallet l'a déjà fait et les logs de Server::processAuthRequest
-    // indiquent déjà si l'utilisateur est NEW (nouveau portefeuille) ou SUCCESS (portefeuille chargé).
-
-    // L'enregistrement auprès de la TQ et le démarrage du thread de session (mettant running à true)
-    // DOIVENT se faire APRES que l'objet ClientSession a été créé en tant que shared_ptr
-    // et que le pointeur a été stocké (ex: dans activeSessions du Server).
-    // Donc, l'enregistrement et le démarrage se font dans la méthode start(), appelée PAR Server::HandleClient.
+    // L'héritage de enable_shared_from_this est initialisé automatiquement.
+    // Le thread n'est pas démarré dans le constructeur. La méthode start() est appelée par Server.
 }
 // --- Destructeur ---
 ClientSession::~ClientSession() {
@@ -78,7 +63,7 @@ ClientSession::~ClientSession() {
         clientWallet->saveToFile();
         LOG("ClientSession INFO : Portefeuille sauvegardé pour " + clientId + " avant destruction.", "INFO");
     } else {
-        LOG("ClientSession WARNING : Wallet null lors de la destruction de la session pour " + clientId + ". Sauvegarde impossible.", "WARNING"); // Correction LOG
+        LOG("ClientSession WARNING : Wallet null lors de la destruction de la session pour " + clientId + ". Sauvegarde impossible.", "WARNING");
     }
 // Le pointeur shared_ptr<ClientConnection> sera détruit ici quand ClientSession est détruit.
 // Sa destruction appelle le destructeur de ServerConnection qui ferme la socket/libère SSL.
@@ -92,15 +77,6 @@ void ClientSession::start() {
 
         running.store(true); // Met le flag running à true AVANT de lancer le thread
 
-        // Enregistrer la session auprès de la TransactionQueue ici, après que l'objet est géré par un shared_ptr.
-        // Server::HandleClient appelle txQueue.registerSession APRÈS avoir appelé session->start().
-        // Le meilleur endroit pour appeler registerSession est PEUT-ÊTRE dans HandleClient après la création de la session,
-        // ou TQ::registerSession doit être capable de prendre la session même si son thread interne n'est pas encore démarré.
-        // Le code actuel de HandleClient appelle registerSession AVANT session->start(). Conservons cette structure pour l'instant.
-        // Le log bizarre "Session ... enregistrée auprès de la TQ" venait peut-être d'ici ou d'un log dans TQ::registerSession ?
-        // Le log dans TQ::registerSession semblait correct. Vérifions si ce log bizarre disparaît avec la correction des autres logs.
-        // Si le log bizarre persiste, il faudra regarder où il est généré exactement.
-
         // Lancer le thread de la session. Il exécutera la méthode run() de cette instance.
         sessionThread = std::thread(&ClientSession::run, this);
 
@@ -110,8 +86,6 @@ void ClientSession::start() {
         } else {
              LOG("ClientSession ERROR : Échec du lancement du thread de session pour client " + clientId, "ERROR");
              running.store(false); // Marquer comme non running si le thread n'a pas démarré.
-             // Devrait aussi fermer la connexion ici si le thread ne démarre pas ?
-             // La destruction de ClientSession le fera, mais une gestion d'erreur plus fine serait mieux.
         }
 
 
@@ -129,9 +103,6 @@ void ClientSession::stop() {
         // Joindre le thread pour attendre sa fin propre
         if (sessionThread.joinable()) {
             LOG("ClientSession INFO : Fermeture proactive de la connexion client pour débloquer le thread de session pour " + clientId, "INFO");
-            // Si le thread est bloqué dans client->receive(), il faudrait un moyen de le débloquer
-            // (ex: fermer le socket depuis un autre thread, ou utiliser des I/O non bloquantes/timeout).
-            // Ici, on suppose que la boucle finira par se terminer (soit receive retourne 0, soit le flag running est vérifié périodiquement).
             sessionThread.join();
             LOG("ClientSession INFO : Thread de session terminé pour " + clientId, "INFO");
         }
@@ -148,20 +119,14 @@ void ClientSession::stop() {
         LOG("ClientSession INFO : Session " + clientId + " désenregistrée de la TQ suite à l'arrêt.", "INFO");
 
     } else {
-        LOG("ClientSession WARNING : La session " + clientId + " n'était pas en cours d'exécution lors de la demande d'arrêt.", "WARNING");    
+        LOG("ClientSession WARNING : La session " + clientId + " n'était pas en cours d'exécution lors de la demande d'arrêt.", "WARNING");
     }
 
-}
-
-// --- Vérifie si le thread est actif ---
-bool ClientSession::isRunning() const {
-    return running.load();
 }
 
 // --- Boucle principale du thread de session ---
 // Cette méthode est exécutée par le thread 'sessionThread'.
 void ClientSession::run() {
-    // Correction appel LOG : format (Message, Niveau)
     LOG("ClientSession INFO : Thread de session démarré pour client " + clientId, "INFO");
 
     char read_buffer[RECEIVE_BUFFER_SIZE]; // Buffer pour les données brutes reçues de la connexion.
@@ -182,7 +147,7 @@ void ClientSession::run() {
              bytes_received = client->receive(read_buffer, sizeof(read_buffer));
         } catch (const std::exception& e) {
              // Attrape les exceptions lancées par la méthode receive (ex: erreurs SSL).
-             LOG("ClientSession ERROR : Erreur de réception pour client " + clientId + ": " + e.what(), "ERROR"); // Correction LOG
+             LOG("ClientSession ERROR : Erreur de réception pour client " + clientId + ": " + e.what(), "ERROR");
              running.store(false); // Signale l'arrêt de la boucle.
              break; // Sort de la boucle while.
         }
@@ -190,9 +155,7 @@ void ClientSession::run() {
         if (bytes_received > 0) {
             // Des données ont été reçues. Ajouter au buffer d'accumulation.
             command_buffer.append(read_buffer, bytes_received);
-            // Log le nombre d'octets reçus et la taille actuelle du buffer d'accumulation.
-            LOG("ClientSession DEBUG : Reçu " + std::to_string(bytes_received) + " octets. Buffer d'accumulation: " + std::to_string(command_buffer.size()) + " octets.", "DEBUG"); // Correction LOG
-
+            // Log le nombre d'octets reçus et la taille actuelle du buffer d'accumulation (DEBUG supprimé).
 
             // --- Extraire les commandes complètes du buffer (terminées par '\n') ---
             size_t newline_pos;
@@ -213,13 +176,13 @@ void ClientSession::run() {
 
         } else if (bytes_received == 0) {
             // receive retourne 0 lorsque le pair (le client) ferme la connexion proprement.
-            LOG("ClientSession INFO : Déconnexion propre détectée pour client " + clientId + ". Socket FD: " + std::to_string(client ? client->getSocketFD() : -1), "INFO"); // Correction LOG + ajout FD
+            LOG("ClientSession INFO : Déconnexion propre détectée pour client " + clientId + ". Socket FD: " + std::to_string(client ? client->getSocketFD() : -1), "INFO");
             running.store(false); // Signale l'arrêt de la boucle.
             // La boucle se terminera à la prochaine vérification de la condition while.
         } else { // bytes_received < 0
             // receive retourne une valeur négative pour des erreurs SSL (SSL_ERROR_WANT_READ/WRITE, etc.).
             // ServerConnection::receive loggue déjà le type d'erreur SSL si possible.
-            LOG("ClientSession ERROR : Erreur détectée lors de la réception pour client " + clientId + ". Arrêt de la session. Code retour receive: " + std::to_string(bytes_received), "ERROR"); // Correction LOG + code retour
+            LOG("ClientSession ERROR : Erreur détectée lors de la réception pour client " + clientId + ". Arrêt de la session. Code retour receive: " + std::to_string(bytes_received), "ERROR");
             running.store(false); // Signale l'arrêt de la boucle.
             // La boucle se terminera à la prochaine vérification de la condition while.
         }
@@ -236,19 +199,17 @@ void ClientSession::run() {
             auto now = std::chrono::system_clock::now();
             // Vérifier si l'intervalle d'appel du bot est écoulé.
             if (now - last_bot_call_time >= BOT_CALL_INTERVAL) {
-                LOG("ClientSession DEBUG : Appel de la logique du bot pour " + clientId, "DEBUG"); // Correction LOG
+                // LOG("ClientSession DEBUG : Appel de la logique du bot pour " + clientId, "DEBUG"); // Supprimé (DEBUG)
                 // Appeler la méthode du bot pour qu'il prenne une décision.
-                // processLatestPrice() doit être implémenté dans la classe Bot.
-                TradingAction bot_action = bot->processLatestPrice(); // TODO: Implement Bot::processLatestPrice()
+                TradingAction bot_action = bot->processLatestPrice();
 
                 // --- Traduire la décision du bot en ordre et soumettre à la TQ ---
-                if (bot_action != TradingAction::HOLD) {
-                    LOG("ClientSession INFO : Bot " + clientId + " a décidé l'action: " + (bot_action == TradingAction::BUY ? "BUY" : (bot_action == TradingAction::CLOSE_LONG ? "CLOSE_LONG" : "AUTRE")), "INFO"); // Correction LOG
+                if (bot_action != TradingAction::HOLD && bot_action != TradingAction::UNKNOWN) {
+                    LOG("ClientSession INFO : Bot " + clientId + " a décidé l'action: " + (bot_action == TradingAction::BUY ? "BUY" : (bot_action == TradingAction::CLOSE_LONG ? "CLOSE_LONG" : "AUTRE")), "INFO");
                     // submitBotOrder gère le calcul de quantité, la création de requête et la soumission TQ
-                    // submitBotOrder(bot_action); // TODO: Implement submitBotOrder()
+                    submitBotOrder(bot_action);
                 } else {
                     // Log si le bot a décidé de ne rien faire (commenté par défaut pour éviter spam log).
-                    // LOG("ClientSession DEBUG : Bot " + clientId + " a décidé: HOLD.", "DEBUG"); // Correction LOG
                 }
 
                 last_bot_call_time = now; // Mettre à jour le temps du dernier appel au bot.
@@ -263,12 +224,10 @@ void ClientSession::run() {
     } // Fin de la boucle while (condition running || client valide/connecté devient fausse)
 
     // Ce log est exécuté juste après la sortie de la boucle while.
-    // Correction appel LOG : format (Message, Niveau)
     LOG("ClientSession INFO : Sortie de la boucle de session pour client " + clientId + ". Raison: running=" + std::to_string(running.load()) + ", client_connected=" + std::to_string(client ? client->isConnected() : false), "INFO");
     // La destruction de l'objet ClientSession (quand le shared_ptr n'est plus référencé) appellera ~ClientSession()
     // qui appellera stop() pour la fin propre.
 }
-
 
 
 // --- Traite une commande reçue du client (string complète) ---
@@ -381,7 +340,7 @@ void ClientSession::processClientCommand(const std::string& command) {
              if (trade_currency != Currency::UNKNOWN && percentage > 0.0 && percentage <= 100.0 && ss && !ss.fail()) {
                   RequestType req_type = (base_command == "BUY") ? RequestType::BUY : RequestType::SELL;
 
-                  handleClientTradeRequest(req_type, trade_currency, percentage);
+                  handleClientTradeRequest(req_type, currency_str, percentage);
 
                   LOG("ClientSession INFO : Requête de trading manuelle (" + base_command + " " + currencyToString(trade_currency) + " " + std::to_string(percentage) + "%) reçue pour client " + clientId + ". Soumission à la TQ via handleClientTradeRequest.", "INFO");
                   response_message = "OK: Your " + base_command + " request has been submitted for processing.\n";
@@ -392,60 +351,78 @@ void ClientSession::processClientCommand(const std::string& command) {
              }
          }
 
-    } else if (base_command == "START") {
-         std::string bot_command;
-         ss >> bot_command;
-         std::transform(bot_command.begin(), bot_command.end(), bot_command.begin(), ::toupper);
-         if (bot_command == "BOT") {
-             int period = 0;
-             double k = 0.0;
-             ss >> period >> k;
-              if (ss && !ss.fail() && period > 0 && k > 0.0) {
-                 startBot(period, k);
+        } else if (base_command == "START") {
+            std::string bot_keyword;
+            ss >> bot_keyword;
+            if (bot_keyword == "BOT") { // C'est bien "START BOT"
+                double bollingerK;
+                // Tenter de lire le paramètre BollingerK (un double)
+                if (ss >> bollingerK) {
+                    // --- Vérifier s'il y a des paramètres non attendus après K ---
+                    std::string remaining;
+                    ss >> remaining; // Tente de lire quelque chose d'autre après le double
+                    if (!remaining.empty()) { // S'il reste du texte après le nombre (ex: START BOT 2.0 texte)
+                        response_message = "ERROR: Invalid command format for START BOT. Usage: START BOT <BollingerK>.\n";
+                        LOG("Server WARNING : Commande START BOT avec texte en trop après K de client " + clientId + ". Commande: '" + command + "'", "WARNING");
+                    }
+                    else {
+                        // --- Paramètre K lu avec succès et pas de texte en trop ! ---
+                        // Appeler la méthode startBot avec le paramètre K.
+                        // La période Bollinger (20) est gérée à l'intérieur de ClientSession::startBot.
+                        startBot(bollingerK); // Appel de startBot
+                        LOG("Server INFO : Commande START BOT reçue et parsée avec K=" + std::to_string(bollingerK) + " pour client " + clientId, "INFO");
+                        // La méthode startBot envoie elle-même le message de confirmation ("BOT STARTED...").
+                        // response_message est vide ici si startBot réussit (startBot envoie la réponse OK).
+                    }
+                } else {
+                    // Le paramètre K n'est pas un nombre valide ou est manquant
+                    response_message = "ERROR: Invalid or missing BollingerK value. Usage: START BOT <BollingerK> (e.g., 2.0).\n";
+                    LOG("Server WARNING : Commande START BOT avec paramètre K invalide (pas un nombre ou manquant) de client " + clientId + ". Commande: '" + command + "'", "WARNING");
+                }
+            } else {
+                // Juste "START" sans "BOT" ou avec un autre mot
+                response_message = "ERROR: Unknown START command target '" + bot_keyword + "'. Available: START BOT <BollingerK>.\n";
+                 LOG("Server WARNING : Commande START inconnue de client " + clientId + ". Commande: '" + command + "'", "WARNING");
+            }
+        } else if (base_command == "STOP") {
+             std::string bot_keyword;
+             ss >> bot_keyword;
+             std::transform(bot_keyword.begin(), bot_keyword.end(), bot_keyword.begin(), ::toupper);
 
-                 response_message = ""; // startBot gère l'envoi de réponse
+             if (bot_keyword == "BOT") { // C'est bien "STOP BOT"
+                 // Vérifier s'il y a des paramètres inattendus
+                 std::string remaining;
+                 ss >> remaining;
+                 if (!remaining.empty()) {
+                      response_message = "ERROR: Invalid command format for STOP BOT. Usage: STOP BOT.\n";
+                      LOG("Server WARNING : Commande STOP BOT avec texte en trop de client " + clientId + ". Commande: '" + command + "'", "WARNING");
+                 } else {
+                     // Commande valide "STOP BOT"
+                     stopBot(); // Appel de stopBot
+                     LOG("Server INFO : Commande STOP BOT reçue et parsée pour client " + clientId, "INFO");
+                     // La méthode stopBot envoie elle-même le message de confirmation ("BOT STOPPED.").
+                     // response_message est vide ici si stopBot réussit (stopBot envoie la réponse OK).
+                 }
+             } else {
+                  // Juste "STOP" sans "BOT" ou avec un autre mot
+                  response_message = "ERROR: Unknown STOP command target '" + bot_keyword + "'. Available: STOP BOT.\n";
+                  LOG("Server WARNING : Commande STOP inconnue de client " + clientId + ". Commande: '" + command + "'", "WARNING");
+             }
 
-              } else {
-                 LOG("ClientSession WARNING : Syntaxe/valeurs invalides pour START BOT de client " + clientId + ": '" + command + "'. Arguments: Period=" + std::to_string(period) + ", K=" + std::to_string(k) + ".", "WARNING");
-                 response_message = "ERROR: Invalid syntax or values for START BOT. Use START BOT <period> <K>.\n";
-              }
-         } else {
-             LOG("ClientSession WARNING : Commande START inconnue de client " + clientId + ": '" + command + "'", "WARNING");
-             response_message = "ERROR: Unknown START command. Use START BOT.\n";
-         }
-
-    } else if (base_command == "STOP") {
-         std::string stop_command;
-         ss >> stop_command;
-         std::transform(stop_command.begin(), stop_command.end(), stop_command.begin(), ::toupper);
-         if (stop_command == "BOT") {
-             stopBot();
-
-             response_message = ""; // stopBot gère l'envoi de réponse
-
-         } else if (stop_command == "SESSION") {
-              LOG("ClientSession INFO : Commande STOP SESSION reçue pour client " + clientId + ". Signalement de l'arrêt de la session.", "INFO");
-              running.store(false);
-              response_message = "OK: Stopping session.\n";
-         }
-           else {
-               LOG("ClientSession WARNING : Commande STOP inconnue de client " + clientId + ": '" + command + "'", "WARNING");
-               response_message = "ERROR: Unknown STOP command. Use STOP BOT (or STOP SESSION).\n";
-           }
     // ========================================================================
     // === Fin du bloc de commandes BUY/SELL/START BOT/STOP BOT ===
     // ========================================================================
 
     } else { // Gérer les commandes inconnues
         LOG("ClientSession WARNING : Commande inconnue reçue pour client " + clientId + " : '" + command + "'", "WARNING");
-        response_message = "ERROR: Unknown command '" + command + "'. Use SHOW WALLET, SHOW TRANSACTIONS, GET_PRICE <symbol>, BUY/SELL <Currency> <Percentage>, START BOT <period> <K>, STOP BOT, STOP SESSION, or QUIT.\n";
+        response_message = "ERROR: Unknown command '" + command + "'. Use SHOW WALLET, SHOW TRANSACTIONS, GET_PRICE <symbol>, BUY/SELL <Currency> <Percentage>, START BOT <BollingerK>, STOP BOT, or QUIT.\n";
     }
 
     // --- Envoyer le message de réponse au client ---
     if (!response_message.empty() && client && client->isConnected()) {
          try {
             client->send(response_message);
-            LOG("ClientSession DEBUG : Réponse envoyée à " + clientId + ": '" + response_message.substr(0, std::min(response_message.size(), (size_t)200)) + ((response_message.size() > 200) ? "..." : "") + "'", "DEBUG");
+            // LOG("ClientSession DEBUG : Réponse envoyée à " + clientId + ": '" + response_message.substr(0, std::min(response_message.size(), (size_t)200)) + ((response_message.size() > 200) ? "..." : "") + "'", "DEBUG"); // Supprimé (DEBUG)
         } catch (const std::exception& e) {
              LOG("ClientSession ERROR : Erreur lors de l'envoi de la réponse à " + clientId + ": " + e.what(), "ERROR");
         }
@@ -454,288 +431,359 @@ void ClientSession::processClientCommand(const std::string& command) {
     LOG("ClientSession INFO : Fin traitement commande pour client " + clientId + " : '" + command + "'", "INFO");
 }
 
-
-// --- Implémentation Corrigée de handleClientTradeRequest ---
-// Gère les demandes de transaction client (calcul, création TransactionRequest, soumission TQ).
-// Ne fait PLUS de vérification de fonds préliminaire ici.
+// --- Implémentation de handleClientTradeRequest (pour les trades BASÉS SUR POURCENTAGE) ---
+// Gère les demandes de transaction client (calcul, création TransactionRequest, soumission TQ)
+// pour les commandes spécifiées en POURCENTAGE (ex: BUY SRD-BTC 10%).
+// Le paramètre 'value' EST INTERPRETÉ comme un pourcentage (ex: 10 pour 10%).
+// Ne fait PLUS de vérification de fonds préliminaire ici, la TQ le fera.
 // Retourne true si soumission TQ réussie, false sinon.
-bool ClientSession::handleClientTradeRequest(RequestType req_type, Currency trade_currency, double percentage) {
+bool ClientSession::handleClientTradeRequest(RequestType req_type, const std::string& cryptoName, double value_as_percentage) {
+    double percentage = value_as_percentage;
+
+
     if (!clientWallet) {
-        LOG("ClientSession ERROR : Portefeuille non disponible pour client " + clientId + " pour requête " + requestTypeToString(req_type), "ERROR");
+        LOG("ClientSession ERROR : Portefeuille non disponible pour client " + clientId + " pour requête " + requestTypeToString(req_type) + " " + cryptoName + " " + std::to_string(percentage) + "%.", "ERROR");
         if (client && client->isConnected()) client->send("ERROR: Wallet not available for this operation.\n");
         return false;
     }
 
-    if (trade_currency == Currency::UNKNOWN) {
-         LOG("ClientSession WARNING : Devise inconnue spécifiée dans la requête de trading pour " + clientId, "WARNING");
-         if (client && client->isConnected()) client->send("ERROR: Unknown currency specified.\n");
+    // Vérifier la validité du nom de la crypto fournie.
+    Currency trade_currency_enum = stringToCurrency(cryptoName);
+    if (trade_currency_enum == Currency::UNKNOWN) {
+         LOG("ClientSession WARNING : Devise inconnue spécifiée dans la requête de trading pour client " + clientId + ": '" + cryptoName + "'.", "WARNING");
+         if (client && client->isConnected()) client->send("ERROR: Unknown currency specified: " + cryptoName + ".\n");
          return false;
     }
-     // On s'assure que la requête est pour SRD-BTC BUY/SELL via commandes client
-     if (trade_currency != Currency::SRD_BTC || (req_type != RequestType::BUY && req_type != RequestType::SELL)) {
-        LOG("ClientSession WARNING : Type de requête ou devise non supporté par handleClientTradeRequest pour client " + clientId, "WARNING");
-        if (client && client->isConnected()) client->send("ERROR: Only BUY/SELL of SRD-BTC is supported via client command.\n");
+
+     // S'assurer que la requête est pour la paire/type supporté (ex: BUY/SELL SRD-BTC).
+     if (trade_currency_enum != Currency::SRD_BTC || (req_type != RequestType::BUY && req_type != RequestType::SELL)) {
+        LOG("ClientSession WARNING : Type de requête (" + requestTypeToString(req_type) + ") ou devise (" + cryptoName + ") non supporté par handleClientTradeRequest (pourcentage) pour client " + clientId + ".", "WARNING");
+        if (client && client->isConnected()) client->send("ERROR: Only BUY/SELL of SRD-BTC is supported via client command (percentage).\n");
         return false;
     }
 
+    // Déterminer la devise dont on prend un pourcentage du solde.
     Currency balance_currency_for_percentage = (req_type == RequestType::BUY) ? Currency::USD : Currency::SRD_BTC;
 
-    // Obtenir le solde actuel JUSTE pour calculer le MONTANT VOULU par le client.
-    // Cette valeur SERA RE-VERIFIEE et ajustée dans la TQ au prix d'exécution.
+    // Obtenir le solde actuel pour calculer le montant voulu par le client.
+    // L'appel getBalance DOIT être thread-safe en interne du Wallet.
     double current_balance_for_calc = clientWallet->getBalance(balance_currency_for_percentage);
+
+    // --- Calculer le montant base basé sur le pourcentage ---
     double amount_based_on_percentage = current_balance_for_calc * (percentage / 100.0);
 
-     if (amount_based_on_percentage <= 0) {
-        LOG("ClientSession WARNING : " + clientId + " - " + requestTypeToString(req_type) + " " + std::to_string(percentage) + "% " + currencyToString(trade_currency) + " : Montant calculé nul ou négatif (" + std::to_string(amount_based_on_percentage) + "). Solde " + currencyToString(balance_currency_for_percentage) + ": " + std::to_string(current_balance_for_calc), "WARNING");
-        if (client && client->isConnected()) client->send("ERROR: Calculated amount is zero or negative. Check balance and percentage.\n");
+    // Vérifier le pourcentage ou montant calculé - doit être positif.
+     if (percentage <= 0 || amount_based_on_percentage <= 0) {
+        LOG("ClientSession WARNING : " + clientId + " - " + requestTypeToString(req_type) + " " + std::to_string(percentage) + "% " + cryptoName + " : Pourcentage (" + std::to_string(percentage) + ") ou montant calculé (" + std::to_string(amount_based_on_percentage) + ") nul ou négatif. Solde " + currencyToString(balance_currency_for_percentage) + ": " + std::to_string(current_balance_for_calc), "WARNING");
+        if (client && client->isConnected()) client->send("ERROR: Percentage or calculated amount is zero or negative. Check balance and percentage.\n");
         return false;
     }
 
 
+    // --- Calculer la quantité crypto visée pour la TransactionRequest ---
     double crypto_quantity_requested = 0.0;
 
     if (req_type == RequestType::BUY) {
-        // Pour un BUY, le client veut utiliser un montant en USD.
-        // On calcule la quantité de crypto correspondante basée sur le prix ACTUEL (au moment de la commande, sera re-vérifié par TQ).
-        double current_price_srd_btc = Global::getPrice(currencyToString(Currency::SRD_BTC));
+        // Pour un BUY, le client veut utiliser un montant en USD (amount_based_on_percentage).
+        // On calcule la quantité de crypto correspondante basée sur le prix ACTUEL (au moment de la commande).
+        // Ce prix sera re-vérifié par la TQ au moment de l'exécution.
+        double current_price_srd_btc = Global::getPrice(currencyToString(Currency::SRD_BTC)); // Obtenir prix (thread-safe)
         if (current_price_srd_btc <= 0 || !std::isfinite(current_price_srd_btc)) {
-            LOG("ClientSession ERROR : Prix SRD-BTC non disponible ou invalide (" + std::to_string(current_price_srd_btc) + ") pour requête BUY de client " + clientId, "ERROR");
+            LOG("ClientSession ERROR : Prix SRD-BTC non disponible ou invalide (" + std::to_string(current_price_srd_btc) + ") pour requête BUY (pourcentage) de client " + clientId, "ERROR");
             if (client && client->isConnected()) client->send("ERROR: Current price not available for BUY.\n");
             return false;
         }
         crypto_quantity_requested = amount_based_on_percentage / current_price_srd_btc;
-        LOG("ClientSession DEBUG : BUY calculé (basé sur prix actuel " + std::to_string(current_price_srd_btc) + "): utiliser " + std::to_string(amount_based_on_percentage) + " USD (" + std::to_string(percentage) + "%) pour une quantité visée de " + std::to_string(crypto_quantity_requested) + " SRD-BTC.", "DEBUG");
+        // LOG("ClientSession DEBUG : BUY (pourcentage) calculé (basé sur prix actuel " + std::to_string(current_price_srd_btc) + "): utiliser " + std::to_string(amount_based_on_percentage) + " USD (" + std::to_string(percentage) + "%) pour une quantité visée de " + std::to_string(crypto_quantity_requested) + " " + cryptoName + ".", "DEBUG"); // Supprimé (DEBUG)
 
     } else if (req_type == RequestType::SELL) {
-        // Pour un SELL, le client veut vendre un pourcentage de sa crypto.
+        // Pour un SELL, le client veut vendre un pourcentage de sa crypto (amount_based_on_percentage).
         // amount_based_on_percentage est déjà la quantité de crypto visée.
         crypto_quantity_requested = amount_based_on_percentage;
-        LOG("ClientSession DEBUG : SELL calculé : vendre " + std::to_string(crypto_quantity_requested) + " SRD-BTC (basé sur " + std::to_string(percentage) + "% de solde).", "DEBUG");
+        // LOG("ClientSession DEBUG : SELL (pourcentage) calculé : vendre " + std::to_string(crypto_quantity_requested) + " " + cryptoName + " (basé sur " + std::to_string(percentage) + "% de solde).", "DEBUG"); // Supprimé (DEBUG)
     }
+    // Pas d'autre type de requête géré par cette fonction (pas de CLOSE_LONG/SHORT ici, c'est pour le bot)
 
-   // Une quantité crypto nulle après calcul est une erreur.
+
+   // --- Vérifier la quantité crypto visée finale ---
    if (crypto_quantity_requested <= 0) {
-        LOG("ClientSession WARNING : " + clientId + " - " + requestTypeToString(req_type) + " " + std::to_string(percentage) + "% " + currencyToString(trade_currency) + " : Quantité crypto calculée nulle ou négative (" + std::to_string(crypto_quantity_requested) + ").", "WARNING");
+        LOG("ClientSession WARNING : " + clientId + " - " + requestTypeToString(req_type) + " " + std::to_string(percentage) + "% " + cryptoName + " : Quantité crypto calculée nulle ou négative (" + std::to_string(crypto_quantity_requested) + ").", "WARNING");
         if (client && client->isConnected()) client->send("ERROR: Calculated crypto quantity is zero or negative.\n");
         return false;
    }
 
-    // Créer la requête de transaction.
+    // --- Créer la requête de transaction ---
+    // La TQ vérifiera les fonds réels et le prix au moment de l'exécution.
     TransactionRequest request(
         clientId,
         req_type,
-        currencyToString(trade_currency), // Utilise le nom de la crypto (ex: "SRD-BTC")
-        crypto_quantity_requested         // La quantité (en crypto) calculée à trader
+        cryptoName, // Utilise le nom de la crypto (string) directement ici
+        crypto_quantity_requested // La quantité (en crypto) calculée à trader
     );
 
     // Soumettre la requête à la file d'attente globale (TransactionQueue)
-    extern TransactionQueue txQueue;
+    extern TransactionQueue txQueue; // Accès à la TQ globale
+    txQueue.addRequest(request); // txQueue.addRequest doit être thread-safe.
+
+    // Log final de soumission.
+    LOG("ClientSession INFO : Requête de transaction soumise à la TQ par client " + clientId + " (manuel, pourcentage) : Client=" + clientId + ", Type=" + requestTypeToString(req_type) + ", Qty Visée=" + std::to_string(crypto_quantity_requested) + " " + cryptoName + " (basé sur " + std::to_string(percentage) + "% de solde " + currencyToString(balance_currency_for_percentage) + ")", "INFO");
+
+    return true; // Indique que la requête a été ajoutée à la TQ avec succès.
+}
+
+
+// --- submitBotOrder(TradingAction action) : Soumet un ordre décidé par le bot ---
+// Cette méthode est appelée par le thread du Bot via le weak_ptr<ClientSession>.
+// Elle traduit l'action du bot en une TransactionRequest et la soumet à la TQ.
+// Ne fait PAS de vérification finale de fonds ou de prix ici, la TQ le fera.
+void ClientSession::submitBotOrder(TradingAction action) {
+    // Le bot doit exister pour que cette méthode soit appelée (via son weak_ptr).
+    // Le Wallet doit aussi exister pour calculer les montants basés sur le solde.
+    if (!clientWallet) {
+        LOG("ClientSession ERROR : Portefeuille non disponible pour bot " + clientId + " pour action " + tradingActionToString(action) + ". Impossible de soumettre l'ordre.", "ERROR");
+        // Ne pas envoyer d'erreur au client, c'est un problème interne du bot.
+        return; // Sort de la fonction void en cas d'erreur préliminaire.
+    }
+
+    RequestType req_type = RequestType::UNKNOWN_REQUEST;
+    Currency trade_currency = Currency::SRD_BTC; // Votre bot trade SRD-BTC
+
+    double amount_to_trade_base = 0.0; // Montant dans la devise de base (USD pour BUY, SRD-BTC pour SELL)
+    double percentage_used = 0.0; // Pourcentage utilisé si applicable (pour le log)
+    double crypto_quantity_requested = 0.0; // Initialise la quantité crypto visée
+
+
+    // --- Traduire l'action du bot en type de requête et calculer les montants ---
+    // Ces calculs préliminaires déterminent la requête à soumettre, mais les vérifs finales sont dans la TQ.
+    if (action == TradingAction::BUY) {
+        req_type = RequestType::BUY;
+        // Obtenir le solde USD actuel. L'appel getBalance DOIT être thread-safe en interne du Wallet.
+        double current_usd_balance = clientWallet->getBalance(Currency::USD);
+        // Utilise la constante globale définie dans Global.h
+        percentage_used = BOT_INVESTMENT_PERCENTAGE;
+        amount_to_trade_base = current_usd_balance * (percentage_used / 100.0);
+        // LOG("ClientSession DEBUG : Bot " + clientId + " - BUY : Solde USD=" + std::to_string(current_usd_balance) + ", pour " + std::to_string(percentage_used) + "%, montant base=" + std::to_string(amount_to_trade_base) + " USD.", "DEBUG"); // Supprimé (DEBUG)
+
+        // Pour un BUY, on a un montant en USD. On le convertit en quantité crypto visée en utilisant le prix actuel.
+        // Ce prix sera re-vérifié par la TQ au moment de l'exécution.
+        double current_price_srd_btc = Global::getPrice(currencyToString(Currency::SRD_BTC)); // Obtenir prix (thread-safe)
+
+        // On ne soumet pas si les montants ou prix sont invalides au moment du calcul ici.
+        if (amount_to_trade_base <= 0 || current_price_srd_btc <= 0 || !std::isfinite(current_price_srd_btc)) {
+             LOG("ClientSession WARNING : " + clientId + " - BUY bot : Montant base (" + std::to_string(amount_to_trade_base) + ") ou prix SRD-BTC (" + std::to_string(current_price_srd_btc) + ") invalide(s). Annulation soumission.", "WARNING");
+             return; // Sort en cas de données invalides.
+         }
+
+        crypto_quantity_requested = amount_to_trade_base / current_price_srd_btc;
+        // LOG("ClientSession DEBUG : Bot " + clientId + " - BUY : Montant base USD " + std::to_string(amount_to_trade_base) + " converti en quantité crypto visée " + std::to_string(crypto_quantity_requested) + " @ prix " + std::to_string(current_price_srd_btc), "DEBUG"); // Supprimé (DEBUG)
+
+
+    } else if (action == TradingAction::CLOSE_LONG) {
+        req_type = RequestType::SELL;
+        // Obtenir le solde SRD-BTC actuel. L'appel getBalance DOIT être thread-safe en interne du Wallet.
+        double current_srd_btc_balance = clientWallet->getBalance(Currency::SRD_BTC);
+        amount_to_trade_base = current_srd_btc_balance; // Vendre tout le solde SRD-BTC pour CLOSE_LONG
+        percentage_used = 100.0; // Utilise 100% du solde SRD-BTC
+        // LOG("ClientSession DEBUG : Bot " + clientId + " - CLOSE_LONG (SELL) : Solde SRD-BTC=" + std::to_string(current_srd_btc_balance) + ", pour " + std::to_string(percentage_used) + "%, quantité base=" + std::to_string(amount_to_trade_base) + " SRD-BTC.", "DEBUG"); // Supprimé (DEBUG)
+
+        // Pour un SELL (CLOSE_LONG), amount_to_trade_base EST déjà la quantité de crypto visée.
+        crypto_quantity_requested = amount_to_trade_base;
+
+        // On ne soumet pas si la quantité est invalide au moment du calcul ici.
+        if (crypto_quantity_requested <= 0) {
+             LOG("ClientSession WARNING : " + clientId + " - CLOSE_LONG bot : Quantité crypto calculée nulle ou négative (" + std::to_string(crypto_quantity_requested) + "). Annulation soumission.", "WARNING");
+             return; // Sort en cas de quantité invalide.
+        }
+
+    } else {
+        // Si l'action est HOLD, UNKNOWN, ou un autre type non géré par cette fonction.
+        if (action != TradingAction::HOLD && action != TradingAction::UNKNOWN) {
+            LOG("ClientSession WARNING : Bot " + clientId + " a retourné une action non gérée pour soumission d'ordre : " + tradingActionToString(action) + ". Annulation soumission.", "WARNING");
+        }
+        // Pas de soumission pour ces cas.
+        return; // Sort sans soumettre.
+    }
+
+    // --- Créer la TransactionRequest et l'ajouter à la TQ ---
+    // Ces vérifications préliminaires ayant été passées, on procède à la soumission.
+    // Les vérifications finales (fonds réels au moment de l'exécution, prix final) seront faites par la TQ.
+    TransactionRequest request(
+        clientId,             // ID du client (associé à cette session/bot)
+        req_type,             // Type de requête (BUY/SELL)
+        currencyToString(trade_currency), // Crypto concernée (SRD-BTC)
+        crypto_quantity_requested // Quantité visée
+    );
+
+    // external TransactionQueue instance (déclarée extern dans ClientSession.h si elle n'est pas gérée autrement)
+    extern TransactionQueue txQueue; // Accès à la TQ globale
+
+    // txQueue.addRequest est thread-safe (la TQ gère sa propre file d'attente avec un mutex).
     txQueue.addRequest(request);
 
-    LOG("ClientSession INFO : Requête de transaction soumise à la TQ par client " + clientId + ": Client=" + clientId + ", Type=" + requestTypeToString(req_type) + ", Qty Visée=" + std::to_string(crypto_quantity_requested) + " " + currencyToString(trade_currency) + " (basé sur " + std::to_string(percentage) + "% de solde " + currencyToString(balance_currency_for_percentage) + ")", "INFO");
+    LOG("ClientSession INFO : Requête de transaction soumise à la TQ par bot " + clientId + " (auto): Client=" + clientId + ", Type=" + requestTypeToString(req_type) + ", Qty Visée=" + std::to_string(crypto_quantity_requested) + " " + currencyToString(trade_currency), "INFO");
 
-    return true;
-}
-
-
-// --- Implémentation Corrigée de submitBotOrder ---
-// Soumet un ordre décidé par le bot.
-// Ne fait PLUS de vérification de fonds préliminaire ici.
-// Calcule la quantité basée sur l'action du bot et soumet à la TQ.
-bool ClientSession::submitBotOrder(TradingAction action) {
-   if (!clientWallet) {
-       LOG("ClientSession ERROR : Portefeuille non disponible pour bot " + clientId + " pour action " + std::to_string(static_cast<int>(action)), "ERROR");
-       // Pas d'envoi au client ici, c'est le bot qui est concerné.
-       return false;
-   }
-
-   RequestType req_type = RequestType::UNKNOWN_REQUEST;
-   Currency trade_currency = Currency::SRD_BTC;
-
-   double amount_to_trade_base = 0.0; // Montant dans la devise de base (USD pour BUY, SRD-BTC pour SELL)
-   double percentage_used = 0.0;
-
-   if (action == TradingAction::BUY) {
-       req_type = RequestType::BUY;
-       double current_usd_balance = clientWallet->getBalance(Currency::USD);
-       // BOT_INVESTMENT_PERCENTAGE doit être défini (const double quelque part, ex: Global.h)
-       percentage_used = BOT_INVESTMENT_PERCENTAGE;
-       amount_to_trade_base = current_usd_balance * (percentage_used / 100.0);
-
-       // === RETIRE la Vérification des fonds USD ici ! ===
-       // La vérification finale et fiable sera faite par la TQ sous le verrou du Wallet.
-
-   } else if (action == TradingAction::CLOSE_LONG) {
-       req_type = RequestType::SELL;
-       double current_srd_btc_balance = clientWallet->getBalance(Currency::SRD_BTC);
-       amount_to_trade_base = current_srd_btc_balance; // Vendre tout
-       percentage_used = 100.0;
-
-        // === RETIRE la Vérification des fonds SRD-BTC ici ! ===
-        // La vérification finale et fiable sera faite par la TQ sous le verrou du Wallet.
-
-   } else {
-       if (action != TradingAction::HOLD) { // HOLD est une action Bot valide qui ne soumet pas d'ordre
-           LOG("ClientSession WARNING : Bot " + clientId + " a retourné une action non gérée pour soumission d'ordre : " + std::to_string(static_cast<int>(action)), "WARNING");
-       }
-       return false; // Aucune soumission pour UNKNOWN ou HOLD
-   }
-
-    // Un montant de base calculé nul ou négatif est une erreur.
-   if (amount_to_trade_base <= 0) {
-        LOG("ClientSession WARNING : " + clientId + " - " + requestTypeToString(req_type) + " bot : Montant base calculé nul ou négatif (" + std::to_string(amount_to_trade_base) + "). Action: " + std::to_string(static_cast<int>(action)) + ", Solde USD/SRD-BTC: " + std::to_string((req_type == RequestType::BUY) ? clientWallet->getBalance(Currency::USD) : clientWallet->getBalance(Currency::SRD_BTC)) + ".", "WARNING");
-        return false;
-   }
+    // La fonction est void, il n'y a pas de return ici si la soumission a eu lieu.
+ }
 
 
-   double crypto_quantity_requested = 0.0;
-
-   if (req_type == RequestType::BUY) {
-       // Pour un BUY, le bot veut utiliser un montant en USD.
-       // On calcule la quantité de crypto correspondante basée sur le prix ACTUEL (au moment de l'appel Bot, sera re-vérifié par TQ).
-       double current_price_srd_btc = Global::getPrice(currencyToString(Currency::SRD_BTC));
-        if (current_price_srd_btc <= 0 || !std::isfinite(current_price_srd_btc)) {
-            LOG("ClientSession ERROR : Prix SRD-BTC non disponible ou invalide (" + std::to_string(current_price_srd_btc) + ") pour ordre BUY bot " + clientId, "ERROR");
-            return false;
-        }
-       crypto_quantity_requested = amount_to_trade_base / current_price_srd_btc;
-       LOG("ClientSession DEBUG : Bot BUY calculé (basé sur prix actuel " + std::to_string(current_price_srd_btc) + "): utiliser " + std::to_string(amount_to_trade_base) + " USD (" + std::to_string(percentage_used) + "%) pour une quantité visée de " + std::to_string(crypto_quantity_requested) + " SRD-BTC.", "DEBUG");
-
-   } else if (req_type == RequestType::SELL) {
-       // Pour un SELL, le bot veut vendre une quantité de sa crypto.
-       // amount_to_trade_base est déjà la quantité de crypto visée (solde entier ou partiel).
-       crypto_quantity_requested = amount_to_trade_base;
-       LOG("ClientSession DEBUG : Bot SELL calculé : vendre " + std::to_string(crypto_quantity_requested) + " SRD-BTC (basé sur " + std::to_string(percentage_used) + "%).", "DEBUG");
-   }
-
-   // Une quantité crypto nulle après calcul est une erreur.
-   if (crypto_quantity_requested <= 0) {
-        LOG("ClientSession WARNING : " + clientId + " - " + requestTypeToString(req_type) + " bot : Quantité crypto calculée nulle ou négative après calcul. Montant base: " + std::to_string(amount_to_trade_base) + ", Qty crypto: " + std::to_string(crypto_quantity_requested) + ".", "WARNING");
-        return false;
-   }
-
-   TransactionRequest request(
-       clientId,
-       req_type,
-       currencyToString(trade_currency),
-       crypto_quantity_requested
-   );
-
-   extern TransactionQueue txQueue;
-   txQueue.addRequest(request);
-
-   LOG("ClientSession INFO : Requête de transaction soumise à la TQ par bot " + clientId + ": Client=" + clientId + ", Type=" + requestTypeToString(req_type) + ", Qty Visée=" + std::to_string(crypto_quantity_requested) + " " + currencyToString(trade_currency) + " (basé sur " + std::to_string(percentage_used) + "%)", "INFO");
-
-   return true;
-}
-
-
-// --- Implémentation Corrigée de applyTransactionRequest (Notification SEULEMENT) ---
-// Appelé par le thread worker de la TransactionQueue.
-// Reçoit l'objet Transaction final. Ne met PLUS à jour le Wallet ici.
+// --- applyTransactionRequest(const Transaction& tx) : Notification du résultat final de TQ ---
+// Cette méthode est appelée par la TransactionQueue lorsqu'une transaction est appliquée pour ce client.
+// Elle notifie le bot si présent, et envoie le résultat au client via la connexion réseau.
+// Cette méthode est appelée depuis un thread de la TQ, elle DOIT être thread-safe (pas de modification des membres de ClientSession sans verrou si nécessaire).
 void ClientSession::applyTransactionRequest(const Transaction& tx) {
-   LOG("ClientSession INFO : Notification de TQ reçue pour transaction " + tx.getClientId() + ":" + tx.getId() + " avec statut " + transactionStatusToString(tx.getStatus()), "INFO");
+    // Cette méthode est appelée par la TQ avec le résultat FINAL d'une transaction.
 
-   // Vérifier que la notification est bien pour CETTE session (déjà fait par la TQ, mais re-vérif sécurité)
-   if (tx.getClientId() != this->clientId) {
-       LOG("ClientSession ERROR : Notification de TQ reçue pour le mauvais client! Attendu=" + this->clientId + ", Reçu=" + tx.getClientId(), "ERROR");
-       return; // Ignorer si ce n'est pas pour nous
-   }
+    // Log de la notification reçue.
+    LOG("ClientSession INFO : Notification de TQ reçue pour transaction client " + clientId + ", ID: " + tx.getId() + ", Statut: " + transactionStatusToString(tx.getStatus()), "INFO");
 
-   // Notifier le bot s'il est actif (même en cas d'échec TX)
-   if (bot) {
-       // Assurez-vous que bot->notifyTransactionCompleted prend const Transaction&
-       bot->notifyTransactionCompleted(tx);
-       LOG("ClientSession DEBUG : Notification TX passée au bot " + clientId + " pour Tx " + tx.getId() + " (Statut: " + transactionStatusToString(tx.getStatus()) + ")", "DEBUG");
-   } else {
-        LOG("ClientSession DEBUG : Bot non actif pour client " + clientId + ". Notification TX " + tx.getId() + " non passée au bot.", "DEBUG");
-   }
+    // Vérifie si la transaction concerne bien ce client (devrait être le cas si TQ l'appelle correctement)
+    if (tx.getClientId() == this->clientId) {
+        // Si un bot est associé à cette session, le notifier du résultat de la transaction.
+        // La méthode notifyTransactionCompleted du bot est thread-safe en interne (elle utilise botMutex).
+        if (bot) { // Si l'objet shared_ptr 'bot' n'est pas null
+            // Appelle la méthode du bot pour qu'il mette à jour son état interne (PositionState, entryPrice).
+            bot->notifyTransactionCompleted(tx);
 
-   // Formater et envoyer le message de résultat au client (si la connexion est toujours active)
-   std::stringstream result_msg_ss;
-   result_msg_ss << "TRANSACTION_RESULT ID=" << tx.getId()
-                 << " STATUS=" << transactionStatusToString(tx.getStatus());
+            // LOG("ClientSession DEBUG : Bot actif pour client " + clientId + ". Notification de Tx " + tx.getId() + " passée au bot.", "DEBUG"); // Supprimé (DEBUG)
+        } else {
+             // Si pas de bot actif pour cette session, on ne le notifie pas.
+            // LOG("ClientSession DEBUG : Bot non actif pour client " + clientId + ". Notification de Tx " + tx.getId() + " non passée au bot.", "DEBUG"); // Supprimé (DEBUG)
+        }
 
-   if (tx.getStatus() == TransactionStatus::COMPLETED) {
-        result_msg_ss << " TYPE=" << transactionTypeToString(tx.getType())
-                      << " QTY=" << std::fixed << std::setprecision(8) << tx.getQuantity()
-                      << " TOTAL=" << std::fixed << std::setprecision(2) << tx.getTotalAmount();
-                      result_msg_ss << " PRICE=" << std::fixed << std::setprecision(8) << tx.getUnitPrice();
-   } else if (tx.getStatus() == TransactionStatus::FAILED) {
-       result_msg_ss << " REASON=" << tx.getFailureReason();
-   }
-   result_msg_ss << "\n";
+         // --- Formater et envoyer le message de résultat au client ---
+         // Le message TRANSACTION_RESULT est toujours envoyé au client, qu'il y ait un bot ou pas.
+        std::stringstream result_msg_ss;
+         result_msg_ss << "TRANSACTION_RESULT ID=" << tx.getId()
+                       << " STATUS=" << transactionStatusToString(tx.getStatus());
+         if (tx.getStatus() == TransactionStatus::FAILED) {
+             // Ajouter la raison de l'échec si le statut est FAILED.
+             result_msg_ss << " REASON=\"" << tx.getFailureReason() << "\""; // Utilise getFailureReason() de la Transaction
+         }
+
+         // Log du message formaté avant envoi.
+         // LOG("ClientSession DEBUG : Message TRANSACTION_RESULT formaté pour " + clientId + " Tx " + tx.getId() + ": '" + result_msg_ss.str() + "'", "DEBUG"); // Supprimé (DEBUG)
 
 
-   if (client && client->isConnected()) { // Vérifie si la connexion est active AVANT d'envoyer
-    try {
-        // *** NOUVEAUX LOGS AUTOUR DE L'APPEL SEND ***
-        LOG("ClientSession DEBUG : applyTransactionRequest: Tentative d'envoi de la réponse TRANSACTION_RESULT au client...", "DEBUG"); // <-- Log AVANT send
-        client->send(result_msg_ss.str()); // <-- L'appel d'envoi NETWORK I/O
-        LOG("ClientSession DEBUG : applyTransactionRequest: Réponse TRANSACTION_RESULT envoyée (ou appel send terminé sans exception).", "DEBUG"); // <-- Log APRÈS send si pas d'exception
-    } catch (const std::exception& e) {
-         LOG("ClientSession ERROR : applyTransactionRequest: Exception std::exception lors de l'envoi de la réponse TRANSACTION_RESULT à " + clientId + " pour Tx " + tx.getId() + ": " + e.what(), "ERROR"); // Ce log s'affiche si une exception std::exception est lancée par send()
-    } catch (...) { // Catch tout autre type d'exception (moins spécifique)
-          LOG("ClientSession ERROR : applyTransactionRequest: Exception inconnue lors de l'envoi de la réponse TRANSACTION_RESULT à " + clientId + " pour Tx " + tx.getId() + ".", "ERROR");
+        // Envoyer la réponse au client via le shared_ptr client (ServerConnection).
+        // Vérifier si la connexion est toujours active.
+        if (client && client->isConnected()) {
+            try {
+                // LOG("ClientSession DEBUG : applyTransactionRequest: Tentative d'envoi de la réponse TRANSACTION_RESULT au client " + clientId + "...", "DEBUG"); // Supprimé (DEBUG)
+                // La méthode send() de ServerConnection doit être thread-safe.
+                client->send(result_msg_ss.str() + "\n"); // N'oubliez pas le terminateur de ligne '\n' !
+                // LOG("ClientSession DEBUG : applyTransactionRequest: Réponse TRANSACTION_RESULT envoyée (ou appel send terminé sans exception) à " + clientId + ".", "DEBUG"); // Supprimé (DEBUG)
+            } catch (const std::exception& e) {
+                 // Gérer les erreurs d'envoi (connexion fermée, etc.).
+                 LOG("ClientSession ERROR : applyTransactionRequest: Exception std::exception lors de l'envoi de la réponse TRANSACTION_RESULT à client " + clientId + " pour Tx " + tx.getId() + ": " + e.what(), "ERROR");
+                 // Marquer la connexion pour fermeture si nécessaire.
+                 if (client) client->markForClose();
+            } catch (...) {
+                 LOG("ClientSession ERROR : applyTransactionRequest: Exception inconnue lors de l'envoi de la réponse TRANSACTION_RESULT à client " + clientId + " pour Tx " + tx.getId() + ".", "ERROR");
+                 if (client) client->markForClose();
+            }
+        } else {
+             // Le client s'est déconnecté avant que la notification n'arrive.
+             LOG("ClientSession WARNING : applyTransactionRequest: Impossible d'envoyer le résultat de TQ à client " + clientId + ", client déconnecté ou objet client invalide pour Tx " + tx.getId() + ".", "WARNING");
+             // La déconnexion sera gérée ailleurs (sessionLoop ou Server).
+        }
+    } else {
+        // Log si la transaction reçue ne concerne pas ce client (cas très anormal).
+         LOG("ClientSession ERROR : Reçu notification de TQ pour transaction ID " + tx.getId() + " destinée au client " + tx.getClientId() + ", mais cette ClientSession gère le client " + this->clientId + ". Ignoré.", "ERROR");
     }
-} else {
-     LOG("ClientSession WARNING : applyTransactionRequest: Impossible d'envoyer le résultat de TQ à client " + clientId + ", client déconnecté ou objet client invalide pour Tx " + tx.getId() + ".", "WARNING");
-}
-}
+
+    // Pas de log de fin de fonction ici.
+ }
 
 
-// --- Démarre la logique du bot ---
-void ClientSession::startBot(int bollingerPeriod, double bollingerK) {
-   if (bot) {
-       LOG("ClientSession WARNING : Bot déjà actif pour client " + clientId + ", ignorer START BOT.", "WARNING");
-       if (client && client->isConnected()) client->send("ERROR: Bot is already running.\n");
-       return;
-   }
+// --- startBot(double bollingerK) : Démarre la logique du bot ---
+// Appelée par processClientCommand suite à la commande "START BOT <K>".
+// Crée un nouvel objet Bot et démarre son thread interne.
+void ClientSession::startBot(double bollingerK) {
+    // Vérifier si un bot est déjà actif pour ce client.
+    if (bot) {
+        LOG("ClientSession WARNING : Bot déjà actif pour client " + clientId + ", ignorer START BOT.", "WARNING");
+        // Envoyer une erreur au client si la connexion est toujours active.
+        if (client && client->isConnected()) client->send("ERROR: Bot is already running.\n");
+        return; // Ne pas démarrer un nouveau bot si un existe déjà.
+    }
 
-   // TODO : Le constructeur du Bot doit prendre un pointeur vers la ClientSession
-   // pour pouvoir appeler submitBotOrder(). Utiliser weak_ptr ou shared_ptr.
-   // Le Bot a besoin de clientWallet et aussi d'un moyen d'appeler submitBotOrder.
-   // Il doit donc recevoir un pointeur vers la ClientSession (this).
-   // Utilisez shared_from_this() ici pour obtenir un shared_ptr vers cette ClientSession.
-   // Passez une weak_ptr au Bot si son cycle de vie est indépendant de la Session.
-   // Pour l'instant, passons un shared_ptr (plus simple si Bot s'arrête avec Session).
-
-   bot = std::make_shared<Bot>(clientId, bollingerPeriod, bollingerK, clientWallet); // TODO: Adapter constructeur Bot
-   // TODO: Passer 'shared_from_this()' au constructeur du Bot si nécessaire
-   // bot = std::make_shared<Bot>(clientId, bollingerPeriod, bollingerK, clientWallet, shared_from_this()); // Exemple
+    // --- Définir la période Bollinger ---
+    int bollingerPeriod = 20; // Période Bollinger hardcodée à 20
 
 
-   if (bot) {
-        // TODO: Appeler une méthode start sur l'objet Bot pour lancer son thread de logique.
-        // bot->start(); // Exemple
-        LOG("ClientSession INFO : Bot créé (thread non lancé si start() non appelé) pour client " + clientId, "INFO");
-        if (client && client->isConnected()) client->send("BOT STARTED.\n");
-   } else {
-       LOG("ClientSession ERROR : Échec de création de l'objet Bot pour client " + clientId, "ERROR");
-       if (client && client->isConnected()) client->send("ERROR: Failed to start bot.\n");
-   }
-}
+    // --- Validation basique du paramètre K reçu ---
+    // On peut valider K ici avant de créer le Bot.
+     if (bollingerK <= 0.0 || !std::isfinite(bollingerK)) {
+          std::stringstream ss_log_err;
+          ss_log_err << "ClientSession ERROR : Valeur de BollingerK invalide (" << std::fixed << std::setprecision(2) << bollingerK << ") pour client " << clientId << ". Échec démarrage bot.";
+          LOG(ss_log_err.str(), "ERROR");
+          if (client && client->isConnected()) client->send("ERROR: Invalid BollingerK value provided. Must be a positive number (e.g., 2.0).\n");
+          return; // Ne pas créer le Bot avec un paramètre invalide.
+     }
 
-// --- Arrête la logique du bot ---
+
+    // --- Créer l'objet Bot ---
+    // On utilise std::make_shared pour créer l'objet Bot.
+    // On passe l'ID client, la période P, le K reçu, le shared_ptr du Wallet,
+    // et une weak_ptr vers CETTE ClientSession (en utilisant shared_from_this()).
+    // Le weak_ptr permet au Bot d'appeler submitBotOrder() sans créer de référence cyclique forte.
+    try {
+         // shared_from_this() retourne un shared_ptr. On le convertit en weak_ptr.
+         bot = std::make_shared<Bot>(clientId, bollingerPeriod, bollingerK, clientWallet, std::weak_ptr<ClientSession>(shared_from_this()));
+
+    } catch (const std::bad_weak_ptr& e) {
+         // Cette exception peut arriver si shared_from_this() est appelé trop tôt.
+         LOG("ClientSession CRITICAL : Échec d'obtention de shared_from_this pour créer le Bot (cas START BOT). La ClientSession doit être gérée par un shared_ptr avant d'appeler startBot. Erreur: " + std::string(e.what()), "CRITICAL");
+         if (client && client->isConnected()) client->send("ERROR: Internal server error starting bot.\n");
+         bot = nullptr; // S'assurer que le pointeur bot est null en cas d'échec.
+         return;
+    } catch (const std::exception& e) {
+          // Attraper d'autres exceptions lors de la création du Bot (ex: allocation mémoire).
+          LOG("ClientSession ERROR : Exception lors de la création de l'objet Bot pour client " + clientId + ": " + e.what(), "ERROR");
+          if (client && client->isConnected()) client->send("ERROR: Failed to start bot due to creation error.\n");
+          bot = nullptr; // S'assurer que le pointeur bot est null en cas d'échec.
+          return;
+    }
+
+
+    // --- Démarrer la logique interne du Bot ---
+    if (bot) { // Vérifier que la création a réussi.
+         // Appelle la méthode start() du Bot pour lancer son thread de logique.
+         bot->start();
+
+         LOG("ClientSession INFO : Bot créé et démarré pour client " + clientId + " avec P=" + std::to_string(bollingerPeriod) + ", K=" + std::to_string(bollingerK), "INFO");
+         // Confirmer au client que le bot a démarré.
+         if (client && client->isConnected()) client->send("BOT STARTED with P=" + std::to_string(bollingerPeriod) + ", K=" + std::to_string(bollingerK) + ".\n");
+    } else {
+        // Si std::make_shared a retourné nullptr (très rare, sauf en cas d'exception gérée par le catch).
+        LOG("ClientSession ERROR : Échec de création (pointeur null) de l'objet Bot pour client " + clientId, "ERROR");
+        if (client && client->isConnected()) client->send("ERROR: Failed to start bot (creation returned null).\n");
+    }
+ }
+
+ // --- stopBot() : Arrête la logique du bot ---
+// Appelée par processClientCommand suite à la commande "STOP BOT", ou par ClientSession::stop().
 void ClientSession::stopBot() {
-   if (!bot) {
-       LOG("ClientSession WARNING : Aucun bot actif pour client " + clientId + ", ignorer STOP BOT.", "WARNING");
+    // Vérifier si un bot est actif.
+    if (!bot) {
+        LOG("ClientSession WARNING : Aucun bot actif pour client " + clientId + ", ignorer STOP BOT.", "WARNING");
         if (client && client->isConnected()) client->send("ERROR: No bot is running.\n");
-       return;
-   }
+        return; // Rien à arrêter si le bot n'existe pas.
+    }
 
-   // TODO : Appeler une méthode stop sur l'objet Bot avant de le détruire
-   // pour que son thread puisse s'arrêter proprement.
-   // bot->stop(); // Exemple
+    // Signaler au bot de s'arrêter proprement et attendre que son thread se termine.
+    // bot->stop() met le flag 'running' du bot à false et appelle join() sur son thread interne.
+    bot->stop();
 
-   bot = nullptr;
-   LOG("ClientSession INFO : Bot arrêté pour client " + clientId, "INFO");
-   if (client && client->isConnected()) client->send("BOT STOPPED.\n");
-}
-
+    // Une fois le thread du bot arrêté et joint, on peut détruire l'objet Bot
+    // en réinitialisant le shared_ptr. Cela appelle le destructeur du Bot (~Bot()).
+    bot = nullptr;
+    LOG("ClientSession INFO : Bot arrêté pour client " + clientId, "INFO");
+    // Confirmer au client que le bot est arrêté.
+    if (client && client->isConnected()) client->send("BOT STOPPED.\n");
+ }
 
 // --- Getters simples ---
-const std::string& ClientSession::getId() const { return clientId; }
-std::shared_ptr<Bot> ClientSession::getBot() const { return bot; }
+const std::string& ClientSession::getClientId() const { return clientId; }
 std::shared_ptr<ServerConnection> ClientSession::getClientConnection() const { return client; }
 std::shared_ptr<Wallet> ClientSession::getClientWallet() const { return clientWallet; }

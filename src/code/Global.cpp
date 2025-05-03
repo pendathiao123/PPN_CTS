@@ -1,24 +1,22 @@
-// Implémentation de la classe Global
-
 #include "../headers/Global.h"
 #include "../headers/Logger.h"
 
-#include <curl/curl.h>        // Client HTTP(S)
-#include <nlohmann/json.hpp>  // Parsing JSON
-#include <iostream>           // std::cerr
-#include <fstream>            // std::ofstream
+#include <curl/curl.h>        
+#include <nlohmann/json.hpp>  
+#include <iostream>
+#include <fstream>
 #include <vector>
-#include <ctime>              // timestamping
-#include <atomic>             // std::atomic
-#include <random>             // Génération de nombres aléatoires
-#include <thread>             // std::thread
-#include <chrono>             // Durées, points dans le temps
-#include <cmath>              // std::sqrt, std::pow, std::isfinite
-#include <filesystem>         // Vérification/création de répertoires (si logging path dynamique) - non utilisé directement ici mais potentiellement utile
-#include <stdexcept>          // Exceptions standards
-#include <iomanip>            // std::fixed, std::setprecision, std::put_time
-#include <sstream>            // std::stringstream
-#include <mutex>              // std::mutex, std::lock_guard
+#include <ctime>              
+#include <atomic>             
+#include <random>             
+#include <thread>             
+#include <chrono>             
+#include <cmath>              
+#include <filesystem>
+#include <stdexcept>          
+#include <iomanip>            
+#include <sstream>            
+#include <mutex>              
 
 
 // Utilisation de l'espace de noms pour la bibliothèque JSON
@@ -52,6 +50,92 @@ size_t Global::WriteCallback(void* contents, size_t size, size_t nmemb, void* us
     return size * nmemb;
 }
 
+// --- Implémentation des Fonctions Utilitaires StringTo/ToString ---
+
+
+// Convertit Currency enum en string
+std::string currencyToString(Currency currency) {
+    switch (currency) {
+        case Currency::USD: return "USD";
+        case Currency::SRD_BTC: return "SRD-BTC";
+        case Currency::UNKNOWN: return "UNKNOWN_CURRENCY";
+        default: return "UNKNOWN_CURRENCY"; // Retour par défaut pour robustesse.
+    }
+}
+
+// Convertit string en Currency enum (insensible à la casse)
+Currency stringToCurrency(const std::string& str) {
+    std::string lower_str = str;
+    std::transform(lower_str.begin(), lower_str.end(), lower_str.begin(), ::tolower);
+    if (lower_str == "usd") return Currency::USD;
+    if (lower_str == "srd-btc") return Currency::SRD_BTC;
+    return Currency::UNKNOWN;
+}
+
+// Convertit TransactionType enum en string
+std::string transactionTypeToString(TransactionType type) {
+    switch (type) {
+        case TransactionType::BUY: return "BUY";
+        case TransactionType::SELL: return "SELL";
+        case TransactionType::UNKNOWN: return "UNKNOWN_TYPE";
+        default: return "UNKNOWN_TYPE"; // Retour par défaut pour robustesse.
+    }
+}
+
+// Convertit string en TransactionType enum (insensible à la casse)
+TransactionType stringToTransactionType(const std::string& str) {
+    std::string lower_str = str;
+    std::transform(lower_str.begin(), lower_str.end(), lower_str.begin(), ::tolower);
+    if (lower_str == "buy") return TransactionType::BUY;
+    if (lower_str == "sell") return TransactionType::SELL;
+    return TransactionType::UNKNOWN;
+}
+
+// Convertit TransactionStatus enum en string
+std::string transactionStatusToString(TransactionStatus status) {
+    switch (status) {
+        case TransactionStatus::PENDING: return "PENDING";
+        case TransactionStatus::COMPLETED: return "COMPLETED";
+        case TransactionStatus::FAILED: return "FAILED";
+        case TransactionStatus::UNKNOWN: return "UNKNOWN_STATUS";
+        default: return "UNKNOWN_STATUS"; // Retour par défaut pour robustesse.
+    }
+}
+
+// Convertit string en TransactionStatus enum (insensible à la casse)
+TransactionStatus stringToTransactionStatus(const std::string& str) {
+    std::string lower_str = str;
+    std::transform(lower_str.begin(), lower_str.end(), lower_str.begin(), ::tolower);
+    if (lower_str == "pending") return TransactionStatus::PENDING;
+    if (lower_str == "completed") return TransactionStatus::COMPLETED;
+    if (lower_str == "failed") return TransactionStatus::FAILED;
+    if (lower_str == "unknown") return TransactionStatus::UNKNOWN; // Gère aussi "unknown" string si jamais loggué ainsi
+    return TransactionStatus::UNKNOWN;
+}
+
+// --- Implémentation de positionStateToString ---
+std::string positionStateToString(PositionState ps) {
+    switch (ps) {
+        case PositionState::NONE: return "NONE";
+        case PositionState::LONG: return "LONG";
+        case PositionState::SHORT: return "SHORT";
+        case PositionState::UNKNOWN: return "UNKNOWN";
+        default: return "UNKNOWN_STATE"; // Cas par défaut si une valeur inattendue est passée
+    }
+}
+
+// --- Implémentation de tradingActionToString ---
+std::string tradingActionToString(TradingAction ta) {
+    switch (ta) {
+        case TradingAction::HOLD: return "HOLD";
+        case TradingAction::BUY: return "BUY";
+        case TradingAction::SELL: return "SELL";
+        case TradingAction::CLOSE_LONG: return "CLOSE_LONG";
+        case TradingAction::CLOSE_SHORT: return "CLOSE_SHORT";
+        case TradingAction::UNKNOWN: return "UNKNOWN";
+        default: return "UNKNOWN_ACTION"; // Cas par défaut
+    }
+}
 
 // --- Boucle principale du thread de génération de prix ---
 // S'exécute dans priceGenerationWorker.
@@ -156,14 +240,12 @@ void Global::generate_SRD_BTC_loop_impl() {
                 priceFile << ss_timestamp.str() << "," << std::fixed << std::setprecision(10) << srd_btc << "\n";
                 priceFile.flush();
             }
-            // Correction LOG : Construire le message complet avec stringstream AVANT d'appeler LOG
             std::stringstream ss_log_price;
             ss_log_price << "Global Nouveau prix SRD-BTC simulé : " << std::fixed << std::setprecision(10) << srd_btc;
             LOG(ss_log_price.str(), "INFO");
 
 
         } else {
-             // Correction LOG : "Global" fait partie du message.
              LOG("Global Prix BTC non récupéré ou invalide. La valeur SRD-BTC n'est pas mise à jour dans ce cycle.", "WARNING");
         }
         // --- Fin Simulation et Mise à jour ---
@@ -175,7 +257,7 @@ void Global::generate_SRD_BTC_loop_impl() {
     } // --- Fin de la boucle principale ---
 
     // --- Nettoyage à l'arrêt du thread ---
-    if (curl) { curl_easy_cleanup(curl); LOG("Global Handle cURL nettoyé.", "DEBUG"); } // Correction LOG
+    if (curl) { curl_easy_cleanup(curl); } // Supprimé (DEBUG)
     if (priceFile.is_open()) {
         auto now = std::chrono::system_clock::now();
         auto time_t = std::chrono::system_clock::to_time_t(now);
@@ -185,9 +267,9 @@ void Global::generate_SRD_BTC_loop_impl() {
         if (timeinfo) { ss_timestamp << std::put_time(timeinfo, "%Y-%m-%d %X"); } else { ss_timestamp << "[TIMESTAMP_ERROR]"; }
         priceFile << "--- Fin du log de prix : " << ss_timestamp.str() << " ---\n";
         priceFile.close();
-        LOG("Global Fichier de log des prix fermé.", "INFO"); // Correction LOG
+        LOG("Global Fichier de log des prix fermé.", "INFO");
     }
-    LOG("Global Thread de génération de prix terminé.", "INFO"); // Correction LOG
+    LOG("Global Thread de génération de prix terminé.", "INFO");
 }
 
 
@@ -196,25 +278,25 @@ void Global::generate_SRD_BTC_loop_impl() {
 // Démarre le thread s'il n'est pas lancé.
 void Global::startPriceGenerationThread() {
     if (!priceGenerationWorker.joinable()) {
-        LOG("Global Demande de démarrage du thread de génération de prix.", "INFO"); // Correction LOG
+        LOG("Global Demande de démarrage du thread de génération de prix.", "INFO");
         stopRequested.store(false);
         priceGenerationWorker = std::thread(&Global::generate_SRD_BTC_loop_impl);
-        LOG("Global Thread de génération de prix initié.", "INFO"); // Correction LOG
+        LOG("Global Thread de génération de prix initié.", "INFO");
     } else {
-        LOG("Global Thread de génération de prix déjà en cours.", "WARNING"); // Correction LOG
+        LOG("Global Thread de génération de prix déjà en cours.", "WARNING");
     }
 }
 
 // Signale l'arrêt et attend la fin du thread.
 void Global::stopPriceGenerationThread() {
-    LOG("Global Demande d'arrêt du thread de génération de prix.", "INFO"); // Correction LOG
+    LOG("Global Demande d'arrêt du thread de génération de prix.", "INFO");
     stopRequested.store(true);
     if (priceGenerationWorker.joinable()) {
-        LOG("Global Jointure du thread de génération de prix...", "INFO"); // Correction LOG
+        LOG("Global Jointure du thread de génération de prix...", "INFO");
         priceGenerationWorker.join();
-        LOG("Global Thread de génération de prix joint.", "INFO"); // Correction LOG
+        LOG("Global Thread de génération de prix joint.", "INFO");
     } else {
-        LOG("Global Thread de génération de prix non joignable ou déjà terminé lors de la demande d'arrêt.", "WARNING"); // Correction LOG
+        LOG("Global Thread de génération de prix non joignable ou déjà terminé lors de la demande d'arrêt.", "WARNING");
     }
 }
 
@@ -227,7 +309,6 @@ double Global::getPrice(const std::string& currency) {
         std::lock_guard<std::mutex> lock(srdMutex); // Protège la lecture
         return lastSRDBTCValue;
     }
-    // Correction LOG : "Global" fait partie du message.
     LOG("Global Tentative d'accès au prix pour devise non supportée : " + currency, "WARNING");
     return 0.0;
 }
@@ -235,7 +316,6 @@ double Global::getPrice(const std::string& currency) {
 // Retourne un prix historique approximatif.
 double Global::getPreviousPrice(const std::string& currency, int secondsBack) {
      if (currency != "SRD-BTC") {
-        // Correction LOG : "Global" fait partie du message.
         LOG("Global Tentative d'accès à l'historique pour devise non supportée : " + currency, "WARNING");
         return 0.0;
      }
@@ -251,7 +331,6 @@ double Global::getPreviousPrice(const std::string& currency, int secondsBack) {
 
     // Limite les pas si cela dépasse la capacité du buffer.
     if (stepsBack >= MAX_VALUES_PER_DAY) {
-        // Correction LOG : "Global" fait partie du message.
         LOG("Global getPreviousPrice - Histoire demandée (" + std::to_string(secondsBack) + "s) excède la capacité du buffer (" + std::to_string(MAX_VALUES_PER_DAY * update_interval_sec) + "s). Retourne l'élément le plus ancien stocké.", "WARNING");
         stepsBack = MAX_VALUES_PER_DAY - 1; // Indexe l'élément le plus ancien.
     }

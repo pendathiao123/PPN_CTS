@@ -1,10 +1,8 @@
-// Implémentation de la classe TransactionQueue
-
 #include "../headers/TransactionQueue.h"
 #include "../headers/ClientSession.h" // Pour accéder à ClientSession et son Wallet
-#include "../headers/Logger.h" // Macro LOG
-#include "../headers/Global.h" // Global::getPrice
-#include "../headers/Transaction.h" // Transaction struct, generateNewIdString, logTransactionToCSV, enums/helpers stringTo/ToString
+#include "../headers/Logger.h" 
+#include "../headers/Global.h" 
+#include "../headers/Transaction.h"
 
 
 // Includes pour les fonctionnalités standards :
@@ -26,10 +24,10 @@
 #include <cstring>
 #include <sstream>
 #include <iomanip>
-#include <cctype> 
+#include <cctype>
 
 
-// --- Implémentation de requestTypeToString (qui était un stub dans .h) ---
+// --- Implémentation de requestTypeToString ---
 // Convertit une RequestType enum en string.
 std::string requestTypeToString(RequestType type) {
     switch (type) {
@@ -39,7 +37,6 @@ std::string requestTypeToString(RequestType type) {
         default: return "UNKNOWN_REQUEST"; // Devrait pas arriver avec les types définis
     }
 }
-// NOTE : Les implémentations des autres helpers (currencyToString, etc.) doivent se trouver dans Transaction.cpp
 
 
 // --- Initialisation des membres NON statiques ---
@@ -49,15 +46,12 @@ std::string requestTypeToString(RequestType type) {
 // --- Constructeur de TransactionQueue ---
 // Initialise le flag running à false.
 TransactionQueue::TransactionQueue() : running(false) {
-    LOG("TransactionQueue créée.", "DEBUG");
 }
 
 // --- Destructeur de TransactionQueue ---
 // Assure que le thread worker est arrêté proprement.
 TransactionQueue::~TransactionQueue() {
-    LOG("Destructeur TransactionQueue appelé. Arrêt du thread de traitement...", "DEBUG");
     stop(); // Appelle la méthode stop()
-    LOG("Destructeur TransactionQueue terminé.", "DEBUG");
 }
 
 // --- Enregistre une ClientSession ---
@@ -68,8 +62,8 @@ void TransactionQueue::registerSession(const std::shared_ptr<ClientSession>& ses
         return;
     }
     std::lock_guard<std::mutex> lock(sessionMapMtx);
-    sessionMap[session->getId()] = session; // session->getId() est thread-safe (const)
-    LOG("TransactionQueue::registerSession Session enregistrée pour client ID: " + session->getId(), "INFO");
+    sessionMap[session->getClientId()] = session; // session->getId() est thread-safe (const)
+    LOG("TransactionQueue::registerSession Session enregistrée pour client ID: " + session->getClientId(), "INFO");
 }
 
 // --- Désenregistre une ClientSession ---
@@ -88,7 +82,7 @@ void TransactionQueue::unregisterSession(const std::string& clientId) {
 // --- Implémentation de start ---
 // Démarre le thread de traitement de la file. Appelée par le Server au démarrage.
 void TransactionQueue::start() {
-    // Vérifie si le thread n'est pas déjà en cours et s'il n'est pas joignable (état initial ou après un join)
+    // Vérifie si le thread n'est pas déjà en cours et s'il n'est pas joignable.
     if (!running.load(std::memory_order_acquire) && !worker.joinable()) {
         running.store(true, std::memory_order_release); // Indique que la file doit tourner
         worker = std::thread(&TransactionQueue::process, this); // Lance le thread worker sur la méthode process
@@ -157,11 +151,8 @@ void TransactionQueue::process() {
     LOG("TransactionQueue::process Thread de traitement terminé.", "INFO");
 }
 
-//// Dans src/code/TransactionQueue.cpp
 
-// ... (vos includes, autres fonctions TQ, y compris start() et stop()) ...
-
-// --- Implémentation Finale Nettoyée de processRequest ---
+// --- Implémentation de processRequest ---
 // Prend une requête par const référence, effectue le traitement sous verrou du Wallet,
 // met à jour le Wallet, ajoute à l'historique, crée la Transaction finale,
 // et notifie la ClientSession.
@@ -178,17 +169,15 @@ void TransactionQueue::processRequest(const TransactionRequest& request) {
     TransactionStatus status = TransactionStatus::PENDING; // Commence à PENDING, statut final déterminé sous verrou
     std::string failureReason = "";
 
-    // *** DÉCLARATION DU SHARED_PTR POUR LA TRANSACTION FINALE ***
+    // Déclaration du shared_ptr pour la transaction finale.
     // Sera nullptr si la transaction échoue avant la création de l'objet Transaction sous verrou.
     std::shared_ptr<Transaction> final_transaction_ptr = nullptr;
-    // ********************************************************
 
 
-    // --- Génération ID et Timestamp (pour toutes les requêtes traitées par la TQ) ---
+    // --- Génération ID et Timestamp ---
     transactionId = Transaction::generateNewIdString(); // Génère un ID unique pour cette requête/transaction
     auto timestamp = std::chrono::system_clock::now(); // Timestamp actuel
     std::time_t timestamp_t = std::chrono::system_clock::to_time_t(timestamp);
-    LOG("TransactionQueue::processRequest DEBUG : ID (" + transactionId + ") et Timestamp générés pour requête client " + request.clientId, "DEBUG");
 
 
     // --- Préliminaires (accès session/wallet) ---
@@ -220,90 +209,74 @@ void TransactionQueue::processRequest(const TransactionRequest& request) {
 
         // --- Obtention du prix (avant le bloc verrouillé principal) ---
         unitPrice = Global::getPrice("SRD-BTC"); // Assurez-vous que ce symbole est correct
-        // Note : Le prix est re-vérifié sous verrou pour plus de sécurité et pour les calculs finaux.
-        LOG("TransactionQueue::processRequest DEBUG : Prix SRD-BTC obtenu: " + std::to_string(unitPrice) + " pour client " + request.clientId, "DEBUG");
+        // Note : Le prix est re-vérifié sous verrou.
 
 
         // --- LOGIQUE DE TRAITEMENT CRUCIALE SOUS VERROU DU WALLET ---
         { // Bloc pour le lock_guard sur le Wallet
-            std::lock_guard<std::mutex> walletLock(wallet->getMutex()); // <-- VERROUILLAGE RÉUSSI D'APRÈS LES LOGS
-            LOG("TransactionQueue::processRequest DEBUG : Verrou Wallet obtenu pour client " + request.clientId, "DEBUG"); // <-- CE LOG S'AFFICHE
+            std::lock_guard<std::mutex> walletLock(wallet->getMutex()); // VERROUILLAGE RÉUSSI
 
-            // *** NOUVEAUX LOGS À L'INTÉRIEUR DU BLOC VERROUILLÉ ***
 
-            LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Vérification validité prix " + std::to_string(unitPrice), "DEBUG"); // <-- Log AVANT vérif prix
-            // Re-vérifier la validité du prix SOUS LE VERROU (et l'utiliser pour les calculs finaux)
+            // Re-vérifier la validité du prix SOUS LE VERROU
              if (unitPrice <= 0 || !std::isfinite(unitPrice)) {
                  status = TransactionStatus::FAILED;
                  failureReason = "Invalid market price at execution.";
-                 LOG("TransactionQueue::processRequest ERROR : Sous verrou Wallet: Prix invalide. Statut FAILED.", "ERROR"); // <-- Log prix invalide
+                 LOG("TransactionQueue::processRequest ERROR : Sous verrou Wallet: Prix invalide. Statut FAILED.", "ERROR");
              } else { // Prix valide
-                LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Prix valide. Avant calculs et vérif fonds.", "DEBUG"); // <-- Log AVANT calculs/vérif
 
                 // Calculer les montants réels et vérifier les fonds SOUS LE VERROU
                 double amount_to_use_from_balance = 0.0; // Montant dans la devise du solde utilisé
                 double quantity_to_trade_crypto = request.quantity; // Quantité de crypto demandée
 
                 if (request.type == RequestType::BUY) {
-                    // Logique pour un ordre BUY
-                    LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Traitement BUY. Avant calculs montants.", "DEBUG"); // <-- Log avant calculs BUY
                     double usd_cost = quantity_to_trade_crypto * unitPrice;
                     fee = usd_cost * 0.0001; // Frais sur le montant USD
                     totalAmount = usd_cost + fee; // Coût total en USD (montant échangé + frais)
                     amount_to_use_from_balance = totalAmount; // On utilise ce totalAmount du solde USD
-                    LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Après calculs BUY. Avant vérif solde USD.", "DEBUG"); // <-- Log avant vérif fonds BUY
 
-                    if (wallet->getBalance(Currency::USD) >= amount_to_use_from_balance) { // <-- APPEL POTENTIELLEMENT CRITIQUE wallet->getBalance !
+                    if (wallet->getBalance(Currency::USD) >= amount_to_use_from_balance) { // APPEL POTENTIELLEMENT CRITIQUE wallet->getBalance !
                         // Fonds USD suffisants : La transaction peut être COMPLETED
                         status = TransactionStatus::COMPLETED;
-                        LOG("TransactionQueue::processRequest INFO : Client " + request.clientId + ": BUY validé sous verrou. Fonds USD suffisants.", "INFO"); // <-- Log Succès BUY
+                        LOG("TransactionQueue::processRequest INFO : Client " + request.clientId + ": BUY validé sous verrou. Fonds USD suffisants.", "INFO");
                     } else {
                         status = TransactionStatus::FAILED;
                         failureReason = "Insufficient USD funds.";
-                        LOG("TransactionQueue::processRequest WARNING : Client " + request.clientId + ": Solde USD insuffisant (" + std::to_string(wallet->getBalance(Currency::USD)) + ") pour BUY de " + std::to_string(amount_to_use_from_balance) + " USD. Transaction FAILED.", "WARNING"); // <-- Log Échec BUY
+                        LOG("TransactionQueue::processRequest WARNING : Client " + request.clientId + ": Solde USD insuffisant (" + std::to_string(wallet->getBalance(Currency::USD)) + ") pour BUY de " + std::to_string(amount_to_use_from_balance) + " USD. Transaction FAILED.", "WARNING");
                     }
 
                 } else if (request.type == RequestType::SELL) {
-                    LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Traitement SELL. Avant calculs montants.", "DEBUG"); // <-- Log avant calculs SELL
                     amount_to_use_from_balance = quantity_to_trade_crypto;
                     totalAmount = quantity_to_trade_crypto * unitPrice;
                     fee = totalAmount * 0.0001;
                     totalAmount -= fee;
-                    LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Après calculs SELL. Avant vérif solde SRD-BTC.", "DEBUG"); // <-- Log avant vérif fonds SELL
 
-                    if (wallet->getBalance(Currency::SRD_BTC) >= amount_to_use_from_balance) { // <-- APPEL POTENTIELLEMENT CRITIQUE wallet->getBalance !
+                    if (wallet->getBalance(Currency::SRD_BTC) >= amount_to_use_from_balance) { // APPEL POTENTIELLEMENT CRITIQUE wallet->getBalance !
                         status = TransactionStatus::COMPLETED;
-                        LOG("TransactionQueue::processRequest INFO : Client " + request.clientId + ": SELL validé sous verrou. Fonds SRD-BTC suffisants.", "INFO"); // <-- Log Succès SELL
+                        LOG("TransactionQueue::processRequest INFO : Client " + request.clientId + ": SELL validé sous verrou. Fonds SRD-BTC suffisants.", "INFO");
                     } else {
                         status = TransactionStatus::FAILED;
                         failureReason = "Insufficient SRD-BTC funds.";
-                        LOG("TransactionQueue::processRequest WARNING : Client " + request.clientId + ": Solde SRD-BTC insuffisant (" + std::to_string(wallet->getBalance(Currency::SRD_BTC)) + ") pour SELL de " + std::to_string(amount_to_use_from_balance) + " SRD-BTC. Transaction FAILED.", "WARNING"); // <-- Log Échec SELL
+                        LOG("TransactionQueue::processRequest WARNING : Client " + request.clientId + ": Solde SRD-BTC insuffisant (" + std::to_string(wallet->getBalance(Currency::SRD_BTC)) + ") pour SELL de " + std::to_string(amount_to_use_from_balance) + " SRD-BTC. Transaction FAILED.", "WARNING");
                     }
                 } else { // Type non supporté
                     status = TransactionStatus::FAILED;
                     failureReason = "Unsupported or unknown request type.";
-                    LOG("TransactionQueue::processRequest ERROR : Sous verrou Wallet: Type de requête non supporté/inconnu.", "ERROR"); // <-- Log type non supporté
+                    LOG("TransactionQueue::processRequest ERROR : Sous verrou Wallet: Type de requête non supporté/inconnu.", "ERROR");
                 }
 
-                // Si le plantage n'est pas dans les vérifs/calculs, il est ICI ou après.
-                LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Après vérifs fonds/calculs. Statut actuel: " + transactionStatusToString(status), "DEBUG"); // <-- Log après vérifs/calculs
 
                 // --- Si la transaction est COMPLETED, mettre à jour les soldes ---
                 if (status == TransactionStatus::COMPLETED) {
-                    LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Statut COMPLETED. Avant mise à jour soldes.", "DEBUG"); // <-- Log avant updates
                     if (request.type == RequestType::BUY) {
-                        wallet->updateBalance(Currency::USD, -totalAmount); // <-- APPEL POTENTIELLEMENT CRITIQUE wallet->updateBalance !
-                        wallet->updateBalance(Currency::SRD_BTC, request.quantity); // <-- APPEL POTENTIELLEMENT CRITIQUE
-                        LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Soldes mis à jour BUY.", "DEBUG"); // <-- Log après updates BUY
+                        wallet->updateBalance(Currency::USD, -totalAmount); // APPEL POTENTIELLEMENT CRITIQUE wallet->updateBalance !
+                        wallet->updateBalance(Currency::SRD_BTC, request.quantity); // APPEL POTENTIELLEMENT CRITIQUE
                     } else if (request.type == RequestType::SELL) {
-                         wallet->updateBalance(Currency::SRD_BTC, -request.quantity); // <-- APPEL POTENTIELLEMENT CRITIQUE wallet->updateBalance !
-                         wallet->updateBalance(Currency::USD, totalAmount); // <-- APPEL POTENTIELLEMENT CRITIQUE
-                         LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Soldes mis à jour SELL.", "DEBUG"); // <-- Log après updates SELL
+                         wallet->updateBalance(Currency::SRD_BTC, -request.quantity); // APPEL POTENTIELLEMENT CRITIQUE wallet->updateBalance !
+                         wallet->updateBalance(Currency::USD, totalAmount); // APPEL POTENTIELLEMENT CRITIQUE
                     }
 
-                    LOG("TransactionQueue::processRequest DEBUG : Sous verrou Wallet: Avant sauvegarde Wallet.", "DEBUG"); // <-- Log avant save
-                    wallet->saveToFile(); // <-- APPEL POTENTIELLEMENT CRITIQUE wallet->saveToFile !
-                    LOG("TransactionQueue::processRequest INFO : Client " + request.clientId + ": Wallet sauvegardé après Tx COMPLETED.", "INFO"); // <-- Log Wallet sauvegardé
+                    wallet->saveToFile(); // APPEL POTENTIELLEMENT CRITIQUE wallet->saveToFile !
+                    LOG("TransactionQueue::processRequest INFO : Client " + request.clientId + ": Wallet sauvegardé après Tx COMPLETED.", "INFO");
 
                 } // Fin if (status == TransactionStatus::COMPLETED)
 
@@ -320,7 +293,7 @@ void TransactionQueue::processRequest(const TransactionRequest& request) {
                 // Construction de l'objet Transaction finale (via make_shared)
                 // Les variables transactionId, timestamp_t, status, failureReason, etc.
                 // ont toutes été définies à ce point si le grand else { Session/Wallet valides } a été exécuté.
-                final_transaction_ptr = std::make_shared<Transaction>( // <-- Construction via make_shared ici, sous verrou !
+                final_transaction_ptr = std::make_shared<Transaction>( // Construction via make_shared ici, sous verrou !
                     transactionId,      // Utilise l'ID généré plus tôt (avant grand if/else)
                     request.clientId,
                     final_tx_type,      // Type mappé
@@ -330,14 +303,13 @@ void TransactionQueue::processRequest(const TransactionRequest& request) {
                     totalAmount,        // Montant total échangé
                     fee,                // Frais
                     timestamp_t,        // Timestamp généré plus tôt
-                    status,             // <-- Le statut (COMPLETED/FAILED) déterminé ci-dessus !
+                    status,             // Le statut (COMPLETED/FAILED) déterminé ci-dessus !
                     failureReason       // Raison d'échec si FAILED
                 );
-                LOG("TransactionQueue::processRequest DEBUG : Transaction finale (via shared_ptr) construite SOUS VERROU pour client " + request.clientId, "DEBUG");
 
 
                 // Ajouter la transaction à l'historique du Wallet.
-                wallet->addTransaction(*final_transaction_ptr); // <-- Appel addTransaction SOUS VERROU (avec déréférencement) !
+                wallet->addTransaction(*final_transaction_ptr); // Appel addTransaction SOUS VERROU (avec déréférencement) !
                 LOG("TransactionQueue::processRequest INFO : Transaction " + final_transaction_ptr->getId() + " ajoutée à l'historique du Wallet sous verrou pour client " + request.clientId + ". Statut: " + transactionStatusToString(final_transaction_ptr->getStatus()), "INFO");
 
 
@@ -345,7 +317,6 @@ void TransactionQueue::processRequest(const TransactionRequest& request) {
             // === FIN DU CONTENU QUI DOIT ETRE DANS CE BLOC VERROUILLÉ ! ===
 
         } // Le lock_guard walletLock libère le mutex du Wallet ici !
-        LOG("TransactionQueue::processRequest DEBUG : Verrou Wallet libéré pour client " + request.clientId, "DEBUG");
 
     } // Fin du grand 'else' (Session et Wallet disponibles)
 
@@ -406,9 +377,8 @@ void TransactionQueue::processRequest(const TransactionRequest& request) {
         try {
             // Si session est non-null, on appelle applyTransactionRequest.
             // Si session était null au début, ce bloc n'est pas exécuté, ce qui est correct.
-            session->applyTransactionRequest(*final_transaction_ptr); // <-- Appel de notification (déréférencement)
+            session->applyTransactionRequest(*final_transaction_ptr); // Appel de notification (déréférencement)
 
-            LOG("TransactionQueue::processRequest DEBUG : applyTransactionRequest appelé pour client " + request.clientId + ", Transaction ID: " + final_transaction_ptr->getId() + ", Statut: " + transactionStatusToString(final_transaction_ptr->getStatus()), "DEBUG");
         } catch (const std::exception& e) {
             LOG("TransactionQueue::processRequest ERROR : Exception lors de l'appel à applyTransactionRequest pour client ID: " + request.clientId + ", Transaction ID: " + final_transaction_ptr->getId() + ". Erreur: " + std::string(e.what()), "ERROR");
         } catch (...) {
@@ -418,7 +388,6 @@ void TransactionQueue::processRequest(const TransactionRequest& request) {
          // Ce log s'affiche si session était null au début.
          LOG("TransactionQueue::processRequest WARNING : ClientSession introuvable ou invalide pour client ID: " + request.clientId + " lors de la notification. Transaction ID: " + final_transaction_ptr->getId() + ". Le résultat ne sera pas appliqué à la session.", "WARNING");
     }
-    LOG("TransactionQueue::processRequest DEBUG : Après notification ClientSession pour client " + request.clientId, "DEBUG");
 
 
     // Log de fin de la fonction
@@ -429,8 +398,8 @@ void TransactionQueue::processRequest(const TransactionRequest& request) {
 } // Fin du corps de la fonction processRequest
 
 
-// --- Implémentation de addRequest (Corrigée pour prendre const Request&) ---
-void TransactionQueue::addRequest(const TransactionRequest& request) { // <-- Signature modifiée
+// --- Implémentation de addRequest ---
+void TransactionQueue::addRequest(const TransactionRequest& request) { // Signature modifiée
     if (!running.load(std::memory_order_acquire)) {
         LOG("TransactionQueue::addRequest Erreur : Tentative d'ajouter une requête alors que la file n'est pas en cours d'exécution pour client ID: " + request.clientId + ", Type: " + requestTypeToString(request.type), "ERROR");
         return;
@@ -439,12 +408,6 @@ void TransactionQueue::addRequest(const TransactionRequest& request) { // <-- Si
     { // Section critique pour la file
         std::lock_guard<std::mutex> lock(mtx);
         queue.push(request); // 'request' est une const ref, elle est copiée dans la queue
-        std::stringstream ss_log;
-        ss_log << "TransactionQueue::addRequest Requête ajoutée pour client ID: " << request.clientId
-               << ", Type: " << requestTypeToString(request.type)
-               << ", Quantité: " << std::fixed << std::setprecision(10) << request.quantity
-               << ". Taille de la queue: " << queue.size();
-        LOG(ss_log.str(), "DEBUG");
     } // Le verrou est libéré
 
     cv.notify_one();

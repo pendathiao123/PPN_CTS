@@ -1,85 +1,75 @@
 #ifndef BOT_H
 #define BOT_H
 
-// Includes standards nécessaires
 #include <string>
 #include <vector>
-#include <memory>
-#include <mutex>
+#include <memory>   
+#include <thread>   
+#include <atomic>   
+#include <mutex>   
+#include <chrono>   
 
-// Includes des classes/composants liés
-#include "Global.h"     // Accès aux prix globaux
-#include "Wallet.h"     // Portefeuille du client associé
-#include "Transaction.h" // Utilisé dans les notifications de transaction
+#include "Global.h"     
+#include "Wallet.h"     
+#include "Transaction.h" 
 
-// --- Enums pour l'état et les actions du bot ---
-enum class PositionState {
-    NONE,  // Aucune position ouverte.
-    LONG,  // Position longue (acheté).
-    SHORT  // Position courte (vendu à découvert).
-};
-
-enum class TradingAction {
-    HOLD,        // Ne rien faire.
-    BUY,         // Décision d'acheter.
-    SELL,        // Décision de vendre.
-    CLOSE_LONG,  // Clôturer position LONG.
-    CLOSE_SHORT  // Clôturer position SHORT.
-};
-
-// --- Structure pour les Bandes de Bollinger ---
-struct BollingerBands {
-    double middleBand; // Moyenne mobile.
-    double upperBand;  // Bande supérieure.
-    double lowerBand;  // Bande inférieure.
-};
+// Forward declaration de ClientSession, l'include n'est pas nécessaire ici.
+class ClientSession;
 
 // --- Classe Bot : Gère la stratégie de trading pour un client ---
 class Bot {
+public:
+    // Constructeur
+    Bot(const std::string& clientId, int period, double k,
+        std::shared_ptr<Wallet> wallet,
+        std::weak_ptr<ClientSession> session_ptr);
+
+    // Destructeur
+    ~Bot();
+
+    // --- Méthodes de gestion du thread ---
+    void start(); // Démarre le thread principal du bot
+    void stop();  // Signale au thread de s'arrêter et attend sa fin
+
+    // --- Getters (Thread-safe car utilisent botMutex en interne, sauf clientId et Wallet) ---
+    PositionState getCurrentState() const;
+    double getEntryPrice() const;
+    const std::string& getClientId() const;
+    std::shared_ptr<Wallet> getClientWallet() const;
+
+    // --- Méthodes principales de logique/interaction (Thread-safe) ---
+    TradingAction processLatestPrice(); // Traite le nouveau prix et décide de l'action
+    void notifyTransactionCompleted(const Transaction& tx); // Notifie le bot d'une transaction complétée
+
 private:
-    // Membres de configuration (constants après construction)
+    // La méthode qui sera exécutée dans le thread du bot
+    void tradeLoop();
+
+    // --- Membres du bot ---
     std::string clientId;
-    int bollingerPeriod;
-    double bollingerK;
+    int bollingerPeriod;        // Période pour la SMA et l'écart-type
+    double bollingerK;          // Facteur multiplicateur de l'écart-type
 
-    // État mutable du bot - PROTÉGÉ par botMutex
-    PositionState currentState; // État de la position actuelle
-    double entryPrice;        // Prix d'entrée de la position
+    std::vector<double> priceHistoryForCalculation; // Historique des prix pour les calculs
+    PositionState currentState; // État actuel de la position
+    double entryPrice;          // Prix d'entrée de la position actuelle
 
-    // Pointeur vers le portefeuille associé (shared_ptr lui-même est thread-safe pour copie/assignation,
-    // mais l'accès au Wallet pointé doit utiliser ses méthodes thread-safe)
-    std::shared_ptr<Wallet> clientWallet;
+    std::shared_ptr<Wallet> clientWallet;           // Pointeur vers le Wallet associé
+    std::weak_ptr<ClientSession> clientSessionPtr; // Pointeur faible vers la ClientSession
 
-    // Historique local des prix - PROTÉGÉ par botMutex
-    std::vector<double> priceHistoryForCalculation;
+    // --- Membres pour la gestion du thread et de la concurrence ---
+    std::thread botThread;          // Le thread d'exécution du bot
+    std::atomic<bool> running;      // Flag atomique pour signaler l'arrêt du thread
+    mutable std::mutex botMutex;    // Mutex pour protéger l'accès concurrent aux membres
 
-    // Mutex pour PROTÉGER l'accès CONCURRENT aux membres mutables ci-dessus (currentState, entryPrice, priceHistoryForCalculation)
-    // 'mutable' permet de locker/unlocker ce mutex dans les méthodes marquées 'const'.
-    mutable std::mutex botMutex;
+    // Configuration de la fréquence d'exécution de la logique du bot
+    const std::chrono::seconds tradeInterval = std::chrono::seconds(5);
 
     // --- Méthodes internes d'aide (calculs) ---
-    static double calculateSMA(const std::vector<double>& data); // Calcule la moyenne mobile
-    static double calculateStdDev(const std::vector<double>& data, double sma); // Calcule l'écart-type
-    BollingerBands calculateBands() const; // Calcule les Bandes de Bollinger (utilise l'historique protégé par mutex)
-
-public:
-    // Constructeur et destructeur
-    Bot(const std::string& clientId, int bollingerPeriod, double bollingerK, std::shared_ptr<Wallet> wallet); // Constructeur
-    ~Bot(); // Destructeur
-
-    // --- Getters ---
-    // Les getters des membres mutables (état/prix) DOIVENT être thread-safe dans leur implémentation (.cpp)
-    // en utilisant botMutex. Les getters des membres constants n'ont pas besoin de mutex.
-    PositionState getCurrentState() const; // Retourne l'état de position (Thread-safe)
-    double getEntryPrice() const; // Retourne le prix d'entrée (Thread-safe)
-    const std::string& getClientId() const; // Retourne l'ID client (Constant)
-    std::shared_ptr<Wallet> getClientWallet() const; // Retourne le shared_ptr du portefeuille (Pointeur lui-même atomique)
-
-    // --- Méthodes principales d'interaction ---
-    // Ces méthodes modifient l'état mutable du bot et DOIVENT être thread-safe dans leur implémentation (.cpp)
-    // en utilisant botMutex pour protéger l'accès aux membres modifiés/lus.
-    TradingAction processLatestPrice(); // Traite le nouveau prix et décide de l'action (Thread-safe)
-    void notifyTransactionCompleted(const Transaction& tx); // Notifie le bot d'une transaction complétée (Thread-safe)
+    // Statiques si elles n'utilisent pas les membres de l'objet.
+    static double calculateSMA(const std::vector<double>& data);
+    static double calculateStdDev(const std::vector<double>& data, double sma);
+    BollingerBands calculateBands() const; // Utilise l'historique protégé par mutex
 };
 
-#endif // BOT_H
+#endif

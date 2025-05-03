@@ -1,20 +1,18 @@
-// --- Implémentation des fonctions utilitaires globales ---
+#include "../headers/Utils.h" 
+#include "../headers/Logger.h" 
 
-#include "../headers/Utils.h" // Inclut les déclarations
-#include "../headers/Logger.h" // Pour la macro LOG
-
-#include <openssl/rand.h>      // RAND_bytes
-#include <openssl/hmac.h>      // HMAC
-#include <openssl/evp.h>       // EVP_sha256, EVP_MAX_MD_SIZE
-#include <openssl/err.h>       // ERR_print_errors_fp
+#include <openssl/rand.h>      
+#include <openssl/hmac.h>      
+#include <openssl/evp.h>       
+#include <openssl/err.h>      
 #include <openssl/ssl.h>
-#include <iostream>            // std::cerr
-#include <sstream>             // std::ostringstream
-#include <iomanip>             // std::setw, std::setfill
-#include <random>              // std::random_device, std::mt19937, std::uniform_int_distribution
-#include <vector>              // std::vector
-#include <string>              // std::string
-#include <stddef.h>            // size_t
+#include <iostream>           
+#include <sstream>            
+#include <iomanip>             
+#include <random>             
+#include <vector>             
+#include <string>              
+#include <stddef.h>            
 
 
 // Implémentation des fonctions utilitaires globales déclarées dans Utils.h.
@@ -61,14 +59,7 @@ std::string GenerateToken() {
          return "";
     }
 
-    // NOTE : HMAC prend des pointeurs vers les octets bruts. GenerateRandomHex retourne une string hexadécimale.
-    // Il faudrait convertir les strings hexadécimales key_hex et message_hex en vecteurs d'octets bruts.
-    // Simplifions en utilisant des octets aléatoires directement pour la clé et le message de l'HMAC si possible.
-    // Ou appelons GenerateRandomHex avec une longueur appropriée et convertissons.
-
-    // Option 1 : Utiliser GenerateRandomHex et reconvertir en binaire (complexe).
-    // Option 2 : Refaire l'appel à RAND_bytes ici pour les données binaires.
-    // Option 2 est plus simple si GenerateRandomHex est juste pour l'ID visible.
+    // NOTE : HMAC prend des pointeurs vers les octets bruts.
 
     std::vector<unsigned char> hmac_key(32); // Clé de 32 octets pour HMAC-SHA256
     std::vector<unsigned char> hmac_message(16); // Message de 16 octets
@@ -112,15 +103,8 @@ void openssl_debug_callback(const SSL* ssl, int where, int ret) {
     else if (w == SSL_ST_ACCEPT) str = "SSL_accept";
     else str = "undefined";
 
-    if (where & SSL_CB_LOOP) {
-        LOG("OpenSSL Callback: " + std::string(str) + ":" + std::string(SSL_state_string_long(ssl)), "DEBUG");
-    } else if (where & SSL_CB_ALERT) {
-        str = (where & SSL_CB_READ) ? "read" : "write";
-        LOG("OpenSSL Callback: SSL3 alert " + std::string(str) + ":" + SSL_alert_type_string_long(ret) + ":" + SSL_alert_desc_string_long(ret), "DEBUG");
-    } else if (where & SSL_CB_EXIT) {
+    if (where & SSL_CB_EXIT) {
          LOG("OpenSSL Callback: SSL_CB_ERROR - " + std::string(SSL_state_string_long(ssl)), "ERROR");
-    } else if (where & (SSL_CB_HANDSHAKE_START | SSL_CB_HANDSHAKE_DONE)) {
-         LOG("OpenSSL Callback: Handshake " + std::string(SSL_state_string_long(ssl)) + ((where & SSL_CB_HANDSHAKE_DONE) ? " DONE" : " START"), "DEBUG");
     }
 }
 
@@ -133,7 +117,6 @@ std::string HashPasswordSecure(const std::string& password_plain) {
     LOG("SecurityUtils WARNING : HashPasswordSecure est un placeholder. REMPLACER PAR UN VRAI HACHAGE SECURISÉ (bcrypt, Argon2) !", "WARNING");
     // --- IMPLÉMENTATION PLACEHOLDER INSECURE ---
     // Pour l'instant, retourne juste le mot de passe + un suffixe pour distinguer.
-    // CE N'EST PAS SÉCURISÉ !
     if (password_plain.empty()) return "";
     return password_plain + "_hashed_INSECURE";
     // --- FIN IMPLÉMENTATION PLACEHOLDER INSECURE ---
@@ -144,11 +127,7 @@ bool VerifyPasswordSecure(const std::string& password_plain, const std::string& 
     LOG("SecurityUtils WARNING : VerifyPasswordSecure est un placeholder. REMPLACER PAR UNE VRAIE VÉRIFICATION DE HASH SÉCURISÉ !", "WARNING");
      // --- IMPLÉMENTATION PLACEHOLDER INSECURE ---
      // Pour l'instant, compare le mot de passe haché de manière PLACEHOLDER avec le hash stocké.
-     // CE N'EST PAS SÉCURISÉ !
      if (password_plain.empty() || stored_hash.empty()) return false;
      return (password_plain + "_hashed_INSECURE") == stored_hash;
      // --- FIN IMPLÉMENTATION PLACEHOLDER INSECURE ---
 }
-
-// TODO: Implémenter HashPasswordSecure et VerifyPasswordSecure de manière sécurisée ici ou dans un autre fichier de sécurité.
-// Ceci nécessite d'intégrer une bibliothèque comme libsodium, OpenSSL (avec des fonctions comme PBKDF2+HMAC), ou bcrypt/Argon2 directement.

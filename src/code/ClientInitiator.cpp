@@ -1,36 +1,31 @@
-// src/code/ClientInitiator.cpp - Implémentation de la classe ClientInitiator
+#include "../headers/ClientInitiator.h" 
+#include "../headers/ServerConnection.h"  
+#include "../headers/OpenSSLDeleters.h"    
+#include "../headers/Logger.h"           
+#include "../headers/Utils.h"            
 
-#include "../headers/ClientInitiator.h" // Inclut l'en-tête de la classe
-#include "../headers/ServerConnection.h"  // Pour utiliser ServerConnection
-#include "../headers/OpenSSLDeleters.h"    // Pour UniqueSSLCTX, UniqueSSL
-#include "../headers/Logger.h"             // Pour le logging
-#include "../headers/Utils.h"              // Pour openssl_debug_callback et autres utilitaires
-
-#include <iostream>      // std::cerr
-#include <stdexcept>     // std::runtime_error
-#include <string>        // std::string
-#include <memory>        // std::shared_ptr, std::unique_ptr
-#include <sys/socket.h>  // socket, connect
-#include <netinet/in.h>  // sockaddr_in, INADDR_ANY
-#include <arpa/inet.h>   // inet_pton
-#include <unistd.h>      // close
-#include <openssl/ssl.h> // SSL_CTX_new, SSL_new, SSL_set_fd, SSL_connect, SSL_CTX_free (via UniqueSSLCTX)
-#include <openssl/err.h> // ERR_print_errors_fp, ERR_get_error
-#include <cstring>       // strerror
-#include <cerrno>        // errno
+#include <iostream>      
+#include <stdexcept>     
+#include <string>       
+#include <memory>      
+#include <sys/socket.h> 
+#include <netinet/in.h> 
+#include <arpa/inet.h>   
+#include <unistd.h>      
+#include <openssl/ssl.h> 
+#include <openssl/err.h>
+#include <cstring>      
+#include <cerrno>        
 
 
 // --- Implémentation du Constructeur ClientInitiator ---
 ClientInitiator::ClientInitiator() {
-    LOG("ClientInitiator::ClientInitiator DEBUG : Objet ClientInitiator créé.", "DEBUG");
     // L'initialisation globale OpenSSL est gérée dans main_cli.cpp
 }
 
 
 // --- Implémentation de la méthode ClientInitiator::InitClientCTX ---
 UniqueSSLCTX ClientInitiator::InitClientCTX() {
-    LOG("ClientInitiator::InitClientCTX DEBUG : Initialisation contexte SSL client...", "DEBUG");
-
     // Utilise TLS_client_method() pour un contexte client
     UniqueSSLCTX context(SSL_CTX_new(TLS_client_method()));
     if (!context) {
@@ -38,18 +33,11 @@ UniqueSSLCTX ClientInitiator::InitClientCTX() {
         ERR_print_errors_fp(stderr); // Log OpenSSL error
         return nullptr; // Retourne un unique_ptr vide
     }
-    LOG("ClientInitiator::InitClientCTX DEBUG : Contexte SSL client créé.", "DEBUG");
 
     // Configure le contexte client si nécessaire (ex: charger un certificat client, configurer des options)
-    // SSL_CTX_set_info_callback(context.get(), openssl_debug_callback); // Peut être utile pour débug client aussi
+    // SSL_CTX_set_info_callback(context.get(), openssl_debug_callback);
     SSL_CTX_set_min_proto_version(context.get(), TLS1_2_VERSION); // Exemple: Minimum TLS 1.2
     SSL_CTX_set_options(context.get(), SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3); // Exemples d'options
-
-    // Si le serveur demande l'authentification client par certificat (pas notre cas ici),
-    // il faudrait charger le certificat et la clé privée du client ici :
-    // SSL_CTX_use_certificate_file(context.get(), "client.pem", SSL_FILETYPE_PEM);
-    // SSL_CTX_use_PrivateKey_file(context.get(), "client.key", SSL_FILETYPE_PEM);
-    // if (!SSL_CTX_check_private_key(context.get())) { ... }
 
     LOG("ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.", "INFO");
     return context; // Retourne le contexte dans un unique_ptr
@@ -57,7 +45,6 @@ UniqueSSLCTX ClientInitiator::InitClientCTX() {
 
 
 // --- Implémentation de la méthode ClientInitiator::ConnectToServer ---
-// Prend maintenant 3 arguments, y compris le contexte SSL client.
 std::shared_ptr<ServerConnection> ClientInitiator::ConnectToServer(const std::string& host, int port, SSL_CTX* ctx_raw) {
     LOG("ClientInitiator::ConnectToServer INFO : Tentative de connexion à " + host + ":" + std::to_string(port), "INFO");
 
@@ -72,7 +59,6 @@ std::shared_ptr<ServerConnection> ClientInitiator::ConnectToServer(const std::st
         LOG("ClientInitiator::ConnectToServer ERROR : Échec de la création de la socket client. Erreur: " + std::string(strerror(errno)), "ERROR");
         return nullptr;
     }
-    LOG("ClientInitiator::ConnectToServer DEBUG : Socket client créé avec FD: " + std::to_string(clientSocket), "DEBUG");
 
     // 2. Configuration de l'adresse du serveur.
     sockaddr_in serverAddr{};
@@ -85,7 +71,6 @@ std::shared_ptr<ServerConnection> ClientInitiator::ConnectToServer(const std::st
         close(clientSocket); // Ferme la socket
         return nullptr;
     }
-    LOG("ClientInitiator::ConnectToServer DEBUG : Adresse serveur configurée pour " + host, "DEBUG");
 
     // 3. Connexion au serveur.
     if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
@@ -103,8 +88,6 @@ std::shared_ptr<ServerConnection> ClientInitiator::ConnectToServer(const std::st
         close(clientSocket);
         return nullptr;
     }
-    LOG("ClientInitiator::ConnectToServer DEBUG : Objet SSL créé pour socket FD: " + std::to_string(clientSocket), "DEBUG");
-
 
     // Associer la socket TCP à l'objet SSL.
     if (SSL_set_fd(ssl_ptr.get(), clientSocket) <= 0) {
@@ -113,8 +96,6 @@ std::shared_ptr<ServerConnection> ClientInitiator::ConnectToServer(const std::st
         close(clientSocket);
         return nullptr; // UniqueSSL gérera la libération de l'objet SSL.
     }
-    LOG("ClientInitiator::ConnectToServer DEBUG : Socket FD " + std::to_string(clientSocket) + " associé à l'objet SSL.", "DEBUG");
-
 
     // 5. Lancement du handshake SSL (client side).
     int ssl_connect_ret = SSL_connect(ssl_ptr.get()); // Ceci démarre le handshake SSL

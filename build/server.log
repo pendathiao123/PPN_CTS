@@ -5614,3 +5614,844 @@
 '
 [2025-05-02 21:03:10][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'QUIT'
 [2025-05-02 21:03:10][INFO] ClientSession INFO : Sortie de la boucle de session pour client Client1. Raison: running=0, client_connected=1
+--- Début du log : 1746257615 ---
+[2025-05-03 09:33:35][DEBUG] TransactionQueue créée.
+[2025-05-03 09:33:35][INFO] Main_Serv INFO : Démarrage du programme serveur (config hardcodée).
+[2025-05-03 09:33:35][INFO] Main_Serv INFO : Configuration chargée (hardcodée). Port: 4433, Cert: ../server.crt, Key: ../server.key, Users: users.txt, Counter: counter.txt, History: ../src/data/global_transactions.csv, Wallets Dir: ../src/data/wallets/
+[2025-05-03 09:33:35][DEBUG] Main_Serv DEBUG : Initialisation globale OpenSSL...
+[2025-05-03 09:33:35][DEBUG] Main_Serv DEBUG : Initialisation globale OpenSSL terminée.
+[2025-05-03 09:33:35][INFO] Server::Server INFO : Objet Server créé avec port 4433 et chemins de configuration.
+[2025-05-03 09:33:35][INFO] Main_Serv INFO : Objet Server créé. Démarrage...
+[2025-05-03 09:33:35][INFO] Server::StartServer INFO : Démarrage du serveur sur le port 4433...
+[2025-05-03 09:33:35][DEBUG] Server::InitServerCTX DEBUG : Initialisation du contexte SSL serveur...
+[2025-05-03 09:33:35][DEBUG] Server::InitServerCTX DEBUG : Contexte SSL serveur créé.
+[2025-05-03 09:33:35][DEBUG] Server::InitServerCTX DEBUG : Certificat serveur chargé : ../server.crt
+[2025-05-03 09:33:35][DEBUG] Server::InitServerCTX DEBUG : Clé privée serveur chargée : ../server.key
+[2025-05-03 09:33:35][INFO] Server::InitServerCTX INFO : Contexte SSL serveur initialisé avec succès.
+[2025-05-03 09:33:35][INFO] Server::StartServer INFO : Contexte SSL serveur initialisé avec succès.
+[2025-05-03 09:33:35][INFO] Server::LoadUsersInternal INFO : Chargement utilisateurs terminé. 3 entrées chargées depuis users.txt
+[2025-05-03 09:33:35][INFO] Server::StartServer INFO : Chargement des utilisateurs terminé (ou fichier non trouvé).
+[2025-05-03 09:33:35][INFO] Transaction::loadCounter Fichier compteur vide ou contenant 0. Compteur démarrera à 0.
+[2025-05-03 09:33:35][INFO] Server::StartServer INFO : Chargement du compteur de transactions terminé.
+[2025-05-03 09:33:35][INFO] Global Demande de démarrage du thread de génération de prix.
+[2025-05-03 09:33:35][INFO] Global Thread de génération de prix initié.
+[2025-05-03 09:33:35][INFO] Server::StartServer INFO : Thread de génération des prix SRD-BTC démarré (module Global).
+[2025-05-03 09:33:35][INFO] TransactionQueue::start Thread de traitement démarré.
+[2025-05-03 09:33:35][INFO] Server::StartServer INFO : Thread de traitement de la TransactionQueue démarré.
+[2025-05-03 09:33:35][DEBUG] Server::StartServer DEBUG : Socket serveur créé avec FD: 4
+[2025-05-03 09:33:35][INFO] Server::StartServer INFO : Socket serveur lié à l'adresse et au port 4433
+[2025-05-03 09:33:35][INFO] Global Thread de génération de prix démarré.
+[2025-05-03 09:33:35][INFO] Server::StartServer INFO : Serveur en écoute sur le port 4433
+[2025-05-03 09:33:35][INFO] Global Fichier de log des prix '../src/data/srd_btc_values.csv' ouvert en mode append.
+[2025-05-03 09:33:35][INFO] TransactionQueue::process Thread de traitement en cours...
+[2025-05-03 09:33:35][INFO] Server::StartServer INFO : Thread d'acceptation des connexions démarré.
+[2025-05-03 09:33:35][DEBUG] Server::StartServer DEBUG : Attente de la fin du thread d'acceptation...
+[2025-05-03 09:33:35][INFO] Server::AcceptLoop INFO : Thread démarré. En attente de connexions...
+[2025-05-03 09:33:35][INFO] Global Nouveau prix SRD-BTC simulé : 95707.3865661296
+[2025-05-03 09:33:50][INFO] Global Nouveau prix SRD-BTC simulé : 93796.4981952203
+[2025-05-03 09:34:05][INFO] Global Nouveau prix SRD-BTC simulé : 97538.5842679232
+[2025-05-03 09:34:12][INFO] Server::AcceptLoop INFO : Nouvelle connexion acceptée. Socket FD: 6, IP: 10.188.240.101
+[2025-05-03 09:34:12][DEBUG] Server::AcceptSSLConnection DEBUG : Tentative handshake SSL pour socket FD: 6
+[2025-05-03 09:34:12][DEBUG] Server::AcceptSSLConnection DEBUG : Objet SSL créé pour socket FD: 6
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: Handshake before SSL initialization START
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:before SSL initialization
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:before SSL initialization
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS read client hello
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write server hello
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write change cipher spec
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:TLSv1.3 write encrypted extensions
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write certificate
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:TLSv1.3 write server certificate verify
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write finished
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:TLSv1.3 early data
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:TLSv1.3 early data
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS read finished
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: Handshake SSLv3/TLS write session ticket DONE
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write session ticket
+[2025-05-03 09:34:12][DEBUG] OpenSSL Callback: undefined:SSLv3/TLS write session ticket
+[2025-05-03 09:34:12][ERROR] OpenSSL Callback: SSL_CB_ERROR - SSL negotiation finished successfully
+[2025-05-03 09:34:12][INFO] Server::AcceptSSLConnection INFO : Handshake SSL réussi pour socket FD: 6
+[2025-05-03 09:34:12][INFO] Server::AcceptLoop INFO : Handshake SSL réussi pour socket FD: 6
+[2025-05-03 09:34:12][INFO] Server::AcceptLoop INFO : Thread gestion client détaché pour socket FD: 6
+[2025-05-03 09:34:12][INFO] Server::HandleClient INFO : Thread démarré pour socket FD: 6
+[2025-05-03 09:34:12][DEBUG] Server::HandleClient DEBUG : Création de l'objet ServerConnection pour socket FD: 6
+[2025-05-03 09:34:12][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (6) et SSL existants.
+[2025-05-03 09:34:12][INFO] Server::HandleClient INFO : Objet ServerConnection créé et connecté pour socket FD: 6
+[2025-05-03 09:34:12][DEBUG] ClientAuthenticator::ClientAuthenticator DEBUG : Objet ClientAuthenticator créé.
+[2025-05-03 09:34:12][DEBUG] Server::HandleClient DEBUG : Lancement du processus AuthenticateClient...
+[2025-05-03 09:34:12][INFO] ClientAuthenticator::AuthenticateClient INFO : Démarrage authentification pour socket FD: 6
+[2025-05-03 09:34:12][DEBUG] ServerConnection DEBUG : Reçu 24 octets pour receiveLine sur socket FD: 6. Buffer accumulation size: 24
+[2025-05-03 09:34:12][DEBUG] ServerConnection DEBUG : Ligne complète lue pour socket FD: 6. Ligne: 'ID:Client1,TOKEN:Token1'
+[2025-05-03 09:34:12][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Reçu message d'auth de socket FD 6 : 'ID:Client1,TOKEN:Token1'
+[2025-05-03 09:34:12][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Parsing réussi. ID: 'Client1', Mot de passe: '[CACHÉ]'. Socket FD: 6
+[2025-05-03 09:34:12][DEBUG] ClientAuthenticator::AuthenticateClient DEBUG : Demande au Server de traiter la requête d'auth pour ID: Client1...
+[2025-05-03 09:34:12][INFO] Server::processAuthRequest INFO : Tentative auth/enregistrement pour ID: 'Client1'...
+[2025-05-03 09:34:12][DEBUG] Server::processAuthRequest DEBUG : ID existant trouvé : 'Client1'. Vérification du mot de passe...
+[2025-05-03 09:34:12][WARNING] SecurityUtils WARNING : VerifyPasswordSecure est un placeholder. REMPLACER PAR UNE VRAIE VÉRIFICATION DE HASH SÉCURISÉ !
+[2025-05-03 09:34:12][INFO] Server::processAuthRequest INFO : Authentification réussie pour ID existant : 'Client1'.
+[2025-05-03 09:34:12][INFO] ClientAuthenticator::AuthenticateClient INFO : Authentification terminée avec succès pour ID: 'Client1'. Résultat: SUCCESS. Socket FD: 6
+[2025-05-03 09:34:12][INFO] Server::HandleClient INFO : Authentification/enregistrement réussi pour client ID: 'Client1' (SUCCESS). Socket FD: 6
+[2025-05-03 09:34:12][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: Chemin répertoire à vérifier/créer : ../src/data/wallets
+[2025-05-03 09:34:12][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: create_directories retour : 0, ec.value : 0, ec.message : 'Success', errno : 0, strerror(errno) : 'Success'
+[2025-05-03 09:34:12][WARNING] Wallet::ensureWalletsDirectoryExists WARNING: create_directories retourné false MAIS ec vide. Comportement inhabituel. Chemin: '../src/data/wallets'.
+[2025-05-03 09:34:12][DEBUG] Wallet::ensureWalletsDirectoryExists DEBUG: Vérification manuelle après échec create_directories: exists() retour 1, ec_check.message : 'Success'
+[2025-05-03 09:34:12][INFO] Wallet::ensureWalletsDirectoryExists INFO: Répertoire '../src/data/wallets' existe bien malgré l'échec bizarre de create_directories. Considéré comme succès pour la suite.
+[2025-05-03 09:34:12][DEBUG] Wallet Lecture du fichier portefeuille : ../src/data/wallets/Client1.wallet
+[2025-05-03 09:34:12][INFO] Wallet Portefeuille (Client1) chargé avec succès : USD=9976.3628219319, SRD-BTC=0.0000000000, Transactions=0
+[2025-05-03 09:34:12][INFO] Wallet Portefeuille chargé avec succès pour client ID: Client1 depuis ../src/data/wallets/Client1.wallet
+[2025-05-03 09:34:12][DEBUG] Wallet Objet Wallet créé pour client ID: Client1. Chemin du fichier: ../src/data/wallets/Client1.wallet
+[2025-05-03 09:34:12][INFO] ClientSession INFO : Initialisation pour client Client1
+[2025-05-03 09:34:12][INFO] Server::HandleClient INFO : Session enregistrée pour client ID: Client1. Total sessions actives: 1 (sous lock).
+[2025-05-03 09:34:12][INFO] Server::HandleClient INFO : Authentification réussie pour client ID: 'Client1'. Envoi réponse AUTH SUCCESS.
+[2025-05-03 09:34:12][DEBUG] Server::HandleClient DEBUG : Enregistrement de la session auprès de la TransactionQueue...
+[2025-05-03 09:34:12][INFO] TransactionQueue::registerSession Session enregistrée pour client ID: Client1
+[2025-05-03 09:34:12][INFO] Server::HandleClient INFO : ClientSession pour client ID: Client1 enregistrée auprès de la TransactionQueue.
+[2025-05-03 09:34:12][DEBUG] Server::HandleClient DEBUG : Démarrage du thread ClientSession...
+[2025-05-03 09:34:12][INFO] ClientSession INFO : Démarrage du thread de session pour client Client1
+[2025-05-03 09:34:12][INFO] ClientSession INFO : Thread de session démarré et joignable pour client Client1
+[2025-05-03 09:34:12][INFO] Server::HandleClient INFO : Thread ClientSession démarré pour client ID: Client1. Le thread HandleClient va se terminer normalement.
+[2025-05-03 09:34:12][INFO] Server::HandleClient INFO : Thread ClientSession démarré pour client ID: Client1. Le thread HandleClient va se terminer normalement.
+[2025-05-03 09:34:12][INFO] ClientSession INFO : Thread de session démarré pour client Client1
+[2025-05-03 09:34:19][DEBUG] ClientSession DEBUG : Reçu 12 octets. Buffer d'accumulation: 12 octets.
+[2025-05-03 09:34:19][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'START BOT 2'
+[2025-05-03 09:34:19][INFO] Bot créé pour client ID : Client1 avec période Bollinger = 20 et K = 2.000000. ClientSessionPtr reçu (pas encore validé).
+[2025-05-03 09:34:19][INFO] Bot Client1 - Démarrage du thread du bot...
+[2025-05-03 09:34:19][INFO] Bot Client1 - Thread du bot lancé.
+[2025-05-03 09:34:19][INFO] Bot Client1 - Thread de logique de trading démarré.
+[2025-05-03 09:34:19][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:34:19][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:34:19][INFO] Bot Client1 - Pas assez de données pour Bandes (1/20). HOLD.
+[2025-05-03 09:34:19][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:34:19][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:34:19][INFO] ClientSession INFO : Bot créé et démarré pour client Client1 avec P=20, K=2.000000
+[2025-05-03 09:34:19][INFO] Server INFO : Commande START BOT reçue et parsée avec K=2.000000 pour client Client1
+[2025-05-03 09:34:19][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'START BOT 2'
+[2025-05-03 09:34:20][INFO] Global Nouveau prix SRD-BTC simulé : 95299.5949165498
+[2025-05-03 09:34:24][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:34:24][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:34:24][INFO] Bot Client1 - Pas assez de données pour Bandes (2/20). HOLD.
+[2025-05-03 09:34:24][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:34:24][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:34:29][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:34:29][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:34:29][INFO] Bot Client1 - Pas assez de données pour Bandes (3/20). HOLD.
+[2025-05-03 09:34:29][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:34:29][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:34:34][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:34:34][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:34:34][INFO] Bot Client1 - Pas assez de données pour Bandes (4/20). HOLD.
+[2025-05-03 09:34:34][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:34:34][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:34:35][INFO] Global Nouveau prix SRD-BTC simulé : 96690.6507258396
+[2025-05-03 09:34:39][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:34:39][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:34:39][INFO] Bot Client1 - Pas assez de données pour Bandes (5/20). HOLD.
+[2025-05-03 09:34:39][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:34:39][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:34:44][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:34:44][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:34:44][INFO] Bot Client1 - Pas assez de données pour Bandes (6/20). HOLD.
+[2025-05-03 09:34:44][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:34:44][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:34:49][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:34:49][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:34:49][INFO] Bot Client1 - Pas assez de données pour Bandes (7/20). HOLD.
+[2025-05-03 09:34:49][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:34:49][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:34:50][INFO] Global Nouveau prix SRD-BTC simulé : 95098.5611519700
+[2025-05-03 09:34:54][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:34:54][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:34:54][INFO] Bot Client1 - Pas assez de données pour Bandes (8/20). HOLD.
+[2025-05-03 09:34:54][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:34:54][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:34:59][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:34:59][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:34:59][INFO] Bot Client1 - Pas assez de données pour Bandes (9/20). HOLD.
+[2025-05-03 09:34:59][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:34:59][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:04][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:04][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:04][INFO] Bot Client1 - Pas assez de données pour Bandes (10/20). HOLD.
+[2025-05-03 09:35:04][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:04][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:06][INFO] Global Nouveau prix SRD-BTC simulé : 96015.9302171820
+[2025-05-03 09:35:09][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:09][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:09][INFO] Bot Client1 - Pas assez de données pour Bandes (11/20). HOLD.
+[2025-05-03 09:35:09][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:09][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:14][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:14][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:14][INFO] Bot Client1 - Pas assez de données pour Bandes (12/20). HOLD.
+[2025-05-03 09:35:14][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:14][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:19][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:19][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:19][INFO] Bot Client1 - Pas assez de données pour Bandes (13/20). HOLD.
+[2025-05-03 09:35:19][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:19][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:21][INFO] Global Nouveau prix SRD-BTC simulé : 96725.6480103604
+[2025-05-03 09:35:24][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:24][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:24][INFO] Bot Client1 - Pas assez de données pour Bandes (14/20). HOLD.
+[2025-05-03 09:35:24][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:24][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:29][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:29][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:29][INFO] Bot Client1 - Pas assez de données pour Bandes (15/20). HOLD.
+[2025-05-03 09:35:29][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:29][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:34][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:34][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:34][INFO] Bot Client1 - Pas assez de données pour Bandes (16/20). HOLD.
+[2025-05-03 09:35:34][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:34][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:36][INFO] Global Nouveau prix SRD-BTC simulé : 98464.3265275857
+[2025-05-03 09:35:39][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:39][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:39][INFO] Bot Client1 - Pas assez de données pour Bandes (17/20). HOLD.
+[2025-05-03 09:35:39][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:39][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:44][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:44][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:44][INFO] Bot Client1 - Pas assez de données pour Bandes (18/20). HOLD.
+[2025-05-03 09:35:44][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:44][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:49][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:49][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:49][INFO] Bot Client1 - Pas assez de données pour Bandes (19/20). HOLD.
+[2025-05-03 09:35:49][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:49][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:51][INFO] Global Nouveau prix SRD-BTC simulé : 97707.9818671069
+[2025-05-03 09:35:54][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:54][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:54][INFO] Bot Client1 - Prix : 97707.9818671069, Bandes (M: 96506.5350391746, U: 98755.6474828684, L: 94257.4225954809)
+[2025-05-03 09:35:54][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:35:54][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:54][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:35:59][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:35:59][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:35:59][INFO] Bot Client1 - Prix : 97707.9818671069, Bandes (M: 96515.0049191338, U: 98780.8137378274, L: 94249.1961004402)
+[2025-05-03 09:35:59][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:35:59][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:35:59][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:04][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:04][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:04][INFO] Bot Client1 - Prix : 97707.9818671069, Bandes (M: 96635.4242666617, U: 98885.9977115055, L: 94384.8508218178)
+[2025-05-03 09:36:04][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:04][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:04][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:06][INFO] Global Nouveau prix SRD-BTC simulé : 94296.7475090167
+[2025-05-03 09:36:09][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:09][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:09][INFO] Bot Client1 - Prix : 94296.7475090167, Bandes (M: 96585.2818962850, U: 98991.9429829846, L: 94178.6208095854)
+[2025-05-03 09:36:09][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:09][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:09][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:14][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:14][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:14][INFO] Bot Client1 - Prix : 94296.7475090167, Bandes (M: 96535.1395259084, U: 99084.4218334168, L: 93985.8572183999)
+[2025-05-03 09:36:14][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:14][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:14][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:19][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:19][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:19][INFO] Bot Client1 - Prix : 94296.7475090167, Bandes (M: 96415.4443650672, U: 99142.8562472105, L: 93688.0324829239)
+[2025-05-03 09:36:19][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:19][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:19][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:21][INFO] Global Nouveau prix SRD-BTC simulé : 97490.6502515803
+[2025-05-03 09:36:25][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:25][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:25][INFO] Bot Client1 - Prix : 97490.6502515803, Bandes (M: 96455.4443413542, U: 99221.0259101967, L: 93689.8627725118)
+[2025-05-03 09:36:25][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:25][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:25][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:30][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:30][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:30][INFO] Bot Client1 - Prix : 97490.6502515803, Bandes (M: 96495.4443176413, U: 99296.3918837629, L: 93694.4967515197)
+[2025-05-03 09:36:30][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:30][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:30][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:35][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:35][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:35][INFO] Bot Client1 - Prix : 97490.6502515803, Bandes (M: 96615.0487726218, U: 99371.1178610229, L: 93858.9796842207)
+[2025-05-03 09:36:35][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:35][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:35][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:36][INFO] Global Nouveau prix SRD-BTC simulé : 96987.6704552900
+[2025-05-03 09:36:40][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:40][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:40][INFO] Bot Client1 - Prix : 96987.6704552900, Bandes (M: 96709.5042377878, U: 99379.3454172219, L: 94039.6630583538)
+[2025-05-03 09:36:40][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:40][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:40][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:45][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:45][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:45][INFO] Bot Client1 - Prix : 96987.6704552900, Bandes (M: 96803.9597029538, U: 99370.8279012776, L: 94237.0915046301)
+[2025-05-03 09:36:45][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:45][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:45][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:50][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:50][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:50][INFO] Bot Client1 - Prix : 96987.6704552900, Bandes (M: 96852.5467148592, U: 99394.5776727112, L: 94310.5157570072)
+[2025-05-03 09:36:50][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:50][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:50][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:36:51][INFO] Global Nouveau prix SRD-BTC simulé : 94866.1469965917
+[2025-05-03 09:36:55][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:36:55][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:36:55][INFO] Bot Client1 - Prix : 94866.1469965917, Bandes (M: 96795.0575538297, U: 99459.2408642354, L: 94130.8742434241)
+[2025-05-03 09:36:55][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:36:55][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:36:55][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:00][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:00][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:00][INFO] Bot Client1 - Prix : 94866.1469965917, Bandes (M: 96737.5683928002, U: 99513.7859640872, L: 93961.3508215131)
+[2025-05-03 09:37:00][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:00][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:00][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:05][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:05][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:05][INFO] Bot Client1 - Prix : 94866.1469965917, Bandes (M: 96644.5933421118, U: 99538.2453170830, L: 93750.9413671406)
+[2025-05-03 09:37:05][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:05][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:05][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:06][INFO] Global Nouveau prix SRD-BTC simulé : 95990.4149262416
+[2025-05-03 09:37:10][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:10][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:10][INFO] Bot Client1 - Prix : 95990.4149262416, Bandes (M: 96607.8316879058, U: 99515.0798684855, L: 93700.5835073261)
+[2025-05-03 09:37:10][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:10][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:10][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:15][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:15][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:15][INFO] Bot Client1 - Prix : 95990.4149262416, Bandes (M: 96571.0700336999, U: 99489.9997795063, L: 93652.1402878934)
+[2025-05-03 09:37:15][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:15][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:15][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:20][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:20][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:20][INFO] Bot Client1 - Prix : 95990.4149262416, Bandes (M: 96447.3744536327, U: 99241.9220941778, L: 93652.8268130876)
+[2025-05-03 09:37:20][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:20][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:20][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:21][INFO] Global Nouveau prix SRD-BTC simulé : 97295.7234474220
+[2025-05-03 09:37:25][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:25][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:25][INFO] Bot Client1 - Prix : 97295.7234474220, Bandes (M: 96388.9442996245, U: 99058.4311890875, L: 93719.4574101615)
+[2025-05-03 09:37:25][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:25][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:25][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:30][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:30][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:30][INFO] Bot Client1 - Prix : 97295.7234474220, Bandes (M: 96330.5141456163, U: 98863.4001137510, L: 93797.6281774816)
+[2025-05-03 09:37:30][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:30][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:30][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:35][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:35][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:35][INFO] Bot Client1 - Prix : 97295.7234474220, Bandes (M: 96309.9012246321, U: 98804.0251373590, L: 93815.7773119051)
+[2025-05-03 09:37:35][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:35][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:35][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:36][INFO] Global Nouveau prix SRD-BTC simulé : 96899.6568760530
+[2025-05-03 09:37:40][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:40][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:40][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:37:40][INFO] Bot Client1 - Prix : 96899.6568760530, Bandes (M: 96269.4849750794, U: 98696.9850571038, L: 93841.9848930549)
+[2025-05-03 09:37:40][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:40][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:40][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:45][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:45][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:45][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:37:45][INFO] Bot Client1 - Prix : 96899.6568760530, Bandes (M: 96229.0687255267, U: 98585.2927001517, L: 93872.8447509016)
+[2025-05-03 09:37:45][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:45][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:45][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:50][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:50][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:50][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:37:50][INFO] Bot Client1 - Prix : 96899.6568760530, Bandes (M: 96359.2141938785, U: 98556.3042429293, L: 94162.1241448277)
+[2025-05-03 09:37:50][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:50][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:50][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:37:51][INFO] Global Nouveau prix SRD-BTC simulé : 94959.8907780417
+[2025-05-03 09:37:55][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:37:55][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:37:55][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:37:55][INFO] Bot Client1 - Prix : 94959.8907780417, Bandes (M: 96392.3713573297, U: 98481.3123648439, L: 94303.4303498155)
+[2025-05-03 09:37:55][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:37:55][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:37:55][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:00][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:00][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:00][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:00][INFO] Bot Client1 - Prix : 94959.8907780417, Bandes (M: 96425.5285207810, U: 98398.1788197964, L: 94452.8782217655)
+[2025-05-03 09:38:00][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:00][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:00][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:05][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:05][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:05][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:05][INFO] Bot Client1 - Prix : 94959.8907780417, Bandes (M: 96298.9905471040, U: 98306.4824413295, L: 94291.4986528786)
+[2025-05-03 09:38:05][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:05][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:05][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:06][INFO] Global Nouveau prix SRD-BTC simulé : 96491.6184518911
+[2025-05-03 09:38:10][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:10][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:10][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:10][INFO] Bot Client1 - Prix : 96491.6184518911, Bandes (M: 96249.0389571196, U: 98183.8396165414, L: 94314.2382976978)
+[2025-05-03 09:38:10][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:10][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:10][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:15][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:15][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:15][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:15][INFO] Bot Client1 - Prix : 96491.6184518911, Bandes (M: 96199.0873671351, U: 98052.9811578581, L: 94345.1935764121)
+[2025-05-03 09:38:15][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:15][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:15][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:20][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:20][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:20][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:20][INFO] Bot Client1 - Prix : 96491.6184518911, Bandes (M: 96174.2847669652, U: 97998.3471949280, L: 94350.2223390023)
+[2025-05-03 09:38:20][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:20][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:20][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:21][INFO] Global Nouveau prix SRD-BTC simulé : 97186.8147866310
+[2025-05-03 09:38:25][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:25][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:25][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:25][INFO] Bot Client1 - Prix : 97186.8147866310, Bandes (M: 96184.2419835322, U: 98028.0237789215, L: 94340.4601881429)
+[2025-05-03 09:38:25][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:25][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:25][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:30][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:30][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:30][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:30][INFO] Bot Client1 - Prix : 97186.8147866310, Bandes (M: 96194.1992000992, U: 98057.2788300717, L: 94331.1195701268)
+[2025-05-03 09:38:30][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:30][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:30][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:35][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:35][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:35][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:35][INFO] Bot Client1 - Prix : 97186.8147866310, Bandes (M: 96310.2325896012, U: 98116.2013953058, L: 94504.2637838966)
+[2025-05-03 09:38:35][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:35][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:35][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:36][INFO] Global Nouveau prix SRD-BTC simulé : 94443.1488517051
+[2025-05-03 09:38:40][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:40][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:40][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:40][INFO] Bot Client1 - Prix : 94443.1488517051, Bandes (M: 96289.0826823569, U: 98170.5336516218, L: 94407.6317130919)
+[2025-05-03 09:38:40][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:40][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:40][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:45][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:45][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:45][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:45][INFO] Bot Client1 - Prix : 94443.1488517051, Bandes (M: 96267.9327751125, U: 98221.0363626640, L: 94314.8291875611)
+[2025-05-03 09:38:45][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:45][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:45][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:50][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:50][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:50][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:50][INFO] Bot Client1 - Prix : 94443.1488517051, Bandes (M: 96190.5694713857, U: 98297.9938099538, L: 94083.1451328176)
+[2025-05-03 09:38:50][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:50][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:50][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:38:51][INFO] Global Nouveau prix SRD-BTC simulé : 95768.1378985074
+[2025-05-03 09:38:55][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:38:55][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:38:55][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:38:55][INFO] Bot Client1 - Prix : 95768.1378985074, Bandes (M: 96179.4556199990, U: 98293.3195206282, L: 94065.5917193699)
+[2025-05-03 09:38:55][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:38:55][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:38:55][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:00][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:00][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:00][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:00][INFO] Bot Client1 - Prix : 95768.1378985074, Bandes (M: 96168.3417686123, U: 98288.3926398029, L: 94048.2908974217)
+[2025-05-03 09:39:00][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:00][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:00][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:05][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:05][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:05][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:05][INFO] Bot Client1 - Prix : 95768.1378985074, Bandes (M: 96091.9624911666, U: 98153.3007113356, L: 94030.6242709976)
+[2025-05-03 09:39:05][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:05][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:05][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:06][INFO] Global Nouveau prix SRD-BTC simulé : 99480.1008507474
+[2025-05-03 09:39:10][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:10][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:10][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:10][INFO] Bot Client1 - Prix : 99480.1008507474, Bandes (M: 96201.1813613329, U: 98692.6645405455, L: 93709.6981821202)
+[2025-05-03 09:39:10][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:10][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:10][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:15][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:15][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:15][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:15][INFO] Bot Client1 - Prix : 99480.1008507474, Bandes (M: 96310.4002314991, U: 99151.2507227898, L: 93469.5497402085)
+[2025-05-03 09:39:15][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:15][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:15][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:20][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:20][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:20][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:20][INFO] Bot Client1 - Prix : 99480.1008507474, Bandes (M: 96439.4224302338, U: 99592.8016220380, L: 93286.0432384297)
+[2025-05-03 09:39:20][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:20][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:20][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:21][INFO] Global Nouveau prix SRD-BTC simulé : 94007.8974143993
+[2025-05-03 09:39:25][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:25][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:25][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:25][INFO] Bot Client1 - Prix : 94007.8974143993, Bandes (M: 96294.8344571512, U: 99611.5010413837, L: 92978.1678729186)
+[2025-05-03 09:39:25][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:25][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:25][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:30][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:30][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:30][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:30][INFO] Bot Client1 - Prix : 94007.8974143993, Bandes (M: 96150.2464840685, U: 99598.3631698761, L: 92702.1297982608)
+[2025-05-03 09:39:30][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:30][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:30][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:35][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:35][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:35][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:35][INFO] Bot Client1 - Prix : 94007.8974143993, Bandes (M: 96102.6468158863, U: 99640.2997569179, L: 92564.9938748548)
+[2025-05-03 09:39:35][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:35][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:35][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:36][INFO] Global Nouveau prix SRD-BTC simulé : 96435.8863519255
+[2025-05-03 09:39:40][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:40][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:40][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:40][INFO] Bot Client1 - Prix : 96435.8863519255, Bandes (M: 96176.4465945806, U: 99677.0514204810, L: 92675.8417686801)
+[2025-05-03 09:39:40][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:40][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:40][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:45][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:45][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:45][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:45][INFO] Bot Client1 - Prix : 96435.8863519255, Bandes (M: 96250.2463732747, U: 99707.1103718092, L: 92793.3823747402)
+[2025-05-03 09:39:45][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:45][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:45][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:50][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:50][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:50][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:50][INFO] Bot Client1 - Prix : 96435.8863519255, Bandes (M: 96247.4597682765, U: 99703.6307692487, L: 92791.2887673042)
+[2025-05-03 09:39:50][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:50][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:50][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:39:51][INFO] Global Nouveau prix SRD-BTC simulé : 96615.1089196079
+[2025-05-03 09:39:55][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:39:55][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:39:55][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:39:55][INFO] Bot Client1 - Prix : 96615.1089196079, Bandes (M: 96253.6342916623, U: 99711.9685693376, L: 92795.3000139870)
+[2025-05-03 09:39:55][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:39:55][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:39:55][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:00][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:00][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:00][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:00][INFO] Bot Client1 - Prix : 96615.1089196079, Bandes (M: 96259.8088150481, U: 99720.2609482835, L: 92799.3566818128)
+[2025-05-03 09:40:00][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:00][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:00][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:05][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:05][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:05][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:05][INFO] Bot Client1 - Prix : 96615.1089196079, Bandes (M: 96231.2235216970, U: 99669.9500460108, L: 92792.4969973832)
+[2025-05-03 09:40:05][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:05][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:05][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:06][INFO] Global Nouveau prix SRD-BTC simulé : 94340.9020406305
+[2025-05-03 09:40:10][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:10][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:10][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:10][INFO] Bot Client1 - Prix : 94340.9020406305, Bandes (M: 96088.9278843970, U: 99592.6230827088, L: 92585.2326860851)
+[2025-05-03 09:40:10][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:10][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:10][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:15][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:15][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:15][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:15][INFO] Bot Client1 - Prix : 94340.9020406305, Bandes (M: 95946.6322470969, U: 99491.3375365633, L: 92401.9269576306)
+[2025-05-03 09:40:15][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:15][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:15][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:20][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:20][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:20][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:20][INFO] Bot Client1 - Prix : 94340.9020406305, Bandes (M: 95941.5199065432, U: 99495.1676775266, L: 92387.8721355599)
+[2025-05-03 09:40:20][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:20][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:20][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:21][INFO] Global Nouveau prix SRD-BTC simulé : 94849.1908205700
+[2025-05-03 09:40:25][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:25][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:25][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:25][INFO] Bot Client1 - Prix : 94849.1908205700, Bandes (M: 95961.8220049865, U: 99485.5100136256, L: 92438.1339963473)
+[2025-05-03 09:40:25][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:25][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:25][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:30][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:30][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:30][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:30][INFO] Bot Client1 - Prix : 94849.1908205700, Bandes (M: 95982.1241034297, U: 99475.1234567979, L: 92489.1247500616)
+[2025-05-03 09:40:30][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:30][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:30][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:35][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:35][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:35][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:35][INFO] Bot Client1 - Prix : 94849.1908205700, Bandes (M: 95936.1767495329, U: 99463.2363451185, L: 92409.1171539472)
+[2025-05-03 09:40:35][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:35][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:35][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:36][INFO] Global Nouveau prix SRD-BTC simulé : 95343.6058227755
+[2025-05-03 09:40:40][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:40][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:40][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:40][INFO] Bot Client1 - Prix : 95343.6058227755, Bandes (M: 95914.9501457463, U: 99450.8980760100, L: 92379.0022154826)
+[2025-05-03 09:40:40][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:40][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:40][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:45][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:45][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:45][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:45][INFO] Bot Client1 - Prix : 95343.6058227755, Bandes (M: 95893.7235419597, U: 99438.0290579378, L: 92349.4180259815)
+[2025-05-03 09:40:45][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:45][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:45][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:50][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:50][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:50][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:50][INFO] Bot Client1 - Prix : 95343.6058227755, Bandes (M: 95686.8987905611, U: 98830.0025337142, L: 92543.7950474079)
+[2025-05-03 09:40:50][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:50][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:50][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:40:52][INFO] Global Nouveau prix SRD-BTC simulé : 95626.4523221417
+[2025-05-03 09:40:55][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:40:55][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:40:55][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:40:55][INFO] Bot Client1 - Prix : 95626.4523221417, Bandes (M: 95494.2163641308, U: 98112.1639288523, L: 92876.2687994092)
+[2025-05-03 09:40:55][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:40:55][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:40:55][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:00][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:00][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:00][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:00][INFO] Bot Client1 - Prix : 95626.4523221417, Bandes (M: 95301.5339377005, U: 97180.6788558479, L: 93422.3890195530)
+[2025-05-03 09:41:00][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:00][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:00][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:05][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:05][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:05][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:05][INFO] Bot Client1 - Prix : 95626.4523221417, Bandes (M: 95382.4616830876, U: 97168.9117170744, L: 93596.0116491008)
+[2025-05-03 09:41:05][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:05][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:05][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:07][INFO] Global Nouveau prix SRD-BTC simulé : 95321.2793191107
+[2025-05-03 09:41:10][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:10][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:10][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:10][INFO] Bot Client1 - Prix : 95321.2793191107, Bandes (M: 95448.1307783232, U: 97120.5593341176, L: 93775.7022225288)
+[2025-05-03 09:41:10][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:10][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:10][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:15][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:15][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:15][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:15][INFO] Bot Client1 - Prix : 95321.2793191107, Bandes (M: 95513.7998735588, U: 97052.6732874526, L: 93974.9264596649)
+[2025-05-03 09:41:15][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:15][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:15][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:20][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:20][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:20][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:20][INFO] Bot Client1 - Prix : 95321.2793191107, Bandes (M: 95458.0695219180, U: 96938.9719608630, L: 93977.1670829731)
+[2025-05-03 09:41:20][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:20][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:20][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:22][INFO] Global Nouveau prix SRD-BTC simulé : 97111.1329536868
+[2025-05-03 09:41:25][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:25][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:25][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:25][INFO] Bot Client1 - Prix : 97111.1329536868, Bandes (M: 95491.8318520061, U: 97086.7647801326, L: 93896.8989238796)
+[2025-05-03 09:41:25][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:25][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:25][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:30][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:30][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:30][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:30][INFO] Bot Client1 - Prix : 97111.1329536868, Bandes (M: 95525.5941820942, U: 97224.2497967811, L: 93826.9385674072)
+[2025-05-03 09:41:30][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:30][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:30][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:35][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:35][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:35][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:35][INFO] Bot Client1 - Prix : 97111.1329536868, Bandes (M: 95550.3953837981, U: 97324.7540469428, L: 93776.0367206534)
+[2025-05-03 09:41:35][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:35][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:35][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:37][INFO] Global Nouveau prix SRD-BTC simulé : 95350.2077989376
+[2025-05-03 09:41:40][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:40][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:40][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:40][INFO] Bot Client1 - Prix : 95350.2077989376, Bandes (M: 95487.1503277646, U: 97194.0893858991, L: 93780.2112696301)
+[2025-05-03 09:41:40][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:40][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:40][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:45][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:45][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:45][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:45][INFO] Bot Client1 - Prix : 95350.2077989376, Bandes (M: 95423.9052717311, U: 97050.8452626318, L: 93796.9652808304)
+[2025-05-03 09:41:45][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:45][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:45][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:50][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:50][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:50][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:50][INFO] Bot Client1 - Prix : 95350.2077989376, Bandes (M: 95474.3705596464, U: 97024.6137072329, L: 93924.1274120599)
+[2025-05-03 09:41:50][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:50][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:50][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:41:52][INFO] Global Nouveau prix SRD-BTC simulé : 97524.4193858520
+[2025-05-03 09:41:55][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:41:55][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:41:55][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:41:55][INFO] Bot Client1 - Prix : 97524.4193858520, Bandes (M: 95633.5464269075, U: 97332.2211606370, L: 93934.8716931780)
+[2025-05-03 09:41:55][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:41:55][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:41:55][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:00][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:00][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:00][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:00][INFO] Bot Client1 - Prix : 97524.4193858520, Bandes (M: 95792.7222941686, U: 97571.7788507841, L: 94013.6657375531)
+[2025-05-03 09:42:00][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:00][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:00][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:05][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:05][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:05][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:05][INFO] Bot Client1 - Prix : 97524.4193858520, Bandes (M: 95926.4837224327, U: 97801.3646221184, L: 94051.6028227469)
+[2025-05-03 09:42:05][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:05][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:05][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:07][INFO] Global Nouveau prix SRD-BTC simulé : 96447.7557785334
+[2025-05-03 09:42:10][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:10][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:10][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:10][INFO] Bot Client1 - Prix : 96447.7557785334, Bandes (M: 96006.4119703308, U: 97826.2628435542, L: 94186.5610971075)
+[2025-05-03 09:42:10][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:10][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:10][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:15][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:15][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:15][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:15][INFO] Bot Client1 - Prix : 96447.7557785334, Bandes (M: 96086.3402182290, U: 97834.8904219808, L: 94337.7900144772)
+[2025-05-03 09:42:15][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:15][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:15][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:20][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:20][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:20][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:20][INFO] Bot Client1 - Prix : 96447.7557785334, Bandes (M: 96141.5477160169, U: 97862.3119964459, L: 94420.7834355878)
+[2025-05-03 09:42:20][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:20][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:20][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:22][INFO] Global Nouveau prix SRD-BTC simulé : 97275.6499545061
+[2025-05-03 09:42:25][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:25][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:26][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:26][INFO] Bot Client1 - Prix : 97275.6499545061, Bandes (M: 96238.1499226034, U: 97985.6043820965, L: 94490.6954631103)
+[2025-05-03 09:42:26][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:26][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:26][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:28][DEBUG] ClientSession DEBUG : Reçu 12 octets. Buffer d'accumulation: 12 octets.
+[2025-05-03 09:42:28][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'SHOW WALLET'
+[2025-05-03 09:42:28][INFO] ClientSession INFO : Commande SHOW WALLET reçue pour client Client1
+[2025-05-03 09:42:28][DEBUG] ClientSession DEBUG : Réponse envoyée à Client1: 'BALANCE USD: 9976.3628219319, SRD-BTC: 0.0000000000
+'
+[2025-05-03 09:42:28][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'SHOW WALLET'
+[2025-05-03 09:42:28][DEBUG] ClientSession DEBUG : Appel de la logique du bot pour Client1
+[2025-05-03 09:42:28][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:28][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:28][INFO] Bot Client1 - Prix : 97275.6499545061, Bandes (M: 96334.7521291900, U: 98087.3241182007, L: 94582.1801401793)
+[2025-05-03 09:42:28][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:31][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:31][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:31][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:31][INFO] Bot Client1 - Prix : 97275.6499545061, Bandes (M: 96417.2120108082, U: 98183.8557407558, L: 94650.5682808606)
+[2025-05-03 09:42:31][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:31][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:31][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:36][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:36][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:36][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:36][INFO] Bot Client1 - Prix : 97275.6499545061, Bandes (M: 96499.6718924264, U: 98264.9351883257, L: 94734.4085965271)
+[2025-05-03 09:42:36][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:36][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:36][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:37][INFO] Global Nouveau prix SRD-BTC simulé : 96209.5611914652
+[2025-05-03 09:42:41][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:41][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:41][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:41][INFO] Bot Client1 - Prix : 96209.5611914652, Bandes (M: 96528.8273358926, U: 98254.2503867677, L: 94803.4042850175)
+[2025-05-03 09:42:41][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:41][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:41][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:46][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:46][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:46][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:46][INFO] Bot Client1 - Prix : 96209.5611914652, Bandes (M: 96573.2414295103, U: 98215.7839675508, L: 94930.6988914699)
+[2025-05-03 09:42:46][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:46][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:46][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:51][DEBUG] Bot Client1 - Boucle de trading : Début itération.
+[2025-05-03 09:42:51][INFO] Bot Client1 - Traitement du dernier prix...
+[2025-05-03 09:42:51][DEBUG] Bot Client1 - Historique tronqué. Taille: 40
+[2025-05-03 09:42:51][INFO] Bot Client1 - Prix : 96209.5611914652, Bandes (M: 96617.6555231280, U: 98167.8253139440, L: 95067.4857323121)
+[2025-05-03 09:42:51][INFO] Bot Client1 - Action décidée: HOLD
+[2025-05-03 09:42:51][DEBUG] Bot Client1 - Boucle de trading : Action HOLD ou non soumise (HOLD).
+[2025-05-03 09:42:51][DEBUG] Bot Client1 - Boucle de trading : Fin itération. Avant pause.
+[2025-05-03 09:42:51][DEBUG] ClientSession DEBUG : Reçu 9 octets. Buffer d'accumulation: 9 octets.
+[2025-05-03 09:42:51][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'STOP BOT'
+[2025-05-03 09:42:51][INFO] Bot Client1 - Signal d'arrêt envoyé au thread du bot.
+[2025-05-03 09:42:51][INFO] Bot Client1 - Thread de logique de trading arrêté proprement.
+[2025-05-03 09:42:51][INFO] Bot Client1 - Thread du bot arrêté proprement.
+[2025-05-03 09:42:51][WARNING] Bot Client1 - Avertissement : Le thread du bot ne semble pas démarré (ou déjà terminé et joint). stop() n'a rien fait.
+[2025-05-03 09:42:51][INFO] Bot détruit pour client ID : Client1
+[2025-05-03 09:42:51][INFO] ClientSession INFO : Bot arrêté pour client Client1
+[2025-05-03 09:42:51][INFO] Server INFO : Commande STOP BOT reçue et parsée pour client Client1
+[2025-05-03 09:42:51][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'STOP BOT'
+[2025-05-03 09:42:52][INFO] Global Nouveau prix SRD-BTC simulé : 98084.9798682305
+[2025-05-03 09:42:57][DEBUG] ClientSession DEBUG : Reçu 5 octets. Buffer d'accumulation: 5 octets.
+[2025-05-03 09:42:57][INFO] ClientSession INFO : Début traitement commande pour client Client1 : 'QUIT'
+[2025-05-03 09:42:57][INFO] ClientSession INFO : Commande QUIT reçue pour client Client1. Signalement de l'arrêt de la session.
+[2025-05-03 09:42:57][DEBUG] ClientSession DEBUG : Réponse envoyée à Client1: 'OK: Disconnecting.
+'
+[2025-05-03 09:42:57][INFO] ClientSession INFO : Fin traitement commande pour client Client1 : 'QUIT'
+[2025-05-03 09:42:57][INFO] ClientSession INFO : Sortie de la boucle de session pour client Client1. Raison: running=0, client_connected=1
+[2025-05-03 09:43:07][INFO] Global Nouveau prix SRD-BTC simulé : 98593.8987435005
+[2025-05-03 09:43:22][INFO] Global Nouveau prix SRD-BTC simulé : 95526.4535068905
+[2025-05-03 09:43:37][INFO] Global Nouveau prix SRD-BTC simulé : 98923.8290895853
+[2025-05-03 09:43:52][INFO] Global Nouveau prix SRD-BTC simulé : 96238.6795960240
+[2025-05-03 09:44:07][INFO] Global Nouveau prix SRD-BTC simulé : 96537.5783232530
+[2025-05-03 09:44:22][INFO] Global Nouveau prix SRD-BTC simulé : 93890.3768406496
+[2025-05-03 09:44:37][INFO] Global Nouveau prix SRD-BTC simulé : 97336.0968411120
+[2025-05-03 09:44:52][INFO] Global Nouveau prix SRD-BTC simulé : 97409.4510084831
+[2025-05-03 09:45:07][INFO] Global Nouveau prix SRD-BTC simulé : 95374.3400011436

@@ -1,30 +1,28 @@
-// Implémentation de la classe Wallet
-
 #include "../headers/Wallet.h"
 #include "../headers/Logger.h"
-#include "../headers/Transaction.h" // Pour Transaction, enums Currency/TransactionType/TransactionStatus, et helpers stringTo/ToString
+#include "../headers/Transaction.h" 
 
 #include <iostream>
 #include <stdexcept>
-#include <limits>       // numeric_limits
-#include <fstream>      // ifstream, ofstream
-#include <sstream>      // stringstream
-#include <iomanip>      // fixed, setprecision
-#include <chrono>       // chrono, system_clock
-#include <ctime>        // time_t, localtime_r
-#include <filesystem>   // filesystem::path, create_directories, error_code
+#include <limits>       
+#include <fstream>      
+#include <sstream>      
+#include <iomanip>      
+#include <chrono>       
+#include <ctime>        
+#include <filesystem>   
 #include <vector>
-#include <cmath>        // abs, isfinite
-#include <mutex>        // mutex, lock_guard
-#include <cerrno>       // errno
-#include <cstring>      // strerror
+#include <cmath>        
+#include <mutex>       
+#include <cerrno>       
+#include <cstring>      
 
-    //IMPORTANT : Le verrouillage du Wallet se fait actuellement déjà dans le ProcessRequest, par conséquent,
-    //il faut enlever ici le mutex interne afin d'éviter les deadlocks
+//IMPORTANT : Le verrouillage du Wallet se fait actuellement déjà dans le ProcessRequest. 
+//Il n'y a donc pas besoin de passer par un mutex interne dans les méthodes à suivre.
 
 
 // --- Implémentation generateWalletFilePath ---
-// Construit le chemin complet du fichier portefeuille. dataDirPath est le répertoire où stocker (e.g., "../src/data/wallets").
+// Construit le chemin complet du fichier portefeuille.
 std::string Wallet::generateWalletFilePath(const std::string& dataDirPath) const {
     std::filesystem::path wallets_dir_path_obj = dataDirPath;
     std::filesystem::path wallet_file_name = clientId + ".wallet";
@@ -34,58 +32,45 @@ std::string Wallet::generateWalletFilePath(const std::string& dataDirPath) const
     return wallet_file_path.string();
 }
 
-// Dans src/code/Wallet.cpp
-
-// --- Implémentation ensureWalletsDirectoryExists (Version Modifiée) ---
+// --- Implémentation ensureWalletsDirectoryExists ---
 // S'assure que le répertoire du portefeuille existe.
 bool Wallet::ensureWalletsDirectoryExists() const {
     std::filesystem::path file_path_obj = walletFilePath;
     std::filesystem::path wallets_dir_path = file_path_obj.parent_path();
 
-    LOG("Wallet::ensureWalletsDirectoryExists DEBUG: Chemin répertoire à vérifier/créer : " + wallets_dir_path.string(), "DEBUG");
 
     std::error_code ec;
     bool result_create_dir = false; // Initialiser à false
 
-    // Tenter la création de répertoire. Capturer les exceptions potentielles si elles ne sont pas mises dans ec.
-    // std::filesystem::create_directories retourne true si le répertoire existait déjà ou a été créé avec succès.
-    // Elle retourne false en cas d'échec, et devrait remplir ec.
+    // Tenter la création de répertoire.
     try {
          result_create_dir = std::filesystem::create_directories(wallets_dir_path, ec);
     } catch (const std::filesystem::filesystem_error& ex) {
          LOG("Wallet::ensureWalletsDirectoryExists ERROR: Exception filesystem lors de create_directories pour '" + wallets_dir_path.string() + "'. Erreur: " + ex.what(), "ERROR");
          return false; // Échec si une exception est levée.
     } catch (const std::exception& e) {
-         // Attrape d'autres exceptions standards non liées à filesystem spécifiquement.
+         // Attrape d'autres exceptions standards.
          LOG("Wallet::ensureWalletsDirectoryExists ERROR: Exception std lors de create_directories pour '" + wallets_dir_path.string() + "'. Erreur: " + e.what(), "ERROR");
          return false; // Échec si une exception est levée.
     }
 
 
-    // Log détaillé APRES l'appel à create_directories pour comprendre le comportement.
-    LOG("Wallet::ensureWalletsDirectoryExists DEBUG: create_directories retour : " + std::to_string(result_create_dir) + ", ec.value : " + std::to_string(ec.value()) + ", ec.message : '" + ec.message() + "', errno : " + std::to_string(errno) + ", strerror(errno) : '" + std::string(strerror(errno)) + "'", "DEBUG");
-
-
     if (result_create_dir) {
-        // create_directories a retourné true. C'est le cas nominal (répertoire créé ou existait déjà).
-        LOG("Wallet::ensureWalletsDirectoryExists DEBUG: Répertoire '" + wallets_dir_path.string() + "' créé ou existait et create_directories a retourné true.", "DEBUG");
+        // create_directories a retourné true. C'est le cas nominal.
         return true; // Succès confirmé.
     } else { // create_directories a retourné false.
-         // Vérifier si error_code explique l'échec (permissions, chemin invalide, etc.).
+         // Vérifier si error_code explique l'échec.
          if (ec) { // Si error_code est défini, c'est la raison de l'échec.
              LOG("Wallet::ensureWalletsDirectoryExists ERROR: create_directories retourné false. Impossible de créer/vérifier répertoire '" + wallets_dir_path.string() + "'. Raison (ec): " + ec.message() + ".", "ERROR");
              return false; // Échec avec raison claire.
          } else {
-             // create_directories retourné false MAIS error_code est vide/succès (ec.value() == 0 && ec.message() == "Success").
-             // C'est le cas bizarre que vous avez observé.
+             // create_directories retourné false MAIS error_code est vide/succès.
              LOG("Wallet::ensureWalletsDirectoryExists WARNING: create_directories retourné false MAIS ec vide. Comportement inhabituel. Chemin: '" + wallets_dir_path.string() + "'.", "WARNING");
 
-             // Dans ce cas bizarre, Tenter de vérifier manuellement si le répertoire existe MAINTENANT.
-             // Si le répertoire existe après ce comportement bizarre, on le considère comme utilisable.
+             // Tenter de vérifier manuellement si le répertoire existe MAINTENANT.
              std::error_code ec_check; // Nouvelle ec pour la vérification exists()
              bool exists_after = std::filesystem::exists(wallets_dir_path, ec_check);
 
-             LOG("Wallet::ensureWalletsDirectoryExists DEBUG: Vérification manuelle après échec create_directories: exists() retour " + std::to_string(exists_after) + ", ec_check.message : '" + ec_check.message() + "'", "DEBUG");
 
              if (exists_after) {
                  // Le répertoire existe malgré l'échec bizarre de create_directories. On peut continuer.
@@ -101,12 +86,12 @@ bool Wallet::ensureWalletsDirectoryExists() const {
 }
 
 // --- Implémentation du Constructeur ---
-// dataDirPath DOIT être le chemin du répertoire des wallets (e.g., "../src/data/wallets").
+// dataDirPath DOIT être le chemin du répertoire des wallets.
 Wallet::Wallet(const std::string& clientId, const std::string& dataDirPath)
     // Initialise les membres dans l'ordre de déclaration
     : clientId(clientId),
-      dataDirectoryPath(dataDirPath), // dataDirPath EST le chemin du répertoire wallets (selon analyse)
-      walletFilePath(generateWalletFilePath(dataDirPath)) // CORRECT : Utilise dataDirPath tel quel
+      dataDirectoryPath(dataDirPath), // dataDirPath EST le chemin du répertoire wallets
+      walletFilePath(generateWalletFilePath(dataDirPath))
 {
     // Initialise les soldes par défaut si le fichier ne contient pas ces devises.
     // loadFromFile va écraser si elles sont présentes dans le fichier.
@@ -120,24 +105,20 @@ Wallet::Wallet(const std::string& clientId, const std::string& dataDirPath)
         // loadFromFile loggue déjà la raison.
         LOG("Wallet Impossible de charger le portefeuille pour client ID: " + clientId + ". Un nouveau portefeuille vierge sera utilisé. Chemin cherché : " + walletFilePath, "WARNING");
     }
-    LOG("Wallet Objet Wallet créé pour client ID: " + clientId + ". Chemin du fichier: " + walletFilePath, "DEBUG");
 }
 
 // --- Implémentation du Destructeur ---
 Wallet::~Wallet() {
-     LOG("Wallet Objet Wallet détruit pour client ID: " + clientId + ". Sauvegarde finale en cours...", "DEBUG");
     if (saveToFile()) {
         LOG("Wallet Portefeuille pour client ID: " + clientId + " sauvegardé avec succès vers " + walletFilePath + " avant destruction.", "INFO");
     } else {
         LOG("Wallet Échec de la sauvegarde finale du portefeuille pour client ID: " + clientId + " vers " + walletFilePath + ".", "ERROR");
     }
-     LOG("Wallet Objet Wallet détruit pour client ID: " + clientId + ". Sauvegarde finale terminée.", "DEBUG");
 }
 
-// --- Implémentation des méthodes de solde (Thread-Safe) ---
+// --- Implémentation des méthodes de solde ---
 
 double Wallet::getBalance(Currency currency) const {
-    //std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent en lecture
     auto it = balances.find(currency);
     if (it != balances.end()) {
         return it->second;
@@ -146,10 +127,9 @@ double Wallet::getBalance(Currency currency) const {
     return 0.0;
 }
 
-// --- Implémentation des méthodes d'historique (Thread-Safe) ---
+// --- Implémentation des méthodes d'historique ---
 
 void Wallet::addTransaction(const Transaction& tx) {
-    //std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent
     if (tx.getClientId() != this->clientId) {
         LOG("Wallet Portefeuille (" + clientId + ") : Tentative d'ajouter transaction avec ClientId non correspondant ('" + tx.getClientId() + "' vs '" + this->clientId + "'). Transaction ID: " + tx.getId() + ". Ignorée.", "ERROR");
         return;
@@ -159,15 +139,12 @@ void Wallet::addTransaction(const Transaction& tx) {
 }
 
 std::vector<Transaction> Wallet::getTransactionHistory() const {
-    //std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent en lecture
     return transactionHistory; // Retourne une copie (thread-safe)
 }
 
-// --- Implémentation des méthodes de persistance (Thread-Safe) ---
+// --- Implémentation des méthodes de persistance ---
 
 bool Wallet::loadFromFile() {
-    //std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent pendant le chargement
-
     if (!ensureWalletsDirectoryExists()) {
          // ensureWalletsDirectoryExists loggue déjà l'erreur
          return false;
@@ -180,7 +157,6 @@ bool Wallet::loadFromFile() {
         return false;
     }
 
-    LOG("Wallet Lecture du fichier portefeuille : " + walletFilePath, "DEBUG");
 
     // Efface les données actuelles avant de charger
     balances.clear();
@@ -288,8 +264,6 @@ bool Wallet::loadFromFile() {
 }
 
 bool Wallet::saveToFile() const {
-    //std::lock_guard<std::mutex> lock(walletMutex); // Protège l'accès concurrent pendant la sauvegarde
-
     if (!ensureWalletsDirectoryExists()) {
          // ensureWalletsDirectoryExists loggue déjà l'erreur
          return false;
@@ -301,7 +275,6 @@ bool Wallet::saveToFile() const {
         return false;
     }
 
-    LOG("Wallet Sauvegarde du portefeuille : " + walletFilePath, "DEBUG");
 
     // Sauvegarde des soldes
     file << currencyToString(Currency::USD) << " " << std::fixed << std::setprecision(10) << balances.at(Currency::USD) << "\n"; // Utilise .at() pour un accès sécurisé (lève exception si la devise n'existe pas, ce qui ne devrait pas arriver)
@@ -345,18 +318,14 @@ bool Wallet::saveToFile() const {
 // --- Implémentation de updateBalance ---
 // Met à jour le solde pour une devise donnée avec un montant donné.
 // Le montant peut être positif (crédit) ou négatif (débit).
-// DOIT être thread-safe en utilisant walletMutex en interne.
 void Wallet::updateBalance(Currency currency, double amount) {
     // Le verrouillage est ESSENTIEL car cette méthode modifie les soldes.
-    // C'est le verrouillage INTERNE du Wallet.
-    //std::lock_guard<std::mutex> lock(walletMutex);
 
     // Assurez-vous que la devise existe dans la map (le constructeur devrait déjà l'avoir fait pour USD/SRD-BTC)
     // Le constructeur initialise déjà USD et SRD-BTC à 0.0, donc at() est safe.
     // Utiliser at() pour s'assurer que la clé existe ou lancer une exception si ce n'est pas le cas (robustesse).
     try {
         balances.at(currency) += amount;
-        LOG("Wallet DEBUG : Client " + clientId + " balance " + currencyToString(currency) + " mise à jour de " + std::to_string(amount) + ". Nouveau solde: " + std::to_string(balances.at(currency)), "DEBUG");
     } catch (const std::out_of_range& oor) {
          // Cette exception ne devrait pas arriver pour USD/SRD-BTC si le constructeur est bon.
          // Elle pourrait arriver si updateBalance est appelée avec une devise qui n'est pas gérée par le Wallet.

@@ -975,7 +975,6 @@ CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o
  /home/ark30/Files/PPN/PPN_CTS/src/headers/Transaction.h
  /home/ark30/Files/PPN/PPN_CTS/src/headers/Utils.h
  /usr/include/alloca.h
- /usr/include/arpa/inet.h
  /usr/include/asm-generic/bitsperlong.h
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h
@@ -1144,7 +1143,6 @@ CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o
  /usr/include/linux/posix_types.h
  /usr/include/linux/stddef.h
  /usr/include/locale.h
- /usr/include/netinet/in.h
  /usr/include/openssl/asn1.h
  /usr/include/openssl/asn1err.h
  /usr/include/openssl/async.h
@@ -1245,7 +1243,6 @@ CMakeFiles/Test_Cli.dir/src/code/Main_Cli.cpp.o
  /usr/include/x86_64-linux-gnu/bits/floatn.h
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h
- /usr/include/x86_64-linux-gnu/bits/in.h
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h
  /usr/include/x86_64-linux-gnu/bits/local_lim.h
  /usr/include/x86_64-linux-gnu/bits/locale.h

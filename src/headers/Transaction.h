@@ -7,26 +7,7 @@
 #include <vector>
 #include <mutex>
 
-// Enums pour les devises supportées
-enum class Currency { UNKNOWN, USD, SRD_BTC };
-
-// Enums pour les types de transaction
-// Retrait de DEPOSIT et WITHDRAW
-enum class TransactionType { UNKNOWN, BUY, SELL };
-
-// Enum pour le statut d'une transaction
-// INCLUT UNKNOWN pour la robustesse (parsing, état initial si besoin)
-enum class TransactionStatus { UNKNOWN, PENDING, COMPLETED, FAILED };
-
-
-// Déclarations des fonctions utilitaires pour convertir les enums en string et vice-versa
-// Les implémentations seront dans Transaction.cpp
-std::string currencyToString(Currency currency);
-Currency stringToCurrency(const std::string& str);
-std::string transactionTypeToString(TransactionType type);
-TransactionType stringToTransactionType(const std::string& str);
-std::string transactionStatusToString(TransactionStatus status);
-TransactionStatus stringToTransactionStatus(const std::string& str);
+#include "Global.h"
 
 
 // Structure représentant une Transaction complète (résultat d'une requête traitée ou chargée)
@@ -100,4 +81,4 @@ public: // <<< SECTION PUBLIQUE
     // TODO: Ajouter d'autres méthodes si nécessaire (ex: validation interne)
 };
 
-#endif // TRANSACTION_H
+#endif

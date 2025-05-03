@@ -17,10 +17,10 @@ enum class LogLevel {
     ERROR
 };
 
-// Convertit un niveau de log enum en chaîne de caractères (utile en interne dans Logger.cpp)
+// Convertit un niveau de log enum en chaîne de caractères (utile en interne)
 std::string logLevelToString(LogLevel level);
 
-// NOUVELLE fonction pour convertir une chaîne de caractères ("INFO", "ERROR") en niveau de log enum
+// Convertit une chaîne de caractères ("INFO", "ERROR") en niveau de log enum
 LogLevel logLevelFromString(const std::string& level_str);
 
 
@@ -55,7 +55,7 @@ public:
 };
 
 // Macro simplifiée pour l'utilisation
-// Elle prend le message et la CHAÎNE DE CARACTÈRES du niveau ("INFO", "ERROR", etc.)
+// Elle prend le message et la chaîne de caractères du niveau ("INFO", "ERROR", etc.)
 #define LOG(message, level_str) \
     do { \
         /* Utilise la fonction pour convertir la chaîne en enum */ \

@@ -81,6 +81,7 @@ set(CLIENT_SRC
     # ${CODE_DIR}/Utils.cpp # Le client inclut Utils.h mais n'a pas besoin des implémentations .cpp
     ${CODE_DIR}/Transaction.cpp # Inclure si le client utilise les méthodes de Transaction (peu probable)
     ${CODE_DIR}/Wallet.cpp # Inclure si le client utilise la classe Wallet (peu probable)
+    ${CODE_DIR}/Global.cpp
     # Vérifie si d'autres .cpp sont nécessaires au client
 )
 
