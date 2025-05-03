@@ -1,3 +1,0 @@
-Client1 Token1_hashed_INSECURE
-mon_client_id_depuis_script mon_token_depuis_script_hashed_INSECURE
-nouveau_client_id_depuis_script nouveau_token_depuis_script_hashed_INSECURE

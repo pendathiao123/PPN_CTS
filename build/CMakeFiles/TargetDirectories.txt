@@ -1,9 +1,0 @@
-/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles/Test_Serv.dir
-/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles/Test_Cli.dir
-/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles/Serv.dir
-/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles/Cli.dir
-/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles/my_clean.dir
-/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles/gdb_serveur.dir
-/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles/gdb_client.dir
-/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles/edit_cache.dir
-/home/ark30/Files/PPN/PPN_CTS/build/CMakeFiles/rebuild_cache.dir
