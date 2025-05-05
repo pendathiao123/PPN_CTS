@@ -16,7 +16,7 @@
 int main() {
 
     std::cout << "\n==============================================\n\n";
-    std::cout << "========Mesure de TPS=========\n";
+    std::cout << "========Bénefice pour chaque client (avec trading)=========\n";
     long int tps = 0;
 
     for(int i=0; i<NUM_CLI; ++i){

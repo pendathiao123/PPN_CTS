@@ -1,17 +1,19 @@
 # Projet Professionnel Numérique : Cryptocurrency Trading Simulator
 
 
+> Tuteurs: Hugo Bolloré, [Salah Ibnamar](https://github.com/yaspr)
+>
 > Membres de l'equipe de developpement:  [Estelle Oliveira](https://github.com/estelleoliveira), [Penda Thiao](https://github.com/pendathiao123), [Patrick Nsundi Mboli](https://github.com/ElitePat), [Julien Rigal](https://github.com/Julien30127)
+
 
 ## Sommaire:
 
-[1.Description et objectifs du projet](/README.md#1description-et-objectifs-du-projet)
-
-[2.Structuration du projet](/README.md#2structuration-du-projet)
-
-[3.Mise en place du projet](/README.md#3mise-en-place-du-projet)
-
-[4.Améliorations à venir](/README.md#4améliorations-à-venir)
+1. [Description et objectifs du projet](/README.md#1description-et-objectifs-du-projet)
+2. [Structuration du projet](/README.md#2structuration-du-projet)
+3. [Mise en place dans son environement](/README.md#3mise-en-place-dans-son-environement)
+    - [Dispositions minimales](/README.mD#dispositions-minimales)
+    - [Lancement du programme](/README.md#lancement-du-programme)
+4. [Améliorations à venir](/README.md#4améliorations-à-venir)
 
 
 ## 1.Description et objectifs du projet
@@ -28,13 +30,9 @@ Le serveur lui, tout le temps actif, gere la ou les monnaies virtuelles ainsi qu
 ## 2.Structuration du projet:
 
 Le depôt associé au projet s'articule de la maniére suivante:
-- dans le repertoire `/documents`:
-    - le reprtoire `/annexes` contient differents graphiques, tableaux et autres fichiers dont nous nous sommes servis dans le projet
-    - le reprtoire `/PPN_CTS_docs` contient la documentation officielle
-- dans le repertoire `/src` (fichiers source):
-    - le reprtoire `/code` contient les fichiers contenant le code des programmes principaux
-    - le reprtoire `/data` contient différents jeux de données
-    - le reprtoire `/headers` contient les entêtes des fichiers `.cpp` presents dans `/src/code`
+- le dossier [`/documents`](/documents) contient differents fichiers dont nous nous sommes servis dans le projet.
+- le dossier [`/src`](/src) contient les fichiers sources du projet ainsi que differents jeux de donnés.
+
 
 ## 3.Mise en place de l'environement:
 
