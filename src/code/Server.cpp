@@ -33,9 +33,18 @@
 #include <algorithm>           
 #include <cctype>              
 #include <cmath>
+#include <functional>
 
 
 extern TransactionQueue txQueue;
+
+std::vector<std::thread> threadPool;
+    std::queue<std::function<void()>> taskQueue;
+    std::mutex taskQueueMutex;
+    std::condition_variable taskQueueCV;
+    bool stopThreadPool = false;
+
+    void threadPoolWorker(); // Fonction pour les threads du pool
 
 // --- Fonctions Utilitaires Globales ---
 // Les implémentations de GenerateRandomHex, GenerateRandomId, GenerateToken, HashPasswordSecure, VerifyPasswordSecure
@@ -74,9 +83,14 @@ Server::~Server() {
 void Server::StartServer() {
     LOG("Server::StartServer INFO : Démarrage du serveur sur le port " + std::to_string(this->port) + "...", "INFO");
 
-    // 1. Initialiser les bibliothèques OpenSSL (si pas déjà fait dans main).
 
-
+    // Initialiser le pool de threads
+    int threadPoolSize = std::thread::hardware_concurrency(); // Nombre de threads basé sur le CPU
+    for (int i = 0; i < threadPoolSize; ++i) {
+        threadPool.emplace_back(&Server::threadPoolWorker, this);
+    }
+    LOG("Server::StartServer INFO : Pool de threads initialisé avec " + std::to_string(threadPoolSize) + " threads.", "INFO");
+    
     // 2. Charger le contexte SSL du serveur.
     this->ctx = InitServerCTX(this->certFile_path, this->keyFile_path);
     if (!this->ctx) {
@@ -220,6 +234,19 @@ void Server::StopServer() {
     // 8. Signaler l'arrêt au thread de traitement de la TransactionQueue et attendre sa fin.
     txQueue.stop();
     LOG("Server::StopServer INFO : Thread de traitement de la TransactionQueue arrêté.", "INFO");
+
+    // Arrêter le pool de threads
+    {
+        std::lock_guard<std::mutex> lock(taskQueueMutex);
+        stopThreadPool = true;
+    }
+    taskQueueCV.notify_all();
+    for (std::thread& thread : threadPool) {
+        if (thread.joinable()) {
+            thread.join();
+        }
+    }
+    LOG("Server::StopServer INFO : Pool de threads arrêté.", "INFO");
 
     // 9. Nettoyage final des ressources globales OpenSSL si nécessaire (dans main).
 
@@ -806,6 +833,23 @@ void Server::HandleClient(int clientSocket, SSL* raw_ssl_ptr) {
     // Fin de la méthode Server::HandleClient. Le thread se termine ici.
 }
 
+void Server::threadPoolWorker() {
+    while (true) {
+        std::function<void()> task;
+        {
+            std::unique_lock<std::mutex> lock(taskQueueMutex);
+            taskQueueCV.wait(lock, [this]() { return !taskQueue.empty() || stopThreadPool; });
+
+            if (stopThreadPool && taskQueue.empty()) {
+                return;
+            }
+
+            task = std::move(taskQueue.front());
+            taskQueue.pop();
+        }
+        task(); // Exécuter la tâche
+    }
+}
 
 // --- Implémentation de la méthode Server::AcceptLoop ---
 void Server::AcceptLoop() {
@@ -819,29 +863,29 @@ void Server::AcceptLoop() {
 
         if (clientSocket < 0) {
             if (!this->acceptingConnections.load(std::memory_order_acquire)) {
-                 LOG("Server::AcceptLoop INFO : Signal d'arrêt détecté via acceptingConnections après accept() (socket < 0). Sortie.", "INFO");
-                 break;
+                LOG("Server::AcceptLoop INFO : Signal d'arrêt détecté via acceptingConnections après accept() (socket < 0). Sortie.", "INFO");
+                break;
             }
             if (errno == EINTR) {
-                 LOG("Server::AcceptLoop WARNING : Appel accept() interrompu par signal (EINTR). Continuation...", "WARNING");
-                 continue;
+                LOG("Server::AcceptLoop WARNING : Appel accept() interrompu par signal (EINTR). Continuation...", "WARNING");
+                continue;
             }
             if (errno == EBADF || errno == EINVAL) {
-                 LOG("Server::AcceptLoop INFO : Socket serveur invalide/fermé (" + std::to_string(errno) + ") pendant accept(). Probablement arrêt propre. Sortie.", "INFO");
-                 break;
+                LOG("Server::AcceptLoop INFO : Socket serveur invalide/fermé (" + std::to_string(errno) + ") pendant accept(). Probablement arrêt propre. Sortie.", "INFO");
+                break;
             }
             LOG("Server::AcceptLoop ERROR : Échec inattendu accept(). Erreur: " + std::string(strerror(errno)), "ERROR");
             continue;
         }
 
         if (!this->acceptingConnections.load(std::memory_order_acquire)) {
-             LOG("Server::AcceptLoop INFO : Signal d'arrêt détecté juste après accept() réussi. Fermeture nouveau socket FD: " + std::to_string(clientSocket), "INFO");
-             close(clientSocket);
-             break;
+            LOG("Server::AcceptLoop INFO : Signal d'arrêt détecté juste après accept() réussi. Fermeture nouveau socket FD: " + std::to_string(clientSocket), "INFO");
+            close(clientSocket);
+            break;
         }
 
         std::stringstream log_accept_ss;
-        log_accept_ss << "Server::AcceptLoop INFO : Nouvelle connexion acceptée. Socket FD: " << clientSocket << ", IP: " << inet_ntoa(clientAddr.sin_addr); // inet_ntoa non thread-safe, mais ici c'est juste pour un log rapide dans le thread d'accept.
+        log_accept_ss << "Server::AcceptLoop INFO : Nouvelle connexion acceptée. Socket FD: " << clientSocket << ", IP: " << inet_ntoa(clientAddr.sin_addr);
         LOG(log_accept_ss.str(), "INFO");
 
         UniqueSSL client_ssl = AcceptSSLConnection(this->ctx.get(), clientSocket);
@@ -852,24 +896,15 @@ void Server::AcceptLoop() {
         }
         LOG("Server::AcceptLoop INFO : Handshake SSL réussi pour socket FD: " + std::to_string(clientSocket), "INFO");
 
-        try {
-             // Lance un nouveau thread HandleClient pour cette connexion.
-             // Passe clientSocket et client_ssl.release() qui seront pris en charge par ServerConnection dans HandleClient.
-             std::thread clientThread(&Server::HandleClient, this, clientSocket, client_ssl.release());
-             clientThread.detach();
-             LOG("Server::AcceptLoop INFO : Thread gestion client détaché pour socket FD: " + std::to_string(clientSocket), "INFO");
-        } catch (const std::system_error& e) {
-             LOG("Server::AcceptLoop CRITICAL ERROR : Échec création thread gestion client pour socket FD: " + std::to_string(clientSocket) + ". Erreur: " + e.what() + " - " + e.code().message(), "CRITICAL");
-             // Si le thread ne peut pas être créé, il faut fermer la connexion manuellement.
-             // client_ssl.release() n'a pas été appelé.
-             if (client_ssl) { // Si l'objet SSL a été créé
-                 SSL_free(client_ssl.release());
-             }
-             close(clientSocket);
-             LOG("Server::AcceptLoop CRITICAL ERROR : Connexion fermée manuellement suite échec création thread.", "CRITICAL");
-             continue;
+        // Ajouter la tâche au pool de threads
+        {
+            std::lock_guard<std::mutex> lock(taskQueueMutex);
+            taskQueue.emplace([this, clientSocket, ssl = client_ssl.release()]() {
+                this->HandleClient(clientSocket, ssl);
+            });
         }
-    } // Fin de la boucle while(this->acceptingConnections.load())
+        taskQueueCV.notify_one(); // Notifier un thread du pool
+    }
 
     LOG("Server::AcceptLoop INFO : Thread Server::AcceptLoop terminé.", "INFO");
 }

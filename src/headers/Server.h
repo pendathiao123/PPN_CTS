@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+#include <functional>
 
 // Inclure les headers des composants utilisés ou gérés par le Server :
 #include "OpenSSLDeleters.h"  
@@ -136,6 +137,16 @@ private: // Membres et méthodes internes au serveur
     // Param authenticatedUserId: Si le retour est SUCCESS ou NEW, cet argument contiendra l'ID de l'utilisateur authentifié/enregistré.
     // Retourne le résultat de l'authentification (AuthOutcome::SUCCESS, AuthOutcome::NEW, AuthOutcome::FAIL).
     AuthOutcome processAuthRequest(const std::string& userIdPlainText, const std::string& passwordPlain, std::string& authenticatedUserId);
+
+    // --- Membres pour le pool de threads ---
+    std::vector<std::thread> threadPool; // Pool de threads pour gérer les connexions
+    std::queue<std::function<void()>> taskQueue; // File de tâches pour les connexions
+    std::mutex taskQueueMutex; // Mutex pour protéger l'accès à la file de tâches
+    std::condition_variable taskQueueCV; // Variable conditionnelle pour notifier les threads
+    std::atomic<bool> stopThreadPool; // Flag pour arrêter le pool de threads
+
+    // Méthode pour les threads du pool
+    void threadPoolWorker();
 
 };
 

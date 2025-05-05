@@ -3,8 +3,8 @@
 #include <numeric>       // Pour std::accumulate
 #include <cmath>         // Pour std::sqrt, std::pow
 #include <stdexcept>     // Pour std::invalid_argument
-#include <iostream>      // Pour les éventuels logs/debug (non utilisé dans les méthodes ici)
-#include <iomanip>       // Pour std::setprecision (utilisé dans main, pas ici)
+#include <iostream>      // Pour les éventuels logs/debug 
+#include <iomanip>       // Pour std::setprecision 
 
 // --- Implémentation du Constructeur ---
 BollingerBot::BollingerBot(int p, double k_stddev)
@@ -36,7 +36,6 @@ double BollingerBot::calculateStdDev(const std::vector<double>& data, double sma
     for (auto it = data.end() - period; it != data.end(); ++it) {
         sq_sum += (*it - sma) * (*it - sma); // ou std::pow(*it - sma, 2)
     }
-    // Utiliser N (period) pour l'écart-type de population (courant en finance)
     // Si on voulait un estimateur non biaisé (sample stddev), on diviserait par period - 1
     return std::sqrt(sq_sum / period);
 }
