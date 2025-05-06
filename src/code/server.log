@@ -1,0 +1,15 @@
+--- Début du log : 1746542793 ---
+[2025-05-06 16:46:33][INFO] Démarrage des tests de benchmark
+[2025-05-06 16:46:33][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-06 16:46:33][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-06 16:46:36][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-06 16:46:41][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-06 16:46:49][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-06 16:46:59][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-06 16:47:13][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-06 16:47:28][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-06 16:47:47][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-06 16:48:08][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-06 16:48:31][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-06 16:48:58][INFO] Démarrage du benchmark avec 10000 clients
+--- Fin du log : 1746542990 ---
