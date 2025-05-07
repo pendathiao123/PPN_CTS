@@ -275,17 +275,31 @@ void test_connections(int num_clients) {
     std::cout << "Temps moyen par connexion : " << avg_time << " ms\n\n";    
 }
 
+void save_transaction_results_to_csv(const std::string& filename, int num_transactions, double tps, double avg_time, int success, int fail) {
+    std::ofstream file;
+    file.open(filename, std::ios::app); // Ouvrir en mode ajout
+    if (!file.is_open()) {
+        LOG("Erreur : Impossible d'ouvrir le fichier " + filename, "ERROR");
+        return;
+    }
+
+    LOG("Enregistrement des résultats dans le fichier CSV", "INFO");
+    file << num_transactions << "," << tps << "," << avg_time << "," << success << "," << fail << "\n";
+    file.close();
+}
+
 
 /* Benchmark 2 : TPS; permet de mesurer le débit, on va envoyer un nombre important de transactions/requêtes avec un seul client 
 pour déterminer si la gestion de requêtes est surchargée ou non. On pourra calculer le TPS (transactions par seconde).*/
 void test_transactions(int nb_transactions, std::string clientid) {
+    LOG("test_transactions: Début du test avec " + std::to_string(nb_transactions) + " transactions", "INFO");
+
     int successful_transactions_loc = 0;
     int failed_transactions_loc = 0;
 
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0) {
-        std::lock_guard<std::mutex> lock(cout_mutex);
-        std::cerr << "Erreur création socket pour la transaction\n";
+        LOG("test_transactions: Erreur création socket", "ERROR");
         return;
     }
 
@@ -294,119 +308,50 @@ void test_transactions(int nb_transactions, std::string clientid) {
     server_addr.sin_port = htons(SERVER_PORT);
     inet_pton(AF_INET, SERVER_IP, &server_addr.sin_addr);
 
+    LOG("test_transactions: Connexion au serveur", "INFO");
     bool connected = connect_with_timeout(sock, &server_addr, CONNECTION_TIMEOUT_MS);
     if (!connected) {
-        std::lock_guard<std::mutex> lock(cout_mutex);
-        std::cerr << "Échec connexion TCP pour la transaction\n";
+        LOG("test_transactions: Échec connexion TCP", "ERROR");
         close(sock);
         return;
     }
 
+    LOG("test_transactions: Connexion SSL", "INFO");
     SSL_CTX* ctx = SSL_CTX_new(SSLv23_client_method());
-    if (!ctx) {
-        std::cerr << "Erreur création SSL_CTX\n";
-        close(sock);
-        return;
-    }
-
     SSL* ssl = SSL_new(ctx);
-    if (!ssl || !SSL_set_fd(ssl, sock)) {
-        std::cerr << "Erreur création SSL ou set_fd\n";
+    if (!ssl || !SSL_set_fd(ssl, sock) || SSL_connect(ssl) <= 0) {
+        LOG("test_transactions: Échec connexion SSL", "ERROR");
         if (ssl) SSL_free(ssl);
         SSL_CTX_free(ctx);
         close(sock);
         return;
     }
 
-    if (SSL_connect(ssl) <= 0) {
-        std::cerr << "Échec connexion SSL\n";
-        SSL_free(ssl);
-        SSL_CTX_free(ctx);
-        close(sock);
-        return;
-    }
-
-    // Authentification
+    LOG("test_transactions: Authentification", "INFO");
     std::string auth_message = "ID:" + clientid + ",TOKEN:abc123\n";
-    int auth_sent = SSL_write(ssl, auth_message.c_str(), auth_message.length());
-    if (auth_sent <= 0) {
-        std::cerr << "Échec envoi message d'authentification\n";
-        SSL_free(ssl);
-        SSL_CTX_free(ctx);
-        close(sock);
-        return;
-    }
-
-    // Attendre la réponse d'authentification
-    char auth_buffer[4096];
-    int auth_bytes_read = SSL_read(ssl, auth_buffer, sizeof(auth_buffer));
-    if (auth_bytes_read <= 0) {
-        std::cerr << "Échec lecture réponse d'authentification\n";
-        SSL_free(ssl);
-        SSL_CTX_free(ctx);
-        close(sock);
-        return;
-    }
+    SSL_write(ssl, auth_message.c_str(), auth_message.length());
 
     auto start_tps = std::chrono::high_resolution_clock::now();
 
-    // Activer le mode non-bloquant pour SSL
-    set_socket_non_blocking(sock);
-
     for (int i = 0; i < nb_transactions; ++i) {
+        LOG("test_transactions: Envoi de la transaction #" + std::to_string(i), "INFO");
         std::string transaction_message = (i % 2 == 0) ? "BUY SRD-BTC 5\n" : "SELL SRD-BTC 5\n";
-        
         int bytes_sent = SSL_write(ssl, transaction_message.c_str(), transaction_message.length());
         if (bytes_sent <= 0) {
-            std::lock_guard<std::mutex> lock(cout_mutex);
-            std::cerr << "Échec envoi transaction #" << i << "\n";
+            LOG("test_transactions: Échec envoi transaction #" + std::to_string(i), "ERROR");
             failed_transactions_loc++;
             continue;
         }
 
-        // Lecture avec timeout
-        fd_set readfds;
-        FD_ZERO(&readfds);
-        FD_SET(sock, &readfds);
-
-        struct timeval timeout;
-        timeout.tv_sec = READ_TIMEOUT_MS / 1000;
-        timeout.tv_usec = (READ_TIMEOUT_MS % 1000) * 1000;
-
-        int select_res = select(sock + 1, &readfds, NULL, NULL, &timeout);
-        
-        if (select_res > 0) {
-            char buffer[4096];
-            int bytes_read = SSL_read(ssl, buffer, sizeof(buffer));
-            
-            if (bytes_read > 0) {
-                buffer[bytes_read] = '\0';
-                // Optionnel: Afficher la réponse
-                // std::cout << "Réponse pour transaction #" << i << ": " << buffer << std::endl;
-                successful_transactions_loc++;
-            } else {
-                std::lock_guard<std::mutex> lock(cout_mutex);
-                std::cerr << "Échec lecture réponse transaction #" << i << "\n";
-                failed_transactions_loc++;
-            }
-        } else if (select_res == 0) {
-            // Timeout sur la lecture
-            std::lock_guard<std::mutex> lock(cout_mutex);
-            std::cerr << "Timeout sur lecture réponse transaction #" << i << "\n";
-            failed_transactions_loc++;
+        char buffer[4096];
+        int bytes_read = SSL_read(ssl, buffer, sizeof(buffer));
+        if (bytes_read > 0) {
+            successful_transactions_loc++;
         } else {
-            // Erreur select
-            std::lock_guard<std::mutex> lock(cout_mutex);
-            std::cerr << "Erreur select pour transaction #" << i << ": " << strerror(errno) << "\n";
+            LOG("test_transactions: Échec lecture réponse transaction #" + std::to_string(i), "ERROR");
             failed_transactions_loc++;
         }
-        
-        // Petit délai entre les transactions pour éviter de surcharger le serveur
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-
-    // Attente supplémentaire pour s'assurer que les dernières réponses sont reçues
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     auto end_tps = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end_tps - start_tps;
@@ -417,7 +362,17 @@ void test_transactions(int nb_transactions, std::string clientid) {
     SSL_CTX_free(ctx);
     close(sock);
 
-    // Afficher les résultats du benchmark
+    // Enregistrer les résultats dans un fichier CSV
+    save_transaction_results_to_csv(
+        "transaction_results.csv",
+        nb_transactions,
+        tps,
+        (successful_transactions_loc > 0 ? (duration.count() * 1000 / successful_transactions_loc) : 0),
+        successful_transactions_loc,
+        failed_transactions_loc
+    );
+
+    // Afficher les résultats
     std::cout << "\n=== Résultat du benchmark pour " << nb_transactions << " transactions ===\n";
     std::cout << "Transactions réussies : " << successful_transactions_loc << " (" 
               << (successful_transactions_loc * 100.0 / nb_transactions) << "%)\n";
@@ -429,7 +384,6 @@ void test_transactions(int nb_transactions, std::string clientid) {
               << (successful_transactions_loc > 0 ? (duration.count() * 1000 / successful_transactions_loc) : 0) 
               << " ms\n\n";
 }
-
 
 void connect_to_server_max(int id) {
     // Créer un socket
@@ -531,13 +485,21 @@ int main() {
     SSL_load_error_strings();
     LOG("Démarrage des tests de benchmark", "INFO");
     
+
     // Exécuter les tests avec différentes charges
     std::vector<int> client_counts = {100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 10000};
     for (int count : client_counts) {
         LOG("Démarrage du benchmark avec " + std::to_string(count) + " clients", "INFO");
         test_connections(count);
     }
-
+/*
+     // Exécuter les tests avec différentes charges pour les transactions
+     std::vector<int> transaction_counts = {10, 100};
+     for (int count : transaction_counts) {
+         LOG("Démarrage du benchmark avec " + std::to_string(count) + " transactions", "INFO");
+         test_transactions(count, "benchmark");
+     }
+*/
 
     //LOG("Démarrage du benchmark avec 100 clients", "INFO");
     //test_connections(100);

@@ -13,3 +13,528 @@
 [2025-05-06 16:48:31][INFO] Démarrage du benchmark avec 5000 clients
 [2025-05-06 16:48:58][INFO] Démarrage du benchmark avec 10000 clients
 --- Fin du log : 1746542990 ---
+--- Début du log : 1746543914 ---
+[2025-05-06 17:05:14][INFO] Démarrage des tests de benchmark
+[2025-05-06 17:05:14][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-06 17:05:15][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-06 17:05:18][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-06 17:05:23][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-06 17:05:31][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-06 17:05:41][INFO] Démarrage du benchmark avec 2500 clients
+--- Début du log : 1746544022 ---
+[2025-05-06 17:07:02][INFO] Démarrage des tests de benchmark
+[2025-05-06 17:07:02][INFO] Démarrage du benchmark avec 10 transactions
+--- Début du log : 1746544207 ---
+[2025-05-06 17:10:07][INFO] Démarrage des tests de benchmark
+[2025-05-06 17:10:07][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-06 17:10:08][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-06 17:10:10][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-06 17:10:16][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-06 17:10:24][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-06 17:10:34][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-06 17:10:47][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-06 17:11:03][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-06 17:11:22][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-06 17:11:43][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-06 17:12:07][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-06 17:12:33][INFO] Démarrage du benchmark avec 10000 clients
+[2025-05-06 17:13:26][INFO] Démarrage du benchmark avec 10 transactions
+--- Début du log : 1746547111 ---
+[2025-05-06 17:58:31][INFO] Démarrage des tests de benchmark
+[2025-05-06 17:58:31][INFO] Démarrage du benchmark avec 10 transactions
+[2025-05-06 17:58:31][INFO] test_transactions: Début du test avec 10 transactions
+[2025-05-06 17:58:31][INFO] test_transactions: Connexion au serveur
+[2025-05-06 17:58:31][INFO] test_transactions: Connexion SSL
+[2025-05-06 17:58:31][INFO] test_transactions: Authentification
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #0
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #1
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #2
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #3
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #4
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #5
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #6
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #7
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #8
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #9
+[2025-05-06 17:58:31][INFO] test_transactions: Fin du test
+[2025-05-06 17:58:31][INFO] Démarrage du benchmark avec 100 transactions
+[2025-05-06 17:58:31][INFO] test_transactions: Début du test avec 100 transactions
+[2025-05-06 17:58:31][INFO] test_transactions: Connexion au serveur
+[2025-05-06 17:58:31][INFO] test_transactions: Connexion SSL
+[2025-05-06 17:58:31][INFO] test_transactions: Authentification
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #0
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #1
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #2
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #3
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #4
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #5
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #6
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #7
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #8
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #9
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #10
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #11
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #12
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #13
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #14
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #15
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #16
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #17
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #18
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #19
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #20
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #21
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #22
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #23
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #24
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #25
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #26
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #27
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #28
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #29
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #30
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #31
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #32
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #33
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #34
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #35
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #36
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #37
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #38
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #39
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #40
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #41
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #42
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #43
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #44
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #45
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #46
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #47
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #48
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #49
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #50
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #51
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #52
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #53
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #54
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #55
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #56
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #57
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #58
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #59
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #60
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #61
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #62
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #63
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #64
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #65
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #66
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #67
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #68
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #69
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #70
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #71
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #72
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #73
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #74
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #75
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #76
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #77
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #78
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #79
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #80
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #81
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #82
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #83
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #84
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #85
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #86
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #87
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #88
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #89
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #90
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #91
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #92
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #93
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #94
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #95
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #96
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #97
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #98
+[2025-05-06 17:58:31][INFO] test_transactions: Envoi de la transaction #99
+[2025-05-06 17:58:31][INFO] test_transactions: Fin du test
+--- Fin du log : 1746547111 ---
+--- Début du log : 1746547557 ---
+[2025-05-06 18:05:57][INFO] Démarrage des tests de benchmark
+[2025-05-06 18:05:57][INFO] Démarrage du benchmark avec 10 transactions
+[2025-05-06 18:05:57][INFO] test_transactions: Début du test avec 10 transactions
+[2025-05-06 18:05:57][INFO] test_transactions: Connexion au serveur
+[2025-05-06 18:05:57][INFO] test_transactions: Connexion SSL
+[2025-05-06 18:05:57][INFO] test_transactions: Authentification
+[2025-05-06 18:05:57][INFO] test_transactions: Envoi de la transaction #0
+--- Début du log : 1746547719 ---
+[2025-05-06 18:08:39][INFO] Démarrage des tests de benchmark
+[2025-05-06 18:08:39][INFO] Démarrage du benchmark avec 10 transactions
+[2025-05-06 18:08:39][INFO] test_transactions: Début du test avec 10 transactions
+[2025-05-06 18:08:39][INFO] test_transactions: Connexion au serveur
+[2025-05-06 18:08:39][INFO] test_transactions: Connexion SSL
+[2025-05-06 18:08:39][INFO] test_transactions: Authentification
+[2025-05-06 18:08:39][INFO] test_transactions: Envoi de la transaction #0
+--- Début du log : 1746548575 ---
+[2025-05-06 18:22:55][INFO] Démarrage des tests de benchmark
+[2025-05-06 18:22:55][INFO] Démarrage du benchmark avec 10 transactions
+[2025-05-06 18:22:55][INFO] test_transactions: Début du test avec 10 transactions
+[2025-05-06 18:22:55][INFO] test_transactions: Connexion au serveur
+[2025-05-06 18:22:55][INFO] test_transactions: Connexion SSL
+[2025-05-06 18:22:55][INFO] test_transactions: Authentification
+[2025-05-06 18:22:55][INFO] test_transactions: Envoi de la transaction #0
+--- Début du log : 1746548693 ---
+[2025-05-06 18:24:53][INFO] Démarrage des tests de benchmark
+[2025-05-06 18:24:53][INFO] Démarrage du benchmark avec 10 transactions
+[2025-05-06 18:24:53][INFO] test_transactions: Début du test avec 10 transactions
+[2025-05-06 18:24:53][INFO] test_transactions: Connexion au serveur
+[2025-05-06 18:24:53][INFO] test_transactions: Connexion SSL
+[2025-05-06 18:24:53][INFO] test_transactions: Authentification
+[2025-05-06 18:24:53][INFO] test_transactions: Envoi de la transaction #0
+--- Début du log : 1746564888 ---
+[2025-05-06 22:54:48][INFO] Démarrage des tests de benchmark
+[2025-05-06 22:54:48][INFO] Démarrage du benchmark avec 10 transactions
+[2025-05-06 22:54:48][INFO] test_transactions: Début du test avec 10 transactions
+[2025-05-06 22:54:48][INFO] test_transactions: Connexion au serveur
+[2025-05-06 22:54:48][INFO] test_transactions: Connexion SSL
+[2025-05-06 22:54:48][INFO] test_transactions: Authentification
+[2025-05-06 22:54:48][INFO] test_transactions: Envoi de la transaction #0
+--- Début du log : 1746565788 ---
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 5
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 6
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 7
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 8
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 9
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 10
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 11
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 12
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 13
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 23:09:48][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 5
+[2025-05-06 23:09:48][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (5) et SSL existants.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 6
+[2025-05-06 23:09:48][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (6) et SSL existants.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 7
+[2025-05-06 23:09:48][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (7) et SSL existants.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 8
+[2025-05-06 23:09:48][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (8) et SSL existants.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 9
+[2025-05-06 23:09:48][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (9) et SSL existants.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 10
+[2025-05-06 23:09:48][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (10) et SSL existants.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 11
+[2025-05-06 23:09:48][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (11) et SSL existants.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 12
+[2025-05-06 23:09:48][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (12) et SSL existants.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 13
+[2025-05-06 23:09:48][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (13) et SSL existants.
+[2025-05-06 23:09:48][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746567420 ---
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 6
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 8
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 9
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 5
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 10
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 7
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 12
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 13
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 11
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 23:37:00][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 5
+[2025-05-06 23:37:00][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (5) et SSL existants.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 6
+[2025-05-06 23:37:00][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (6) et SSL existants.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 7
+[2025-05-06 23:37:00][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (7) et SSL existants.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 8
+[2025-05-06 23:37:00][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (8) et SSL existants.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 9
+[2025-05-06 23:37:00][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (9) et SSL existants.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 10
+[2025-05-06 23:37:00][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (10) et SSL existants.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 11
+[2025-05-06 23:37:00][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (11) et SSL existants.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 12
+[2025-05-06 23:37:00][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (12) et SSL existants.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 13
+[2025-05-06 23:37:00][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (13) et SSL existants.
+[2025-05-06 23:37:00][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746567601 ---
+[2025-05-06 23:40:01][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 23:40:01][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-06 23:40:01][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 23:40:01][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 23:40:01][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746569380 ---
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 5
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 6
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-07 00:09:40][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 5
+[2025-05-07 00:09:40][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (5) et SSL existants.
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 6
+[2025-05-07 00:09:40][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (6) et SSL existants.
+[2025-05-07 00:09:40][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746569631 ---
+[2025-05-07 00:13:51][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-07 00:13:51][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-07 00:13:51][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-07 00:13:51][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-07 00:13:51][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746572359 ---
+[2025-05-07 00:59:19][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-07 00:59:19][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-07 00:59:19][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-07 00:59:19][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-07 00:59:19][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746572765 ---
+[2025-05-07 01:06:05][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-07 01:06:05][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-07 01:06:05][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-07 01:06:05][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-07 01:06:05][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746572839 ---
+[2025-05-07 01:07:19][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-07 01:07:19][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-07 01:07:19][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-07 01:07:19][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-07 01:07:19][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746573491 ---
+[2025-05-07 01:18:11][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-07 01:18:11][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-07 01:18:11][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-07 01:18:11][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-07 01:18:11][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746576393 ---
+[2025-05-07 02:06:33][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-07 02:06:33][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-07 02:06:33][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-07 02:06:33][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-07 02:06:33][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746576736 ---
+[2025-05-07 02:12:16][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-07 02:12:16][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-07 02:12:16][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-07 02:12:16][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-07 02:12:16][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+--- Début du log : 1746602476 ---
+[2025-05-07 09:21:16][INFO] Démarrage des tests de benchmark
+[2025-05-07 09:21:16][INFO] Démarrage du benchmark avec 10 transactions
+[2025-05-07 09:21:16][INFO] test_transactions: Début du test avec 10 transactions
+[2025-05-07 09:21:16][INFO] test_transactions: Connexion au serveur
+[2025-05-07 09:21:16][INFO] test_transactions: Connexion SSL
+[2025-05-07 09:21:16][INFO] test_transactions: Authentification
+[2025-05-07 09:21:16][INFO] test_transactions: Envoi de la transaction #0
+--- Début du log : 1746603010 ---
+[2025-05-07 09:30:10][INFO] Démarrage des tests de benchmark
+[2025-05-07 09:30:10][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 09:30:11][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 09:30:14][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-07 09:30:19][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-07 09:30:29][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-07 09:30:40][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-07 09:30:59][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-07 09:31:21][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-07 09:31:44][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-07 09:32:11][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-07 09:32:38][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-07 09:33:10][INFO] Démarrage du benchmark avec 10000 clients
+--- Fin du log : 1746603246 ---
+--- Début du log : 1746604742 ---
+[2025-05-07 09:59:02][INFO] Démarrage des tests de benchmark
+[2025-05-07 09:59:02][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 09:59:03][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 09:59:05][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-07 09:59:11][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-07 09:59:19][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-07 09:59:30][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-07 09:59:44][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-07 10:00:01][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-07 10:00:19][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-07 10:00:41][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-07 10:01:08][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-07 10:01:38][INFO] Démarrage du benchmark avec 10000 clients
+--- Fin du log : 1746604953 ---
+--- Début du log : 1746605155 ---
+[2025-05-07 10:05:55][INFO] Démarrage des tests de benchmark
+[2025-05-07 10:05:55][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 10:05:56][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 10:05:59][INFO] Démarrage du benchmark avec 1000 clients
+--- Début du log : 1746605166 ---
+[2025-05-07 10:06:06][INFO] Démarrage des tests de benchmark
+[2025-05-07 10:06:06][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 10:06:07][INFO] Démarrage du benchmark avec 500 clients
+--- Début du log : 1746605183 ---
+[2025-05-07 10:06:23][INFO] Démarrage des tests de benchmark
+[2025-05-07 10:06:23][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 10:06:23][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 10:06:26][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-07 10:06:32][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-07 10:06:40][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-07 10:06:50][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-07 10:07:04][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-07 10:07:20][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-07 10:07:39][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-07 10:08:00][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-07 10:08:25][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-07 10:08:55][INFO] Démarrage du benchmark avec 10000 clients
+--- Fin du log : 1746605390 ---
+--- Début du log : 1746606461 ---
+[2025-05-07 10:27:41][INFO] Démarrage des tests de benchmark
+[2025-05-07 10:27:41][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 10:27:42][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 10:27:45][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-07 10:27:50][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-07 10:27:59][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-07 10:28:10][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-07 10:28:23][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-07 10:28:39][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-07 10:28:58][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-07 10:29:22][INFO] Démarrage du benchmark avec 4500 clients
+--- Début du log : 1746606865 ---
+[2025-05-07 10:34:25][INFO] Démarrage des tests de benchmark
+[2025-05-07 10:34:25][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 10:34:26][INFO] Démarrage du benchmark avec 500 clients
+--- Début du log : 1746606913 ---
+[2025-05-07 10:35:13][INFO] Démarrage des tests de benchmark
+[2025-05-07 10:35:13][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 10:35:14][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 10:35:17][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-07 10:35:23][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-07 10:35:31][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-07 10:35:41][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-07 10:35:55][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-07 10:36:10][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-07 10:36:30][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-07 10:36:51][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-07 10:37:15][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-07 10:37:42][INFO] Démarrage du benchmark avec 10000 clients
+--- Fin du log : 1746607115 ---
+--- Début du log : 1746607834 ---
+[2025-05-07 10:50:34][INFO] Démarrage des tests de benchmark
+[2025-05-07 10:50:34][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 10:50:35][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 10:50:38][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-07 10:50:43][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-07 10:50:51][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-07 10:51:03][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-07 10:51:17][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-07 10:51:33][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-07 10:51:52][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-07 10:52:13][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-07 10:52:38][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-07 10:53:05][INFO] Démarrage du benchmark avec 10000 clients
+--- Fin du log : 1746608038 ---
+--- Début du log : 1746608062 ---
+[2025-05-07 10:54:22][INFO] Démarrage des tests de benchmark
+[2025-05-07 10:54:22][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 10:54:23][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 10:54:26][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-07 10:54:35][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-07 10:54:47][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-07 10:54:58][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-07 10:55:12][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-07 10:55:29][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-07 10:55:48][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-07 10:56:10][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-07 10:56:35][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-07 10:57:03][INFO] Démarrage du benchmark avec 10000 clients
+--- Fin du log : 1746608279 ---
+--- Début du log : 1746610723 ---
+[2025-05-07 11:38:43][INFO] Démarrage des tests de benchmark
+[2025-05-07 11:38:43][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 11:38:44][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 11:38:47][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-07 11:38:52][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-07 11:39:00][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-07 11:39:11][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-07 11:39:24][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-07 11:39:40][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-07 11:39:58][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-07 11:40:19][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-07 11:40:43][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-07 11:41:09][INFO] Démarrage du benchmark avec 10000 clients
+--- Fin du log : 1746610922 ---
+--- Début du log : 1746610940 ---
+[2025-05-07 11:42:20][INFO] Démarrage des tests de benchmark
+[2025-05-07 11:42:20][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 11:42:21][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 11:42:24][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-07 11:42:29][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-07 11:42:37][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-07 11:42:48][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-07 11:43:01][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-07 11:43:17][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-07 11:43:35][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-07 11:43:56][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-07 11:44:20][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-07 11:44:47][INFO] Démarrage du benchmark avec 10000 clients
+--- Fin du log : 1746611140 ---
+--- Début du log : 1746611912 ---
+[2025-05-07 11:58:32][INFO] Démarrage des tests de benchmark
+[2025-05-07 11:58:32][INFO] Démarrage du benchmark avec 100 clients
+[2025-05-07 11:58:33][INFO] Démarrage du benchmark avec 500 clients
+[2025-05-07 11:58:35][INFO] Démarrage du benchmark avec 1000 clients
+[2025-05-07 11:58:41][INFO] Démarrage du benchmark avec 1500 clients
+[2025-05-07 11:58:49][INFO] Démarrage du benchmark avec 2000 clients
+[2025-05-07 11:58:59][INFO] Démarrage du benchmark avec 2500 clients
+[2025-05-07 11:59:12][INFO] Démarrage du benchmark avec 3000 clients
+[2025-05-07 11:59:28][INFO] Démarrage du benchmark avec 3500 clients
+[2025-05-07 11:59:47][INFO] Démarrage du benchmark avec 4000 clients
+[2025-05-07 12:00:08][INFO] Démarrage du benchmark avec 4500 clients
+[2025-05-07 12:00:32][INFO] Démarrage du benchmark avec 5000 clients
+[2025-05-07 12:00:58][INFO] Démarrage du benchmark avec 10000 clients
+--- Fin du log : 1746612111 ---

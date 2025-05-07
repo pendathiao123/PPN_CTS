@@ -10,6 +10,9 @@ data["Clients"] = data["Clients"] + 1
 # Déterminer le CPS max pour tracer une ligne horizontale
 cps_max = data["CPS"].max()
 
+# Déterminer la meilleure latence (temps moyen le plus bas)
+best_latency = data["AvgTime"].min()
+
 # Créer une figure avec plusieurs sous-graphiques et ajuster l'espacement
 fig, axes = plt.subplots(2, 2, figsize=(12, 12), gridspec_kw={'hspace': 0.4})  # Augmenter hspace pour plus d'espace vertical
 
@@ -25,6 +28,8 @@ axes[0, 0].grid()
 
 # Tracer le temps moyen par connexion
 axes[0, 1].plot(data["Clients"], data["AvgTime"], marker="o", color="green", label="Temps moyen (ms)")
+axes[0, 1].axhline(y=best_latency, color="orange", linestyle="--", label=f"Meilleure latence ({best_latency:.2f} ms)")  # Ligne horizontale
+axes[0, 1].text(data["Clients"].min(), best_latency, f"{best_latency:.2f} ms", color="orange", fontsize=10, ha="left", va="center")  # Ajouter le texte sur l'axe des ordonnées
 axes[0, 1].set_xlabel("Nombre de clients")
 axes[0, 1].set_ylabel("Temps moyen par connexion (ms)")
 axes[0, 1].set_title("Temps moyen par connexion")
@@ -51,7 +56,7 @@ axes[1, 1].grid()
 plt.tight_layout(rect=[0, 0, 1, 0.95])  # Ajuster l'espace global si nécessaire
 
 # Sauvegarder l'image combinée
-plt.savefig("benchmar_with_pool.png")
+plt.savefig("benchmark_with_best_latency.png")
 
 # Afficher l'image 
 plt.show()

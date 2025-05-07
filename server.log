@@ -2227,3 +2227,108 @@
 [2025-05-05 19:41:30][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
 [2025-05-05 19:41:30][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH SUCCESS'
 [2025-05-05 19:41:30][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+--- Début du log : 1746548751 ---
+[2025-05-06 18:25:51][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-06 18:25:51][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.42.31.46:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-06 18:25:51][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-06 18:25:51][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.42.31.46:4433...
+[2025-05-06 18:25:51][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.42.31.46:4433
+[2025-05-06 18:25:51][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.42.31.46:4433. Socket FD: 4
+[2025-05-06 18:25:51][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 18:25:51][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 18:25:51][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 18:25:51][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-06 18:28:21][ERROR] ServerConnection::receive ERROR : Erreur système SSL_read (SSL_ERROR_SYSCALL). errno: Connection reset by peer. Socket FD: 4
+[2025-05-06 18:28:21][ERROR] ServerConnection ERROR : Erreur fatale (-1) pendant receiveLine() pour socket FD: 4. Erreur: System error: Connection reset by peer
+[2025-05-06 18:28:21][INFO] ServerConnection::closeConnection INFO : Fermeture de la connexion pour socket FD: 4
+--- Début du log : 1746548901 ---
+[2025-05-06 18:28:21][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-06 18:28:21][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.42.31.46:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-06 18:28:21][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-06 18:28:21][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.42.31.46:4433...
+[2025-05-06 18:28:21][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.42.31.46:4433
+[2025-05-06 18:28:21][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.42.31.46:4433. Socket FD: 4
+[2025-05-06 18:28:21][ERROR] ClientInitiator::ConnectToServer ERROR : Échec du handshake SSL. Socket FD: 4. Erreur SSL: 5
+[2025-05-06 18:28:21][INFO] Main_Cli CRITICAL : Échec de la connexion TCP ou du handshake SSL au serveur. Arrêt.
+[2025-05-06 18:28:21][INFO] Main_Cli INFO : Nettoyage global OpenSSL client...
+[2025-05-06 18:28:21][INFO] Main_Cli INFO : Nettoyage global OpenSSL client terminé.
+--- Fin du log : 1746548901 ---
+--- Début du log : 1746548960 ---
+[2025-05-06 18:29:20][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-06 18:29:20][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.42.31.46:4433, Client ID: Client1, Token/Password: [CACHÉ]
+[2025-05-06 18:29:20][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-06 18:29:20][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.42.31.46:4433...
+[2025-05-06 18:29:20][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.42.31.46:4433
+[2025-05-06 18:29:20][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.42.31.46:4433. Socket FD: 4
+[2025-05-06 18:29:20][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 18:29:20][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 18:29:20][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 18:29:20][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+--- Début du log : 1746549082 ---
+[2025-05-06 18:31:22][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-06 18:31:22][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.42.31.46:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-06 18:31:22][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-06 18:31:22][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.42.31.46:4433...
+[2025-05-06 18:31:22][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.42.31.46:4433
+[2025-05-06 18:31:22][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.42.31.46:4433. Socket FD: 4
+[2025-05-06 18:31:22][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 18:31:22][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 18:31:22][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 18:31:22][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+--- Début du log : 1746550376 ---
+[2025-05-06 18:52:56][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-06 18:52:56][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.42.31.46:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-06 18:52:56][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-06 18:52:56][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.42.31.46:4433...
+[2025-05-06 18:52:56][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.42.31.46:4433
+[2025-05-06 18:52:56][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.42.31.46:4433. Socket FD: 4
+[2025-05-06 18:52:56][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 18:52:56][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 18:52:56][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 18:52:56][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+[2025-05-06 18:52:56][INFO] Main_Cli INFO : Réponse d'authentification reçue : 'AUTH NEW'
+[2025-05-06 18:52:56][INFO] Main_Cli INFO : Authentification/enregistrement réussi(e).
+--- Début du log : 1746550772 ---
+[2025-05-06 18:59:32][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-06 18:59:32][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.42.31.46:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-06 18:59:32][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-06 18:59:32][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.42.31.46:4433...
+[2025-05-06 18:59:32][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.42.31.46:4433
+[2025-05-06 18:59:32][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.42.31.46:4433. Socket FD: 4
+[2025-05-06 18:59:32][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 18:59:32][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 18:59:32][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 18:59:32][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+--- Début du log : 1746552093 ---
+[2025-05-06 19:21:33][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-06 19:21:33][INFO] Main_Cli INFO : Arguments parsés. Serveur: 127.0.0.1:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-06 19:21:33][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-06 19:21:33][INFO] Main_Cli INFO : Tentative de connexion au serveur 127.0.0.1:4433...
+[2025-05-06 19:21:33][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 127.0.0.1:4433
+[2025-05-06 19:21:33][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 127.0.0.1:4433. Socket FD: 4
+[2025-05-06 19:21:33][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 19:21:33][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 19:21:33][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 19:21:33][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+--- Début du log : 1746562986 ---
+[2025-05-06 22:23:06][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-06 22:23:06][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.94.204:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-06 22:23:06][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-06 22:23:06][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.94.204:4433...
+[2025-05-06 22:23:06][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.94.204:4433
+[2025-05-06 22:23:06][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.94.204:4433. Socket FD: 4
+[2025-05-06 22:23:06][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 22:23:06][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 22:23:06][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 22:23:06][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
+--- Début du log : 1746564563 ---
+[2025-05-06 22:49:23][INFO] Main_Cli INFO : Démarrage du programme client.
+[2025-05-06 22:49:23][INFO] Main_Cli INFO : Arguments parsés. Serveur: 10.188.94.204:4433, Client ID: mon_client_id_depuis_script, Token/Password: [CACHÉ]
+[2025-05-06 22:49:23][INFO] ClientInitiator::InitClientCTX INFO : Contexte SSL client initialisé.
+[2025-05-06 22:49:23][INFO] Main_Cli INFO : Tentative de connexion au serveur 10.188.94.204:4433...
+[2025-05-06 22:49:23][INFO] ClientInitiator::ConnectToServer INFO : Tentative de connexion à 10.188.94.204:4433
+[2025-05-06 22:49:23][INFO] ClientInitiator::ConnectToServer INFO : Connexion TCP établie au serveur 10.188.94.204:4433. Socket FD: 4
+[2025-05-06 22:49:23][INFO] ClientInitiator::ConnectToServer INFO : Handshake SSL réussi avec le serveur. Socket FD: 4
+[2025-05-06 22:49:23][INFO] ServerConnection::ServerConnection INFO : Objet créé avec socket (4) et SSL existants.
+[2025-05-06 22:49:23][INFO] ClientInitiator::ConnectToServer INFO : Objet ServerConnection créé et connecté.
+[2025-05-06 22:49:23][INFO] Main_Cli INFO : Connexion SSL au serveur établie. Socket FD: 4
