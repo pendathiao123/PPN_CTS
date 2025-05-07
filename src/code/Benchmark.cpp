@@ -487,7 +487,7 @@ int main() {
     
 
     // Exécuter les tests avec différentes charges
-    std::vector<int> client_counts = {100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 10000};
+    std::vector<int> client_counts = {100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7500, 8000, 10000, 12000, 15000, 20000, 25000, 30000, 40000, 50000, 60000};
     for (int count : client_counts) {
         LOG("Démarrage du benchmark avec " + std::to_string(count) + " clients", "INFO");
         test_connections(count);
